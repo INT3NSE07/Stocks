@@ -8,9 +8,9 @@ import view.PortfolioTextView;
 public class PortfolioRunner {
 
   public static void main(String[] args) {
-    IPortfolioModel model = new PortfolioModel();
+    IPortfolioModel model = new PortfolioModel(null);
     IPortfolioView view = new PortfolioTextView(System.out);
-    IPortfolioController controller = new PortfolioController(model, System.in, view);
+    IPortfolioController controller = new PortfolioController(model, view, System.in);
 
     //controller.go();
   }

@@ -1,5 +1,7 @@
 package model;
 
-public interface IPortfolioModel {
+import enums.PortfolioType;
 
+public interface IPortfolioModel {
+  void createPortfolio(String portFolioName, PortfolioType portfolioType);
 }
