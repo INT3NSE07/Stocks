@@ -19,4 +19,19 @@ public class PortfolioModel implements IPortfolioModel {
 
     portfolioRepository.create(portfolio);
   }
+
+  @Override
+  public void addStocks() {
+
+  }
+
+  @Override
+  public void readPortfolio() {
+
+  }
+
+  @Override
+  public void getValueOfPortfolio() {
+
+  }
 }

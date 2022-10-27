@@ -2,6 +2,8 @@ package view;
 
 import java.io.PrintStream;
 
+import static constants.MenuConstants.MenuItem;
+
 public class PortfolioTextView implements IPortfolioView {
 
   private final PrintStream out;
@@ -33,5 +35,58 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showOptionError() {
     out.print("\nInvalid option. Please try again.");
+  }
+
+  @Override
+  public void showSelectOption() {
+    out.println("Please Select an Menu Option: ");
+  }
+
+  @Override
+  public void showMainOptions() {
+    for (int i = 0; i <MenuItem.length ; i++) {
+      this.out.println((i+1) +") "+MenuItem[i]);
+    }
+  }
+
+  @Override
+  public void displayHeader(int menuItemNumber) {
+//    MenuItem[menuItemNumber]
+//    if(menuItemNumber == 0) {
+//      out.println("Portfolio Management Services");
+//    } else if () {
+//
+//    }
+    for (int i = 0; i <MenuItem.length ; i++) {
+      if(menuItemNumber == 0) {
+        this.out.println("Portfolio Management Services");
+        break;
+      } else if (i+1 == menuItemNumber) {
+        this.out.println(MenuItem[i]);
+        break;
+      }
+    }
+  }
+
+  @Override
+  public String showOutputStream() {
+    return this.out.toString();
+  }
+
+  @Override
+  public void showSubMenuOptions(int selectedMenuItem) {
+      if(selectedMenuItem==1) {
+        this.out.println("1) Add Portfolio Name and Type\n2) Back");
+      }
+  }
+
+  @Override
+  public void promptPortfolioName() {
+    this.out.println("Enter Portfolio Name: ");
+  }
+
+  @Override
+  public void promptPortfolioType() {
+    this.out.println("Enter Portfolio Type: ");
   }
 }

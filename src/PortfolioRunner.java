@@ -12,6 +12,6 @@ public class PortfolioRunner {
     IPortfolioView view = new PortfolioTextView(System.out);
     IPortfolioController controller = new PortfolioController(model, view, System.in);
 
-    //controller.go();
+    controller.go();
   }
 }

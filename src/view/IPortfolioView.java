@@ -9,4 +9,18 @@ public interface IPortfolioView {
   void showStringEntry();
 
   void showOptionError();
+
+  void showSelectOption();
+
+  void showMainOptions();
+
+  void displayHeader(int menuItemNumber);
+
+  String showOutputStream();
+
+  void showSubMenuOptions(int selectedMenuItem);
+
+  void promptPortfolioName();
+
+  void promptPortfolioType();
 }
