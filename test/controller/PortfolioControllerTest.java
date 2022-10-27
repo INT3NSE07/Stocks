@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets;
 import model.IPortfolioModel;
 import model.Portfolio;
 import model.PortfolioModel;
+import repository.CSVPortfolioRepository;
 import repository.IRepository;
-import repository.XMLPortfolioRepository;
 import view.IPortfolioView;
 import view.PortfolioTextView;
 
@@ -27,7 +27,7 @@ public class PortfolioControllerTest {
     PrintStream stream = new PrintStream(baos);
     String a = "1 1 Aditya RETIREMENT";
 
-    IRepository<Portfolio> temp = new XMLPortfolioRepository();
+    IRepository<Portfolio> temp = new CSVPortfolioRepository();
     IPortfolioModel model = new PortfolioModel(temp);
     IPortfolioView view = new PortfolioTextView(System.out);
     PortfolioController controller = new PortfolioController(model,view,new ByteArrayInputStream(a.getBytes("UTF-8"))

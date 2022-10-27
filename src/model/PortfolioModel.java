@@ -12,12 +12,12 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public void createPortfolio(String portFolioName, PortfolioType portfolioType) {
+  public Portfolio createPortfolio(String portFolioName, PortfolioType portfolioType) {
     Portfolio portfolio = new Portfolio();
     portfolio.setName(portFolioName);
     portfolio.setPortfolioType(portfolioType);
 
-    portfolioRepository.create(portfolio);
+    return portfolioRepository.create(portfolio);
   }
 
   @Override
