@@ -32,4 +32,16 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   public List<Portfolio> read(Predicate<Portfolio> predicate) {
     return null;
   }
+
+  @Override
+  public Portfolio update(Portfolio item) {
+    try (FileOutputStream fileOutputStream = new FileOutputStream(
+        item.getName() + "-" + item.getPortfolioType(), true)) {
+      return this.writer.writeRecords(item, fileOutputStream);
+    } catch (IOException e) {
+
+    }
+
+    return null;
+  }
 }

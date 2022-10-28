@@ -9,4 +9,6 @@ public interface IRepository<T> {
   T create(T item);
 
   Iterable<T> read(Predicate<T> predicate);
+
+  T update(T item);
 }

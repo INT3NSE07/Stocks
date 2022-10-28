@@ -1,14 +1,13 @@
 package model;
 
-import enums.PortfolioType;
-
 public interface IPortfolioModel {
 
-  Portfolio createPortfolio(String portFolioName, PortfolioType portfolioType);
+  Portfolio createPortfolio(String portFolioName) throws IllegalArgumentException;
 
-  void addStocks();
+  void addStock(String portFolioName, String ticker, double quantity)
+      throws IllegalArgumentException;
 
-  void readPortfolio();
+  Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException;
 
-  void getValueOfPortfolio();
+  double getPortfolioValueOnDate(String portFolioName, String date) throws IllegalArgumentException;
 }

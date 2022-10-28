@@ -3,7 +3,6 @@ package controller;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import enums.PortfolioType;
 import model.IPortfolioModel;
 import view.IPortfolioView;
 
@@ -38,8 +37,8 @@ public class PortfolioController implements IPortfolioController {
                     case 1: view.promptPortfolioName();
                             String newPortfolioName = sc.next();
                             view.promptPortfolioType();
-                            PortfolioType newPortfolioType = enums.PortfolioType.valueOf(sc.next());
-                            model.createPortfolio(newPortfolioName, newPortfolioType);
+                            int newPortfolioType = sc.nextInt();
+                            model.createPortfolio(newPortfolioName);
                             selectedMenuItem = 0;
                             break;
                     case 2: selectedMenuItem = 0;
@@ -49,9 +48,9 @@ public class PortfolioController implements IPortfolioController {
                   }
                 }
 
-        case 2: this.model.addStocks();
+        case 2: this.model.addStock();
                 break;
-        case 3: this.model.getValueOfPortfolio();
+        case 3: this.model.getPortfolioValueOnDate();
                 break;
         case 4: this.model.readPortfolio();
                 break;
