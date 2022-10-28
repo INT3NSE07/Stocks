@@ -2,7 +2,7 @@ package view;
 
 import java.io.PrintStream;
 
-import static constants.MenuConstants.MenuItem;
+import static constants.MenuConstants.MainMenuItem;
 
 public class PortfolioTextView implements IPortfolioView {
 
@@ -44,8 +44,8 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showMainOptions() {
-    for (int i = 0; i <MenuItem.length ; i++) {
-      this.out.println((i+1) +") "+MenuItem[i]);
+    for (int i = 0; i <MainMenuItem.length ; i++) {
+      this.out.println((i+1) +") "+MainMenuItem[i]);
     }
   }
 
@@ -57,12 +57,12 @@ public class PortfolioTextView implements IPortfolioView {
 //    } else if () {
 //
 //    }
-    for (int i = 0; i <MenuItem.length ; i++) {
+    for (int i = 0; i <MainMenuItem.length ; i++) {
       if(menuItemNumber == 0) {
         this.out.println("Portfolio Management Services");
         break;
       } else if (i+1 == menuItemNumber) {
-        this.out.println(MenuItem[i]);
+        this.out.println(MainMenuItem[i]);
         break;
       }
     }
@@ -76,7 +76,7 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showSubMenuOptions(int selectedMenuItem) {
       if(selectedMenuItem==1) {
-        this.out.println("1) Add Portfolio Name and Type\n2) Back");
+        this.out.println("1) Add Portfolio Name and Type\n2) Add Stocks\n3) Back");
       }
   }
 
