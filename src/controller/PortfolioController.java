@@ -18,45 +18,53 @@ public class PortfolioController implements IPortfolioController {
     this.view = view;
     this.in = in;
   }
-  public void go(){
+
+  public void go() {
     int selectedMenuItem = 0;
-    while(true) {
+    while (true) {
       this.view.displayHeader(selectedMenuItem);
       this.view.showMainOptions();
       this.view.showSelectOption();
       Scanner sc = new Scanner(this.in);
       selectedMenuItem = sc.nextInt();
       switch (selectedMenuItem) {
-        case 1: int selectedPortfolioSubMenuItem = 0;
-                while(selectedPortfolioSubMenuItem !=2) {
-                  this.view.displayHeader(selectedMenuItem);
-                  this.view.showSubMenuOptions(selectedMenuItem);
-                  this.view.showSelectOption();
-                  selectedPortfolioSubMenuItem = sc.nextInt();
-                  switch (selectedPortfolioSubMenuItem) {
-                    case 1: view.promptPortfolioName();
-                            String newPortfolioName = sc.next();
-                            view.promptPortfolioType();
-                            int newPortfolioType = sc.nextInt();
-                            model.createPortfolio(newPortfolioName);
-                            selectedMenuItem = 0;
-                            break;
-                    case 2: selectedMenuItem = 0;
-                            break;
-                    default:view.showOptionError();
-                            break;
-                  }
-                }
-
-        case 2: this.model.addStock();
+        case 1:
+          int selectedPortfolioSubMenuItem = 0;
+          while (selectedPortfolioSubMenuItem != 2) {
+            this.view.displayHeader(selectedMenuItem);
+            this.view.showSubMenuOptions(selectedMenuItem);
+            this.view.showSelectOption();
+            selectedPortfolioSubMenuItem = sc.nextInt();
+            switch (selectedPortfolioSubMenuItem) {
+              case 1:
+                view.promptPortfolioName();
+                String newPortfolioName = sc.next();
+                view.showString(
+                        model.createPortfolio(newPortfolioName)
+                                .getName()
+                                + " portfolio was created.");
+                selectedMenuItem = 0;
                 break;
-        case 3: this.model.getPortfolioValueOnDate();
+              case 2:
+                //this.model.addStock();
+                selectedMenuItem = 0;
                 break;
-        case 4: this.model.readPortfolio();
+              default:
+                view.showOptionError();
                 break;
-        case 5: return;
-        default: view.showOptionError();
-                 break;
+            }
+          }
+        case 2:
+//          this.model.getValueOfPortfolio();
+          break;
+        case 3:
+//          this.model.readPortfolio();
+          break;
+        case 4:
+          return;
+        default:
+          view.showOptionError();
+          break;
       }
     }
   }
