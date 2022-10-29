@@ -5,13 +5,12 @@ import java.util.List;
 
 public class Portfolio {
 
+  private String name;
+  private List<Stock> stocks;
+
   public Portfolio() {
     this.stocks = new ArrayList<>();
   }
-
-  private String name;
-
-  private List<Stock> stocks;
 
   public String getName() {
     return name;
@@ -20,7 +19,7 @@ public class Portfolio {
   public void setName(String name) {
     this.name = name;
   }
-  
+
   public List<Stock> getStocks() {
     return stocks;
   }

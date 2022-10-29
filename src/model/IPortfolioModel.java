@@ -1,10 +1,10 @@
 package model;
 
+import java.util.Map;
+
 public interface IPortfolioModel {
 
-  Portfolio createPortfolio(String portFolioName) throws IllegalArgumentException;
-
-  void addStock(String portFolioName, String ticker, double quantity)
+  void createPortfolio(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
       throws IllegalArgumentException;
 
   Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException;

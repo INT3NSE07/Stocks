@@ -1,8 +1,7 @@
 package view;
 
+import constants.Constants;
 import java.io.PrintStream;
-
-import static constants.MenuConstants.MainMenuItem;
 
 public class PortfolioTextView implements IPortfolioView {
 
@@ -18,13 +17,30 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showOptions() {
+  public void showOptions(int selectedMenuItem) {
     // print the UI
 
-    out.println("Menu: ");
-    out.println("E: Enter a string");
-    out.println("Q: Quit the program");
-    out.print("Enter your choice: ");
+//    out.println("Menu: ");
+//    out.println("E: Enter a string");
+//    out.println("Q: Quit the program");
+//    out.print("Enter your choice: ");
+
+    this.out.println(System.lineSeparator() + Constants.MAIN_MENU_ITEMS[selectedMenuItem]);
+
+    switch (selectedMenuItem) {
+      case 0:
+        for (int i = 1; i < Constants.MAIN_MENU_ITEMS.length; i++) {
+          this.out.println(i + ") " + Constants.MAIN_MENU_ITEMS[i]);
+        }
+        break;
+      case 1:
+        for (int i = 0; i < Constants.CREATE_PORTFOLIO_SUBMENU_ITEMS.length; i++) {
+          this.out.println((i + 1) + ") " + Constants.CREATE_PORTFOLIO_SUBMENU_ITEMS[i]);
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   @Override
@@ -34,38 +50,26 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showOptionError() {
-    out.print("\nInvalid option. Please try again.");
+    this.out.println("Invalid option. Please try again." + System.lineSeparator());
   }
 
   @Override
   public void showSelectOption() {
-    out.println("Please Select an Menu Option: ");
+    this.out.print("Enter your choice: ");
   }
 
   @Override
   public void showMainOptions() {
-    for (int i = 0; i <MainMenuItem.length ; i++) {
-      this.out.println((i+1) +") "+MainMenuItem[i]);
-    }
+//    this.displayHeader(selectedMenuItem);
+////
+////    for (int i = 1; i < Constants.MAIN_MENU_ITEMS.length; i++) {
+////      this.out.println(i + ") " + Constants.MAIN_MENU_ITEMS[i]);
+////    }
   }
 
   @Override
   public void displayHeader(int menuItemNumber) {
-//    MenuItem[menuItemNumber]
-//    if(menuItemNumber == 0) {
-//      out.println("Portfolio Management Services");
-//    } else if () {
-//
-//    }
-    for (int i = 0; i <MainMenuItem.length ; i++) {
-      if(menuItemNumber == 0) {
-        this.out.println("Portfolio Management Services");
-        break;
-      } else if (i+1 == menuItemNumber) {
-        this.out.println(MainMenuItem[i]);
-        break;
-      }
-    }
+    //this.out.println(Constants.MAIN_MENU_ITEMS[menuItemNumber]);
   }
 
   @Override
@@ -75,15 +79,26 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showSubMenuOptions(int selectedMenuItem) {
-      if(selectedMenuItem==1) {
-        this.out.println("1) Add Portfolio Name and Type\n2) Add Stocks\n3) Back");
-      }
+    if (selectedMenuItem == 1) {
+      this.out.println("1) Add Portfolio Name and Type\n2) Add Stocks\n3) Back");
+    }
   }
 
   @Override
   public void promptPortfolioName() {
-    this.out.println("Enter Portfolio Name: ");
+    this.out.print("Enter portfolio name: ");
   }
+
+  @Override
+  public void promptStockSymbol() {
+    this.out.print("Enter ticker symbol: ");
+  }
+
+  @Override
+  public void promptStockQuantity() {
+    this.out.print("Enter quantity: ");
+  }
+
 
   @Override
   public void promptPortfolioType() {

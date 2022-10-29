@@ -1,9 +1,9 @@
 package model;
 
-import constants.Constants;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import repository.IRepository;
 import service.IStockService;
 import utilities.StringUtils;
@@ -19,52 +19,55 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public Portfolio createPortfolio(String portFolioName)
+  public void createPortfolio(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
       throws IllegalArgumentException {
     this.validateInput(portFolioName);
-
-    // validate if a portfolio already exists with this name
-    if (doesPortfolioExist(portFolioName)) {
-      throw new IllegalArgumentException("A portfolio with the same name already exists.");
-    }
 
     Portfolio portfolio = new Portfolio();
     portfolio.setName(portFolioName);
 
-    return portfolioRepository.create(portfolio);
+    portfolioRepository.create(portfolio);
+
+    this.addStock(portFolioName, stockSymbolQuantityMap);
   }
 
-  @Override
-  public void addStock(String portFolioName, String ticker, double quantity)
+  private void addStock(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
       throws IllegalArgumentException {
     this.validateInput(portFolioName);
-    this.validateInput(ticker);
 
-    if (quantity <= 0) {
-      throw new IllegalArgumentException("Quantity of a stock cannot be negative or zero.");
+    for (String symbol : stockSymbolQuantityMap.keySet()) {
+      Double quantity = stockSymbolQuantityMap.get(symbol);
+
+      this.validateInput(symbol);
+      if (quantity <= 0) {
+        throw new IllegalArgumentException("Quantity of a stock cannot be negative or zero.");
+      }
+
+      //    Stock stock = this.stockService.getStock(ticker);
+      Stock stock = Stock.StockBuilder.create().setSymbol("AAPL");
+
+      Portfolio portfolio = new Portfolio();
+      portfolio.setName(portFolioName);
+      portfolio.setStocks(Collections.singletonList(stock));
+
+      this.portfolioRepository.update(portfolio);
     }
-
-    Stock stock = this.stockService.getStock(ticker);
-
-    Portfolio portfolio = new Portfolio();
-    portfolio.setName(portFolioName);
-    portfolio.setStocks(Arrays.asList(stock));
-
-    this.portfolioRepository.update(portfolio);
   }
 
   @Override
   public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException {
     this.validateInput(portFolioName);
 
-    if (!doesPortfolioExist(portFolioName)) {
-      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+    try {
+      Iterable<Portfolio> portfolios = this.portfolioRepository.read(
+          x -> x.getName().equals(portFolioName));
+
+      return portfolios.iterator().next();
+    } catch (IOException e) {
+
     }
 
-    Iterable<Portfolio> portfolios = this.portfolioRepository.read(
-        x -> x.getName().equals(portFolioName));
-
-    return portfolios.iterator().next();
+    return null;
   }
 
   @Override
@@ -81,10 +84,6 @@ public class PortfolioModel implements IPortfolioModel {
     }
 
     return value;
-  }
-
-  private boolean doesPortfolioExist(String portFolioName) {
-    return Files.exists(Paths.get(Constants.DATA_DIR, portFolioName));
   }
 
   private void validateInput(String input) {

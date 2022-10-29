@@ -2,13 +2,10 @@ package constants;
 
 public final class CSVConstants {
 
-  private CSVConstants() {
-  }
-
   public static final String SEPARATOR = ",";
-
   public static final String[] CSV_HEADER = new String[]{
       "symbol",
+      "quantity",
       "date",
       "open",
       "high",
@@ -16,4 +13,7 @@ public final class CSVConstants {
       "close",
       "volume"
   };
+
+  private CSVConstants() {
+  }
 }

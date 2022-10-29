@@ -2,22 +2,17 @@ package model;
 
 public class Stock {
 
+  private String symbol;
+  private double quantity;
+  private String date;
+  private double open;
+  private double high;
+  private double low;
+  private double close;
+  private double volume;
+
   private Stock() {
   }
-
-  private String symbol;
-
-  private String date;
-
-  private double open;
-
-  private double high;
-
-  private double low;
-
-  private double close;
-
-  private double volume;
 
   public String getSymbol() {
     return symbol;
@@ -85,6 +80,16 @@ public class Stock {
 
   public Stock setDate(String date) {
     this.date = date;
+
+    return this;
+  }
+
+  public double getQuantity() {
+    return quantity;
+  }
+
+  public Stock setQuantity(double quantity) {
+    this.quantity = quantity;
 
     return this;
   }

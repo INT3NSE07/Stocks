@@ -5,10 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 import model.IPortfolioModel;
 import model.Portfolio;
@@ -36,7 +33,7 @@ public class PortfolioControllerTest {
     PortfolioController controller = new PortfolioController(model, view,
             new ByteArrayInputStream(a.getBytes("UTF-8"))
     );
-    controller.go();
+    controller.run();
 //    try (PrintStream ps = new PrintStream(baos, true, utf8)) {
 //      (view.showOutputStream(),ps);
 //    }

@@ -1,6 +1,6 @@
 package service;
 
-import csv.IPortfolioCSVReader;
+import csv.ICSVReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -11,12 +11,11 @@ import java.util.Map;
 
 public class AlphaVantageStockService extends AbstractStockService {
 
+  private static AlphaVantageStockService instance;
   private final String apiKey;
   private final String apiEndpoint;
 
-  private static AlphaVantageStockService instance;
-
-  private AlphaVantageStockService(IPortfolioCSVReader reader) {
+  private AlphaVantageStockService(ICSVReader reader) {
     super(reader);
 
     // TODO: move to config
@@ -24,7 +23,7 @@ public class AlphaVantageStockService extends AbstractStockService {
     this.apiEndpoint = "https://www.alphavantage.co/query?";
   }
 
-  public static AlphaVantageStockService getInstance(IPortfolioCSVReader reader) {
+  public static AlphaVantageStockService getInstance(ICSVReader reader) {
     if (instance == null) {
       instance = new AlphaVantageStockService(reader);
     }

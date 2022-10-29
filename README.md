@@ -8,7 +8,7 @@ Portfolio Management Services
 4) Exit<br/>
    Please Select an Menu Option:
 # Option 1 Menu
-1) Add Portfolio Name and Type
+1) Add Portfolio Name
 2) Add Stocks
 3) Back<br/>
    Please Select an Menu Option:

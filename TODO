@@ -1,15 +1,10 @@
 resources folder
 stocks in portfolio readonly - immutability. return all new objects
-portfoliotype validation
+-- portfoliotype validation
 ticker validation
 market cap - validate number of stocks
 String or date object?
 This is a design decisions, up to you. If your program is doing things automatically it would be nice to let the user know.
-
-csvrepo {
-  read(pred) {
-    fileNames = getAllFileNames()
-    portofilos = fileNames.map(portfolio)
-
-  }
-}
+addStock move to createPortfolio - prevents addStock from being called independently
+createPortfolio - hashmap<ticker, quantity> - add same stock added twice
+empty portfolio?

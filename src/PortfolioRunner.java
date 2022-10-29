@@ -12,10 +12,10 @@ public class PortfolioRunner {
 
   public static void main(String[] args) {
     IStockService service = AlphaVantageStockService.getInstance(null);
-    IPortfolioModel model = new PortfolioModel(new CSVPortfolioRepository(),service);
+    IPortfolioModel model = new PortfolioModel(new CSVPortfolioRepository(), service);
     IPortfolioView view = new PortfolioTextView(System.out);
     IPortfolioController controller = new PortfolioController(model, view, System.in);
 
-    controller.go();
+    controller.run();
   }
 }

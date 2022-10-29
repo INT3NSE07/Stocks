@@ -4,7 +4,7 @@ public interface IPortfolioView {
 
   void showString(String s);
 
-  void showOptions();
+  void showOptions(int selectedMenuItem);
 
   void showStringEntry();
 
@@ -23,4 +23,8 @@ public interface IPortfolioView {
   void promptPortfolioName();
 
   void promptPortfolioType();
+
+  void promptStockQuantity();
+
+  void promptStockSymbol();
 }

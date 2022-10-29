@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PortfolioCSVReader implements IPortfolioCSVReader {
+public class PortfolioCSVReader implements ICSVReader {
 
   @Override
   public List<List<String>> readRecords(InputStream inputStream) throws IOException {

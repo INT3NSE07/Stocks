@@ -1,6 +1,6 @@
 package service;
 
-import csv.IPortfolioCSVReader;
+import csv.ICSVReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.ZoneOffset;
@@ -16,20 +16,23 @@ import model.Stock;
 
 public abstract class AbstractStockService implements IStockService {
 
-  private final IPortfolioCSVReader reader;
+  private final ICSVReader reader;
 
-  protected abstract InputStream getInputStream(String symbol) throws IOException;
-
-  public AbstractStockService(IPortfolioCSVReader reader) {
+  public AbstractStockService(ICSVReader reader) {
     this.reader = reader;
   }
 
+  protected abstract InputStream getInputStream(String symbol) throws IOException;
+
   @Override
-  public Stock getStock(String symbol) {
+  public Stock getStock(String symbol, double quantity) {
     String currentDate = ZonedDateTime.now(ZoneOffset.systemDefault())
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
 
-    return getStockOnDate(symbol, currentDate);
+    Stock stock = getStockOnDate(symbol, currentDate);
+    stock = stock.setQuantity(quantity);
+
+    return stock;
   }
 
   @Override

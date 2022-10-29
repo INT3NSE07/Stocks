@@ -1,14 +1,13 @@
 package repository;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.function.Predicate;
-import model.Portfolio;
 
 public interface IRepository<T> {
 
   T create(T item);
 
-  Iterable<T> read(Predicate<T> predicate);
+  Iterable<T> read(Predicate<T> predicate) throws IOException;
 
   T update(T item);
 }
