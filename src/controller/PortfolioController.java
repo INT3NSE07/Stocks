@@ -123,7 +123,10 @@ public class PortfolioController implements IPortfolioController {
         }
         break;
         case 3:
-//          this.model.readPortfolio();
+          view.promptPortfolioName();
+          String portfolioName = sc.next();
+
+          this.model.getPortfolioValueOnDate(portfolioName, null);
           break;
         case 4:
           return;
