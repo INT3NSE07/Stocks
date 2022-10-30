@@ -126,7 +126,10 @@ public class PortfolioController implements IPortfolioController {
           view.promptPortfolioName();
           String portfolioName = sc.next();
 
-          this.model.getPortfolioValueOnDate(portfolioName, null);
+          view.promptDate();
+          String date = sc.next();
+
+          this.model.getPortfolioValueOnDate(portfolioName, date);
           break;
         case 4:
           return;

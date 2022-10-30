@@ -95,6 +95,11 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
+  public void promptDate() {
+    this.out.print("Enter date: ");
+  }
+
+  @Override
   public void promptStockQuantity() {
     this.out.print("Enter quantity: ");
   }

@@ -10,7 +10,7 @@ public final class Constants {
       "Portfolio Management Services",
       "Create a portfolio",
       "Examine a portfolio",
-      "Determine value of a portfolio on a date",
+      "Determine value of a portfolio on a certain date",
       "Exit"
   };
 

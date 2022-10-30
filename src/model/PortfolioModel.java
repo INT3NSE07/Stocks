@@ -1,11 +1,11 @@
 package model;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import repository.IRepository;
 import service.IStockService;
+import utilities.DateUtils;
 import utilities.StringUtils;
 
 public class PortfolioModel implements IPortfolioModel {
@@ -73,7 +73,11 @@ public class PortfolioModel implements IPortfolioModel {
   public double getPortfolioValueOnDate(String portFolioName, String date)
       throws IllegalArgumentException {
     this.validateInput(portFolioName);
-    this.validateInput(date);
+
+    if (StringUtils.IsNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate();
+    }
+    this.validateDate(date);
 
     Portfolio portfolio = this.readPortfolio(portFolioName);
     double value = 0;
@@ -88,6 +92,14 @@ public class PortfolioModel implements IPortfolioModel {
   private void validateInput(String input) {
     if (StringUtils.IsNullOrWhiteSpace(input)) {
       throw new IllegalArgumentException("Input cannot be null or empty.");
+    }
+  }
+
+  private void validateDate(String date) {
+    if (!StringUtils.IsNullOrWhiteSpace(date)) {
+      if (!DateUtils.isValidDate(date)) {
+        throw new IllegalArgumentException("Date is invalid.");
+      }
     }
   }
 }

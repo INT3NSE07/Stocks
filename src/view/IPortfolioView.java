@@ -27,4 +27,6 @@ public interface IPortfolioView {
   void promptStockQuantity();
 
   void promptStockSymbol();
+
+  void promptDate();
 }
