@@ -43,8 +43,7 @@ public class PortfolioModel implements IPortfolioModel {
         throw new IllegalArgumentException("Quantity of a stock cannot be negative or zero.");
       }
 
-      //    Stock stock = this.stockService.getStock(ticker);
-      Stock stock = Stock.StockBuilder.create().setSymbol("AAPL");
+      Stock stock = this.stockService.getStock(symbol, quantity);
 
       Portfolio portfolio = new Portfolio();
       portfolio.setName(portFolioName);

@@ -24,10 +24,13 @@ public abstract class AbstractStockService implements IStockService {
 
   protected abstract InputStream getInputStream(String symbol) throws IOException;
 
+  protected abstract Function<List<String>, Stock> getResponseToStockMapper(String symbol);
+
   @Override
   public Stock getStock(String symbol, double quantity) {
     String currentDate = ZonedDateTime.now(ZoneOffset.systemDefault())
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
+    currentDate = "2022-10-28";
 
     Stock stock = getStockOnDate(symbol, currentDate);
     stock = stock.setQuantity(quantity);
@@ -47,7 +50,7 @@ public abstract class AbstractStockService implements IStockService {
     }
 
     List<Stock> stocks = new ArrayList<>();
-    Function<List<String>, Stock> mapper = getTimeSeriesResponseMapper(symbol);
+    Function<List<String>, Stock> mapper = getResponseToStockMapper(symbol);
 
     for (List<String> record : response) {
       stocks.add(mapToStock(record, mapper));
@@ -67,7 +70,7 @@ public abstract class AbstractStockService implements IStockService {
   private List<List<String>> getResponse(InputStream inputStream) throws IOException {
     List<List<String>> response;
 
-    Stream<List<String>> lines = reader.readRecords(inputStream).stream().skip(1);
+    Stream<List<String>> lines = this.reader.readRecords(inputStream).stream().skip(1);
     response = lines.collect(Collectors.toList());
 
     return response;
@@ -75,16 +78,5 @@ public abstract class AbstractStockService implements IStockService {
 
   private Stock mapToStock(List<String> record, Function<List<String>, Stock> mapper) {
     return mapper.apply(record);
-  }
-
-  private Function<List<String>, Stock> getTimeSeriesResponseMapper(String symbol) {
-    return stockData -> Stock.StockBuilder.create()
-        .setSymbol(symbol)
-        .setDate(stockData.get(0))
-        .setOpen(Double.parseDouble(stockData.get(1)))
-        .setHigh(Double.parseDouble(stockData.get(2)))
-        .setLow(Double.parseDouble(stockData.get(3)))
-        .setClose(Double.parseDouble(stockData.get(4)))
-        .setVolume(Double.parseDouble(stockData.get(5)));
   }
 }

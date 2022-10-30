@@ -1,5 +1,6 @@
 package repository;
 
+import constants.CSVConstants;
 import constants.Constants;
 import csv.ICSVWriter;
 import csv.PortfolioCSVWriter;
@@ -86,8 +87,6 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   }
 
   private Path getFilePath(String name) throws IOException {
-    String fileExtension = ".csv";
-
-    return Paths.get(Constants.DATA_DIR, name + fileExtension);
+    return Paths.get(Constants.DATA_DIR, name + CSVConstants.EXTENSION);
   }
 }

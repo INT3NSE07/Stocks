@@ -8,3 +8,5 @@ This is a design decisions, up to you. If your program is doing things automatic
 addStock move to createPortfolio - prevents addStock from being called independently
 createPortfolio - hashmap<ticker, quantity> - add same stock added twice
 empty portfolio?
+weekends - return friday value
+readRecords CSV - take predicate?

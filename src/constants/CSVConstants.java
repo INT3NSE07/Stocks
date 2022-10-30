@@ -3,6 +3,7 @@ package constants;
 public final class CSVConstants {
 
   public static final String SEPARATOR = ",";
+  public static final String EXTENSION = ".csv";
   public static final String[] CSV_HEADER = new String[]{
       "symbol",
       "quantity",

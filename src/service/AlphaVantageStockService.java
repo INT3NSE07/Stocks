@@ -7,7 +7,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import model.Stock;
 
 public class AlphaVantageStockService extends AbstractStockService {
 
@@ -34,6 +37,18 @@ public class AlphaVantageStockService extends AbstractStockService {
   @Override
   protected InputStream getInputStream(String symbol) throws IOException {
     return buildURL(symbol).openStream();
+  }
+
+  @Override
+  protected Function<List<String>, Stock> getResponseToStockMapper(String symbol) {
+    return stockData -> Stock.StockBuilder.create()
+        .setSymbol(symbol)
+        .setDate(stockData.get(0))
+        .setOpen(Double.parseDouble(stockData.get(1)))
+        .setHigh(Double.parseDouble(stockData.get(2)))
+        .setLow(Double.parseDouble(stockData.get(3)))
+        .setClose(Double.parseDouble(stockData.get(4)))
+        .setVolume(Double.parseDouble(stockData.get(5)));
   }
 
   private URL buildURL(String symbol) {
