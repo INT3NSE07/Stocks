@@ -1,6 +1,7 @@
 package constants;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 /**
  * An immutable constants class that holds immutable constants fields which is used in
@@ -14,6 +15,9 @@ public final class Constants {
 
   public static final String STOCK_DATA_PATH = "resources/stock_data";
 
+  public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
+
+  // Text UI constants
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",
       "Create a portfolio",
@@ -27,7 +31,19 @@ public final class Constants {
       "Back"
   };
 
-  public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
+  public static final String PROMPT_CHOICE = "PROMPT_CHOICE";
+  public static final String PROMPT_PORTFOLIO_NAME_KEY = "PROMPT_PORTFOLIO_NAME";
+  public static final String PROMPT_STOCK_SYMBOL_KEY = "PROMPT_STOCK_SYMBOL";
+  public static final String PROMPT_DATE_KEY = "PROMPT_DATE";
+  public static final String PROMPT_QUANTITY_KEY = "PROMPT_QUANTITY";
+
+  public static final Map<String, String> TEXT_VIEW_CONSTANTS = Map.ofEntries(
+      Map.entry(PROMPT_CHOICE, "Enter your choice"),
+      Map.entry(PROMPT_PORTFOLIO_NAME_KEY, "Enter portfolio name"),
+      Map.entry(PROMPT_STOCK_SYMBOL_KEY, "Enter stock symbol"),
+      Map.entry(PROMPT_DATE_KEY, "Enter date"),
+      Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity")
+  );
 
 
   private Constants() {

@@ -8,13 +8,11 @@ import model.Portfolio;
 public interface IPortfolioView {
 
   /**
-   *
-   * @param s
+   * @param key
    */
-  void showString(String s);
+  void showString(String key);
 
   /**
-   *
    * @param selectedMenuItem
    */
   void showOptions(int selectedMenuItem);
@@ -27,30 +25,9 @@ public interface IPortfolioView {
   /**
    *
    */
-  void showSelectOption();
+  void showPrompt(String key);
 
   /**
-   *
-   */
-  void promptPortfolioName();
-
-  /**
-   *
-   */
-  void promptStockQuantity();
-
-  /**
-   *
-   */
-  void promptStockSymbol();
-
-  /**
-   *
-   */
-  void promptDate();
-  
-  /**
-   *
    * @param readPortfolio
    */
   void showPortfolio(Portfolio readPortfolio);

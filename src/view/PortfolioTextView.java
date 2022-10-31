@@ -18,7 +18,7 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showString(String s) {
-    out.println(s);
+    this.out.println(s);
   }
 
   @Override
@@ -47,23 +47,8 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showSelectOption() {
-    this.out.print("Enter your choice: ");
-  }
-
-  @Override
-  public void promptPortfolioName() {
-    this.out.print("Enter portfolio name: ");
-  }
-
-  @Override
-  public void promptStockSymbol() {
-    this.out.print("Enter ticker symbol: ");
-  }
-
-  @Override
-  public void promptDate() {
-    this.out.print("Enter date: ");
+  public void showPrompt(String key) {
+    this.out.print(Constants.TEXT_VIEW_CONSTANTS.get(key) + ": ");
   }
 
   @Override
@@ -87,10 +72,5 @@ public class PortfolioTextView implements IPortfolioView {
     }
 //    this.out.println(rowsList.get(0));
     this.out.println(tableGenerator.generateTable(headersList, rowsList));
-  }
-
-  @Override
-  public void promptStockQuantity() {
-    this.out.print("Enter quantity: ");
   }
 }

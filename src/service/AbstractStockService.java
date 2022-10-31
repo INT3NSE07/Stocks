@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import model.Stock;
 import utilities.DateUtils;
 import utilities.StringUtils;
@@ -29,7 +30,8 @@ public abstract class AbstractStockService implements IStockService {
   protected abstract Function<List<String>, Stock> getResponseToStockMapper();
 
   @Override
-  public Stock getStock(String symbol, double quantity) {
+  public Stock getStock(String symbol, double quantity)
+      throws IllegalArgumentException, IOException {
     String currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     currentDate = "2022-10-28";
 
@@ -40,15 +42,9 @@ public abstract class AbstractStockService implements IStockService {
   }
 
   @Override
-  public Stock getStockOnDate(String symbol, String date) {
-    List<List<String>> response;
-
-    try {
-      response = this.reader.read(this.getInputStream(symbol));
-    } catch (IOException e) {
-      throw new IllegalArgumentException(
-          String.format("Error occurred while processing response for %s on %s", symbol, date));
-    }
+  public Stock getStockOnDate(String symbol, String date)
+      throws IllegalArgumentException, IOException {
+    List<List<String>> response = getStockData(symbol, date);
 
     List<Stock> stocks = new ArrayList<>();
     Function<List<String>, Stock> mapper = getResponseToStockMapper();
@@ -62,15 +58,45 @@ public abstract class AbstractStockService implements IStockService {
       stocks.add(stock);
     }
 
-    Predicate<Stock> predicate = stock -> stock.getSymbol().equals(symbol) && stock.getDate()
-        .equals(date);
-    List<Stock> filteredStocks = stocks.stream().filter(predicate).collect(Collectors.toList());
+    Stock stock;
+    Predicate<Stock> symbolPredicate = x -> x.getSymbol().equals(symbol);
+    List<Stock> stockWithMatchedSymbol = stocks.stream().filter(symbolPredicate).collect(
+        Collectors.toList());
 
-    if (filteredStocks.size() == 0) {
+    stock = stockWithMatchedSymbol.stream().filter(x -> x.getDate().equals(date)).findFirst()
+        .orElseGet(() -> stockWithMatchedSymbol.stream().findFirst().orElse(null));
+
+    if (stock == null) {
       throw new IllegalArgumentException(
-          String.format("No price data found for %s on %s", symbol, date));
+          String.format("No stock data found for %s on %s", symbol, date));
     }
 
-    return filteredStocks.get(0);
+    return stock;
+  }
+
+  @Override
+  public boolean isStockSymbolValid(String symbol) throws IOException {
+    try {
+      Stock stock = getStockOnDate(symbol,
+          DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private List<List<String>> getStockData(String symbol, String date) throws IOException {
+    List<List<String>> stockData;
+
+    try {
+      stockData = this.reader.read(this.getInputStream(symbol));
+    } catch (IOException e) {
+      throw new IOException(
+          String.format("Error occurred while fetching stock data for symbol: %s on date: %s",
+              symbol, date));
+    }
+
+    return stockData;
   }
 }

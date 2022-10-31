@@ -30,7 +30,7 @@ public class PortfolioModel implements IPortfolioModel {
 
   @Override
   public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
     Portfolio portfolio = new Portfolio();
@@ -42,7 +42,7 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   private void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
     var uniqueStockPairs = stockPairs.stream()
@@ -67,24 +67,18 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException {
+  public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
-    try {
-      Iterable<Portfolio> portfolios = this.portfolioRepository.read(
-          x -> x.getName().equals(portFolioName));
+    Iterable<Portfolio> portfolios = this.portfolioRepository.read(
+        x -> x.getName().equals(portFolioName));
 
-      return portfolios.iterator().next();
-    } catch (IOException e) {
-
-    }
-
-    return null;
+    return portfolios.iterator().next();
   }
 
   @Override
   public double getPortfolioValueOnDate(String portFolioName, String date)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
     if (StringUtils.IsNullOrWhiteSpace(date)) {
@@ -96,10 +90,17 @@ public class PortfolioModel implements IPortfolioModel {
     double value = 0;
 
     for (Stock stock : portfolio.getStocks()) {
-      value += this.stockService.getStockOnDate(stock.getSymbol(), date).getClose();
+      value += stock.getQuantity() * this.stockService.getStockOnDate(stock.getSymbol(), date).getClose();
     }
 
     return value;
+  }
+
+  @Override
+  public boolean isStockSymbolValid(String symbol) throws IOException {
+    this.validateInput(symbol);
+
+    return stockService.isStockSymbolValid(symbol);
   }
 
   private void validateInput(String input) {

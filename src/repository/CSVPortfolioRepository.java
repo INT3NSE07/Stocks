@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import model.Portfolio;
 import model.Stock;
@@ -36,77 +37,75 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   }
 
   @Override
-  public Portfolio create(Portfolio portfolio) {
+  public Portfolio create(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
 
-    try {
-      Files.createDirectories(Paths.get(Constants.DATA_DIR));
+    Files.createDirectories(Paths.get(Constants.DATA_DIR));
 
-      if (getFilePath(portFolioName).toFile().exists()) {
-        throw new IllegalArgumentException("A portfolio with this name does not exist.");
-      }
+    if (getFilePath(portFolioName).toFile().exists()) {
+      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+    }
 
-      try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
-          portfolio.getName()).toFile())) {
-        this.writer.write(Arrays.asList(CSVConstants.STOCK_CSV_HEADERS), fileOutputStream);
-      }
-    } catch (IOException e) {
+    try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
+        portfolio.getName()).toFile())) {
+      this.writer.write(Arrays.asList(CSVConstants.STOCK_CSV_HEADERS), fileOutputStream);
     }
 
     return portfolio;
   }
 
   @Override
-  public List<Portfolio> read(Predicate<Portfolio> predicate) throws IOException {
+  public List<Portfolio> read(Predicate<Portfolio> predicate)
+      throws IllegalArgumentException, IOException {
     List<Portfolio> portfolios = new ArrayList<>();
     Function<List<String>, Stock> mapper = MapperUtils.getUserPortfolioToStockMapper();
 
+    List<Path> filteredPaths;
     try (Stream<Path> paths = Files.walk(Paths.get(Constants.DATA_DIR))) {
-      Stream<Path> filteredPaths = paths.filter(path -> {
+      filteredPaths = paths.filter(path -> {
         Portfolio portfolio = mapPathToPortfolio(path);
 
         return predicate.test(portfolio);
-      });
+      }).collect(Collectors.toList());
+    }
 
-      filteredPaths.forEach(path -> {
-        Portfolio portfolio = mapPathToPortfolio(path);
+    for (Path path : filteredPaths) {
+      Portfolio portfolio = mapPathToPortfolio(path);
 
-        try (FileInputStream inputStream = new FileInputStream(path.toAbsolutePath().toString())) {
-          this.reader.read(inputStream).forEach(record -> {
-            Stock stock = mapper.apply(record);
-            portfolio.getStocks().add(stock);
-          });
+      try (FileInputStream inputStream = new FileInputStream(path.toAbsolutePath().toString())) {
+        this.reader.read(inputStream).forEach(record -> {
+          Stock stock = mapper.apply(record);
+          portfolio.getStocks().add(stock);
+        });
 
-          portfolios.add(portfolio);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
+        portfolios.add(portfolio);
+      }
+    }
+
+    if (portfolios.isEmpty()) {
+      throw new IllegalArgumentException("A portfolio with this name does not exist.");
     }
 
     return portfolios;
   }
 
   @Override
-  public Portfolio update(Portfolio portfolio) {
+  public Portfolio update(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
 
-    try {
-      Files.createDirectories(Paths.get(Constants.DATA_DIR));
+    Files.createDirectories(Paths.get(Constants.DATA_DIR));
 
-      if (!getFilePath(portFolioName).toFile().exists()) {
-        throw new IllegalArgumentException("A portfolio with this name does not exist.");
-      }
+    if (!getFilePath(portFolioName).toFile().exists()) {
+      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+    }
 
-      try (FileOutputStream fileOutputStream = new FileOutputStream(
-          getFilePath(portfolio.getName()).toFile(), true)) {
-        for (Stock stock : portfolio.getStocks()) {
-          List<String> record = Arrays.asList(stock.getSymbol(),
-              Double.toString(stock.getQuantity()), stock.getDate());
-          this.writer.write(record, fileOutputStream);
-        }
+    try (FileOutputStream fileOutputStream = new FileOutputStream(
+        getFilePath(portfolio.getName()).toFile(), true)) {
+      for (Stock stock : portfolio.getStocks()) {
+        List<String> record = Arrays.asList(stock.getSymbol(),
+            Double.toString(stock.getQuantity()), stock.getDate());
+        this.writer.write(record, fileOutputStream);
       }
-    } catch (IOException e) {
     }
 
     return portfolio;

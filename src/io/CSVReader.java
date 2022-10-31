@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CSVReaderImpl implements IReader<List<List<String>>> {
+public class CSVReader implements IReader<List<List<String>>> {
 
   @Override
   public List<List<String>> read(InputStream inputStream) throws IOException {

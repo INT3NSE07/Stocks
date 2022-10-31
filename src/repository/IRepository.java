@@ -14,7 +14,7 @@ public interface IRepository<T> {
    * @param item
    * @return
    */
-  T create(T item);
+  T create(T item) throws IllegalArgumentException, IOException;
 
   /**
    *
@@ -22,12 +22,12 @@ public interface IRepository<T> {
    * @return
    * @throws IOException
    */
-  Iterable<T> read(Predicate<T> predicate) throws IOException;
+  Iterable<T> read(Predicate<T> predicate) throws IllegalArgumentException, IOException;
 
   /**
    *
    * @param item
    * @return
    */
-  T update(T item);
+  T update(T item) throws IllegalArgumentException, IOException;
 }

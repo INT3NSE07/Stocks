@@ -1,8 +1,7 @@
 -- resources folder
-stocks in portfolio readonly - immutability. return all new objects
+-- stocks in portfolio readonly - immutability. return all new objects
 -- portfoliotype validation
-ticker validation
-market cap - validate number of stocks
+-- ticker validation
 String or date object? - change string to date in service
 This is a design decisions, up to you. If your program is doing things automatically it would be nice to let the user know.
 -- addStock move to createPortfolio - prevents addStock from being called independently
@@ -12,9 +11,14 @@ weekends - return friday value
 readRecords CSV - take predicate?
 -- create a portfolio by providing a file
 -- map change to stock object
-There is one restriction that your program must support: most brokers do not allow a client to directly purchase a fractional amount of shares - add validation in controller
-rename to impl
+-- There is one restriction that your program must support: most brokers do not allow a client to directly purchase a fractional amount of shares - add validation in controller
+-- rename to impl
 read dont fetch all records
+-- check all exceptions and add
+ticker capital
+add dollar
 
 -limitations
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.
+number of shares - INT.MAX
+market cap - validate number of stocks

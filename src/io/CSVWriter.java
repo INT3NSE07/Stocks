@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class CSVWriterImpl implements IWriter<List<String>> {
+public class CSVWriter implements IWriter<List<String>> {
 
   @Override
   public void write(List<String> records, OutputStream outputStream) throws IOException {

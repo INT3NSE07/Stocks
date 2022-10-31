@@ -1,7 +1,7 @@
 import controller.IPortfolioController;
 import controller.PortfolioController;
-import io.CSVReaderImpl;
-import io.CSVWriterImpl;
+import io.CSVReader;
+import io.CSVWriter;
 import io.IReader;
 import io.IWriter;
 import java.util.List;
@@ -21,8 +21,8 @@ import view.PortfolioTextView;
 public class PortfolioRunner {
 
   public static void main(String[] args) {
-    IReader<List<List<String>>> reader = new CSVReaderImpl();
-    IWriter<List<String>> writer = new CSVWriterImpl();
+    IReader<List<List<String>>> reader = new CSVReader();
+    IWriter<List<String>> writer = new CSVWriter();
 
     IStockService stockService = FileStockService.getInstance(reader);
 
