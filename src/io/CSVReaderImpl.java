@@ -1,4 +1,4 @@
-package csv;
+package io;
 
 import constants.CSVConstants;
 import java.io.BufferedReader;
@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PortfolioCSVReader implements ICSVReader {
+public class CSVReaderImpl implements IReader<List<List<String>>> {
 
   @Override
-  public List<List<String>> readRecords(InputStream inputStream) throws IOException {
+  public List<List<String>> read(InputStream inputStream) throws IOException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-      return reader.lines().map(line -> Arrays.asList(line.split(CSVConstants.SEPARATOR)))
+      return reader.lines().skip(1).map(line -> Arrays.asList(line.split(CSVConstants.SEPARATOR)))
           .collect(Collectors.toList());
     }
   }

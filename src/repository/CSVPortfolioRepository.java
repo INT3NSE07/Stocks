@@ -4,28 +4,30 @@ import constants.CSVConstants;
 import constants.Constants;
 import io.IReader;
 import io.IWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import model.Portfolio;
 import model.Stock;
+import utilities.MapperUtils;
 import utilities.StringUtils;
 
 public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
-  private final IWriter<Portfolio> writer;
-  private final IReader<Portfolio, String, Stock> reader;
+  private final IWriter<List<String>> writer;
+  private final IReader<List<List<String>>> reader;
 
-  public CSVPortfolioRepository(IReader<Portfolio, String, Stock> reader,
-      IWriter<Portfolio> writer) {
+  public CSVPortfolioRepository(IReader<List<List<String>>> reader,
+      IWriter<List<String>> writer) {
     this.reader = reader;
     this.writer = writer;
   }
@@ -42,13 +44,8 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
       }
 
       try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
-          portfolio.getName()).toFile());
-          ByteArrayOutputStream bos = new ByteArrayOutputStream();
-          ObjectOutputStream oos = new ObjectOutputStream(
-              bos)) {
-        oos.writeObject(portfolio);
-        oos.flush();
-        this.writer.write(bos.toByteArray(), fileOutputStream);
+          portfolio.getName()).toFile())) {
+        this.writer.write(Arrays.asList(CSVConstants.STOCK_CSV_HEADERS), fileOutputStream);
       }
     } catch (IOException e) {
     }
@@ -58,6 +55,9 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
   @Override
   public List<Portfolio> read(Predicate<Portfolio> predicate) throws IOException {
+    List<Portfolio> portfolios = new ArrayList<>();
+    Function<List<String>, Stock> mapper = MapperUtils.getUserPortfolioToStockMapper();
+
     try (Stream<Path> paths = Files.walk(Paths.get(Constants.DATA_DIR))) {
       Stream<Path> filteredPaths = paths.filter(path -> {
         Portfolio portfolio = mapPathToPortfolio(path);
@@ -66,15 +66,22 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
       });
 
       filteredPaths.forEach(path -> {
+        Portfolio portfolio = mapPathToPortfolio(path);
+
         try (FileInputStream inputStream = new FileInputStream(path.toAbsolutePath().toString())) {
-          this.reader.read(inputStream);
+          this.reader.read(inputStream).forEach(record -> {
+            Stock stock = mapper.apply(record);
+            portfolio.getStocks().add(stock);
+          });
+
+          portfolios.add(portfolio);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
       });
     }
 
-    return null;
+    return portfolios;
   }
 
   @Override
@@ -90,7 +97,11 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
       try (FileOutputStream fileOutputStream = new FileOutputStream(
           getFilePath(portfolio.getName()).toFile(), true)) {
-        this.writer.writeRecords(portfolio, fileOutputStream);
+        for (Stock stock : portfolio.getStocks()) {
+          List<String> record = Arrays.asList(stock.getSymbol(),
+              Double.toString(stock.getQuantity()), stock.getDate());
+          this.writer.write(record, fileOutputStream);
+        }
       }
     } catch (IOException e) {
     }

@@ -7,12 +7,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import model.Portfolio;
 import model.Stock;
+import utilities.MapperUtils;
 
 public class AlphaVantageStockService extends AbstractStockService {
 
@@ -20,7 +19,7 @@ public class AlphaVantageStockService extends AbstractStockService {
   private final String apiKey;
   private final String apiEndpoint;
 
-  private AlphaVantageStockService(IReader<Portfolio, String, Stock> reader) {
+  private AlphaVantageStockService(IReader<List<List<String>>> reader) {
     super(reader);
 
     // TODO: move to config
@@ -28,7 +27,7 @@ public class AlphaVantageStockService extends AbstractStockService {
     this.apiEndpoint = "https://www.alphavantage.co/query?";
   }
 
-  public static AlphaVantageStockService getInstance(IReader<Portfolio, String, Stock> reader) {
+  public static AlphaVantageStockService getInstance(IReader<List<List<String>>> reader) {
     if (instance == null) {
       instance = new AlphaVantageStockService(reader);
     }
@@ -42,20 +41,8 @@ public class AlphaVantageStockService extends AbstractStockService {
   }
 
   @Override
-  protected Function<Iterable<String>, Stock> getResponseToStockMapper(String symbol) {
-    return iterable -> {
-      List<String> stockData = new ArrayList<>();
-      iterable.forEach(stockData::add);
-
-      return Stock.StockBuilder.create()
-          .setSymbol(symbol)
-          .setDate(stockData.get(0))
-          .setOpen(Double.parseDouble(stockData.get(1)))
-          .setHigh(Double.parseDouble(stockData.get(2)))
-          .setLow(Double.parseDouble(stockData.get(3)))
-          .setClose(Double.parseDouble(stockData.get(4)))
-          .setVolume(Double.parseDouble(stockData.get(5)));
-    };
+  protected Function<List<String>, Stock> getResponseToStockMapper() {
+    return MapperUtils.getAlphaVantageResponseToStockMapper();
   }
 
   private URL buildURL(String symbol) {

@@ -19,57 +19,6 @@ public class PortfolioController implements IPortfolioController {
     this.in = in;
   }
 
-//  public void run() {
-//    int selectedMenuItem = 0;
-//
-//    while (true) {
-//      this.view.displayHeader(selectedMenuItem);
-//      this.view.showMainOptions();
-//      this.view.showSelectOption();
-//      Scanner sc = new Scanner(this.in);
-//      selectedMenuItem = sc.nextInt();
-//      switch (selectedMenuItem) {
-//        case 1:
-//          int selectedPortfolioSubMenuItem = 0;
-//          while (selectedPortfolioSubMenuItem != 2) {
-//            this.view.displayHeader(selectedMenuItem);
-//            this.view.showSubMenuOptions(selectedMenuItem);
-//            this.view.showSelectOption();
-//            selectedPortfolioSubMenuItem = sc.nextInt();
-//            switch (selectedPortfolioSubMenuItem) {
-//              case 1:
-//                view.promptPortfolioName();
-//                String newPortfolioName = sc.next();
-//                view.showString(
-//                    model.createPortfolio(newPortfolioName)
-//                        .getName()
-//                        + " portfolio was created.");
-//                selectedMenuItem = 0;
-//                break;
-//              case 2:
-//                //this.model.addStock();
-//                selectedMenuItem = 0;
-//                break;
-//              default:
-//                view.showOptionError();
-//                break;
-//            }
-//          }
-//        case 2:
-////          this.model.getValueOfPortfolio();
-//          break;
-//        case 3:
-////          this.model.readPortfolio();
-//          break;
-//        case 4:
-//          return;
-//        default:
-//          view.showOptionError();
-//          break;
-//      }
-//    }
-//  }
-
   public void run() {
     int selectedMenuItem = 0;
 
