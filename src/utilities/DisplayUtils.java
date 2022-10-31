@@ -10,7 +10,8 @@ public final class DisplayUtils<T> {
 
     private final int PADDING_SIZE = 2;
 
-    public String generateTable(List<String> headersList, List<List<String>> rowsList, int... overRiddenHeaderHeight) {
+    public String generateTable(List<String> headersList, List<List<String>> rowsList,
+        int... overRiddenHeaderHeight) {
       StringBuilder stringBuilder = new StringBuilder();
 
       int rowHeight = overRiddenHeaderHeight.length > 0 ? overRiddenHeaderHeight[0] : 1;
@@ -23,7 +24,6 @@ public final class DisplayUtils<T> {
       createRowLine(stringBuilder, headersList.size(), columnMaxWidthMapping);
       stringBuilder.append(NEW_LINE);
 
-
       for (int headerIndex = 0; headerIndex < headersList.size(); headerIndex++) {
         fillCell(stringBuilder, headersList.get(headerIndex), headerIndex, columnMaxWidthMapping);
       }
@@ -31,7 +31,6 @@ public final class DisplayUtils<T> {
       stringBuilder.append(NEW_LINE);
 
       createRowLine(stringBuilder, headersList.size(), columnMaxWidthMapping);
-
 
       for (List<String> row : rowsList) {
 
@@ -55,7 +54,8 @@ public final class DisplayUtils<T> {
       stringBuilder.append(" ".repeat(Math.max(0, length)));
     }
 
-    private void createRowLine(StringBuilder stringBuilder, int headersListSize, Map<Integer, Integer> columnMaxWidthMapping) {
+    private void createRowLine(StringBuilder stringBuilder, int headersListSize,
+        Map<Integer, Integer> columnMaxWidthMapping) {
       for (int i = 0; i < headersListSize; i++) {
         String TABLE_JOINT_SYMBOL = "+";
         if (i == 0) {
@@ -63,13 +63,14 @@ public final class DisplayUtils<T> {
         }
 
         String TABLE_H_SPLIT_SYMBOL = "-";
-        stringBuilder.append(String.valueOf(TABLE_H_SPLIT_SYMBOL).repeat(Math.max(0, columnMaxWidthMapping.get(i) + PADDING_SIZE * 2)));
+        stringBuilder.append(TABLE_H_SPLIT_SYMBOL
+            .repeat(Math.max(0, columnMaxWidthMapping.get(i) + PADDING_SIZE * 2)));
         stringBuilder.append(TABLE_JOINT_SYMBOL);
       }
     }
 
-
-    private Map<Integer, Integer> getMaximumWidthTable(List<String> headersList, List<List<String>> rowsList) {
+    private Map<Integer, Integer> getMaximumWidthTable(List<String> headersList,
+        List<List<String>> rowsList) {
       Map<Integer, Integer> columnMaxWidthMapping = new HashMap<>();
 
       for (int columnIndex = 0; columnIndex < headersList.size(); columnIndex++) {
@@ -82,7 +83,6 @@ public final class DisplayUtils<T> {
           columnMaxWidthMapping.put(columnIndex, headersList.get(columnIndex).length());
         }
       }
-
 
       for (List<String> row : rowsList) {
 
@@ -101,11 +101,11 @@ public final class DisplayUtils<T> {
         }
       }
 
-
       return columnMaxWidthMapping;
     }
 
-    private int getOptimumCellPadding(int cellIndex, int datalength, Map<Integer, Integer> columnMaxWidthMapping, int cellPaddingSize) {
+    private int getOptimumCellPadding(int cellIndex, int datalength,
+        Map<Integer, Integer> columnMaxWidthMapping, int cellPaddingSize) {
       if (datalength % 2 != 0) {
         datalength++;
       }
@@ -117,9 +117,11 @@ public final class DisplayUtils<T> {
       return cellPaddingSize;
     }
 
-    private void fillCell(StringBuilder stringBuilder, String cell, int cellIndex, Map<Integer, Integer> columnMaxWidthMapping) {
+    private void fillCell(StringBuilder stringBuilder, String cell, int cellIndex,
+        Map<Integer, Integer> columnMaxWidthMapping) {
 
-      int cellPaddingSize = getOptimumCellPadding(cellIndex, cell.length(), columnMaxWidthMapping, PADDING_SIZE);
+      int cellPaddingSize = getOptimumCellPadding(cellIndex, cell.length(), columnMaxWidthMapping,
+          PADDING_SIZE);
 
       String TABLE_V_SPLIT_SYMBOL = "|";
       if (cellIndex == 0) {
@@ -135,8 +137,6 @@ public final class DisplayUtils<T> {
       fillSpace(stringBuilder, cellPaddingSize);
 
       stringBuilder.append(TABLE_V_SPLIT_SYMBOL);
-
     }
   }
-
 }

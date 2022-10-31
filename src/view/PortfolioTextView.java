@@ -1,15 +1,12 @@
 package view;
 
 import constants.Constants;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import model.Portfolio;
 import model.Stock;
 import utilities.DisplayUtils;
-
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PortfolioTextView implements IPortfolioView {
 
@@ -26,13 +23,6 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showOptions(int selectedMenuItem) {
-    // print the UI
-
-//    out.println("Menu: ");
-//    out.println("E: Enter a string");
-//    out.println("Q: Quit the program");
-//    out.print("Enter your choice: ");
-
     this.out.println(System.lineSeparator() + Constants.MAIN_MENU_ITEMS[selectedMenuItem]);
 
     switch (selectedMenuItem) {
@@ -52,11 +42,6 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showStringEntry() {
-    out.print("\nEnter the string to be echoed: ");
-  }
-
-  @Override
   public void showOptionError() {
     this.out.println("Invalid option. Please try again." + System.lineSeparator());
   }
@@ -64,32 +49,6 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showSelectOption() {
     this.out.print("Enter your choice: ");
-  }
-
-  @Override
-  public void showMainOptions() {
-//    this.displayHeader(selectedMenuItem);
-////
-////    for (int i = 1; i < Constants.MAIN_MENU_ITEMS.length; i++) {
-////      this.out.println(i + ") " + Constants.MAIN_MENU_ITEMS[i]);
-////    }
-  }
-
-  @Override
-  public void displayHeader(int menuItemNumber) {
-    //this.out.println(Constants.MAIN_MENU_ITEMS[menuItemNumber]);
-  }
-
-  @Override
-  public String showOutputStream() {
-    return this.out.toString();
-  }
-
-  @Override
-  public void showSubMenuOptions(int selectedMenuItem) {
-    if (selectedMenuItem == 1) {
-      this.out.println("1) Add Portfolio Name and Type\n2) Add Stocks\n3) Back");
-    }
   }
 
   @Override
@@ -119,25 +78,19 @@ public class PortfolioTextView implements IPortfolioView {
 //    rowsList.add(headersList);
     for (int i = 0; i < readPortfolio.getStocks().size(); i++) {
       List<String> row = new ArrayList<>();
-      row.add(String.valueOf(i+1));
-      for (Stock stock: readPortfolio.getStocks()) {
+      row.add(String.valueOf(i + 1));
+      for (Stock stock : readPortfolio.getStocks()) {
         row.add(stock.getSymbol());
         row.add(String.valueOf(stock.getQuantity()));
       }
       rowsList.add(row);
     }
 //    this.out.println(rowsList.get(0));
-    this.out.println(tableGenerator.generateTable(headersList,rowsList));
+    this.out.println(tableGenerator.generateTable(headersList, rowsList));
   }
 
   @Override
   public void promptStockQuantity() {
     this.out.print("Enter quantity: ");
-  }
-
-
-  @Override
-  public void promptPortfolioType() {
-    this.out.println("Enter Portfolio Type: ");
   }
 }

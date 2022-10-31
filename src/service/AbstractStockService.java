@@ -1,5 +1,6 @@
 package service;
 
+import constants.Constants;
 import io.IReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,7 @@ public abstract class AbstractStockService implements IStockService {
 
   @Override
   public Stock getStock(String symbol, double quantity) {
-    String currentDate = DateUtils.getCurrentDate();
+    String currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     currentDate = "2022-10-28";
 
     Stock stock = getStockOnDate(symbol, currentDate);

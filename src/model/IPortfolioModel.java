@@ -1,6 +1,8 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
+import utilities.Pair;
 
 /**
  *
@@ -10,10 +12,10 @@ public interface IPortfolioModel {
   /**
    *
    * @param portFolioName
-   * @param stockSymbolQuantityMap
+   * @param stockPairs
    * @throws IllegalArgumentException
    */
-  void createPortfolio(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
+  void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException;
 
   /**

@@ -4,11 +4,20 @@ import java.util.List;
 import java.util.function.Function;
 import model.Stock;
 
+/**
+ * A utility class that contains object mappers.
+ */
 public final class MapperUtils {
 
   private MapperUtils() {
   }
 
+  /**
+   * Returns a mapping function which maps the API response from
+   * {@link service.AlphaVantageStockService} to a {@link Stock}
+   *
+   * @return a mapping function
+   */
   public static Function<List<String>, Stock> getAlphaVantageResponseToStockMapper() {
     return stockData -> Stock.StockBuilder.create()
         .setDate(stockData.get(0))
@@ -19,6 +28,12 @@ public final class MapperUtils {
         .setVolume(Double.parseDouble(stockData.get(5)));
   }
 
+  /**
+   * Returns a mapping function which maps the response from {@link service.FileStockService} to a
+   * {@link Stock}
+   *
+   * @return a mapping function
+   */
   public static Function<List<String>, Stock> getCSVFileToStockMapper() {
     return stockData -> Stock.StockBuilder.create()
         .setDate(stockData.get(0))
@@ -30,6 +45,12 @@ public final class MapperUtils {
         .setVolume(Double.parseDouble(stockData.get(6)));
   }
 
+  /**
+   * Returns a mapping function which maps the stock data stored in {@link model.Portfolio} to a
+   * {@link Stock}
+   *
+   * @return a mapping function
+   */
   public static Function<List<String>, Stock> getUserPortfolioToStockMapper() {
     return stockData -> Stock.StockBuilder.create()
         .setSymbol(stockData.get(0))

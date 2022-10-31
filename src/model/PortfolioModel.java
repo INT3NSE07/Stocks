@@ -1,11 +1,14 @@
 package model;
 
+import constants.Constants;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
+import utilities.Pair;
 import utilities.StringUtils;
 
 /**
@@ -17,7 +20,6 @@ public class PortfolioModel implements IPortfolioModel {
   private final IStockService stockService;
 
   /**
-   *
    * @param portfolioRepository
    * @param stockService
    */
@@ -27,7 +29,7 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public void createPortfolio(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
+  public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException {
     this.validateInput(portFolioName);
 
@@ -36,15 +38,18 @@ public class PortfolioModel implements IPortfolioModel {
 
     portfolioRepository.create(portfolio);
 
-    this.addStock(portFolioName, stockSymbolQuantityMap);
+    this.addStock(portFolioName, stockPairs);
   }
 
-  private void addStock(String portFolioName, Map<String, Double> stockSymbolQuantityMap)
+  private void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException {
     this.validateInput(portFolioName);
 
-    for (String symbol : stockSymbolQuantityMap.keySet()) {
-      Double quantity = stockSymbolQuantityMap.get(symbol);
+    var uniqueStockPairs = stockPairs.stream()
+        .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
+
+    for (String symbol : uniqueStockPairs.keySet()) {
+      Double quantity = uniqueStockPairs.get(symbol);
 
       this.validateInput(symbol);
       if (quantity <= 0) {
@@ -83,7 +88,7 @@ public class PortfolioModel implements IPortfolioModel {
     this.validateInput(portFolioName);
 
     if (StringUtils.IsNullOrWhiteSpace(date)) {
-      date = DateUtils.getCurrentDate();
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     this.validateDate(date);
 
@@ -105,7 +110,7 @@ public class PortfolioModel implements IPortfolioModel {
 
   private void validateDate(String date) {
     if (!StringUtils.IsNullOrWhiteSpace(date)) {
-      if (!DateUtils.isValidDate(date)) {
+      if (!DateUtils.isValidDate(date, Constants.DEFAULT_DATETIME_FORMAT)) {
         throw new IllegalArgumentException("Date is invalid.");
       }
     }

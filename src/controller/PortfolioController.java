@@ -1,11 +1,11 @@
 package controller;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import model.IPortfolioModel;
+import utilities.Pair;
 import view.IPortfolioView;
 
 /**
@@ -18,7 +18,6 @@ public class PortfolioController implements IPortfolioController {
   private final InputStream in;
 
   /**
-   *
    * @param model
    * @param view
    * @param in
@@ -43,7 +42,7 @@ public class PortfolioController implements IPortfolioController {
         case 1: {
           view.promptPortfolioName();
           String portfolioName = sc.next();
-          Map<String, Double> stockSymbolQuantityMap = new HashMap<>();
+          List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
           int selectedSubmenuItem = 0;
           while (selectedSubmenuItem != 2) {
@@ -59,7 +58,7 @@ public class PortfolioController implements IPortfolioController {
                 this.view.promptStockQuantity();
                 double quantity = sc.nextInt();
 
-                stockSymbolQuantityMap.put(symbol, quantity);
+                stockPairs.add(new Pair<>(symbol, quantity));
                 break;
               case 2:
                 break;
@@ -68,7 +67,7 @@ public class PortfolioController implements IPortfolioController {
                 break;
             }
           }
-          this.model.createPortfolio(portfolioName, stockSymbolQuantityMap);
+          this.model.createPortfolio(portfolioName, stockPairs);
           this.view.showString(portfolioName + " portfolio was created.");
 
           selectedMenuItem = 0;

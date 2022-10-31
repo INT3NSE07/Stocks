@@ -1,10 +1,12 @@
 package constants;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * An immutable constants class that holds immutable constants fields which is used in
- *              <li>{@link repository.CSVPortfolioRepository}</li>
- *              <li>{@link service.FileStockService}</li>
- *              <li>{@link view.PortfolioTextView}</li>
+ * <li>{@link repository.CSVPortfolioRepository}</li>
+ * <li>{@link service.FileStockService}</li>
+ * <li>{@link view.PortfolioTextView}</li>
  */
 public final class Constants {
 
@@ -24,6 +26,9 @@ public final class Constants {
       "Add a stock to this portfolio",
       "Back"
   };
+
+  public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
+
 
   private Constants() {
   }

@@ -22,11 +22,6 @@ public interface IPortfolioView {
   /**
    *
    */
-  void showStringEntry();
-
-  /**
-   *
-   */
   void showOptionError();
 
   /**
@@ -37,35 +32,7 @@ public interface IPortfolioView {
   /**
    *
    */
-  void showMainOptions();
-
-  /**
-   *
-   * @param menuItemNumber
-   */
-  void displayHeader(int menuItemNumber);
-
-  /**
-   *
-   * @return
-   */
-  String showOutputStream();
-
-  /**
-   *
-   * @param selectedMenuItem
-   */
-  void showSubMenuOptions(int selectedMenuItem);
-
-  /**
-   *
-   */
   void promptPortfolioName();
-
-  /**
-   *
-   */
-  void promptPortfolioType();
 
   /**
    *
@@ -77,6 +44,9 @@ public interface IPortfolioView {
    */
   void promptStockSymbol();
 
+  /**
+   *
+   */
   void promptDate();
   
   /**
