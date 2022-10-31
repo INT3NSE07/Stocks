@@ -26,7 +26,7 @@ public class Stock {
   }
 
   public Stock setSymbol(String symbol) {
-    this.symbol = symbol;
+    this.symbol = symbol.toUpperCase();
 
     return this;
   }

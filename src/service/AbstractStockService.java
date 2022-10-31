@@ -32,9 +32,9 @@ public abstract class AbstractStockService implements IStockService {
   @Override
   public Stock getStock(String symbol, double quantity)
       throws IllegalArgumentException, IOException {
-    String currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-    currentDate = "2022-10-28";
+    symbol = symbol.toUpperCase();
 
+    String currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     Stock stock = getStockOnDate(symbol, currentDate);
     stock = stock.setQuantity(quantity);
 
@@ -44,6 +44,8 @@ public abstract class AbstractStockService implements IStockService {
   @Override
   public Stock getStockOnDate(String symbol, String date)
       throws IllegalArgumentException, IOException {
+    symbol = symbol.toUpperCase();
+
     List<List<String>> response = getStockData(symbol, date);
 
     List<Stock> stocks = new ArrayList<>();
@@ -59,10 +61,13 @@ public abstract class AbstractStockService implements IStockService {
     }
 
     Stock stock;
-    Predicate<Stock> symbolPredicate = x -> x.getSymbol().equals(symbol);
+
+    String finalSymbol = symbol;
+    Predicate<Stock> symbolPredicate = x -> x.getSymbol().equals(finalSymbol);
     List<Stock> stockWithMatchedSymbol = stocks.stream().filter(symbolPredicate).collect(
         Collectors.toList());
 
+    // get latest date available
     stock = stockWithMatchedSymbol.stream().filter(x -> x.getDate().equals(date)).findFirst()
         .orElseGet(() -> stockWithMatchedSymbol.stream().findFirst().orElse(null));
 
@@ -71,11 +76,15 @@ public abstract class AbstractStockService implements IStockService {
           String.format("No stock data found for %s on %s", symbol, date));
     }
 
+    stock.setDate(date);
+
     return stock;
   }
 
   @Override
   public boolean isStockSymbolValid(String symbol) throws IOException {
+    symbol = symbol.toUpperCase();
+
     try {
       Stock stock = getStockOnDate(symbol,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
