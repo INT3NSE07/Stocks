@@ -1,4 +1,4 @@
-package unit;
+package model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +17,11 @@ import model.Stock;
 import repository.CSVPortfolioRepository;
 import repository.IRepository;
 import service.IStockService;
+import utilities.Pair;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestModel {
+public class ModelTest {
 
   class MockService implements IStockService {
     @Override
@@ -31,6 +32,11 @@ public class TestModel {
     @Override
     public Stock getStockOnDate(String symbol, String date) {
       return null;
+    }
+
+    @Override
+    public boolean isStockSymbolValid(String symbol) throws IOException {
+      return false;
     }
   }
 
@@ -67,9 +73,13 @@ public class TestModel {
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
     try {
-      model.createPortfolio(null, new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
+      List<Pair<String, Double>> stockPairs = new ArrayList<>();
+      stockPairs.add(new Pair<>("sas",Double.parseDouble("123")));
+      model.createPortfolio(null,stockPairs);
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals("Input cannot be null or empty.", illegalArgumentException.getMessage());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -80,32 +90,45 @@ public class TestModel {
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
     try {
-      model.createPortfolio("", new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
+      List<Pair<String, Double>> stockPairs = new ArrayList<>();
+      stockPairs.add(new Pair<>("sas",Double.parseDouble("123")));
+
+      model.createPortfolio("",stockPairs);
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals("Input cannot be null or empty.", illegalArgumentException.getMessage());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
   @Test
-  public void testCreatePortfolioCreateCallingCreateRepository() {
+  public void testCreatePortfolioCreateCallingCreateRepository() throws IOException {
 
     List<String> mockLog = new ArrayList<>();
     MockRepository temp = new MockRepository(mockLog);
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
-    model.createPortfolio("ui", new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>("sas",Double.parseDouble("123")));
+
+    model.createPortfolio("ui", stockPairs);
     assertEquals("Entered Repository create method.", mockLog.get(0));
 
   }
 
   @Test
-  public void testCreatePortfolioAddCallingUpdateRepository() {
+  public void testCreatePortfolioAddCallingUpdateRepository() throws IOException {
 
     List<String> mockLog = new ArrayList<>();
     MockRepository temp = new MockRepository(mockLog);
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
-    model.createPortfolio("ui", new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>("sas",Double.parseDouble("123")));
+
+    model.createPortfolio("ui", stockPairs);
     assertEquals("Entered Repository Update method.", mockLog.get(1));
 
   }

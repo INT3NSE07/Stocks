@@ -1,11 +1,13 @@
-package unit;
+package controller;
 
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.concurrent.ThreadLocalRandom;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +18,14 @@ import controller.IPortfolioController;
 import controller.PortfolioController;
 import model.IPortfolioModel;
 import model.Portfolio;
+import utilities.Pair;
 import view.IPortfolioView;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestController {
+public class ControllerTest {
 
-  class MockModel implements IPortfolioModel {
+  static class MockModel implements IPortfolioModel {
     private List<String> log;
 
     public MockModel(List<String> log) {
@@ -30,7 +33,7 @@ public class TestController {
     }
 
     @Override
-    public void createPortfolio(String portFolioName, Map<String, Double> stockSymbolQuantityMap) throws IllegalArgumentException {
+    public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs) throws IllegalArgumentException {
 
     }
 
@@ -42,6 +45,11 @@ public class TestController {
     @Override
     public double getPortfolioValueOnDate(String portFolioName, String date) throws IllegalArgumentException {
       return 0;
+    }
+
+    @Override
+    public boolean isStockSymbolValid(String symbol) throws IOException {
+      return false;
     }
   }
 
@@ -63,57 +71,17 @@ public class TestController {
     }
 
     @Override
-    public void showStringEntry() {
-
-    }
-
-    @Override
     public void showOptionError() {
       this.log.add("Called view for error in selected option.");
     }
 
     @Override
-    public void showSelectOption() {
-      this.log.add("Called view to show options of selected option.");
-    }
-
-    @Override
-    public void showMainOptions() {
+    public void showPrompt(String key) {
 
     }
 
     @Override
-    public void displayHeader(int menuItemNumber) {
-
-    }
-
-    @Override
-    public String showOutputStream() {
-      return null;
-    }
-
-    @Override
-    public void showSubMenuOptions(int selectedMenuItem) {
-
-    }
-
-    @Override
-    public void promptPortfolioName() {
-
-    }
-
-    @Override
-    public void promptPortfolioType() {
-
-    }
-
-    @Override
-    public void promptStockQuantity() {
-
-    }
-
-    @Override
-    public void promptStockSymbol() {
+    public void showPortfolio(Portfolio readPortfolio) {
 
     }
   }
@@ -145,6 +113,7 @@ public class TestController {
     controller.run();
 
     assertEquals("Called View with Menu item Option 0", mockLog.get(0));
+    assertEquals("Called view to show options of selected option.", mockLog.get(1));
   }
 
   @Test
@@ -153,13 +122,22 @@ public class TestController {
     List<String> mockLog = new ArrayList<>();
     MockView mockView = new MockView(mockLog);
     MockModel mockModel = new MockModel(mockLog);
-    Random random = new Random();
+    // Random random = new Random();
     int randomNum = ThreadLocalRandom.current().nextInt(5, 1000);
-    IPortfolioController controller = new PortfolioController(mockModel,
-            mockView,
-            new ByteArrayInputStream((randomNum + " 4").getBytes("UTF-8")));
-    controller.run();
+    Reader a = new StringReader(randomNum + " 4");
 
-    assertEquals("Called view for error in selected option.", mockLog.get(mockLog.size()-1));
+    try {
+      InputStream ab = new ByteArrayInputStream((randomNum + " 4").getBytes());
+      IPortfolioController controller = new PortfolioController(mockModel,
+              mockView,
+              ab);
+      controller.run();
+
+      //System.out.println(mockLog);
+      assertEquals("Called view for error in selected option.", mockLog.get(mockLog.size()-1));
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 }
