@@ -1,5 +1,8 @@
 package utilities;
 
+/**
+ *
+ */
 public final class StringUtils {
 
   private StringUtils() {

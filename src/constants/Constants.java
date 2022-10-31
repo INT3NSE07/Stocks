@@ -1,5 +1,11 @@
 package constants;
 
+/**
+ * An immutable constants class that holds immutable constants fields which is used in
+ *              <li>{@link repository.CSVPortfolioRepository}</li>
+ *              <li>{@link service.FileStockService}</li>
+ *              <li>{@link view.PortfolioTextView}</li>
+ */
 public final class Constants {
 
   public static final String DATA_DIR = "resources/default_user";

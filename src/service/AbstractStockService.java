@@ -12,6 +12,9 @@ import model.Stock;
 import utilities.DateUtils;
 import utilities.StringUtils;
 
+/**
+ *
+ */
 public abstract class AbstractStockService implements IStockService {
 
   private final IReader<List<List<String>>> reader;

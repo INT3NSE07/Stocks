@@ -11,6 +11,9 @@ import java.util.function.Function;
 import model.Stock;
 import utilities.MapperUtils;
 
+/**
+ *
+ */
 public class FileStockService extends AbstractStockService {
 
   private static FileStockService instance;

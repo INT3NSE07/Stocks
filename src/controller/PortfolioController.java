@@ -2,17 +2,27 @@ package controller;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import model.IPortfolioModel;
 import view.IPortfolioView;
 
+/**
+ *
+ */
 public class PortfolioController implements IPortfolioController {
 
   private final IPortfolioModel model;
   private final IPortfolioView view;
   private final InputStream in;
 
+  /**
+   *
+   * @param model
+   * @param view
+   * @param in
+   */
   public PortfolioController(IPortfolioModel model, IPortfolioView view, InputStream in) {
     this.model = model;
     this.view = view;
@@ -43,10 +53,10 @@ public class PortfolioController implements IPortfolioController {
             selectedSubmenuItem = sc.nextInt();
             switch (selectedSubmenuItem) {
               case 1:
-                view.promptStockSymbol();
+                this.view.promptStockSymbol();
                 String symbol = sc.next();
 
-                view.promptStockQuantity();
+                this.view.promptStockQuantity();
                 double quantity = sc.nextInt();
 
                 stockSymbolQuantityMap.put(symbol, quantity);
@@ -54,25 +64,25 @@ public class PortfolioController implements IPortfolioController {
               case 2:
                 break;
               default:
-                view.showOptionError();
+                this.view.showOptionError();
                 break;
             }
           }
-          model.createPortfolio(portfolioName, stockSymbolQuantityMap);
-          view.showString(portfolioName + " portfolio was created.");
+          this.model.createPortfolio(portfolioName, stockSymbolQuantityMap);
+          this.view.showString(portfolioName + " portfolio was created.");
 
           selectedMenuItem = 0;
           break;
         }
         case 2: {
-          view.promptPortfolioName();
+          this.view.promptPortfolioName();
           String portfolioName = sc.next();
 
-          this.model.readPortfolio(portfolioName);
+          this.view.showPortfolio(this.model.readPortfolio(portfolioName));
         }
         break;
         case 3:
-          view.promptPortfolioName();
+          this.view.promptPortfolioName();
           String portfolioName = sc.next();
 
           view.promptDate();

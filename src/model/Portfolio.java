@@ -3,11 +3,17 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class Portfolio {
 
   private String name;
   private List<Stock> stocks;
 
+  /**
+   *
+   */
   public Portfolio() {
     this.stocks = new ArrayList<>();
   }

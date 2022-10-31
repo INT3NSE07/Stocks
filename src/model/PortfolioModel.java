@@ -8,11 +8,19 @@ import service.IStockService;
 import utilities.DateUtils;
 import utilities.StringUtils;
 
+/**
+ *
+ */
 public class PortfolioModel implements IPortfolioModel {
 
   private final IRepository<Portfolio> portfolioRepository;
   private final IStockService stockService;
 
+  /**
+   *
+   * @param portfolioRepository
+   * @param stockService
+   */
   public PortfolioModel(IRepository<Portfolio> portfolioRepository, IStockService stockService) {
     this.portfolioRepository = portfolioRepository;
     this.stockService = stockService;

@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class Stock {
 
   private String symbol;
@@ -108,6 +111,9 @@ public class Stock {
     return this;
   }
 
+  /**
+   *
+   */
   public static class StockBuilder {
 
     public static Stock create() {

@@ -34,27 +34,27 @@ public class TestModel {
     }
   }
 
-  static class MockRepository implements IRepository {
+  static class MockRepository<T> implements IRepository<T> {
 
     private final List<String> log;
 
     public MockRepository(List<String> log) {
       this.log = log;
-
     }
+
     @Override
-    public Object create(Object item) {
+    public T create(T item) {
       this.log.add("Entered Repository create method.");
       return item;
     }
 
     @Override
-    public Iterable read(Predicate predicate) throws IOException {
+    public Iterable<T> read(Predicate<T> predicate) throws IOException {
       return null;
     }
 
     @Override
-    public Object update(Object item) {
+    public T update(T item) {
       this.log.add("Entered Repository Update method.");
       return null;
     }
@@ -94,7 +94,7 @@ public class TestModel {
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
     model.createPortfolio("ui", new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
-    assertEquals("Entered Repository create method.",mockLog.get(0));
+    assertEquals("Entered Repository create method.", mockLog.get(0));
 
   }
 
@@ -106,7 +106,7 @@ public class TestModel {
     MockService service = new MockService();
     IPortfolioModel model = new PortfolioModel(temp, service);
     model.createPortfolio("ui", new HashMap<>(Map.of("dss", Double.parseDouble("123"))));
-    assertEquals("Entered Repository Update method.",mockLog.get(1));
+    assertEquals("Entered Repository Update method.", mockLog.get(1));
 
   }
 

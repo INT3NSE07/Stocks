@@ -21,6 +21,9 @@ import model.Stock;
 import utilities.MapperUtils;
 import utilities.StringUtils;
 
+/**
+ *
+ */
 public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
   private final IWriter<List<String>> writer;

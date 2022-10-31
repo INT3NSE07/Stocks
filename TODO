@@ -14,3 +14,6 @@ readRecords CSV - take predicate?
 map change to stock object
 There is one restriction that your program must support: most brokers do not allow a client to directly purchase a fractional amount of shares - add validation in controller
 rename to impl
+
+-limitations
+read is fine from any source. But write is restricted to text based stream because of human readable limitation.

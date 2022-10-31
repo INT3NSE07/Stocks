@@ -1,4 +1,4 @@
-package controller;
+package integration.controller;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+import controller.PortfolioController;
 import model.IPortfolioModel;
 import model.Portfolio;
 import model.PortfolioModel;

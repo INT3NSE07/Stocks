@@ -13,6 +13,9 @@ import java.util.function.Function;
 import model.Stock;
 import utilities.MapperUtils;
 
+/**
+ *
+ */
 public class AlphaVantageStockService extends AbstractStockService {
 
   private static AlphaVantageStockService instance;
