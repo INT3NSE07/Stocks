@@ -1,18 +1,15 @@
 package view;
 
-import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import constants.Constants;
-
-import static org.junit.Assert.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.concurrent.ThreadLocalRandom;
+import org.junit.Test;
 
 public class PortfolioTextViewTest {
 
@@ -25,7 +22,7 @@ public class PortfolioTextViewTest {
     int ranInt = ThreadLocalRandom.current().nextInt(0, 10000);
     String randString = "";
     view.showString(randString);
-    assertEquals(randString + System.lineSeparator(),outputStream.toString());
+    assertEquals(randString + System.lineSeparator(), outputStream.toString());
   }
 
   @Test
@@ -35,7 +32,7 @@ public class PortfolioTextViewTest {
     int ranInt = ThreadLocalRandom.current().nextInt(0, 10000);
     String randString = null;
     view.showString(randString);
-    assertEquals(randString + System.lineSeparator(),outputStream.toString());
+    assertEquals(randString + System.lineSeparator(), outputStream.toString());
   }
 
   @Test
@@ -45,7 +42,7 @@ public class PortfolioTextViewTest {
     int ranInt = ThreadLocalRandom.current().nextInt(0, 10000);
     String randString = getRandomString(ranInt);
     view.showString(randString);
-    assertEquals(randString + System.lineSeparator(),outputStream.toString());
+    assertEquals(randString + System.lineSeparator(), outputStream.toString());
   }
 
   @Test
@@ -56,34 +53,35 @@ public class PortfolioTextViewTest {
       view.showOptions(i);
 //      System.out.println(outputStream.toString());
       String expected;
-      if(i==0) {
+      if (i == 0) {
         expected = "\n" +
-                "Portfolio Management Services\n" +
-                "1) Create a portfolio\n" +
-                "2) Examine a portfolio\n" +
-                "3) Determine value of a portfolio on a certain date\n" +
-                "4) Exit\n";
-      } else if (i==1) {
+            "Portfolio Management Services\n" +
+            "1) Create a portfolio\n" +
+            "2) Examine a portfolio\n" +
+            "3) Determine value of a portfolio on a certain date\n" +
+            "4) Exit\n";
+      } else if (i == 1) {
         expected = "\n" +
-                "Create a portfolio\n" +
-                "1) Add a stock to this portfolio\n" +
-                "2) Back\n";
-      }
-      else {
+            "Create a portfolio\n" +
+            "1) Add a stock to this portfolio\n" +
+            "2) Back\n";
+      } else {
         expected = "\n" + Constants.MAIN_MENU_ITEMS[i] + "\n";
       }
-      assertEquals(expected,outputStream.toString());
+      assertEquals(expected, outputStream.toString());
     }
   }
 
-  @Test
+  @Test(expected = ArrayIndexOutOfBoundsException.class)
   public void showOptionsOutOfMenu() {
-    OutputStream outputStream = new ByteArrayOutputStream();
-    IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
-    int ranInt = ThreadLocalRandom.current().nextInt(5, 10000);
-//    view.showOptions(ranInt);
-//    System.out.println(outputStream.toString());
-//    assertEquals(null+": ",outputStream.toString());
+    int randInt = ThreadLocalRandom.current().nextInt(5, 10000);
+
+    try (OutputStream outputStream = new ByteArrayOutputStream()) {
+      IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
+      view.showOptions(randInt);
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
   }
 
   @Test
@@ -101,7 +99,7 @@ public class PortfolioTextViewTest {
   public void showPromptInListOfPrompts() {
 
     for (String key :
-            Constants.TEXT_VIEW_CONSTANTS.keySet()) {
+        Constants.TEXT_VIEW_CONSTANTS.keySet()) {
       OutputStream outputStream = new ByteArrayOutputStream();
       IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
       view.showPrompt(key);
@@ -117,7 +115,7 @@ public class PortfolioTextViewTest {
     int ranInt = ThreadLocalRandom.current().nextInt(5, 10000);
 
     view.showPrompt(String.valueOf(ranInt));
-    assertEquals(null+": ",outputStream.toString());
+    assertEquals(null + ": ", outputStream.toString());
   }
 
   @Test
