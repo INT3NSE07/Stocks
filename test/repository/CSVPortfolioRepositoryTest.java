@@ -11,6 +11,8 @@ import java.util.List;
 import io.IReader;
 import io.IWriter;
 import model.Portfolio;
+import repository.CSVPortfolioRepository;
+import repository.IRepository;
 
 import static org.junit.Assert.*;
 
