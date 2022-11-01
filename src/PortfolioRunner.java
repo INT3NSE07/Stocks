@@ -1,3 +1,4 @@
+import constants.Constants;
 import controller.IPortfolioController;
 import controller.PortfolioController;
 import io.CSVReader;
@@ -26,7 +27,8 @@ public class PortfolioRunner {
 
     IStockService stockService = FileStockService.getInstance(reader);
 
-    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer);
+    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
+        Constants.DATA_DIR);
 
     IPortfolioModel model = new PortfolioModel(repository, stockService);
     IPortfolioView view = new PortfolioTextView(System.out);

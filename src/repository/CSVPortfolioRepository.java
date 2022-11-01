@@ -30,20 +30,23 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   private final IWriter<List<String>> writer;
   private final IReader<List<List<String>>> reader;
 
+  private final String path;
+
   public CSVPortfolioRepository(IReader<List<List<String>>> reader,
-      IWriter<List<String>> writer) {
+      IWriter<List<String>> writer, String path) {
     this.reader = reader;
     this.writer = writer;
+    this.path = path;
   }
 
   @Override
   public Portfolio create(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
 
-    Files.createDirectories(Paths.get(Constants.DATA_DIR));
+    Files.createDirectories(Paths.get(this.path));
 
     if (getFilePath(portFolioName).toFile().exists()) {
-      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+      throw new IllegalArgumentException(Constants.PORTFOLIO_EXISTS);
     }
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
@@ -61,7 +64,7 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
     Function<List<String>, Stock> mapper = MapperUtils.getUserPortfolioToStockMapper();
 
     List<Path> filteredPaths;
-    try (Stream<Path> paths = Files.walk(Paths.get(Constants.DATA_DIR))) {
+    try (Stream<Path> paths = Files.walk(Paths.get(this.path))) {
       filteredPaths = paths.filter(path -> {
         Portfolio portfolio = mapPathToPortfolio(path);
 
@@ -93,7 +96,7 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   public Portfolio update(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
 
-    Files.createDirectories(Paths.get(Constants.DATA_DIR));
+    Files.createDirectories(Paths.get(this.path));
 
     if (!getFilePath(portFolioName).toFile().exists()) {
       throw new IllegalArgumentException("A portfolio with this name does not exist.");
@@ -111,8 +114,8 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
     return portfolio;
   }
 
-  private Path getFilePath(String name) throws IOException {
-    return Paths.get(Constants.DATA_DIR, name + CSVConstants.EXTENSION);
+  private Path getFilePath(String name) {
+    return Paths.get(this.path, name + CSVConstants.EXTENSION);
   }
 
   private Portfolio mapPathToPortfolio(Path path) {
