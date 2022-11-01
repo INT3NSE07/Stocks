@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import model.Stock;
 import utilities.DateUtils;
 import utilities.StringUtils;
@@ -73,7 +72,7 @@ public abstract class AbstractStockService implements IStockService {
 
     if (stock == null) {
       throw new IllegalArgumentException(
-          String.format("No stock data found for %s on %s", symbol, date));
+          String.format(Constants.NO_STOCK_DATA_FOUND, symbol, date));
     }
 
     stock.setDate(date);

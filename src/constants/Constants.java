@@ -22,6 +22,9 @@ public final class Constants {
   public static final String PORTFOLIO_DOES_NOT_EXIST =
       "A portfolio with this name does not exist.";
 
+  public static final String NO_STOCK_DATA_FOUND =
+      "No stock data found for %s on %s";
+
   // Text UI constants
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",

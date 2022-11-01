@@ -3,9 +3,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TestUtils {
 
-  private Random random;
+  private static Random random;
 
-  private String alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz";
+  private static final String alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz";
 
   public TestUtils() {
     random = new Random(TestConstants.SEED);
@@ -27,6 +27,14 @@ public class TestUtils {
     }
 
     return sb.toString();
+  }
+
+  public static int getRandomInteger() {
+    return random.nextInt();
+  }
+
+  public static int getRandomInteger(int min, int max) {
+    return random.nextInt((max - min) + 1) + min;
   }
 
 //  private String getRandomDate() {

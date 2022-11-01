@@ -18,6 +18,9 @@ readRecords CSV - take predicate?
 add dollar
 -- empty string - take current date
 table
+add ioex in tests
+move all strings to constants
+menu enum
 
 -limitations
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.

@@ -17,14 +17,17 @@ import utilities.MapperUtils;
 public class FileStockService extends AbstractStockService {
 
   private static FileStockService instance;
+  private final String path;
 
-  private FileStockService(IReader<List<List<String>>> reader) {
+  private FileStockService(IReader<List<List<String>>> reader, String filePath) {
     super(reader);
+
+    this.path = filePath;
   }
 
-  public static FileStockService getInstance(IReader<List<List<String>>> reader) {
+  public static FileStockService getInstance(IReader<List<List<String>>> reader, String filePath) {
     if (instance == null) {
-      instance = new FileStockService(reader);
+      instance = new FileStockService(reader, filePath);
     }
 
     return instance;
@@ -32,7 +35,7 @@ public class FileStockService extends AbstractStockService {
 
   @Override
   protected InputStream getInputStream(String symbol) throws IOException {
-    return new FileInputStream(Constants.STOCK_DATA_PATH + CSVConstants.EXTENSION);
+    return new FileInputStream(this.path);
   }
 
   @Override

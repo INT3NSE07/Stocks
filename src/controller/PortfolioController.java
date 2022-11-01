@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import model.IPortfolioModel;
 import utilities.Pair;
 import view.IPortfolioView;
@@ -41,7 +42,12 @@ public class PortfolioController implements IPortfolioController {
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
 
-        selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
+        try {
+          selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
+        } catch (NumberFormatException e) {
+          this.view.showString("The entered input is invalid.");
+          continue;
+        }
 
         switch (selectedMenuItem) {
           case 1: {
@@ -159,5 +165,15 @@ public class PortfolioController implements IPortfolioController {
         this.view.showOptionError();
         break;
     }
+  }
+
+  private <T> Pair<Boolean, T> validateInput(String input, Function<String, T> validator) {
+    try {
+      return new Pair<>(true, validator.apply(input));
+    } catch (NumberFormatException e) {
+      this.view.showString("The entered input is invalid.");
+    }
+
+    return new Pair<>(false, null);
   }
 }

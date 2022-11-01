@@ -1,3 +1,4 @@
+import constants.CSVConstants;
 import constants.Constants;
 import controller.IPortfolioController;
 import controller.PortfolioController;
@@ -25,7 +26,8 @@ public class PortfolioRunner {
     IReader<List<List<String>>> reader = new CSVReader();
     IWriter<List<String>> writer = new CSVWriter();
 
-    IStockService stockService = FileStockService.getInstance(reader);
+    IStockService stockService = FileStockService.getInstance(reader,
+        Constants.STOCK_DATA_PATH + CSVConstants.EXTENSION);
 
     IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
         Constants.DATA_DIR);

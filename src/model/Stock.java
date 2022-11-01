@@ -16,8 +16,6 @@ public class Stock {
   private double close;
   private double volume;
 
-  private List<String> labels;
-
   private Stock() {
   }
 
@@ -97,16 +95,6 @@ public class Stock {
 
   public Stock setQuantity(double quantity) {
     this.quantity = quantity;
-
-    return this;
-  }
-
-  public List<String> getLabels() {
-    return labels;
-  }
-
-  public Stock setLabels(List<String> labels) {
-    this.labels = labels;
 
     return this;
   }
