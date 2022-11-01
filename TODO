@@ -33,3 +33,11 @@ tests
     -
 
 - S&P 500 only supported.
+
+-testing
+ - model
+    - how to test null/empty date changing to current date in get stock value.
+ - view
+    - line separators
+    - out of menu not done.
+    - showPortfolio not done

@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,33 +46,35 @@ public class ModelTest {
     public MockService(List<String> log) {
       this.log = log;
     }
+
     @Override
     public Stock getStock(String symbol, double quantity) {
       this.log.add(MOCK_SERVICE_GET_STOCK_MESSAGE);
       String date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-      return getStockOnDate(symbol,date);
+      return getStockOnDate(symbol, date);
     }
 
     @Override
     public Stock getStockOnDate(String symbol, String date) throws IllegalArgumentException {
       this.log.add(MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE);
-      if(!isStockSymbolValid(symbol)) {
+      if (!isStockSymbolValid(symbol.toUpperCase())) {
         throw new IllegalArgumentException(
                 String.format("Error occurred while fetching stock data for symbol: %s on date: %s",
-                symbol,
-                date));
+                        symbol,
+                        date));
       }
       return Stock
               .StockBuilder
               .create()
-              .setSymbol(symbol.toUpperCase())
-              .setDate(date);
+              .setSymbol(FOUND_A_MATCH)
+              .setQuantity(234)
+              .setClose(234);
     }
 
     @Override
     public boolean isStockSymbolValid(String symbol) {
       this.log.add(MOCK_SERVICE_IS_STOCK_SYMBOL_VALID_MESSAGE);
-      return symbol.equals(FOUND_A_MATCH);
+      return symbol.equals(FOUND_A_MATCH.toUpperCase());
     }
   }
 
@@ -93,6 +97,14 @@ public class ModelTest {
       this.log.add(MOCK_REPO_READ_MESSAGE);
       Portfolio portfolio = new Portfolio();
       portfolio.setName(FOUND_A_MATCH);
+      List<Stock> stocks = new ArrayList<>(
+              Collections.singletonList(Stock
+                      .StockBuilder
+                      .create()
+                      .setSymbol(FOUND_A_MATCH)
+                      .setQuantity(234)
+                      .setClose(234)));
+      portfolio.setStocks(stocks);
       List<Portfolio> portfolios = new ArrayList<>();
       if (predicate.test(portfolio)) {
         portfolios.add(portfolio);
@@ -141,7 +153,7 @@ public class ModelTest {
       model.createPortfolio("", stockPairs);
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals(INPUT_NULL_OR_EMPTY, illegalArgumentException.getMessage());
-    }  catch (IOException e) {
+    } catch (IOException e) {
       fail(e.getMessage());
     }
   }
@@ -203,43 +215,42 @@ public class ModelTest {
 
   @Test
   public void testValidateSymbolNull() {
-      List<String> mockLog = new ArrayList<>();
-      MockRepository temp = new MockRepository(mockLog);
-      MockService service = new MockService(mockLog);
-      IPortfolioModel model = new PortfolioModel(temp, service);
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
 
-      List<Pair<String, Double>> stockPairs = new ArrayList<>();
-      stockPairs.add(new Pair<>(null, Double.parseDouble("123")));
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(null, Double.parseDouble("123")));
 
-      try {
-        model.createPortfolio("notValidSymbol", stockPairs);
-      } catch (IllegalArgumentException illegalArgumentException) {
-        assertEquals(INPUT_NULL_OR_EMPTY,
-                illegalArgumentException.getMessage());
-      } catch (IOException ioException) {
-        fail(ioException.getMessage());
-      }
+    try {
+      model.createPortfolio("notValidSymbol", stockPairs);
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(INPUT_NULL_OR_EMPTY,
+              illegalArgumentException.getMessage());
+    } catch (IOException ioException) {
+      fail(ioException.getMessage());
+    }
   }
 
   @Test
   public void testValidateSymbolEmpty() {
-      List<String> mockLog = new ArrayList<>();
-      MockRepository temp = new MockRepository(mockLog);
-      MockService service = new MockService(mockLog);
-      IPortfolioModel model = new PortfolioModel(temp, service);
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
 
-      List<Pair<String, Double>> stockPairs = new ArrayList<>();
-      stockPairs.add(new Pair<>("", Double.parseDouble("123")));
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>("", Double.parseDouble("123")));
 
-      try {
-        model.createPortfolio(FOUND_A_MATCH, stockPairs);
-      } catch (IllegalArgumentException illegalArgumentException) {
-        assertEquals(INPUT_NULL_OR_EMPTY,
-                illegalArgumentException.getMessage());
-      }
-      catch (IOException ioException) {
-        fail(ioException.getMessage());
-      }
+    try {
+      model.createPortfolio(FOUND_A_MATCH, stockPairs);
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(INPUT_NULL_OR_EMPTY,
+              illegalArgumentException.getMessage());
+    } catch (IOException ioException) {
+      fail(ioException.getMessage());
+    }
   }
 
   @Test
@@ -260,12 +271,10 @@ public class ModelTest {
                       MOCK_SERVICE_GET_STOCK_MESSAGE,
                       MOCK_REPO_UPDATE_MESSAGE));
       assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    }
-    catch (IllegalArgumentException illegalArgumentException) {
+    } catch (IllegalArgumentException illegalArgumentException) {
       String date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-      assertEquals(String.format("Error occurred while fetching stock data for symbol: sas on date: " + date),illegalArgumentException.getMessage());
-    }
-    catch (IOException ioException) {
+      assertEquals(String.format("Error occurred while fetching stock data for symbol: sas on date: " + date), illegalArgumentException.getMessage());
+    } catch (IOException ioException) {
       fail(ioException.getMessage());
     }
   }
@@ -294,24 +303,23 @@ public class ModelTest {
   @Test
   public void testValidateQuantityNegative() {
 
-      List<String> mockLog = new ArrayList<>();
-      MockRepository temp = new MockRepository(mockLog);
-      MockService service = new MockService(mockLog);
-      IPortfolioModel model = new PortfolioModel(temp, service);
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
 
-      List<Pair<String, Double>> stockPairs = new ArrayList<>();
-      stockPairs.add(new Pair<>("sas", Double.parseDouble("-1")));
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>("sas", Double.parseDouble("-1")));
 
-      try {
+    try {
       model.createPortfolio("notValidSymbol", stockPairs);
 
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO,
               illegalArgumentException.getMessage());
+    } catch (IOException ioException) {
+      fail(ioException.getMessage());
     }
-      catch (IOException ioException) {
-        fail(ioException.getMessage());
-      }
   }
 
   @Test
@@ -398,9 +406,8 @@ public class ModelTest {
       model.readPortfolio("sas");
 
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals(Constants.PORTFOLIO_DOES_NOT_EXIST,illegalArgumentException.getMessage());
-    }
-    catch (IOException e) {
+      assertEquals(Constants.PORTFOLIO_DOES_NOT_EXIST, illegalArgumentException.getMessage());
+    } catch (IOException e) {
       fail(e.getMessage());
     }
   }
@@ -417,18 +424,129 @@ public class ModelTest {
     stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
 
     try {
+      // return static portfolio value from mocked repository read.
       Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
+
       // assert sequence
-      assertEquals("[" + MOCK_REPO_READ_MESSAGE + "]",Arrays.toString(mockLog.toArray()));
+      assertEquals("[" + MOCK_REPO_READ_MESSAGE + "]", Arrays.toString(mockLog.toArray()));
+
       // assert values
-        
+      assertEquals(portfolio.getName(), FOUND_A_MATCH);
+
     } catch (IOException e) {
       fail(e.getMessage());
     }
   }
+
+  @Test
+  public void testGetPortfolioValueOnDateWithNameNull() {
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+
+    try {
+      Double value = model.getPortfolioValueOnDate(null,
+              DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
+
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(INPUT_NULL_OR_EMPTY, illegalArgumentException.getMessage());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testGetPortfolioValueOnDateWithNameEmpty() {
+
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+
+    try {
+      Double value = model.getPortfolioValueOnDate("",
+              DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
+
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(INPUT_NULL_OR_EMPTY, illegalArgumentException.getMessage());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  //  @Test
+  //  public void testGetPortfolioValueOnDateWithDateNull() {
+  //
+  //    List<String> mockLog = new ArrayList<>();
+  //    MockRepository temp = new MockRepository(mockLog);
+  //    MockService service = new MockService(mockLog);
+  //    IPortfolioModel model = new PortfolioModel(temp, service);
+  //
+  //    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+  //    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+  //
+  //    try {
+  //      // return static portfolio value from mocked repository read.
+  //      Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
+  //      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH,null);
+  //    }
+  //    catch (IOException e) {
+  //      fail(e.getMessage());
+  //    }
+  //
+  //  }
+
+//    @Test
+//    public void testGetPortfolioValueOnDateWithDateEmpty() {
+//
+//      List<String> mockLog = new ArrayList<>();
+//      MockRepository temp = new MockRepository(mockLog);
+//      MockService service = new MockService(mockLog);
+//      IPortfolioModel model = new PortfolioModel(temp, service);
+//
+//      List<Pair<String, Double>> stockPairs = new ArrayList<>();
+//      stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+//
+//      try {
+//        // return static portfolio value from mocked repository read.
+//        Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "");
+//        Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
+//        for (Stock s :
+//                portfolio.getStocks()) {
+//          assertEquals(s.getDate(),DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
+//        }
+//      } catch (IOException e) {
+//        fail(e.getMessage());
+//      }
+//    }
+
+  // Mocked service and repository to provide with static data for unit testing purpose.
   @Test
   public void testGetPortfolioValueOnDate() {
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
 
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+
+    try {
+      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH,
+              DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
+      assertEquals(54756.0,value);
+
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
   }
+
 
 }

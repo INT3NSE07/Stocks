@@ -30,6 +30,9 @@ public final class Constants {
   public static final String QUANTITY_NON_NEGATIVE_AND_ZERO = "Quantity of a stock cannot be negative or zero.";
 
   // Text UI constants
+
+  public static final String INVALID_OPTION =  "Invalid option. Please try again.";
+
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",
       "Create a portfolio",

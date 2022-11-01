@@ -43,7 +43,7 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showOptionError() {
-    this.out.println("Invalid option. Please try again." + System.lineSeparator());
+    this.out.println(Constants.INVALID_OPTION + System.lineSeparator());
   }
 
   @Override
