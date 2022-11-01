@@ -4,12 +4,15 @@ import constants.Constants;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
 import utilities.Pair;
 import utilities.StringUtils;
+
+
 
 /**
  *
@@ -45,7 +48,12 @@ public class PortfolioModel implements IPortfolioModel {
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
-    var uniqueStockPairs = stockPairs.stream()
+    // Added for model independence.
+    if (stockPairs.stream().anyMatch(x -> x.getKey() == null)) {
+      throw  new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
+    }
+
+    Map <String,Double> uniqueStockPairs = stockPairs.stream()
         .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
 
     for (String symbol : uniqueStockPairs.keySet()) {
@@ -53,7 +61,7 @@ public class PortfolioModel implements IPortfolioModel {
 
       this.validateInput(symbol);
       if (quantity <= 0) {
-        throw new IllegalArgumentException("Quantity of a stock cannot be negative or zero.");
+        throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
       }
 
       Stock stock = this.stockService.getStock(symbol, quantity);
@@ -105,14 +113,14 @@ public class PortfolioModel implements IPortfolioModel {
 
   private void validateInput(String input) {
     if (StringUtils.IsNullOrWhiteSpace(input)) {
-      throw new IllegalArgumentException("Input cannot be null or empty.");
+      throw new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
     }
   }
 
   private void validateDate(String date) {
     if (!StringUtils.IsNullOrWhiteSpace(date)) {
       if (!DateUtils.isValidDate(date, Constants.DEFAULT_DATETIME_FORMAT)) {
-        throw new IllegalArgumentException("Date is invalid.");
+        throw new IllegalArgumentException(Constants.DATE_INVALID);
       }
     }
   }

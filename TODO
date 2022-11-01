@@ -31,3 +31,5 @@ market cap - validate number of stocks
 tests
 -repository
     -
+
+- S&P 500 only supported.

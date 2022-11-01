@@ -25,6 +25,10 @@ public final class Constants {
   public static final String NO_STOCK_DATA_FOUND =
       "No stock data found for %s on %s";
 
+  public static final String INPUT_NULL_OR_EMPTY = "Input cannot be null or empty.";
+  public static final String DATE_INVALID = "Date is invalid.";
+  public static final String QUANTITY_NON_NEGATIVE_AND_ZERO = "Quantity of a stock cannot be negative or zero.";
+
   // Text UI constants
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",
