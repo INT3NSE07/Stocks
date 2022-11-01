@@ -86,7 +86,7 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
     }
 
     if (portfolios.isEmpty()) {
-      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+      throw new IllegalArgumentException(Constants.PORTFOLIO_DOES_NOT_EXIST);
     }
 
     return portfolios;
@@ -95,11 +95,12 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   @Override
   public Portfolio update(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
+    Portfolio updatedPortfolio;
 
     Files.createDirectories(Paths.get(this.path));
 
     if (!getFilePath(portFolioName).toFile().exists()) {
-      throw new IllegalArgumentException("A portfolio with this name does not exist.");
+      throw new IllegalArgumentException(Constants.PORTFOLIO_DOES_NOT_EXIST);
     }
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(
@@ -111,7 +112,9 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
       }
     }
 
-    return portfolio;
+    updatedPortfolio = this.read(x -> x.getName().equals(portFolioName)).get(0);
+
+    return updatedPortfolio;
   }
 
   private Path getFilePath(String name) {

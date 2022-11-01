@@ -17,7 +17,10 @@ public final class Constants {
 
   public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
 
-  public static final String PORTFOLIO_EXISTS = "A portfolio with this name does not exist.";
+  public static final String PORTFOLIO_EXISTS = "A portfolio with this name already exists.";
+
+  public static final String PORTFOLIO_DOES_NOT_EXIST =
+      "A portfolio with this name does not exist.";
 
   // Text UI constants
   public static final String[] MAIN_MENU_ITEMS = {
