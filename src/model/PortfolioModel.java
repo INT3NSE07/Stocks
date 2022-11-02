@@ -85,7 +85,7 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public double getPortfolioValueOnDate(String portFolioName, String date)
+  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
@@ -98,11 +98,13 @@ public class PortfolioModel implements IPortfolioModel {
     double value = 0;
 
     for (Stock stock : portfolio.getStocks()) {
-      value += stock.getQuantity() * this.stockService.getStockOnDate(stock.getSymbol(), date)
-          .getClose();
+      stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
+          .getClose());
+
+      value += stock.getQuantity() * stock.getClose();
     }
 
-    return value;
+    return new Pair<>(portfolio, value);
   }
 
   @Override

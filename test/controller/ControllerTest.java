@@ -742,7 +742,7 @@ public class ControllerTest {
     }
 
     @Override
-    public double getPortfolioValueOnDate(String portFolioName, String date)
+    public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
         throws IllegalArgumentException {
       this.log.add(String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, portFolioName, date));
       if (!portFolioName.equals(FOUND_A_MATCH)) {
@@ -750,9 +750,9 @@ public class ControllerTest {
             String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
       }
       if (date.equals("2022-02-14")) {
-        return 2 * PORTFOLIO_VALUE;
+        return new Pair<>(new Portfolio(), 2 * PORTFOLIO_VALUE);
       }
-      return PORTFOLIO_VALUE;
+      return new Pair<>(new Portfolio(), PORTFOLIO_VALUE);
     }
 
     @Override
@@ -791,7 +791,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void showPortfolio(Portfolio readPortfolio) {
+    public void showPortfolio(Portfolio portfolio) {
 
     }
   }

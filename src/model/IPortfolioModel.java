@@ -30,7 +30,7 @@ public interface IPortfolioModel {
    * @return
    * @throws IllegalArgumentException
    */
-  double getPortfolioValueOnDate(String portFolioName, String date)
+  Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
       throws IllegalArgumentException, IOException;
 
   boolean isStockSymbolValid(String symbol) throws IOException;

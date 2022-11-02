@@ -7,6 +7,7 @@ import java.util.List;
 import model.Portfolio;
 import model.Stock;
 import utilities.DisplayUtils;
+import utilities.Pair;
 
 public class PortfolioTextView implements IPortfolioView {
 
@@ -52,25 +53,69 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showPortfolio(Portfolio readPortfolio) {
-    this.out.println(readPortfolio.getName());
-    //DisplayUtils.TableGenerator tableGenerator = new DisplayUtils.TableGenerator();
-    List<String> headersList = new ArrayList<>();
-    headersList.add("ID");
-    headersList.add("Ticker Symbol");
-    headersList.add("No of Stocks");
-    List<List<String>> rowsList = new ArrayList<>();
-//    rowsList.add(headersList);
-    for (int i = 0; i < readPortfolio.getStocks().size(); i++) {
-      List<String> row = new ArrayList<>();
-      row.add(String.valueOf(i + 1));
-      for (Stock stock : readPortfolio.getStocks()) {
-        row.add(stock.getSymbol());
-        row.add(String.valueOf(stock.getQuantity()));
-      }
-      rowsList.add(row);
+  public void showPortfolio(Portfolio portfolio) {
+    String portfolioName = portfolio.getName();
+    List<Stock> stocks = portfolio.getStocks();
+    if (stocks.size() == 0) {
+      this.out.printf("%nThe portfolio %s has no stocks.%n", portfolioName);
     }
-//    this.out.println(rowsList.get(0));
-    //this.out.println(tableGenerator.generateTable(headersList, rowsList));
+
+    this.out.printf("%nComposition of the portfolio %s%n", portfolioName);
+
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator();
+    List<String> headers = new ArrayList<>(List.of("ID", "Ticker Symbol", "No of Stocks"));
+    for (String header : headers) {
+      tableGenerator.addHeader(header);
+    }
+
+    for (int i = 0; i < stocks.size(); i++) {
+      List<String> row = new ArrayList<>();
+
+      Stock stock = stocks.get(i);
+      row.add(String.valueOf(i + 1));
+      row.add(stock.getSymbol());
+      row.add(String.valueOf(stock.getQuantity()));
+
+      tableGenerator.addRow(row);
+    }
+
+    tableGenerator.printTable();
+  }
+
+  @Override
+  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
+    Portfolio portfolio = portfolioValue.getKey();
+    String portfolioName = portfolio.getName();
+    List<Stock> stocks = portfolio.getStocks();
+
+    if (stocks.size() == 0) {
+      this.out.printf("%nThe portfolio %s has no stocks.%n", portfolioName);
+    }
+
+    String date = stocks.get(0).getDate();
+    this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
+
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator();
+    List<String> headers = new ArrayList<>(
+        List.of("ID", "Ticker symbol", "Quantity", "Closing price"));
+    for (String header : headers) {
+      tableGenerator.addHeader(header);
+    }
+
+    for (int i = 0; i < stocks.size(); i++) {
+      List<String> row = new ArrayList<>();
+
+      Stock stock = stocks.get(i);
+      row.add(String.valueOf(i + 1));
+      row.add(stock.getSymbol());
+      row.add(String.valueOf(stock.getQuantity()));
+      row.add(String.valueOf(stock.getClose()));
+
+      tableGenerator.addRow(row);
+    }
+
+    tableGenerator.printTable();
+
+    this.out.printf("%nTotal value: $%.2f%n", portfolioValue.getValue());
   }
 }

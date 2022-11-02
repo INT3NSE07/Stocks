@@ -1,6 +1,7 @@
 package view;
 
 import model.Portfolio;
+import utilities.Pair;
 
 /**
  * The interface represents the view of the portfolio.
@@ -35,7 +36,10 @@ public interface IPortfolioView {
   void showPrompt(String key);
 
   /**
-   * @param readPortfolio
+   * @param portfolio
    */
-  void showPortfolio(Portfolio readPortfolio);
+  void showPortfolio(Portfolio portfolio);
+
+
+  void showPortfolioValue(Pair<Portfolio, Double> portfolioValue);
 }

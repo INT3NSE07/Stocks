@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import model.IPortfolioModel;
+import model.Portfolio;
 import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
@@ -122,8 +123,9 @@ public class PortfolioController implements IPortfolioController {
             String date = this.bufferedReader.readLine();
 
             try {
-              this.view.showString(
-                  String.valueOf(this.model.getPortfolioValueOnDate(portfolioName, date)));
+              Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
+                  portfolioName, date);
+              this.view.showPortfolioValue(portfolioValue);
             } catch (IOException e) {
               this.view.showString(
                   String.format("The fetching of value of the portfolio %s has failed.",
