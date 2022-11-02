@@ -16,9 +16,9 @@ public class CSVReaderTest {
 
   @Test
   public void testReadSkipsHeader() {
-    String csvString = "symbol,quantity,date\n"
-        + "AAPL,210.0,2022-10-28\n"
-        + "AMZN,881.0,2022-01-11\n";
+    String csvString = "symbol,quantity,date" + System.lineSeparator()
+        + "AAPL,210.0,2022-10-28" + System.lineSeparator()
+        + "AMZN,881.0,2022-01-11" + System.lineSeparator();
     List<List<String>> expected = new ArrayList<>();
     expected.add(new ArrayList<>(Arrays.asList("AAPL", "210.0", "2022-10-28")));
     expected.add(new ArrayList<>(Arrays.asList("AMZN", "881.0", "2022-01-11")));
@@ -40,7 +40,7 @@ public class CSVReaderTest {
 
   @Test
   public void testReadCSVWithOnlyHeader() {
-    String csvString = "symbol,quantity,date\n";
+    String csvString = "symbol,quantity,date" + System.lineSeparator();
 
     IReader<List<List<String>>> reader = new CSVReader();
 

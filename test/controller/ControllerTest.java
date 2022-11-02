@@ -25,7 +25,9 @@ public class ControllerTest {
   private static final String MOCK_VIEW_SHOW_PROMPT = "MockView showPrompt() called with Key %s";
 
 
-  private static final String MOCK_MODEL_CREATE_PORTFOLIO = "MockModel createPortfolio() called with Portfolio Name: %s, List of Stocks: \n";
+  private static final String MOCK_MODEL_CREATE_PORTFOLIO =
+      "MockModel createPortfolio() called with Portfolio Name: %s, List of Stocks: "
+          + System.lineSeparator();
   private static final String MOCK_MODEL_READ_PORTFOLIO = "MockModel readPortfolio() called with Portfolio Name: %s";
   private static final String MOCK_MODEL_GET_PORTFOLIO_ON_DATE = "MockModel getPortfolioValueOnDate() called with Portfolio Name: %s, Date: %s";
   private static final String MOCK_MODEL_IS_SYMBOL_VALID = "MockModel isStockSymbolValid() called with Symbol %s";
@@ -495,7 +497,7 @@ public class ControllerTest {
               String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
               String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
               String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
-              String.format(MOCK_VIEW_SHOW_PROMPT,Constants.PROMPT_QUANTITY_KEY),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_QUANTITY_KEY),
               String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
               String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
               String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
@@ -519,12 +521,12 @@ public class ControllerTest {
     MockModel mockModel = new MockModel(mockLog);
 
     String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "InValidSymbol",
-            "2",
-            "4"
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "InValidSymbol",
+        "2",
+        "4"
     };
 
     try (ByteArrayInputStream bais = new ByteArrayInputStream(
@@ -534,22 +536,23 @@ public class ControllerTest {
 
       List<String> expected = new ArrayList<>(
           Arrays.asList(
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                  String.format(MOCK_MODEL_IS_SYMBOL_VALID, "InValidSymbol"),
-                  String.format(MOCK_VIEW_SHOW_STRING, String.format(Constants.SYMBOL_FETCH_FAIL, "InValidSymbol")),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                  String.format(MOCK_VIEW_SHOW_STRING,
-                          "The portfolio " + FOUND_A_MATCH + " has been created."),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                  String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)          ));
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, "InValidSymbol"),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  String.format(Constants.SYMBOL_FETCH_FAIL, "InValidSymbol")),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)));
       assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
     } catch (IOException e) {
       fail(e.getMessage());
@@ -563,49 +566,49 @@ public class ControllerTest {
     MockModel mockModel = new MockModel(mockLog);
 
     String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            FOUND_A_MATCH,
-            "231",
-            "1",
-            FOUND_A_MATCH1,
-            "123",
-            "2",
-            "4"
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        FOUND_A_MATCH,
+        "231",
+        "1",
+        FOUND_A_MATCH1,
+        "123",
+        "2",
+        "4"
     };
 
     try (ByteArrayInputStream bais = new ByteArrayInputStream(
-            String.join(System.lineSeparator(), inputs).getBytes())) {
+        String.join(System.lineSeparator(), inputs).getBytes())) {
       IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
       controller.run();
 
       List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_PROMPT,Constants.PROMPT_QUANTITY_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT,Constants.PROMPT_QUANTITY_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(FOUND_A_MATCH + " " + "231.0"),
-                      String.format(FOUND_A_MATCH1 + " " + "123.0"),
-                      String.format(MOCK_VIEW_SHOW_STRING,
-                              "The portfolio " + FOUND_A_MATCH + " has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_QUANTITY_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_QUANTITY_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(FOUND_A_MATCH + " " + "231.0"),
+              String.format(FOUND_A_MATCH1 + " " + "123.0"),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
       assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
     } catch (IOException e) {
       fail(e.getMessage());
@@ -620,40 +623,40 @@ public class ControllerTest {
     MockModel mockModel = new MockModel(mockLog);
 
     String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            FOUND_A_MATCH,
-            "231",
-            "2",
-            "4"
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        FOUND_A_MATCH,
+        "231",
+        "2",
+        "4"
     };
 
     try (ByteArrayInputStream bais = new ByteArrayInputStream(
-            String.join(System.lineSeparator(), inputs).getBytes())) {
+        String.join(System.lineSeparator(), inputs).getBytes())) {
       IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
       controller.run();
 
       List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_PROMPT,Constants.PROMPT_QUANTITY_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(FOUND_A_MATCH + " " + "231.0"),
-                      String.format(MOCK_VIEW_SHOW_STRING,
-                              "The portfolio " + FOUND_A_MATCH + " has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_QUANTITY_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(FOUND_A_MATCH + " " + "231.0"),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
       assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
     } catch (IOException e) {
       fail(e.getMessage());
@@ -684,23 +687,23 @@ public class ControllerTest {
 
       List<String> expected = new ArrayList<>(
           Arrays.asList(
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                  String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
-                  String.format(MOCK_VIEW_SHOW_PROMPT,Constants.PROMPT_QUANTITY_KEY),
-                  String.format(MOCK_VIEW_SHOW_STRING,Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                  String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                  String.format(MOCK_VIEW_SHOW_STRING,
-                          "The portfolio " + FOUND_A_MATCH + " has been created."),
-                  String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                  String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                  String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_QUANTITY_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
           ));
       assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
     } catch (IOException e) {
