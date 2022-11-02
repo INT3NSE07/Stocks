@@ -73,7 +73,13 @@ public class PortfolioController implements IPortfolioController {
               this.view.showOptions(selectedMenuItem);
               this.view.showPrompt(Constants.PROMPT_CHOICE);
 
-              selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
+              try {
+                selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
+              } catch (NumberFormatException e) {
+                this.view.showString(Constants.INVALID_OPTION);
+                continue;
+              }
+
               createPortfolioSubmenu(selectedSubmenuItem, stockPairs);
             }
 
