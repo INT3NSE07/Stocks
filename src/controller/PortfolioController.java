@@ -15,7 +15,7 @@ import utilities.StringUtils;
 import view.IPortfolioView;
 
 /**
- * An 
+ * An
  */
 public class PortfolioController implements IPortfolioController {
 

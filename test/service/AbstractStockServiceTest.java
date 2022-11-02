@@ -8,19 +8,16 @@ import static org.junit.Assert.fail;
 import constants.Constants;
 import java.io.IOException;
 import model.Stock;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import utilities.DateUtils;
 
 public abstract class AbstractStockServiceTest {
 
+  protected final String currentDate;
   @Rule
   public TemporaryFolder tmpFolder = new TemporaryFolder();
-
-  protected final String currentDate;
   private String tmpFileName;
 
   public AbstractStockServiceTest() {

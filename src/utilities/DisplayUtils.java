@@ -14,12 +14,11 @@ public final class DisplayUtils {
 
   public static final class TextTableGenerator {
 
-    private List<String> headers;
-    private final List<List<String>> rows;
-
     private static final String HORIZONTAL_SEP = "-";
     private static final String VERTICAL_SEP = "|";
     private static final String JOIN_SEP = "+";
+    private final List<List<String>> rows;
+    private final List<String> headers;
 
     public TextTableGenerator() {
       this.headers = new ArrayList<>();

@@ -7,7 +7,7 @@ public interface IWriter<T> {
 
   /**
    * A write method
-   * 
+   *
    * @param t
    * @param outputStream
    * @throws IOException
