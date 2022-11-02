@@ -14,13 +14,15 @@ import utilities.DateUtils;
 import utilities.StringUtils;
 
 /**
- *
+ * Abstract base class for implementations of {@link IStockService}. This class contains all the
+ * method definitions that are common to the concrete implementations of the {@link IStockService}
+ * interface.
  */
 public abstract class AbstractStockService implements IStockService {
 
   private final IReader<List<List<String>>> reader;
 
-  public AbstractStockService(IReader<List<List<String>>> reader) {
+  protected AbstractStockService(IReader<List<List<String>>> reader) {
     this.reader = reader;
   }
 
@@ -66,7 +68,7 @@ public abstract class AbstractStockService implements IStockService {
     List<Stock> stockWithMatchedSymbol = stocks.stream().filter(symbolPredicate).collect(
         Collectors.toList());
 
-    // get latest date available
+    // get the latest available stock data
     stock = stockWithMatchedSymbol.stream().filter(x -> x.getDate().equals(date)).findFirst()
         .orElseGet(() -> stockWithMatchedSymbol.stream().findFirst().orElse(null));
 
@@ -101,8 +103,7 @@ public abstract class AbstractStockService implements IStockService {
       stockData = this.reader.read(this.getInputStream(symbol));
     } catch (IOException e) {
       throw new IOException(
-          String.format("Error occurred while fetching stock data for symbol: %s on date: %s",
-              symbol, date));
+          String.format(Constants.STOCK_FETCH_FAILED, symbol, date));
     }
 
     return stockData;

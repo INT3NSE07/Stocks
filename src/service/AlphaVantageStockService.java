@@ -14,7 +14,9 @@ import model.Stock;
 import utilities.MapperUtils;
 
 /**
- *
+ * This class represents a stock service which loads the stock data by invoking the AlphaVantage
+ * REST API. An instance of this class can be obtained by calling
+ * {@link AlphaVantageStockService#getInstance(IReader)}
  */
 public class AlphaVantageStockService extends AbstractStockService {
 
@@ -30,6 +32,13 @@ public class AlphaVantageStockService extends AbstractStockService {
     this.apiEndpoint = "https://www.alphavantage.co/query?";
   }
 
+  /**
+   * Returns an instance of {@link AlphaVantageStockService}.
+   *
+   * @param reader An implementation of {@link IReader} which is used to read and parse the response
+   *               from the API
+   * @return an instance of {@link AlphaVantageStockService}
+   */
   public static AlphaVantageStockService getInstance(IReader<List<List<String>>> reader) {
     if (instance == null) {
       instance = new AlphaVantageStockService(reader);

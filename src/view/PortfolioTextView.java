@@ -54,7 +54,7 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showPortfolio(Portfolio readPortfolio) {
     this.out.println(readPortfolio.getName());
-    DisplayUtils.TableGenerator tableGenerator = new DisplayUtils.TableGenerator();
+    //DisplayUtils.TableGenerator tableGenerator = new DisplayUtils.TableGenerator();
     List<String> headersList = new ArrayList<>();
     headersList.add("ID");
     headersList.add("Ticker Symbol");
@@ -71,6 +71,6 @@ public class PortfolioTextView implements IPortfolioView {
       rowsList.add(row);
     }
 //    this.out.println(rowsList.get(0));
-    this.out.println(tableGenerator.generateTable(headersList, rowsList));
+    //this.out.println(tableGenerator.generateTable(headersList, rowsList));
   }
 }

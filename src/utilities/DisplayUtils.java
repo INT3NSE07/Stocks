@@ -1,15 +1,15 @@
 package utilities;
 
-import java.util.List;
+/**
+ * A utility class that contains display related helpers.
+ */
+public final class DisplayUtils {
 
-public final class DisplayUtils<T> {
+  private DisplayUtils() {
+  }
 
-  public static class TableGenerator {
+  public String displayTable() {
 
-    public String generateTable(List<String> headersList, List<List<String>> rowsList,
-        int... overRiddenHeaderHeight) {
-
-      return "";
-    }
+    return "";
   }
 }

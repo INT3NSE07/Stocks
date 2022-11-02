@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * A utility class that contains date helpers.
+ * A utility class that contains common date helpers.
  */
 public final class DateUtils {
 

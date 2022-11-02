@@ -29,6 +29,8 @@ public final class Constants {
   public static final String DATE_INVALID = "Date is invalid.";
   public static final String QUANTITY_NON_NEGATIVE_AND_ZERO = "Quantity of a stock cannot be negative or zero.";
 
+  public static final String STOCK_FETCH_FAILED = "Error occurred while fetching stock data for symbol: %s on date: %s.";
+
   // Text UI constants
 
   public static final String INVALID_OPTION = "Invalid option. Please try again.";
