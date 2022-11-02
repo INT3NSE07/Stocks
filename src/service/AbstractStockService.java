@@ -54,7 +54,7 @@ public abstract class AbstractStockService implements IStockService {
 
     for (List<String> record : response) {
       Stock stock = mapper.apply(record);
-      if (StringUtils.IsNullOrWhiteSpace(stock.getSymbol())) {
+      if (StringUtils.isNullOrWhiteSpace(stock.getSymbol())) {
         stock.setSymbol(symbol);
       }
 

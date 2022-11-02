@@ -1,7 +1,7 @@
 package controller;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import constants.Constants;
 import java.io.ByteArrayInputStream;
@@ -17,22 +17,33 @@ import org.junit.Test;
 import utilities.Pair;
 import view.IPortfolioView;
 
+/**
+ * A JUnit test class for the {@link IPortfolioController}s class.
+ */
 public class ControllerTest {
 
-  private static final String MOCK_VIEW_SHOW_OPTIONS = "MockView showOptions() called with option %s";
-  private static final String MOCK_VIEW_SHOW_OPTION_ERROR = "MockView showOptionError() called";
-  private static final String MOCK_VIEW_SHOW_STRING = "MockView showString() called with String %s";
-  private static final String MOCK_VIEW_SHOW_PROMPT = "MockView showPrompt() called with Key %s";
-  private static final String MOCK_VIEW_SHOW_PORTFOLIO = "MockView showPortfolio() called with portfolio Name: %s";
-  private static final String MOCK_VIEW_SHOW_PORTFOLIO_VALUE = "MockView showPortfolioValue() called with portfolio Name: %s, Value: %.2f";
-
+  private static final String MOCK_VIEW_SHOW_OPTIONS =
+      "MockView showOptions() called with option %s";
+  private static final String MOCK_VIEW_SHOW_OPTION_ERROR =
+      "MockView showOptionError() called";
+  private static final String MOCK_VIEW_SHOW_STRING =
+      "MockView showString() called with String %s";
+  private static final String MOCK_VIEW_SHOW_PROMPT =
+      "MockView showPrompt() called with Key %s";
+  private static final String MOCK_VIEW_SHOW_PORTFOLIO =
+      "MockView showPortfolio() called with portfolio Name: %s";
+  private static final String MOCK_VIEW_SHOW_PORTFOLIO_VALUE =
+      "MockView showPortfolioValue() called with portfolio Name: %s, Value: %.2f";
 
   private static final String MOCK_MODEL_CREATE_PORTFOLIO =
       "MockModel createPortfolio() called with Portfolio Name: %s, List of Stocks: "
           + System.lineSeparator();
-  private static final String MOCK_MODEL_READ_PORTFOLIO = "MockModel readPortfolio() called with Portfolio Name: %s";
-  private static final String MOCK_MODEL_GET_PORTFOLIO_ON_DATE = "MockModel getPortfolioValueOnDate() called with Portfolio Name: %s, Date: %s";
-  private static final String MOCK_MODEL_IS_SYMBOL_VALID = "MockModel isStockSymbolValid() called with Symbol %s";
+  private static final String MOCK_MODEL_READ_PORTFOLIO =
+      "MockModel readPortfolio() called with Portfolio Name: %s";
+  private static final String MOCK_MODEL_GET_PORTFOLIO_ON_DATE =
+      "MockModel getPortfolioValueOnDate() called with Portfolio Name: %s, Date: %s";
+  private static final String MOCK_MODEL_IS_SYMBOL_VALID =
+      "MockModel isStockSymbolValid() called with Symbol %s";
   private static final String FOUND_A_MATCH = "SymbolValid";
   private static final Double PORTFOLIO_VALUE = 23455.0;
   private static final String FOUND_A_MATCH1 = "SymbolValid1";

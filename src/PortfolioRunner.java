@@ -18,10 +18,15 @@ import view.IPortfolioView;
 import view.PortfolioTextView;
 
 /**
- * This Class contains the main method which is the starting point for the stocks project to run.
+ * This class contains the main method which is the entry point for the portfolio project to run.
  */
 public class PortfolioRunner {
 
+  /**
+   * The entry point for the portfolio project
+   *
+   * @param args the commandline arguments
+   */
   public static void main(String[] args) {
     IReader<List<List<String>>> reader = new CSVReader();
     IWriter<List<String>> writer = new CSVWriter();

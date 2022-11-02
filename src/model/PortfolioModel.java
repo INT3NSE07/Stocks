@@ -14,7 +14,7 @@ import utilities.StringUtils;
 
 
 /**
- *
+ * This class represents the portfolio model. It performs the actual operations.
  */
 public class PortfolioModel implements IPortfolioModel {
 
@@ -22,8 +22,11 @@ public class PortfolioModel implements IPortfolioModel {
   private final IStockService stockService;
 
   /**
-   * @param portfolioRepository
-   * @param stockService
+   * Constructs a {@link PortfolioModel} object.
+   *
+   * @param portfolioRepository the portfolio repository which is used the write the data to the
+   *                            actual datastore
+   * @param stockService        the stock service which is used to fetch the stocks
    */
   public PortfolioModel(IRepository<Portfolio> portfolioRepository, IStockService stockService) {
     this.portfolioRepository = portfolioRepository;
@@ -89,7 +92,7 @@ public class PortfolioModel implements IPortfolioModel {
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
-    if (StringUtils.IsNullOrWhiteSpace(date)) {
+    if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     this.validateDate(date);
@@ -115,13 +118,13 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   private void validateInput(String input) {
-    if (StringUtils.IsNullOrWhiteSpace(input)) {
+    if (StringUtils.isNullOrWhiteSpace(input)) {
       throw new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
     }
   }
 
   private void validateDate(String date) {
-    if (!StringUtils.IsNullOrWhiteSpace(date)) {
+    if (!StringUtils.isNullOrWhiteSpace(date)) {
       if (!DateUtils.isValidDate(date, Constants.DEFAULT_DATETIME_FORMAT)) {
         throw new IllegalArgumentException(Constants.DATE_INVALID);
       }

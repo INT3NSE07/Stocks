@@ -11,6 +11,9 @@ import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 import utilities.MapperUtils;
 
+/**
+ * A JUnit test class for the {@link FileStockService}s class.
+ */
 public class FileStockServiceTest extends AbstractStockServiceTest {
 
   private static final String MOCK_READER_READ_MESSAGE = "MockReader read() called";
@@ -19,6 +22,9 @@ public class FileStockServiceTest extends AbstractStockServiceTest {
   public TemporaryFolder tmpFolder = new TemporaryFolder();
   private List<String> mockLog;
 
+  /**
+   * Creates and instance of {@link FileStockServiceTest}s class
+   */
   public FileStockServiceTest() {
     stockFileCSV = new ArrayList<>();
     stockFileCSV.add(new ArrayList<>(
@@ -33,9 +39,11 @@ public class FileStockServiceTest extends AbstractStockServiceTest {
   }
 
   @Override
-  protected IStockService createStockService(String tmpFileName) throws IOException {
+  protected IStockService createStockService() throws IOException {
+    String tmpFileName = tmpFolder.newFile().toString();
+
     return FileStockService.getInstance(
-        new MockCSVReader(mockLog), tmpFolder.newFile().toString());
+        new MockCSVReader(mockLog), tmpFileName);
   }
 
   @Override

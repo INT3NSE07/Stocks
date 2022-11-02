@@ -1,8 +1,8 @@
 package model;
 
 import static constants.Constants.INPUT_NULL_OR_EMPTY;
-import static junit.framework.Assert.fail;
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import constants.Constants;
 import java.io.IOException;
@@ -17,12 +17,17 @@ import service.IStockService;
 import utilities.DateUtils;
 import utilities.Pair;
 
+/**
+ * A JUnit test class for the {@link IPortfolioModel}s class.
+ */
 public class ModelTest {
 
-  private static final String MOCK_SERVICE_GET_STOCK_MESSAGE = "MockService getStock() called";
-  private static final String MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE = "MockService getStockOnDate() called";
-  private static final String MOCK_SERVICE_IS_STOCK_SYMBOL_VALID_MESSAGE = "MockService isStockSymbolValid() called";
-
+  private static final String MOCK_SERVICE_GET_STOCK_MESSAGE =
+      "MockService getStock() called";
+  private static final String MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE =
+      "MockService getStockOnDate() called";
+  private static final String MOCK_SERVICE_IS_STOCK_SYMBOL_VALID_MESSAGE =
+      "MockService isStockSymbolValid() called";
 
   private static final String MOCK_REPO_CREATE_MESSAGE = "MockRepository create() called";
   private static final String MOCK_REPO_READ_MESSAGE = "MockRepository read() called";
@@ -404,7 +409,7 @@ public class ModelTest {
     try {
       Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(FOUND_A_MATCH,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-      assertEquals(54756.0, pair.getValue());
+      assertEquals(54756.0, pair.getValue(), 0);
 
     } catch (IOException e) {
       fail(e.getMessage());

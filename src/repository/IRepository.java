@@ -16,7 +16,7 @@ public interface IRepository<T> {
    *
    * @param item the item to be added
    * @return the created item
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if input valid fails
    * @throws IOException              if the fetching of the filtered items fails due to a failure
    *                                  of network or I/O operations
    */
@@ -27,7 +27,7 @@ public interface IRepository<T> {
    *
    * @param predicate the predicate which is used to filter the items
    * @return the filtered item
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if input valid fails
    * @throws IOException              if the fetching of the filtered items fails due to a failure
    *                                  of network or I/O operations
    */
@@ -38,7 +38,7 @@ public interface IRepository<T> {
    *
    * @param item the item to be updated
    * @return the updated item
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if input valid fails
    * @throws IOException              if the fetching of the filtered items fails due to a failure
    *                                  of network or I/O operations
    */

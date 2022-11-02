@@ -1,5 +1,8 @@
 package constants;
 
+/**
+ * This class holds the constants related to a CSV file.
+ */
 public final class CSVConstants {
 
   public static final String SEPARATOR = ",";

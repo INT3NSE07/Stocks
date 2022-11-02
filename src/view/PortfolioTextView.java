@@ -9,6 +9,10 @@ import model.Stock;
 import utilities.DisplayUtils;
 import utilities.Pair;
 
+/**
+ * This class represents the portfolio view. The controller takes inputs from the user and tells the
+ * view what to show.
+ */
 public class PortfolioTextView implements IPortfolioView {
 
   private final PrintStream out;

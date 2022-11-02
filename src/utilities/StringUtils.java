@@ -15,7 +15,7 @@ public final class StringUtils {
    * @param value the string to be tested
    * @return true if the value parameter is null, empty, or consists only of white-space characters
    */
-  public static boolean IsNullOrWhiteSpace(String value) {
+  public static boolean isNullOrWhiteSpace(String value) {
     if (value == null) {
       return true;
     }

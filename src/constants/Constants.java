@@ -4,10 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
- * An immutable constants class that holds immutable constants fields which is used in
- * <li>{@link repository.CSVPortfolioRepository}</li>
- * <li>{@link service.FileStockService}</li>
- * <li>{@link view.PortfolioTextView}</li>
+ * An immutable constants class that holds immutable constants fields.
  */
 public final class Constants {
 

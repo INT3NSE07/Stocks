@@ -15,7 +15,8 @@ import utilities.StringUtils;
 import view.IPortfolioView;
 
 /**
- * An
+ * This class represents the portfolio controller. The controller takes inputs from the user and
+ * tells the model what to do and the view what to show.
  */
 public class PortfolioController implements IPortfolioController {
 
@@ -26,9 +27,11 @@ public class PortfolioController implements IPortfolioController {
   private final BufferedReader bufferedReader;
 
   /**
-   * @param model
-   * @param view
-   * @param in
+   * Constructs a {@link PortfolioController} object.
+   *
+   * @param model the model instance which is used to perform the actual operations
+   * @param view  the view which displays output to the end user
+   * @param in    the input stream through which user input is taken
    */
   public PortfolioController(IPortfolioModel model, IPortfolioView view, InputStream in) {
     this.model = model;
@@ -36,6 +39,9 @@ public class PortfolioController implements IPortfolioController {
     this.bufferedReader = new BufferedReader(new InputStreamReader(in));
   }
 
+  /**
+   * The method acts as the entry point of the controller. It is invoked by the runner.
+   */
   public void run() {
     try {
       int selectedMenuItem;
@@ -56,7 +62,7 @@ public class PortfolioController implements IPortfolioController {
           case 1: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
-            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
               this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
               continue;
             }
@@ -91,7 +97,7 @@ public class PortfolioController implements IPortfolioController {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
 
-            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
               this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
               continue;
             }
@@ -114,7 +120,7 @@ public class PortfolioController implements IPortfolioController {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
 
-            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
               this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
               continue;
             }
@@ -146,7 +152,8 @@ public class PortfolioController implements IPortfolioController {
             view.showOptionError();
             break;
         }
-      } while (selectedMenuItem != 4);
+      }
+      while (selectedMenuItem != 4);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }
@@ -159,7 +166,7 @@ public class PortfolioController implements IPortfolioController {
         this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
         String symbol = this.bufferedReader.readLine();
 
-        if (StringUtils.IsNullOrWhiteSpace(symbol)) {
+        if (StringUtils.isNullOrWhiteSpace(symbol)) {
           this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
           return;
         }

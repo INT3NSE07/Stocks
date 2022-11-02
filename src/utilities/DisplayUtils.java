@@ -12,6 +12,9 @@ public final class DisplayUtils {
   private DisplayUtils() {
   }
 
+  /**
+   * This class represents a text-based table generator.
+   */
   public static final class TextTableGenerator {
 
     private static final String HORIZONTAL_SEP = "-";
@@ -20,6 +23,9 @@ public final class DisplayUtils {
     private final List<List<String>> rows;
     private final List<String> headers;
 
+    /**
+     * Creates and instance {@link TextTableGenerator} class.
+     */
     public TextTableGenerator() {
       this.headers = new ArrayList<>();
       this.rows = new ArrayList<>();
@@ -54,8 +60,8 @@ public final class DisplayUtils {
 
     private void printLine(int[] cellWidths) {
       for (int i = 0; i < cellWidths.length; i++) {
-        String line = String.join("", Collections.nCopies(cellWidths[i] +
-            VERTICAL_SEP.length() + 1, HORIZONTAL_SEP));
+        String line = String.join("", Collections.nCopies(cellWidths[i]
+            + VERTICAL_SEP.length() + 1, HORIZONTAL_SEP));
         System.out.print(JOIN_SEP + line + (i == cellWidths.length - 1 ? JOIN_SEP : ""));
       }
 

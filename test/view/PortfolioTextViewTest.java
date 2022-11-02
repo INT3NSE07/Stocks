@@ -11,9 +11,13 @@ import java.io.PrintStream;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.Test;
 
+/**
+ * A JUnit test class for the {@link PortfolioTextView}s class.
+ */
 public class PortfolioTextViewTest {
 
-  private static final String alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz";
+  private static final String alphabetString =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz";
 
   @Test
   public void showStringEmpty() {
@@ -51,20 +55,19 @@ public class PortfolioTextViewTest {
       OutputStream outputStream = new ByteArrayOutputStream();
       IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
       view.showOptions(i);
-//      System.out.println(outputStream.toString());
       String expected;
       if (i == 0) {
         expected = System.lineSeparator() +
-            "Portfolio Management Services" + System.lineSeparator() +
-            "1) Create a portfolio" + System.lineSeparator() +
-            "2) Examine a portfolio" + System.lineSeparator() +
-            "3) Determine value of a portfolio on a certain date" + System.lineSeparator() +
-            "4) Exit" + System.lineSeparator();
+            "Portfolio Management Services" + System.lineSeparator()
+            + "1) Create a portfolio" + System.lineSeparator()
+            + "2) Examine a portfolio" + System.lineSeparator()
+            + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
+            + "4) Exit" + System.lineSeparator();
       } else if (i == 1) {
         expected = System.lineSeparator() +
-            "Create a portfolio" + System.lineSeparator() +
-            "1) Add a stock to this portfolio" + System.lineSeparator() +
-            "2) Back" + System.lineSeparator();
+            "Create a portfolio" + System.lineSeparator()
+            + "1) Add a stock to this portfolio" + System.lineSeparator()
+            + "2) Back" + System.lineSeparator();
       } else {
         expected = System.lineSeparator() + Constants.MAIN_MENU_ITEMS[i] + System.lineSeparator();
       }
@@ -116,10 +119,6 @@ public class PortfolioTextViewTest {
 
     view.showPrompt(String.valueOf(ranInt));
     assertEquals(null + ": ", outputStream.toString());
-  }
-
-  @Test
-  public void showPortfolio() {
   }
 
   private String getRandomString(int length) {

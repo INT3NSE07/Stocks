@@ -18,13 +18,12 @@ public abstract class AbstractStockServiceTest {
   protected final String currentDate;
   @Rule
   public TemporaryFolder tmpFolder = new TemporaryFolder();
-  private String tmpFileName;
 
   public AbstractStockServiceTest() {
     currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
   }
 
-  protected abstract IStockService createStockService(String tmpFileName) throws IOException;
+  protected abstract IStockService createStockService() throws IOException;
 
   protected abstract Stock getStock();
 
@@ -33,9 +32,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testGetStock() {
     try {
-      this.tmpFileName = tmpFolder.newFile().toString();
-
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       Stock stock = getStock();
       String symbol = "AAPL";
       double quantity = 123.0;
@@ -58,9 +55,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testGetStockInvalidSymbol() {
     try {
-      this.tmpFileName = tmpFolder.newFile().toString();
-
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       String symbol = "aawww";
       double quantity = 123.0;
 
@@ -79,7 +74,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testGetStockOnDate() {
     try {
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       Stock stock = getStockOnDate();
       String symbol = "AAPL";
       String date = "2022-10-05";
@@ -101,7 +96,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testGetStockOnDateInvalidSymbol() {
     try {
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       String symbol = "aawww";
       String date = "2022-10-05";
 
@@ -120,7 +115,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testIsStockSymbolValid() {
     try {
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       String symbol = "AAPL";
 
       assertTrue(stockService.isStockSymbolValid(symbol));
@@ -132,7 +127,7 @@ public abstract class AbstractStockServiceTest {
   @Test
   public void testIsStockSymbolValidInvalidSymbol() {
     try {
-      IStockService stockService = createStockService(this.tmpFileName);
+      IStockService stockService = createStockService();
       String symbol = "asdas";
 
       assertFalse(stockService.isStockSymbolValid(symbol));

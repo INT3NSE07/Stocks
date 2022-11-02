@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import model.IPortfolioModel;
 import model.Portfolio;
 import model.Stock;
 import org.junit.Before;
@@ -20,6 +21,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+/**
+ * A JUnit test class for the {@link CSVPortfolioRepository}s class.
+ */
 public class CSVPortfolioRepositoryTest {
 
   private static final String MOCK_READER_READ_MESSAGE = "MockReader read() called";

@@ -1,8 +1,7 @@
 package io;
 
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -12,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
+/**
+ * A JUnit test class for the {@link CSVReader}s class.
+ */
 public class CSVReaderTest {
 
   @Test

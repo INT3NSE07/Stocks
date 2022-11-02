@@ -1,8 +1,8 @@
 package io;
 
-import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
+/**
+ * A JUnit test class for the {@link CSVWriter}s class.
+ */
 public class CSVWriterTest {
 
   @Test

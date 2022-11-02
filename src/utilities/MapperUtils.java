@@ -14,7 +14,7 @@ public final class MapperUtils {
 
   /**
    * Returns a mapping function which maps the API response from
-   * {@link service.AlphaVantageStockService} to a {@link Stock}
+   * {@link service.AlphaVantageStockService} to a {@link Stock}.
    *
    * @return a mapping function
    */
@@ -30,7 +30,7 @@ public final class MapperUtils {
 
   /**
    * Returns a mapping function which maps the response from {@link service.FileStockService} to a
-   * {@link Stock}
+   * {@link Stock}.
    *
    * @return a mapping function
    */
@@ -47,7 +47,7 @@ public final class MapperUtils {
 
   /**
    * Returns a mapping function which maps the stock data stored in {@link model.Portfolio} to a
-   * {@link Stock}
+   * {@link Stock}.
    *
    * @return a mapping function
    */
