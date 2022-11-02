@@ -1,3 +1,4 @@
+A text description (README.txt or README.html) listing which features of your program work and are complete. Please do not simply say "all features work".
 # Stocks
 
 Stocks is a project the that is initially developed to create a portfolio management system.

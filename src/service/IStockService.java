@@ -8,7 +8,7 @@ import model.Stock;
  * It has the following constraints:
  * <ul>
  *   <li>If the latest stock data is not available, it uses the last available data</li>
- *   <li>The stock symbol must belong to the list of stocks in S&P 500</li>
+ *   <li>The stock symbol must belong to the list of stocks in S&amp;P 500</li>
  * </ul>
  */
 public interface IStockService {

@@ -43,7 +43,7 @@ public interface IPortfolioView {
   void showPortfolio(Portfolio portfolio);
 
   /**
-   * Displays {@link Portfolio} object & its total value to the user.
+   * Displays {@link Portfolio} object and its total value to the user.
    *
    * @param portfolioValue A {@link Pair} object of Portfolio linked to its value.
    */

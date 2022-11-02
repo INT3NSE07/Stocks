@@ -29,6 +29,7 @@ public class Stock {
   /**
    * Get the stock symbol.
    *
+   * @param symbol
    * @return the {@link Stock} object with the updated value
    */
   public Stock setSymbol(String symbol) {
@@ -49,6 +50,7 @@ public class Stock {
   /**
    * Set the stock open.
    *
+   * @param open
    * @return the {@link Stock} object with the updated value
    */
   public Stock setOpen(double open) {
@@ -69,6 +71,7 @@ public class Stock {
   /**
    * Set the stock high.
    *
+   * @param high
    * @return the {@link Stock} object with the updated value
    */
   public Stock setHigh(double high) {
@@ -89,6 +92,7 @@ public class Stock {
   /**
    * Set the stock low.
    *
+   * @param low
    * @return the {@link Stock} object with the updated value
    */
   public Stock setLow(double low) {
@@ -109,6 +113,7 @@ public class Stock {
   /**
    * Set the stock close.
    *
+   * @param close
    * @return the {@link Stock} object with the updated value
    */
   public Stock setClose(double close) {
@@ -129,6 +134,7 @@ public class Stock {
   /**
    * Set the stock volume.
    *
+   * @param volume
    * @return the {@link Stock} object with the updated value
    */
   public Stock setVolume(double volume) {
@@ -149,6 +155,7 @@ public class Stock {
   /**
    * Set the stock date.
    *
+   * @param date
    * @return the {@link Stock} object with the updated value
    */
   public Stock setDate(String date) {
@@ -169,6 +176,7 @@ public class Stock {
   /**
    * Set the stock quantity.
    *
+   * @param quantity
    * @return the {@link Stock} object with the updated value
    */
   public Stock setQuantity(double quantity) {
