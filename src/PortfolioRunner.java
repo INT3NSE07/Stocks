@@ -23,7 +23,7 @@ import view.PortfolioTextView;
 public class PortfolioRunner {
 
   /**
-   * The entry point for the portfolio project
+   * The entry point for the portfolio project.
    *
    * @param args the commandline arguments
    */

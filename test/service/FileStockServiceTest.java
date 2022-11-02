@@ -23,7 +23,7 @@ public class FileStockServiceTest extends AbstractStockServiceTest {
   private List<String> mockLog;
 
   /**
-   * Creates and instance of {@link FileStockServiceTest}s class
+   * Creates and instance of {@link FileStockServiceTest}s class.
    */
   public FileStockServiceTest() {
     stockFileCSV = new ArrayList<>();

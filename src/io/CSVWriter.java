@@ -6,6 +6,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * This class represents a generic CSV writer implementation.
+ */
 public class CSVWriter implements IWriter<List<String>> {
 
   @Override

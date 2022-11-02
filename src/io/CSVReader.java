@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents a generic CSV reader implementation.
+ */
 public class CSVReader implements IReader<List<List<String>>> {
 
   @Override

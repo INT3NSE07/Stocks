@@ -13,6 +13,9 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import utilities.DateUtils;
 
+/**
+ * A JUnit test class for the {@link AbstractStockService}s class.
+ */
 public abstract class AbstractStockServiceTest {
 
   protected final String currentDate;

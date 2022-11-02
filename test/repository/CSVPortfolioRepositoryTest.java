@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import model.IPortfolioModel;
 import model.Portfolio;
 import model.Stock;
 import org.junit.Before;

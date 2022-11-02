@@ -18,7 +18,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock symbol
+   * Get the stock symbol.
    *
    * @return the stock symbol
    */
@@ -27,7 +27,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock symbol
+   * Get the stock symbol.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -38,7 +38,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock open
+   * Get the stock open.
    *
    * @return the stock open
    */
@@ -47,7 +47,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock open
+   * Set the stock open.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -58,7 +58,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock high
+   * Get the stock high.
    *
    * @return the stock high
    */
@@ -67,7 +67,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock high
+   * Set the stock high.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -78,7 +78,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock low
+   * Get the stock low.
    *
    * @return the stock low
    */
@@ -87,7 +87,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock low
+   * Set the stock low.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -98,7 +98,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock close
+   * Get the stock close.
    *
    * @return the stock symbol
    */
@@ -107,7 +107,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock close
+   * Set the stock close.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -118,7 +118,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock volume
+   * Get the stock volume.
    *
    * @return the stock volume
    */
@@ -127,7 +127,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock volume
+   * Set the stock volume.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -138,7 +138,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock date
+   * Get the stock date.
    *
    * @return the stock symbol
    */
@@ -147,7 +147,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock date
+   * Set the stock date.
    *
    * @return the {@link Stock} object with the updated value
    */
@@ -158,7 +158,7 @@ public class Stock {
   }
 
   /**
-   * Get the stock quantity
+   * Get the stock quantity.
    *
    * @return the stock symbol
    */
@@ -167,7 +167,7 @@ public class Stock {
   }
 
   /**
-   * Set the stock quantity
+   * Set the stock quantity.
    *
    * @return the {@link Stock} object with the updated value
    */

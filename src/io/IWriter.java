@@ -3,6 +3,11 @@ package io;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * This interface represents a generic writer interface.
+ *
+ * @param <T> type of the data being written to the datastore
+ */
 public interface IWriter<T> {
 
   /**

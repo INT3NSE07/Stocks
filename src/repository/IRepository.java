@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * A generic repository to perform CRUD operations on an item. Data persistence is handled without
  * the need to know any details about where the data is actually persisted.
  *
- * @param <T>
+ * @param <T> the type of the repository
  */
 public interface IRepository<T> {
 

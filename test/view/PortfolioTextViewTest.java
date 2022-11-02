@@ -57,15 +57,15 @@ public class PortfolioTextViewTest {
       view.showOptions(i);
       String expected;
       if (i == 0) {
-        expected = System.lineSeparator() +
-            "Portfolio Management Services" + System.lineSeparator()
+        expected = System.lineSeparator()
+            + "Portfolio Management Services" + System.lineSeparator()
             + "1) Create a portfolio" + System.lineSeparator()
             + "2) Examine a portfolio" + System.lineSeparator()
             + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
             + "4) Exit" + System.lineSeparator();
       } else if (i == 1) {
-        expected = System.lineSeparator() +
-            "Create a portfolio" + System.lineSeparator()
+        expected = System.lineSeparator()
+            + "Create a portfolio" + System.lineSeparator()
             + "1) Add a stock to this portfolio" + System.lineSeparator()
             + "2) Back" + System.lineSeparator();
       } else {
