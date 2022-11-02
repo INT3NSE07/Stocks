@@ -29,36 +29,6 @@ public class CSVPortfolioRepositoryTest {
   @Rule
   public TemporaryFolder tmpFolder = new TemporaryFolder();
 
-  static class MockCSVReader implements IReader<List<List<String>>> {
-
-    private final List<String> log;
-
-    public MockCSVReader(List<String> mockLog) {
-      this.log = mockLog;
-    }
-
-    @Override
-    public List<List<String>> read(InputStream inputStream) throws IOException {
-      this.log.add(MOCK_READER_READ_MESSAGE);
-
-      return stockCSVStrings;
-    }
-  }
-
-  static class MockCSVWriter implements IWriter<List<String>> {
-
-    private final List<String> log;
-
-    public MockCSVWriter(List<String> mockLog) {
-      this.log = mockLog;
-    }
-
-    @Override
-    public void write(List<String> t, OutputStream outputStream) throws IOException {
-      this.log.add(MOCK_WRITER_WRITE_MESSAGE);
-    }
-  }
-
   @Before
   public void setup() {
     stockCSVStrings = new ArrayList<>();
@@ -237,6 +207,36 @@ public class CSVPortfolioRepositoryTest {
           x -> x.getName().equals("aa.q"));
     } catch (IllegalArgumentException e) {
       assertEquals(Constants.PORTFOLIO_DOES_NOT_EXIST, e.getMessage());
+    }
+  }
+
+  static class MockCSVReader implements IReader<List<List<String>>> {
+
+    private final List<String> log;
+
+    public MockCSVReader(List<String> mockLog) {
+      this.log = mockLog;
+    }
+
+    @Override
+    public List<List<String>> read(InputStream inputStream) throws IOException {
+      this.log.add(MOCK_READER_READ_MESSAGE);
+
+      return stockCSVStrings;
+    }
+  }
+
+  static class MockCSVWriter implements IWriter<List<String>> {
+
+    private final List<String> log;
+
+    public MockCSVWriter(List<String> mockLog) {
+      this.log = mockLog;
+    }
+
+    @Override
+    public void write(List<String> t, OutputStream outputStream) throws IOException {
+      this.log.add(MOCK_WRITER_WRITE_MESSAGE);
     }
   }
 }

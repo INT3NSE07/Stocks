@@ -15,15 +15,15 @@ public abstract class AbstractStockServiceTest {
 
   protected final String currentDate;
 
+  public AbstractStockServiceTest() {
+    currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+  }
+
   protected abstract IStockService createStockService() throws IOException;
 
   protected abstract Stock getStock();
 
   protected abstract Stock getStockOnDate();
-
-  public AbstractStockServiceTest() {
-    currentDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-  }
 
   @Test
   public void testGetStock() {

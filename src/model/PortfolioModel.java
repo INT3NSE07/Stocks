@@ -13,7 +13,6 @@ import utilities.Pair;
 import utilities.StringUtils;
 
 
-
 /**
  *
  */
@@ -50,10 +49,10 @@ public class PortfolioModel implements IPortfolioModel {
 
     // Added for model independence.
     if (stockPairs.stream().anyMatch(x -> x.getKey() == null)) {
-      throw  new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
+      throw new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
     }
 
-    Map <String,Double> uniqueStockPairs = stockPairs.stream()
+    Map<String, Double> uniqueStockPairs = stockPairs.stream()
         .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
 
     for (String symbol : uniqueStockPairs.keySet()) {
@@ -75,7 +74,8 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException, IOException {
+  public Portfolio readPortfolio(String portFolioName)
+      throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
     Iterable<Portfolio> portfolios = this.portfolioRepository.read(
@@ -98,7 +98,8 @@ public class PortfolioModel implements IPortfolioModel {
     double value = 0;
 
     for (Stock stock : portfolio.getStocks()) {
-      value += stock.getQuantity() * this.stockService.getStockOnDate(stock.getSymbol(), date).getClose();
+      value += stock.getQuantity() * this.stockService.getStockOnDate(stock.getSymbol(), date)
+          .getClose();
     }
 
     return value;

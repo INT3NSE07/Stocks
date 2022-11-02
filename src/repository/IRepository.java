@@ -4,20 +4,17 @@ import java.io.IOException;
 import java.util.function.Predicate;
 
 /**
- *
  * @param <T>
  */
 public interface IRepository<T> {
 
   /**
-   *
    * @param item
    * @return
    */
   T create(T item) throws IllegalArgumentException, IOException;
 
   /**
-   *
    * @param predicate
    * @return
    * @throws IOException
@@ -25,7 +22,6 @@ public interface IRepository<T> {
   Iterable<T> read(Predicate<T> predicate) throws IllegalArgumentException, IOException;
 
   /**
-   *
    * @param item
    * @return
    */

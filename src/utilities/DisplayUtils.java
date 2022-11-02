@@ -9,7 +9,7 @@ public final class DisplayUtils<T> {
     public String generateTable(List<String> headersList, List<List<String>> rowsList,
         int... overRiddenHeaderHeight) {
 
-      return new String();
+      return "";
     }
   }
 }

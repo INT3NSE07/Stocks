@@ -31,7 +31,7 @@ public final class Constants {
 
   // Text UI constants
 
-  public static final String INVALID_OPTION =  "Invalid option. Please try again.";
+  public static final String INVALID_OPTION = "Invalid option. Please try again.";
 
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",

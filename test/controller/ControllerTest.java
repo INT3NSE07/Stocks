@@ -3,21 +3,17 @@ package controller;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
+import constants.Constants;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-
-import constants.Constants;
 import model.IPortfolioModel;
 import model.Portfolio;
-
 import org.junit.Test;
-
 import utilities.Pair;
 import view.IPortfolioView;
 
@@ -36,6 +32,658 @@ public class ControllerTest {
   private static final String FOUND_A_MATCH = "SymbolValid";
   private static final Double PORTFOLIO_VALUE = 23455.0;
 
+  @Test
+  public void testInitialState() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    int initialSelectedMenuItem = 0;
+    int selectedMenuItem = 4;
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        Integer.toString(selectedMenuItem).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    assertEquals(String.format(MOCK_VIEW_SHOW_OPTIONS, initialSelectedMenuItem), mockLog.get(0));
+  }
+
+  @Test
+  public void testExit() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    int initialSelectedMenuItem = 0;
+    int selectedMenuItem = 4;
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        Integer.toString(selectedMenuItem).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+
+      controller.run();
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    assertEquals(String.format(MOCK_VIEW_SHOW_OPTIONS, initialSelectedMenuItem), mockLog.get(0));
+  }
+
+  @Test
+  public void testRandomInvalidInput() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    int count = ThreadLocalRandom.current().nextInt(5, 10);
+    String[] inputs = new String[count + 1];
+    for (int i = 0; i < count; i++) {
+      inputs[i] = ThreadLocalRandom.current().nextInt(5, 10000) + System.lineSeparator();
+    }
+    inputs[count] = "4";
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join("", inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> filteredMockLog = mockLog.stream()
+          .filter(x -> x.equals(MOCK_VIEW_SHOW_OPTION_ERROR)).collect(Collectors.toList());
+      assertEquals(inputs.length - 1, filteredMockLog.size());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption2NullOREmptyPortfolioName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "2",
+        "",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      System.out.println(Arrays.asList(mockLog.toArray()));
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption2ValidInput() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "2",
+        FOUND_A_MATCH,
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      System.out.println(Arrays.asList(mockLog.toArray()));
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_MODEL_READ_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption2PortfolioFetchFailed() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "2",
+        "PortfolioName",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_MODEL_READ_PORTFOLIO, "PortfolioName"),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  String.format(Constants.PORTFOLIO_FETCH_FAIL, "PortfolioName")),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption3NullOREmptyPortfolioName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "3",
+        "",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption3NullOREmptyPortfolioDate() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    // accepts null is what tested here.
+    String[] inputs = {
+        "3",
+        FOUND_A_MATCH,
+        "",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
+              String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH, ""),
+              String.format(MOCK_VIEW_SHOW_STRING, PORTFOLIO_VALUE),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption3PortfolioFetchFailed() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "3",
+        "PortfolioName",
+        "",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
+              String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, "PortfolioName", ""),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  String.format(Constants.PORTFOLIO_FETCH_FAIL, "PortfolioName")),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption3PortfolioValidInput() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "3",
+        FOUND_A_MATCH,
+        "2022-02-14",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      // expected sequence.
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
+              String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH, "2022-02-14"),
+              String.format(MOCK_VIEW_SHOW_STRING, 2 * PORTFOLIO_VALUE),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1NullOREmptyPortfolioName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        "",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption2And0Stocks() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1NullOREmptyStockName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "",
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1ValidStockName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        FOUND_A_MATCH,
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1InValidStockName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "",
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1MultipleStockName() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "",
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1ValidQuantity() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "",
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOption1SubmenuOption1InValidQuantity() {
+    List<String> mockLog = new ArrayList<>();
+    MockView mockView = new MockView(mockLog);
+    MockModel mockModel = new MockModel(mockLog);
+
+    String[] inputs = {
+        "1",
+        FOUND_A_MATCH,
+        "1",
+        "",
+        "2",
+        "4"
+    };
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(
+        String.join(System.lineSeparator(), inputs).getBytes())) {
+      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
+      controller.run();
+
+      List<String> expected = new ArrayList<>(
+          Arrays.asList(
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
+              String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
+              String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_STRING,
+                  "The portfolio " + FOUND_A_MATCH + " has been created."),
+              String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
+              String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
+              String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
+          ));
+      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
   static class MockModel implements IPortfolioModel {
 
     private final List<String> log;
@@ -46,20 +694,20 @@ public class ControllerTest {
 
     @Override
     public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
-            throws IllegalArgumentException {
+        throws IllegalArgumentException {
       this.log.add(String.format(MOCK_MODEL_CREATE_PORTFOLIO, portFolioName));
       for (Pair<String, Double> stockPair :
-              stockPairs) {
+          stockPairs) {
         this.log.add(stockPair.getKey() + " " + stockPair.getValue());
       }
-      ;
     }
 
     @Override
     public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException {
       this.log.add(String.format(MOCK_MODEL_READ_PORTFOLIO, portFolioName));
       if (!portFolioName.equals(FOUND_A_MATCH)) {
-        throw new IllegalArgumentException(String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
+        throw new IllegalArgumentException(
+            String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
       }
       Portfolio portfolio = new Portfolio();
       portfolio.setName(FOUND_A_MATCH);
@@ -68,12 +716,15 @@ public class ControllerTest {
 
     @Override
     public double getPortfolioValueOnDate(String portFolioName, String date)
-            throws IllegalArgumentException {
+        throws IllegalArgumentException {
       this.log.add(String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, portFolioName, date));
       if (!portFolioName.equals(FOUND_A_MATCH)) {
-        throw new IllegalArgumentException(String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
+        throw new IllegalArgumentException(
+            String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
       }
-      if (date.equals("2022-02-14")) return 2 * PORTFOLIO_VALUE;
+      if (date.equals("2022-02-14")) {
+        return 2 * PORTFOLIO_VALUE;
+      }
       return PORTFOLIO_VALUE;
     }
 
@@ -115,635 +766,6 @@ public class ControllerTest {
     @Override
     public void showPortfolio(Portfolio readPortfolio) {
 
-    }
-  }
-
-  @Test
-  public void testInitialState() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    int initialSelectedMenuItem = 0;
-    int selectedMenuItem = 4;
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(
-            Integer.toString(selectedMenuItem).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-
-    assertEquals(String.format(MOCK_VIEW_SHOW_OPTIONS, initialSelectedMenuItem), mockLog.get(0));
-  }
-
-  @Test
-  public void testExit() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    int initialSelectedMenuItem = 0;
-    int selectedMenuItem = 4;
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(
-            Integer.toString(selectedMenuItem).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-
-      controller.run();
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-
-    assertEquals(String.format(MOCK_VIEW_SHOW_OPTIONS, initialSelectedMenuItem), mockLog.get(0));
-  }
-
-  @Test
-  public void testRandomInvalidInput() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    int count = ThreadLocalRandom.current().nextInt(5, 10);
-    String[] inputs = new String[count + 1];
-    for (int i = 0; i < count; i++) {
-      inputs[i] = ThreadLocalRandom.current().nextInt(5, 10000) + System.lineSeparator();
-    }
-    inputs[count] = "4";
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join("", inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> filteredMockLog = mockLog.stream()
-              .filter(x -> x.equals(MOCK_VIEW_SHOW_OPTION_ERROR)).collect(Collectors.toList());
-      assertEquals(inputs.length - 1, filteredMockLog.size());
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption2NullOREmptyPortfolioName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "2",
-            "",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      System.out.println(Arrays.asList(mockLog.toArray()));
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption2ValidInput() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "2",
-            FOUND_A_MATCH,
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      System.out.println(Arrays.asList(mockLog.toArray()));
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_MODEL_READ_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption2PortfolioFetchFailed() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "2",
-            "PortfolioName",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_MODEL_READ_PORTFOLIO, "PortfolioName"),
-                      String.format(MOCK_VIEW_SHOW_STRING, String.format(Constants.PORTFOLIO_FETCH_FAIL, "PortfolioName")),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption3NullOREmptyPortfolioName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "3",
-            "",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption3NullOREmptyPortfolioDate() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    // accepts null is what tested here.
-    String[] inputs = {
-            "3",
-            FOUND_A_MATCH,
-            "",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
-                      String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH,""),
-                      String.format(MOCK_VIEW_SHOW_STRING, PORTFOLIO_VALUE),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption3PortfolioFetchFailed() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "3",
-            "PortfolioName",
-            "",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
-                      String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, "PortfolioName",""),
-                      String.format(MOCK_VIEW_SHOW_STRING, String.format(Constants.PORTFOLIO_FETCH_FAIL, "PortfolioName")),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption3PortfolioValidInput() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "3",
-            FOUND_A_MATCH,
-            "2022-02-14",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      // expected sequence.
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
-                      String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH,"2022-02-14"),
-                      String.format(MOCK_VIEW_SHOW_STRING, 2 * PORTFOLIO_VALUE),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1NullOREmptyPortfolioName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            "",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
-
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption2And0Stocks() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-                      ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption1NullOREmptyStockName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "",
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption1ValidStockName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            FOUND_A_MATCH,
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_MODEL_IS_SYMBOL_VALID, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption1InValidStockName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "",
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption1MultipleStockName() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "",
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-
-  @Test
-  public void testOption1SubmenuOption1ValidQuantity() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "",
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testOption1SubmenuOption1InValidQuantity() {
-    List<String> mockLog = new ArrayList<>();
-    MockView mockView = new MockView(mockLog);
-    MockModel mockModel = new MockModel(mockLog);
-
-    String[] inputs = {
-            "1",
-            FOUND_A_MATCH,
-            "1",
-            "",
-            "2",
-            "4"
-    };
-
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(String.join(System.lineSeparator(), inputs).getBytes())) {
-      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
-      controller.run();
-
-      List<String> expected = new ArrayList<>(
-              Arrays.asList(
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_PORTFOLIO_NAME_KEY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_STOCK_SYMBOL_KEY),
-                      String.format(MOCK_VIEW_SHOW_STRING, Constants.INPUT_NULL_OR_EMPTY),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, Constants.PROMPT_CHOICE),
-                      String.format(MOCK_MODEL_CREATE_PORTFOLIO, FOUND_A_MATCH),
-                      String.format(MOCK_VIEW_SHOW_STRING, "The portfolio "+ FOUND_A_MATCH +" has been created."),
-                      String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
-                      String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-                      String.format(MOCK_VIEW_SHOW_STRING,Constants.EXITING_STATUS)
-              ));
-      assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
-    } catch (IOException e) {
-      fail(e.getMessage());
     }
   }
 }

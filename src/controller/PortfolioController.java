@@ -47,18 +47,18 @@ public class PortfolioController implements IPortfolioController {
           selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
 
         } catch (NumberFormatException e) {
-            this.view.showString(Constants.INVALID_OPTION);
+          this.view.showString(Constants.INVALID_OPTION);
           continue;
         }
 
         switch (selectedMenuItem) {
           case 1: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-              String portfolioName = this.bufferedReader.readLine();
-              if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
-                this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-                continue;
-              }
+            String portfolioName = this.bufferedReader.readLine();
+            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+              continue;
+            }
             List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
             int selectedSubmenuItem = 0;
@@ -181,8 +181,7 @@ public class PortfolioController implements IPortfolioController {
           double quantity = Integer.parseInt(this.bufferedReader.readLine());
 
           stockPairs.add(new Pair<>(symbol, quantity));
-        }
-        catch (NumberFormatException numberFormatException) {
+        } catch (NumberFormatException numberFormatException) {
           this.view.showString("Invalid Quantity Entry.");
         }
         break;
