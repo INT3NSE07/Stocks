@@ -59,6 +59,9 @@ public final class Constants {
       Map.entry(PROMPT_DATE_KEY, "Enter date (if no input is given, the default is current date)"),
       Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity")
   );
+  public static final String EXITING_STATUS = "Exiting...";
+  public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
+  public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
 
 
   private Constants() {

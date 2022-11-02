@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 import model.IPortfolioModel;
 import utilities.Pair;
+import utilities.StringUtils;
 import view.IPortfolioView;
 
 /**
@@ -44,15 +45,20 @@ public class PortfolioController implements IPortfolioController {
 
         try {
           selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
+
         } catch (NumberFormatException e) {
-          this.view.showString("The entered input is invalid.");
+            this.view.showString(Constants.INVALID_OPTION);
           continue;
         }
 
         switch (selectedMenuItem) {
           case 1: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-            String portfolioName = this.bufferedReader.readLine();
+              String portfolioName = this.bufferedReader.readLine();
+              if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+                this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+                continue;
+              }
             List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
             int selectedSubmenuItem = 0;
@@ -84,11 +90,16 @@ public class PortfolioController implements IPortfolioController {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
 
+            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+              continue;
+            }
+
             try {
               this.view.showPortfolio(this.model.readPortfolio(portfolioName));
             } catch (IOException e) {
               this.view.showString(
-                  String.format("The fetching of portfolio %s has failed.", portfolioName));
+                  String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
               break;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
@@ -101,6 +112,11 @@ public class PortfolioController implements IPortfolioController {
           case 3: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
+
+            if (StringUtils.IsNullOrWhiteSpace(portfolioName)) {
+              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+              continue;
+            }
 
             this.view.showPrompt(Constants.PROMPT_DATE_KEY);
             String date = this.bufferedReader.readLine();
@@ -121,6 +137,7 @@ public class PortfolioController implements IPortfolioController {
           }
 
           case 4:
+            this.view.showString(Constants.EXITING_STATUS);
             break;
 
           default:
@@ -140,10 +157,15 @@ public class PortfolioController implements IPortfolioController {
         this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
         String symbol = this.bufferedReader.readLine();
 
+        if (StringUtils.IsNullOrWhiteSpace(symbol)) {
+          this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+          return;
+        }
+
         try {
           if (!this.model.isStockSymbolValid(symbol)) {
             this.view.showString(
-                String.format("The stock symbol %s does not exist.", symbol));
+                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
             break;
           }
         } catch (IOException e) {
@@ -154,10 +176,15 @@ public class PortfolioController implements IPortfolioController {
 
         this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
 
-        // model can handle but broker restriction
-        double quantity = Integer.parseInt(this.bufferedReader.readLine());
+        try {
+          // model can handle but broker restriction
+          double quantity = Integer.parseInt(this.bufferedReader.readLine());
 
-        stockPairs.add(new Pair<>(symbol, quantity));
+          stockPairs.add(new Pair<>(symbol, quantity));
+        }
+        catch (NumberFormatException numberFormatException) {
+          this.view.showString("Invalid Quantity Entry.");
+        }
         break;
       case 2:
         break;
