@@ -36,14 +36,14 @@ public interface IPortfolioView {
   void showPrompt(String key);
 
   /**
-   *  Displays {@link Portfolio} object in a table format to the user.
+   * Displays {@link Portfolio} object in a table format to the user.
    *
    * @param portfolio {@link Portfolio} object that needs to be displayed.
    */
   void showPortfolio(Portfolio portfolio);
 
   /**
-   *  Displays {@link Portfolio} object & its total value to the user.
+   * Displays {@link Portfolio} object & its total value to the user.
    *
    * @param portfolioValue A {@link Pair} object of Portfolio linked to its value.
    */

@@ -161,7 +161,7 @@ public class ControllerTest {
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
               String.format(MOCK_MODEL_READ_PORTFOLIO, FOUND_A_MATCH),
-              String.format(MOCK_VIEW_SHOW_PORTFOLIO,FOUND_A_MATCH),
+              String.format(MOCK_VIEW_SHOW_PORTFOLIO, FOUND_A_MATCH),
               String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
               String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
@@ -268,7 +268,7 @@ public class ControllerTest {
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
               String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH, ""),
-              String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, null,  PORTFOLIO_VALUE),
+              String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, null, PORTFOLIO_VALUE),
               String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
               String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
@@ -343,7 +343,7 @@ public class ControllerTest {
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_PORTFOLIO_NAME"),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_DATE"),
               String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, FOUND_A_MATCH, "2022-02-14"),
-              String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE,null,2 * PORTFOLIO_VALUE),
+              String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, null, 2 * PORTFOLIO_VALUE),
               String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
               String.format(MOCK_VIEW_SHOW_STRING, Constants.EXITING_STATUS)
@@ -795,12 +795,13 @@ public class ControllerTest {
 
     @Override
     public void showPortfolio(Portfolio portfolio) {
-      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO,portfolio.getName()));
+      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO, portfolio.getName()));
     }
 
     @Override
     public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
-      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE,portfolioValue.getKey().getName(),portfolioValue.getValue()));
+      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, portfolioValue.getKey().getName(),
+          portfolioValue.getValue()));
     }
   }
 }

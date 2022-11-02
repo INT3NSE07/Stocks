@@ -28,8 +28,8 @@ public interface IRepository<T> {
    * @param predicate the predicate which is used to filter the items
    * @return the filtered item
    * @throws IllegalArgumentException
-   * @throws IOException if the fetching of the filtered items fails due to a failure of network or
-   *                     I/O operations
+   * @throws IOException              if the fetching of the filtered items fails due to a failure
+   *                                  of network or I/O operations
    */
   Iterable<T> read(Predicate<T> predicate) throws IllegalArgumentException, IOException;
 

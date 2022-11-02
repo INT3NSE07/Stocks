@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Portfolio class that holds the Name, List of Stocks and operations
- *                  that can be performed on the Portfolio object.
+ * A Portfolio class that holds the Name, List of Stocks and operations that can be performed on the
+ * Portfolio object.
  */
 public class Portfolio {
 
