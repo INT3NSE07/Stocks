@@ -39,6 +39,9 @@ public final class DisplayUtils {
       rows.add(cells);
     }
 
+    /**
+     * Generates and prints the table.
+     */
     public void printTable() {
       int[] cellWidths = new int[headers.size()];
 

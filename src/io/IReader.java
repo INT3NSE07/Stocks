@@ -3,6 +3,11 @@ package io;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This interface represents a generic reader interface.
+ *
+ * @param <T> type of the data being read to the datastore
+ */
 public interface IReader<T> {
 
   /**

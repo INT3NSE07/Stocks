@@ -416,6 +416,26 @@ public class ModelTest {
     }
   }
 
+  @Test
+  public void testGetPortfolioValueOnDateWithDateNull() {
+
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+
+    try {
+      // return static portfolio value from mocked repository read.
+      Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
+      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, null).getValue();
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
   static class MockService implements IStockService {
 
     private final List<String> log;
@@ -454,52 +474,6 @@ public class ModelTest {
       return symbol.equals(FOUND_A_MATCH.toUpperCase());
     }
   }
-
-  //  @Test
-  //  public void testGetPortfolioValueOnDateWithDateNull() {
-  //
-  //    List<String> mockLog = new ArrayList<>();
-  //    MockRepository temp = new MockRepository(mockLog);
-  //    MockService service = new MockService(mockLog);
-  //    IPortfolioModel model = new PortfolioModel(temp, service);
-  //
-  //    List<Pair<String, Double>> stockPairs = new ArrayList<>();
-  //    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
-  //
-  //    try {
-  //      // return static portfolio value from mocked repository read.
-  //      Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
-  //      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH,null);
-  //    }
-  //    catch (IOException e) {
-  //      fail(e.getMessage());
-  //    }
-  //
-  //  }
-
-//    @Test
-//    public void testGetPortfolioValueOnDateWithDateEmpty() {
-//
-//      List<String> mockLog = new ArrayList<>();
-//      MockRepository temp = new MockRepository(mockLog);
-//      MockService service = new MockService(mockLog);
-//      IPortfolioModel model = new PortfolioModel(temp, service);
-//
-//      List<Pair<String, Double>> stockPairs = new ArrayList<>();
-//      stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
-//
-//      try {
-//        // return static portfolio value from mocked repository read.
-//        Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "");
-//        Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
-//        for (Stock s :
-//                portfolio.getStocks()) {
-//          assertEquals(s.getDate(),DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-//        }
-//      } catch (IOException e) {
-//        fail(e.getMessage());
-//      }
-//    }
 
   static class MockRepository implements IRepository<Portfolio> {
 
