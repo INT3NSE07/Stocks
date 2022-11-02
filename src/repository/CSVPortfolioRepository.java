@@ -23,7 +23,10 @@ import utilities.MapperUtils;
 import utilities.StringUtils;
 
 /**
- *
+ * A CSVPortfolio implementation of {@link IRepository<Portfolio>}.
+ * <li>Creates CSV File for a {@link Portfolio}.</li>
+ * <li>Reads File to Fetch {@link Portfolio}.</li>
+ * <li>Updates a {@link Portfolio} object.</li>
  */
 public class CSVPortfolioRepository implements IRepository<Portfolio> {
 

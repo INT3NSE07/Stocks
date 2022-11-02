@@ -23,6 +23,8 @@ public class ControllerTest {
   private static final String MOCK_VIEW_SHOW_OPTION_ERROR = "MockView showOptionError() called";
   private static final String MOCK_VIEW_SHOW_STRING = "MockView showString() called with String %s";
   private static final String MOCK_VIEW_SHOW_PROMPT = "MockView showPrompt() called with Key %s";
+  private static final String MOCK_VIEW_SHOW_PORTFOLIO = "MockView showPortfolio() called with portfolio Name: %s";
+  private static final String MOCK_VIEW_SHOW_PORTFOLIO_VALUE = "MockView showPortfolioValue() called with portfolio Name: %s, Value: %.2d";
 
 
   private static final String MOCK_MODEL_CREATE_PORTFOLIO =
@@ -792,7 +794,12 @@ public class ControllerTest {
 
     @Override
     public void showPortfolio(Portfolio portfolio) {
+      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO,portfolio.getName()));
+    }
 
+    @Override
+    public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
+      this.log.add(MOCK_VIEW_SHOW_PORTFOLIO_VALUE,portfolioValue.getKey().getName(),portfolioValue.getValue());
     }
   }
 }

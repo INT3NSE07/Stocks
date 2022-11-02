@@ -4,12 +4,12 @@ import model.Portfolio;
 import utilities.Pair;
 
 /**
- * The interface represents the view of the portfolio.
+ * The interface represents the view of the {@link Portfolio}.
  */
 public interface IPortfolioView {
 
   /**
-   * Displays the specified string to the user
+   * Displays the specified string to the user.
    *
    * @param s the string to be displayed to the user
    */

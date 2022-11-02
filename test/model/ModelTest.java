@@ -358,7 +358,7 @@ public class ModelTest {
     stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
 
     try {
-      Double value = model.getPortfolioValueOnDate(null,
+      Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(null,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
 
     } catch (IllegalArgumentException illegalArgumentException) {
@@ -380,7 +380,7 @@ public class ModelTest {
     stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
 
     try {
-      Double value = model.getPortfolioValueOnDate("",
+      Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate("",
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
 
     } catch (IllegalArgumentException illegalArgumentException) {
@@ -402,9 +402,9 @@ public class ModelTest {
     stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
 
     try {
-      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH,
+      Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(FOUND_A_MATCH,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-      assertEquals(54756.0, value);
+      assertEquals(54756.0, pair.getValue());
 
     } catch (IOException e) {
       fail(e.getMessage());

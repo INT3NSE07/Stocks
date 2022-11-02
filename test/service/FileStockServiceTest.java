@@ -33,7 +33,7 @@ public class FileStockServiceTest extends AbstractStockServiceTest {
   }
 
   @Override
-  protected IStockService createStockService() throws IOException {
+  protected IStockService createStockService(String tmpFileName) throws IOException {
     return FileStockService.getInstance(
         new MockCSVReader(mockLog), tmpFolder.newFile().toString());
   }

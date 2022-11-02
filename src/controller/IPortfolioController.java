@@ -8,7 +8,7 @@ public interface IPortfolioController {
 
   /**
    * A run method is used as point of iterator through which controller runs till exit condition is
-   * met, other wise tells view and model to perform operations.
+   * met, otherwise tells view and model to perform operations.
    */
   void run();
 }

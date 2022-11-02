@@ -108,7 +108,7 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public boolean isStockSymbolValid(String symbol) throws IOException {
+  public boolean isStockSymbolValid(String symbol) throws IOException,IllegalArgumentException {
     this.validateInput(symbol);
 
     return stockService.isStockSymbolValid(symbol);
