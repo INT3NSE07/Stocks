@@ -28,6 +28,7 @@ check access modifiers
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.
 number of shares - INT.MAX
 market cap - validate number of stocks
+in mac test for file service fails.
 
 controller
 

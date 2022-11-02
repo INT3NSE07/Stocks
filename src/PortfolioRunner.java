@@ -18,7 +18,7 @@ import view.IPortfolioView;
 import view.PortfolioTextView;
 
 /**
- * This Class contains the main method which is the starting point for the program to run.
+ * This Class contains the main method which is the starting point for the stocks project to run.
  */
 public class PortfolioRunner {
 

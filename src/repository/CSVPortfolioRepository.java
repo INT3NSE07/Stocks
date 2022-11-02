@@ -35,6 +35,14 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
   private final String path;
 
+  /**
+   * A constructor for {@link CSVPortfolioRepository} to initialize {@link IWriter}, {@link IReader}
+   *                            , path to File Systems operations.
+   *
+   * @param reader {@link IReader} object of type List of (List of) Strings.
+   * @param writer {@link IWriter} object of type List of (List of) Strings.
+   * @param path Path to the Files to perform file operations.
+   */
   public CSVPortfolioRepository(IReader<List<List<String>>> reader,
       IWriter<List<String>> writer, String path) {
     this.reader = reader;

@@ -13,6 +13,11 @@ public class PortfolioTextView implements IPortfolioView {
 
   private final PrintStream out;
 
+  /**
+   * A {@link PortfolioTextView} constructor to initialize the PrintStream.
+   *
+   * @param out A PrintStream object that assigned to this objects output PrintStream.
+   */
   public PortfolioTextView(PrintStream out) {
     this.out = out;
   }

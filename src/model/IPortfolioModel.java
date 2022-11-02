@@ -6,8 +6,7 @@ import utilities.Pair;
 
 /**
  * A {@link Portfolio} Model interface that has functionalities to
- *              create {@link Portfolio},
- *              read {@link Portfolio},
+ *              create {@link Portfolio}, read {@link Portfolio},
  *              Get Value on a date for a {@link Portfolio},
  *              Validating Ticker Symbol.
  */

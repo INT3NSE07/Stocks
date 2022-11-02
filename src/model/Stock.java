@@ -1,7 +1,8 @@
 package model;
 
 /**
- *
+ * A Stock class that holds the Symbol, quantity, date, open, close, high, low, volume
+ *                  and operations that can be performed on the Stock object.
  */
 public class Stock {
 
@@ -98,7 +99,7 @@ public class Stock {
   }
 
   /**
-   *
+   * A Stock Builder Class to Create new Stock objects.
    */
   public static class StockBuilder {
 

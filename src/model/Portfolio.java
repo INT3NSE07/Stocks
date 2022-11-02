@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * A Portfolio class that holds the Name, List of Stocks and operations
+ *                  that can be performed on the Portfolio object.
  */
 public class Portfolio {
 
@@ -12,7 +13,7 @@ public class Portfolio {
   private List<Stock> stocks;
 
   /**
-   *
+   * A {@link Portfolio} object constructor that assigns the List of Stocks to new Empty List.
    */
   public Portfolio() {
     this.stocks = new ArrayList<>();
