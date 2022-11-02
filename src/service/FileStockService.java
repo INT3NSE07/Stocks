@@ -43,7 +43,7 @@ public class FileStockService extends AbstractStockService {
 
   @Override
   protected InputStream getInputStream(String symbol) throws IOException {
-    return new FileInputStream(this.path);
+    return getClass().getResourceAsStream(this.path);
   }
 
   @Override

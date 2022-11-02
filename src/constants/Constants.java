@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public final class Constants {
 
-  public static final String DATA_DIR = "resources/default_user";
+  public static final String DATA_DIR = "portfolios/default_user";
 
-  public static final String STOCK_DATA_PATH = "resources/stock_data";
+  public static final String STOCK_DATA_PATH = "stock_data";
 
   public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
 
@@ -64,7 +64,8 @@ public final class Constants {
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
   public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
-  public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER = "Invalid Quantity Entry. Quantity must be a whole Number.";
+  public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
+      "Invalid quantity. Quantity must be a whole number.";
 
 
   private Constants() {
