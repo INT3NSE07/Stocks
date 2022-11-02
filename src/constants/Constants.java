@@ -62,6 +62,7 @@ public final class Constants {
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
   public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
+  public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER = "Invalid Quantity Entry. Quantity must be a whole Number.";
 
 
   private Constants() {

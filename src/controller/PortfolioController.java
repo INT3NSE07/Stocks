@@ -170,7 +170,7 @@ public class PortfolioController implements IPortfolioController {
           }
         } catch (IOException e) {
           this.view.showString(
-              String.format("Failed to fetch stock symbol %s.", symbol));
+              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
           break;
         }
 
@@ -182,7 +182,7 @@ public class PortfolioController implements IPortfolioController {
 
           stockPairs.add(new Pair<>(symbol, quantity));
         } catch (NumberFormatException numberFormatException) {
-          this.view.showString("Invalid Quantity Entry.");
+          this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
         }
         break;
       case 2:
