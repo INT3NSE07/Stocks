@@ -40,10 +40,18 @@ public interface IPortfolioModel {
   Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException, IOException;
 
   /**
-   * @param portFolioName
-   * @param date
-   * @return
-   * @throws IllegalArgumentException
+   * Finds the value of port folio on a given date if the date is not given then it sets current
+   *                  date to find each stock close value in Portfolio.
+   *
+   * @param portFolioName Name of Portfolio for which value has to be found.
+   * @param date On which specific date the value must be calculated. If None given date equates to
+   *                        current date and fetches the
+   *                                 latest stock close price in the {@link service.IStockService}.
+   * @return A {@link Pair} object of Portfolio mapped to its own total value.
+   * @throws IllegalArgumentException If the portfolio name is null or empty or service is
+   *                                        unable to find the name this exception is thrown.
+   * @throws IOException If given portfolio name is found but un able to open/read then
+   *                            this exception is thrown
    */
   Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
       throws IllegalArgumentException, IOException;
