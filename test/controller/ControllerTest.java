@@ -129,7 +129,6 @@ public class ControllerTest {
       IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
       controller.run();
 
-      System.out.println(Arrays.asList(mockLog.toArray()));
       // expected sequence.
       List<String> expected = new ArrayList<>(
           Arrays.asList(
@@ -164,7 +163,6 @@ public class ControllerTest {
       IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
       controller.run();
 
-      System.out.println(Arrays.asList(mockLog.toArray()));
       // expected sequence.
       List<String> expected = new ArrayList<>(
           Arrays.asList(
