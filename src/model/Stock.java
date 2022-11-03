@@ -29,7 +29,7 @@ public class Stock {
   /**
    * Get the stock symbol.
    *
-   * @param symbol
+   * @param symbol the stock symbol
    * @return the {@link Stock} object with the updated value
    */
   public Stock setSymbol(String symbol) {
@@ -50,7 +50,7 @@ public class Stock {
   /**
    * Set the stock open.
    *
-   * @param open
+   * @param open the opening value of the stock
    * @return the {@link Stock} object with the updated value
    */
   public Stock setOpen(double open) {
@@ -71,7 +71,7 @@ public class Stock {
   /**
    * Set the stock high.
    *
-   * @param high
+   * @param high the high value of the stock
    * @return the {@link Stock} object with the updated value
    */
   public Stock setHigh(double high) {
@@ -92,7 +92,7 @@ public class Stock {
   /**
    * Set the stock low.
    *
-   * @param low
+   * @param low the low value of the stock
    * @return the {@link Stock} object with the updated value
    */
   public Stock setLow(double low) {
@@ -113,7 +113,7 @@ public class Stock {
   /**
    * Set the stock close.
    *
-   * @param close
+   * @param close the closing value of the stock
    * @return the {@link Stock} object with the updated value
    */
   public Stock setClose(double close) {
@@ -134,7 +134,7 @@ public class Stock {
   /**
    * Set the stock volume.
    *
-   * @param volume
+   * @param volume the volume of the stock being traded
    * @return the {@link Stock} object with the updated value
    */
   public Stock setVolume(double volume) {
@@ -155,7 +155,7 @@ public class Stock {
   /**
    * Set the stock date.
    *
-   * @param date
+   * @param date the date on which this stock was bought
    * @return the {@link Stock} object with the updated value
    */
   public Stock setDate(String date) {
@@ -176,7 +176,7 @@ public class Stock {
   /**
    * Set the stock quantity.
    *
-   * @param quantity
+   * @param quantity the quantity of this stock bought
    * @return the {@link Stock} object with the updated value
    */
   public Stock setQuantity(double quantity) {
