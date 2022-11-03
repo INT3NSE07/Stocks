@@ -4,10 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import constants.Constants;
+import model.Portfolio;
+import model.Stock;
+import utilities.Pair;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.Test;
 
@@ -120,6 +126,61 @@ public class PortfolioTextViewTest {
     view.showPrompt(String.valueOf(ranInt));
     assertEquals(null + ": ", outputStream.toString());
   }
+
+  @Test
+  public void showPortfolio() {
+
+    OutputStream outputStream = new ByteArrayOutputStream();
+    IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
+    int ranInt = ThreadLocalRandom.current().nextInt(5, 10000);
+
+    Portfolio portfolio = new Portfolio();
+    portfolio.setName("ez");
+    Stock amzn = Stock.StockBuilder.create().setSymbol("AMZN").setQuantity(234);
+    Stock msft = Stock.StockBuilder.create().setSymbol("MSFT").setQuantity(234);
+    List <Stock> stocks = new ArrayList<>();
+    stocks.add(amzn);
+    stocks.add(msft);
+    portfolio.setStocks(stocks);
+    view.showPortfolio(portfolio);
+    String expected = System.lineSeparator() + "Composition of the portfolio ez" + System.lineSeparator() +
+            "+----+---------------+--------------+" + System.lineSeparator() +
+            "| ID | Ticker Symbol | No of Stocks |" + System.lineSeparator() +
+            "+----+---------------+--------------+" + System.lineSeparator() +
+            "| 1  | AMZN          | 234.0        |" + System.lineSeparator() +
+            "| 2  | MSFT          | 234.0        |" + System.lineSeparator() +
+            "+----+---------------+--------------+" + System.lineSeparator();
+    assertEquals(expected,outputStream.toString());
+  }
+
+  @Test
+  public void showPortfolioValue() {
+
+    OutputStream outputStream = new ByteArrayOutputStream();
+    IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
+    int ranInt = ThreadLocalRandom.current().nextInt(5, 10000);
+
+    Portfolio portfolio = new Portfolio();
+    portfolio.setName("ez");
+    Stock amzn = Stock.StockBuilder.create().setSymbol("AMZN").setQuantity(234).setClose(123);
+    Stock msft = Stock.StockBuilder.create().setSymbol("MSFT").setQuantity(234).setClose(321);
+    List <Stock> stocks = new ArrayList<>();
+    stocks.add(amzn);
+    stocks.add(msft);
+    portfolio.setStocks(stocks);
+    view.showPortfolioValue(new Pair<>(portfolio,103896.0));
+    String expected = System.lineSeparator() + "Value of the portfolio ez on null" + System.lineSeparator() +
+            "+----+---------------+----------+---------------+" + System.lineSeparator() +
+            "| ID | Ticker symbol | Quantity | Closing price |" + System.lineSeparator() +
+            "+----+---------------+----------+---------------+" + System.lineSeparator() +
+            "| 1  | AMZN          | 234.0    | 123.0         |" + System.lineSeparator() +
+            "| 2  | MSFT          | 234.0    | 321.0         |" + System.lineSeparator() +
+            "+----+---------------+----------+---------------+" + System.lineSeparator() +
+            System.lineSeparator() +
+            "Total value: $103896.00" + System.lineSeparator();
+    assertEquals(expected,outputStream.toString());
+  }
+
 
   private String getRandomString(int length) {
     StringBuilder sb = new StringBuilder(length);

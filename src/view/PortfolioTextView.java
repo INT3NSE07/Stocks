@@ -71,7 +71,7 @@ public class PortfolioTextView implements IPortfolioView {
 
     this.out.printf("%nComposition of the portfolio %s%n", portfolioName);
 
-    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator();
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
     List<String> headers = new ArrayList<>(List.of("ID", "Ticker Symbol", "No of Stocks"));
     for (String header : headers) {
       tableGenerator.addHeader(header);
@@ -104,7 +104,7 @@ public class PortfolioTextView implements IPortfolioView {
     String date = stocks.get(0).getDate();
     this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
 
-    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator();
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
     List<String> headers = new ArrayList<>(
         List.of("ID", "Ticker symbol", "Quantity", "Closing price"));
     for (String header : headers) {

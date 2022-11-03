@@ -1,5 +1,6 @@
 package utilities;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,13 +23,15 @@ public final class DisplayUtils {
     private static final String JOIN_SEP = "+";
     private final List<List<String>> rows;
     private final List<String> headers;
+    private final PrintStream out;
 
     /**
      * Creates and instance {@link TextTableGenerator} class.
      */
-    public TextTableGenerator() {
+    public TextTableGenerator(PrintStream out) {
       this.headers = new ArrayList<>();
       this.rows = new ArrayList<>();
+      this.out = out;
     }
 
     public void addHeader(String header) {
@@ -65,10 +68,10 @@ public final class DisplayUtils {
       for (int i = 0; i < cellWidths.length; i++) {
         String line = String.join("", Collections.nCopies(cellWidths[i]
             + VERTICAL_SEP.length() + 1, HORIZONTAL_SEP));
-        System.out.print(JOIN_SEP + line + (i == cellWidths.length - 1 ? JOIN_SEP : ""));
+        this.out.print(JOIN_SEP + line + (i == cellWidths.length - 1 ? JOIN_SEP : ""));
       }
 
-      System.out.println();
+      this.out.println();
     }
 
     private void printRow(List<String> row, int[] maxWidths) {
@@ -76,10 +79,10 @@ public final class DisplayUtils {
         String value = row.get(i);
 
         String word = i == row.size() - 1 ? VERTICAL_SEP : "";
-        System.out.printf("%s %-" + maxWidths[i] + "s %s", VERTICAL_SEP, value, word);
+        this.out.printf("%s %-" + maxWidths[i] + "s %s", VERTICAL_SEP, value, word);
       }
 
-      System.out.println();
+      this.out.println();
     }
   }
 }
