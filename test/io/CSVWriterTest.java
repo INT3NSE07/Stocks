@@ -33,7 +33,7 @@ public class CSVWriterTest {
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       writer.write(records, baos);
 
-      assertNotEquals(String.join(",", records), baos.toString());
+      assertEquals(String.join(",", records), baos.toString());
     } catch (IOException e) {
       fail(e.getMessage());
     }

@@ -58,7 +58,8 @@ public final class Constants {
       Map.entry(PROMPT_PORTFOLIO_NAME_KEY, "Enter portfolio name"),
       Map.entry(PROMPT_STOCK_SYMBOL_KEY,
           "Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500)"),
-      Map.entry(PROMPT_DATE_KEY, "Enter date with format(YYYY-MM-DD) (if no input is given, the default is current date)"),
+      Map.entry(PROMPT_DATE_KEY,
+          "Enter date in format YYYY-MM-DD (if no input is given, the default is current date)"),
       Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity")
   );
   public static final String EXITING_STATUS = "Exiting...";

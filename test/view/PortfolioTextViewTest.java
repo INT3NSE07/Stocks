@@ -4,10 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import constants.Constants;
-import model.Portfolio;
-import model.Stock;
-import utilities.Pair;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,7 +11,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import model.Portfolio;
+import model.Stock;
 import org.junit.Test;
+import utilities.Pair;
 
 /**
  * A JUnit test class for the {@link PortfolioTextView}s class.
@@ -138,19 +137,21 @@ public class PortfolioTextViewTest {
     portfolio.setName("ez");
     Stock amzn = Stock.StockBuilder.create().setSymbol("AMZN").setQuantity(234);
     Stock msft = Stock.StockBuilder.create().setSymbol("MSFT").setQuantity(234);
-    List <Stock> stocks = new ArrayList<>();
+    List<Stock> stocks = new ArrayList<>();
     stocks.add(amzn);
     stocks.add(msft);
     portfolio.setStocks(stocks);
     view.showPortfolio(portfolio);
-    String expected = System.lineSeparator() + "Composition of the portfolio ez" + System.lineSeparator() +
-            "+----+---------------+--------------+" + System.lineSeparator() +
-            "| ID | Ticker Symbol | No of Stocks |" + System.lineSeparator() +
-            "+----+---------------+--------------+" + System.lineSeparator() +
-            "| 1  | AMZN          | 234.0        |" + System.lineSeparator() +
-            "| 2  | MSFT          | 234.0        |" + System.lineSeparator() +
-            "+----+---------------+--------------+" + System.lineSeparator();
-    assertEquals(expected,outputStream.toString());
+    String expected =
+        System.lineSeparator() + "Composition of the portfolio ez"
+            + System.lineSeparator()
+            + "+----+---------------+--------------+" + System.lineSeparator()
+            + "| ID | Ticker Symbol | No of Stocks |" + System.lineSeparator()
+            + "+----+---------------+--------------+" + System.lineSeparator()
+            + "| 1  | AMZN          | 234.0        |" + System.lineSeparator()
+            + "| 2  | MSFT          | 234.0        |" + System.lineSeparator()
+            + "+----+---------------+--------------+" + System.lineSeparator();
+    assertEquals(expected, outputStream.toString());
   }
 
   @Test
@@ -164,21 +165,22 @@ public class PortfolioTextViewTest {
     portfolio.setName("ez");
     Stock amzn = Stock.StockBuilder.create().setSymbol("AMZN").setQuantity(234).setClose(123);
     Stock msft = Stock.StockBuilder.create().setSymbol("MSFT").setQuantity(234).setClose(321);
-    List <Stock> stocks = new ArrayList<>();
+    List<Stock> stocks = new ArrayList<>();
     stocks.add(amzn);
     stocks.add(msft);
     portfolio.setStocks(stocks);
-    view.showPortfolioValue(new Pair<>(portfolio,103896.0));
-    String expected = System.lineSeparator() + "Value of the portfolio ez on null" + System.lineSeparator() +
-            "+----+---------------+----------+---------------+" + System.lineSeparator() +
-            "| ID | Ticker symbol | Quantity | Closing price |" + System.lineSeparator() +
-            "+----+---------------+----------+---------------+" + System.lineSeparator() +
-            "| 1  | AMZN          | 234.0    | 123.0         |" + System.lineSeparator() +
-            "| 2  | MSFT          | 234.0    | 321.0         |" + System.lineSeparator() +
-            "+----+---------------+----------+---------------+" + System.lineSeparator() +
-            System.lineSeparator() +
-            "Total value: $103896.00" + System.lineSeparator();
-    assertEquals(expected,outputStream.toString());
+    view.showPortfolioValue(new Pair<>(portfolio, 103896.0));
+    String expected =
+        System.lineSeparator() + "Value of the portfolio ez on null" + System.lineSeparator()
+            + "+----+---------------+----------+---------------+" + System.lineSeparator()
+            + "| ID | Ticker symbol | Quantity | Closing price |" + System.lineSeparator()
+            + "+----+---------------+----------+---------------+" + System.lineSeparator()
+            + "| 1  | AMZN          | 234.0    | 123.0         |" + System.lineSeparator()
+            + "| 2  | MSFT          | 234.0    | 321.0         |" + System.lineSeparator()
+            + "+----+---------------+----------+---------------+" + System.lineSeparator()
+            + System.lineSeparator()
+            + "Total value: $103896.00" + System.lineSeparator();
+    assertEquals(expected, outputStream.toString());
   }
 
 

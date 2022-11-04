@@ -1,5 +1,5 @@
 # Running the Jar File
-- Double-clicking the jar file to open the terminal, where the below operations are performed.
+- Execute the jar by typing java -jar .\Stocks.jar
 
 
 # Instructions to Run the Program:
@@ -13,7 +13,7 @@ Portfolio Management Services
 3) Determine value of a portfolio on a certain date
 4) Exit
 Enter your choice: 1
-Enter portfolio name: A Retirement Portfolio
+Enter portfolio name: Retirement
 
 Create a portfolio
 1) Add a stock to this portfolio
@@ -40,7 +40,7 @@ Create a portfolio
 1) Add a stock to this portfolio
 2) Back
 Enter your choice: 2
-The portfolio A Retirement Portfolio has been created.
+The portfolio Retirement has been created.
 
 Portfolio Management Services
 1) Create a portfolio
@@ -48,7 +48,7 @@ Portfolio Management Services
 3) Determine value of a portfolio on a certain date
 4) Exit
 Enter your choice: 1
-Enter portfolio name:  A College-Savings Portfolio
+Enter portfolio name:  College-Savings
 
 Create a portfolio
 1) Add a stock to this portfolio
@@ -68,7 +68,7 @@ Create a portfolio
 1) Add a stock to this portfolio
 2) Back
 Enter your choice: 2
-The portfolio  A College-Savings Portfolio has been created.
+The portfolio  College-Savings has been created.
 
 Portfolio Management Services
 1) Create a portfolio
@@ -76,10 +76,10 @@ Portfolio Management Services
 3) Determine value of a portfolio on a certain date
 4) Exit
 Enter your choice: 3
-Enter portfolio name:  A College-Savings Portfolio
-Enter date with format(YYYY-MM-DD) (if no input is given, the default is current date): 2022-11-02
+Enter portfolio name:  College-Savings
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-02
 
-Value of the portfolio  A College-Savings Portfolio on 2022-11-02
+Value of the portfolio  College-Savings on 2022-11-02
 +----+---------------+----------+---------------+
 | ID | Ticker symbol | Quantity | Closing price |
 +----+---------------+----------+---------------+
@@ -95,10 +95,10 @@ Portfolio Management Services
 3) Determine value of a portfolio on a certain date
 4) Exit
 Enter your choice: 3
-Enter portfolio name: A Retirement Portfolio
-Enter date with format(YYYY-MM-DD) (if no input is given, the default is current date): 2022-11-02
+Enter portfolio name: Retirement
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-02
 
-Value of the portfolio A Retirement Portfolio on 2022-11-02
+Value of the portfolio Retirement on 2022-11-02
 +----+---------------+----------+---------------+
 | ID | Ticker symbol | Quantity | Closing price |
 +----+---------------+----------+---------------+
@@ -120,6 +120,3 @@ Exiting...
 # List of Stocks that supports the program
 - List of stocks in S&P 500 like AMZN(Amazon), AAPL(Apple), MSFT(Microsoft), etc..
 - We have support for stock values till dates 2022-11-02 any date after this will fetch the latest day value in the stock.
-
-
-

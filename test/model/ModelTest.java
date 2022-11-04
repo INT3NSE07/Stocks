@@ -72,7 +72,7 @@ public class ModelTest {
   }
 
   @Test
-  public void testCreatePortfolioCreateCallingCreateRepository() {
+    public void testCreatePortfolioCreateCallingCreateRepository() {
 
     List<String> mockLog = new ArrayList<>();
     MockRepository temp = new MockRepository(mockLog);
