@@ -436,6 +436,28 @@ public class ModelTest {
     }
   }
 
+  @Test
+  public void testGetPortfolioValueOnDateWithDateInvalid() {
+
+    List<String> mockLog = new ArrayList<>();
+    MockRepository temp = new MockRepository(mockLog);
+    MockService service = new MockService(mockLog);
+    IPortfolioModel model = new PortfolioModel(temp, service);
+
+    List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    stockPairs.add(new Pair<>(FOUND_A_MATCH, Double.parseDouble("123")));
+
+    try {
+      Portfolio portfolio = model.readPortfolio(FOUND_A_MATCH);
+      Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022/09/23").getValue();
+    } catch (IOException ioException) {
+      fail(ioException.getMessage());
+    }
+    catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(Constants.DATE_INVALID,illegalArgumentException.getMessage());
+    }
+  }
+
   static class MockService implements IStockService {
 
     private final List<String> log;

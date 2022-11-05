@@ -48,15 +48,11 @@ tests
     - showPortfolio not done
 
 
+Improvements
+- mapper adapter
+- pub to pub -> pub to private
+- integration testing
 
- -- 2nd
-    - display table
-    - pub to pub -> pub to private
-    - documentation
-    - integration testing
-    - temp folder mac error junit
-    - review to do
-    - review deliverables and start packaging
-
-    - s& P 500
-
+New Features
+- Flexible portfolios
+    - 
