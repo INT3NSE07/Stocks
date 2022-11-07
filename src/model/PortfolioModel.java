@@ -46,7 +46,7 @@ public class PortfolioModel implements IPortfolioModel {
     this.addStock(portFolioName, stockPairs);
   }
 
-  private void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
+  public void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 

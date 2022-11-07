@@ -772,6 +772,12 @@ public class ControllerTest {
       this.log.add(String.format(MOCK_MODEL_IS_SYMBOL_VALID, symbol));
       return symbol.equals(FOUND_A_MATCH) || symbol.equals(FOUND_A_MATCH1);
     }
+
+    @Override
+    public void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
+        throws IllegalArgumentException, IOException {
+
+    }
   }
 
   static class MockView implements IPortfolioView {

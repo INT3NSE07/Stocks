@@ -1,7 +1,6 @@
 package io;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -33,7 +32,7 @@ public class CSVWriterTest {
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       writer.write(records, baos);
 
-      assertEquals(String.join(",", records), baos.toString());
+      assertEquals(String.join(",", records) + System.lineSeparator(), baos.toString());
     } catch (IOException e) {
       fail(e.getMessage());
     }
