@@ -25,17 +25,7 @@ public interface IPortfolioModel {
   void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException;
 
-//  double sellStock(String portFolioName, List<Pair<String, Double>> stockPairs, String Date);
 
-  void buyStock(String portFolioName, List<Pair<String, Double>> stockPairs, String Date);
-
-  double sellStock(String portfolioName, List<Pair<String, Double>> stockPair, String date);
-
-  double calCommission();
-
-  double costBasis();
-
-  void getPerformanceOverView(Portfolio portfolio);
 
   /**
    * Reads the Stock data from the persisted Portfolio.

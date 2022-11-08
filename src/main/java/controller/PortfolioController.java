@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import model.IFlexiblePortfolioModel;
 import model.IPortfolioModel;
 import model.Portfolio;
 import utilities.Pair;
@@ -20,7 +21,7 @@ import view.IPortfolioView;
  */
 public class PortfolioController implements IPortfolioController {
 
-  private final IPortfolioModel model;
+  private final IFlexiblePortfolioModel model;
 
   private final IPortfolioView view;
 
@@ -33,7 +34,7 @@ public class PortfolioController implements IPortfolioController {
    * @param view  the view which displays output to the end user
    * @param in    the input stream through which user input is taken
    */
-  public PortfolioController(IPortfolioModel model, IPortfolioView view, InputStream in) {
+  public PortfolioController(IFlexiblePortfolioModel model, IPortfolioView view, InputStream in) {
     this.model = model;
     this.view = view;
     this.bufferedReader = new BufferedReader(new InputStreamReader(in));

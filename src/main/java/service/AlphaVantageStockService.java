@@ -28,7 +28,7 @@ public class AlphaVantageStockService extends AbstractStockService {
     super(reader);
 
     // TODO: move to config
-    this.apiKey = "7JWGAITR6OPG00LM";
+    this.apiKey = "7TI4IRSWZWDASJHV";
     this.apiEndpoint = "https://www.alphavantage.co/query?";
   }
 

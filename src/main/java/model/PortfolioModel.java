@@ -46,11 +46,6 @@ public class PortfolioModel implements IPortfolioModel {
     this.addStock(portFolioName, stockPairs);
   }
 
-  @Override
-  public void buyStock(String portFolioName, List<Pair<String, Double>> stockPairs, String Date) {
-
-  }
-
   public void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
@@ -79,26 +74,6 @@ public class PortfolioModel implements IPortfolioModel {
 
       this.portfolioRepository.update(portfolio);
     }
-  }
-
-  @Override
-  public double sellStock(String portfolioName, List<Pair<String, Double>> stockPair, String date) {
-    return 0;
-  }
-
-  @Override
-  public double calCommission() {
-    return 0;
-  }
-
-  @Override
-  public double costBasis() {
-    return 0;
-  }
-
-  @Override
-  public void getPerformanceOverView(Portfolio portfolio) {
-
   }
 
   @Override

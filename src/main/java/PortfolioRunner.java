@@ -7,6 +7,8 @@ import io.CSVWriter;
 import io.IReader;
 import io.IWriter;
 import java.util.List;
+import model.FlexiblePortfolioModel;
+import model.IFlexiblePortfolioModel;
 import model.IPortfolioModel;
 import model.Portfolio;
 import model.PortfolioModel;
@@ -37,7 +39,7 @@ public class PortfolioRunner {
     IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
         Constants.DATA_DIR);
 
-    IPortfolioModel model = new PortfolioModel(repository, stockService);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
     IPortfolioView view = new PortfolioTextView(System.out);
     IPortfolioController controller = new PortfolioController(model, view, System.in);
 
