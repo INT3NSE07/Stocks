@@ -99,13 +99,6 @@ public class PortfolioController implements IPortfolioController {
             break;
           }
           case 2: {
-//            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-//            String portfolioName = this.bufferedReader.readLine();
-//            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-//              continue;
-//            }
-
             int selectedSubmenuItem = 0;
             while (selectedSubmenuItem != 3) {
               this.view.showOptions(selectedMenuItem);
@@ -248,16 +241,76 @@ public class PortfolioController implements IPortfolioController {
     }
   }
 
-  private void createTransactionSubMenuItem(int selectedSubmenuItem) {
+  private void createTransactionSubMenuItem(int selectedSubmenuItem) throws IOException {
+
+    this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+    String portfolioName = this.bufferedReader.readLine();
+    List<Pair<String, Double>> stockPair = new ArrayList<>();
+    String date = null;
+    if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
+      this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+      return;
+    }
+    this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
+    String symbol = this.bufferedReader.readLine();
+
+    if (StringUtils.isNullOrWhiteSpace(symbol)) {
+      this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+      return;
+    }
+
+    try {
+      if (!this.model.isStockSymbolValid(symbol)) {
+        this.view.showString(
+                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+        return;
+      }
+    } catch (IOException e) {
+      this.view.showString(
+              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+      return;
+    }
+
+    this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
+
+    try {
+      // model can handle but broker restriction
+      double quantity = Integer.parseInt(this.bufferedReader.readLine());
+
+      stockPair.add(new Pair<>(symbol, quantity));
+
+      this.view.showPrompt(Constants.PROMPT_DATE_KEY);
+      date = this.bufferedReader.readLine();
+
+      try {
+        Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
+                portfolioName, date);
+        this.view.showPortfolioValue(portfolioValue);
+      } catch (IOException e) {
+        this.view.showString(
+                String.format("The fetching of value of the portfolio %s has failed.",
+                        portfolioName));
+        return;
+      } catch (IllegalArgumentException e) {
+        this.view.showString(e.getMessage());
+        return;
+      }
+
+    } catch (NumberFormatException numberFormatException) {
+      this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
+    }
+
     switch (selectedSubmenuItem) {
       case 1: {
+        this.model.buyStock(portfolioName, stockPair, date);
         break;
       }
       case 2: {
+        this.model.sellStock(portfolioName,stockPair,date);
         break;
       }
       case 3: {
-        break;
+        return;
       }
       default:
         this.view.showOptionError();
@@ -296,7 +349,6 @@ public class PortfolioController implements IPortfolioController {
           double quantity = Integer.parseInt(this.bufferedReader.readLine());
 
           stockPairs.add(new Pair<>(symbol, quantity));
-
 
         } catch (NumberFormatException numberFormatException) {
           this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
