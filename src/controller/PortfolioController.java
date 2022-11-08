@@ -98,8 +98,91 @@ public class PortfolioController implements IPortfolioController {
                 String.format("The portfolio %s has been created.", portfolioName));
             break;
           }
-
           case 2: {
+//            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+//            String portfolioName = this.bufferedReader.readLine();
+//            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
+//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+//              continue;
+//            }
+
+            int selectedSubmenuItem = 0;
+            while (selectedSubmenuItem != 3) {
+              this.view.showOptions(selectedMenuItem);
+              this.view.showPrompt(Constants.PROMPT_CHOICE);
+
+              try {
+                selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
+              } catch (NumberFormatException e) {
+                this.view.showString(Constants.INVALID_OPTION);
+                break;
+              }
+              createTransactionSubMenuItem(selectedSubmenuItem);
+            }
+            break;
+          }
+
+//            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+//            String portfolioName = this.bufferedReader.readLine();
+//            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
+//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+//              continue;
+//            }
+//            List<Pair<String, Double>> stockPair = new ArrayList<>();
+//            this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
+//            String symbol = this.bufferedReader.readLine();
+//
+//            if (StringUtils.isNullOrWhiteSpace(symbol)) {
+//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+//              return;
+//            }
+//
+//            try {
+//              if (!this.model.isStockSymbolValid(symbol)) {
+//                this.view.showString(
+//                        String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+//                break;
+//              }
+//            } catch (IOException e) {
+//              this.view.showString(
+//                      String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+//              break;
+//            }
+//
+//            this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
+//
+//            try {
+//              // model can handle but broker restriction
+//              double quantity = Integer.parseInt(this.bufferedReader.readLine());
+//
+//              stockPair.add(new Pair<>(symbol, quantity));
+//
+//              try {
+//                this.model.addStock(portfolioName, stockPair);
+//              }
+//              catch (IllegalArgumentException illegalArgumentException) {
+//                this.view.showString(Constants.PORTFOLIO_DOES_NOT_EXIST);
+//              }
+//
+//            } catch (NumberFormatException numberFormatException) {
+//              this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
+//            }
+
+//            break;
+//          }
+          case 3: {
+            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            break;
+          }
+          case 4: {
+            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            break;
+          }
+          case 5: {
+            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            break;
+          }
+          case 6: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
 
@@ -122,7 +205,7 @@ public class PortfolioController implements IPortfolioController {
             break;
           }
 
-          case 3: {
+          case 7: {
             this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
             String portfolioName = this.bufferedReader.readLine();
 
@@ -149,19 +232,36 @@ public class PortfolioController implements IPortfolioController {
             }
             break;
           }
-
-          case 4:
+          case 8: {
             this.view.showString(Constants.EXITING_STATUS);
             break;
-
-          default:
+          }
+          default: {
             view.showOptionError();
             break;
+          }
         }
       }
-      while (selectedMenuItem != 4);
+      while (selectedMenuItem != 8);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
+    }
+  }
+
+  private void createTransactionSubMenuItem(int selectedSubmenuItem) {
+    switch (selectedSubmenuItem) {
+      case 1: {
+        break;
+      }
+      case 2: {
+        break;
+      }
+      case 3: {
+        break;
+      }
+      default:
+        this.view.showOptionError();
+        break;
     }
   }
 
@@ -196,6 +296,8 @@ public class PortfolioController implements IPortfolioController {
           double quantity = Integer.parseInt(this.bufferedReader.readLine());
 
           stockPairs.add(new Pair<>(symbol, quantity));
+
+
         } catch (NumberFormatException numberFormatException) {
           this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
         }

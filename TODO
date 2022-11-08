@@ -49,14 +49,30 @@ tests
 - S&P 500 only supported.
 
 -testing
- - model
-    - how to test null/empty date changing to current date in get stock value.
- - view
-    - line separators
-    - out of menu not done.
-    - showPortfolio not done
 
 
 New Features
-- Flexible portfolios
-    - 
+- buy <=> add on specified date.
+- sell (see piazza@1069)
+- costBasis
+    - 2 ideas
+        - sell should not delete the row but instead is an new addition with negative quantity.
+        - or keep a field to track cost_basis.
+
+- calCommission
+ - changing per transaction for broker fee. according to piazza @1047.
+ - commission is usually fixed and not in percentage
+
+- display
+
+
+
+- questions
+    - commission fee from   user as per piazza@1073
+
+- while refactoring get stock value on date see piazza@1045
+- creating 2 types of portfolios
+
+
+-- Combined task
+ - Get together and reorder Menu Items.

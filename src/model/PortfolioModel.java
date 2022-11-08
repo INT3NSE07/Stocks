@@ -77,6 +77,26 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
+  public double sellStock() {
+    return 0;
+  }
+
+  @Override
+  public double calCommission() {
+    return 0;
+  }
+
+  @Override
+  public double costBasis() {
+    return 0;
+  }
+
+  @Override
+  public void getPerformanceOverView() {
+
+  }
+
+  @Override
   public Portfolio readPortfolio(String portFolioName)
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);

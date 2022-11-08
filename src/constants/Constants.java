@@ -37,6 +37,10 @@ public final class Constants {
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",
       "Create a portfolio",
+      "Make a transactions in Portfolio",
+      "Calculate Cost Basis",
+      "Calculate Commission",
+      "Get Performance of Portfolio over period",
       "Examine a portfolio",
       "Determine value of a portfolio on a certain date",
       "Exit"
@@ -67,6 +71,11 @@ public final class Constants {
   public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
   public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
       "Invalid quantity. Quantity must be a whole number.";
+  public static final String[] TRANSACTIONS_SUBMENU = {
+          "Buy Stocks",
+          "Sell Stocks",
+          "Back"
+  };
 
 
   private Constants() {
