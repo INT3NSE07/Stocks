@@ -245,8 +245,8 @@ public class PortfolioController implements IPortfolioController {
   private void createTransactionSubMenuItem(int selectedSubmenuItem) throws IOException {
 
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+    Pair stockPair = new Pair<>(null,null);
     String portfolioName = this.bufferedReader.readLine();
-    List<Pair<String, Double>> stockPair = new ArrayList<>();
     String date = null;
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
@@ -278,25 +278,10 @@ public class PortfolioController implements IPortfolioController {
       // model can handle but broker restriction
       double quantity = Integer.parseInt(this.bufferedReader.readLine());
 
-      stockPair.add(new Pair<>(symbol, quantity));
+      stockPair = new Pair<>(symbol, quantity);
 
       this.view.showPrompt(Constants.PROMPT_DATE_KEY);
       date = this.bufferedReader.readLine();
-
-      try {
-        Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
-                portfolioName, date);
-        this.view.showPortfolioValue(portfolioValue);
-      } catch (IOException e) {
-        this.view.showString(
-                String.format("The fetching of value of the portfolio %s has failed.",
-                        portfolioName));
-        return;
-      } catch (IllegalArgumentException e) {
-        this.view.showString(e.getMessage());
-        return;
-      }
-
     } catch (NumberFormatException numberFormatException) {
       this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
     }

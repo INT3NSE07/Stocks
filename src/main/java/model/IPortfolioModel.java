@@ -25,8 +25,6 @@ public interface IPortfolioModel {
   void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException;
 
-
-
   /**
    * Reads the Stock data from the persisted Portfolio.
    *

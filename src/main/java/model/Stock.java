@@ -1,5 +1,7 @@
 package model;
 
+import enums.Operation;
+
 /**
  * This class represents a stock and holds information related to it.
  */
@@ -13,6 +15,7 @@ public class Stock {
   private double low;
   private double close;
   private double volume;
+  private Operation.operations operation;
 
   private Stock() {
   }
@@ -184,6 +187,32 @@ public class Stock {
 
     return this;
   }
+
+  /**
+   * Get the stock operation performed on it.
+   *
+   * @return the operation performed on it.
+   */
+  public Operation.operations getOperation() {
+    return operation;
+  }
+
+  /**
+   * Set the stock operation performed on it.
+   *
+   * @param operation the operation that was performed on this stock.
+   * @return the {@link Stock} object with the updated value
+   */
+  public Stock setOperation(Operation.operations operation) {
+    this.operation = operation;
+    return this;
+  }
+
+
+
+
+
+
 
   /**
    * A Stock builder class to create new {@link Stock} objects.

@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+
+import model.IFlexiblePortfolioModel;
 import model.IPortfolioModel;
 import model.Portfolio;
 import org.junit.Test;
@@ -723,7 +725,7 @@ public class ControllerTest {
     }
   }
 
-  static class MockModel implements IPortfolioModel {
+  static class MockModel implements IFlexiblePortfolioModel {
 
     private final List<String> log;
 
@@ -739,6 +741,30 @@ public class ControllerTest {
           stockPairs) {
         this.log.add(stockPair.getKey() + " " + stockPair.getValue());
       }
+    }
+
+    @Override
+    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date) {
+
+    }
+
+    @Override
+    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date) {
+    }
+
+    @Override
+    public double calCommission() {
+      return 0;
+    }
+
+    @Override
+    public double costBasis(Portfolio portfolio) {
+      return 0;
+    }
+
+    @Override
+    public void getPerformanceOverView(Portfolio portfolio) {
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 Pending
 unit tests use actual data
+Add chronology and quantity constraints to sell method in Flexible portfolio method.
 non trading day fix
 mapper adapter
 pub to pub -> pub to private
@@ -67,8 +68,6 @@ New Features
 
 - display
 
-
-
 - questions
     - commission fee from   user as per piazza@1073
 
@@ -78,3 +77,7 @@ New Features
 
 -- Combined task
  - Get together and reorder Menu Items.
+
+
+-- csv writing in the sequence of symbol,date
+-- csv may add operation or date sold field

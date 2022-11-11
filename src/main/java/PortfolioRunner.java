@@ -14,6 +14,7 @@ import model.Portfolio;
 import model.PortfolioModel;
 import repository.CSVPortfolioRepository;
 import repository.IRepository;
+import service.AlphaVantageStockService;
 import service.FileStockService;
 import service.IStockService;
 import view.IPortfolioView;
@@ -33,8 +34,7 @@ public class PortfolioRunner {
     IReader<List<List<String>>> reader = new CSVReader();
     IWriter<List<String>> writer = new CSVWriter();
 
-    IStockService stockService = FileStockService.getInstance(reader,
-        Constants.STOCK_DATA_PATH + CSVConstants.EXTENSION);
+    IStockService stockService = AlphaVantageStockService.getInstance(reader);
 
     IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
         Constants.DATA_DIR);

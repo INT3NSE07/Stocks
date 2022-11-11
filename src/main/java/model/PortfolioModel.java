@@ -18,8 +18,8 @@ import utilities.StringUtils;
  */
 public class PortfolioModel implements IPortfolioModel {
 
-  private final IRepository<Portfolio> portfolioRepository;
-  private final IStockService stockService;
+  protected final IRepository<Portfolio> portfolioRepository;
+  protected final IStockService stockService;
 
   /**
    * Constructs a {@link PortfolioModel} object.
@@ -117,13 +117,13 @@ public class PortfolioModel implements IPortfolioModel {
     return stockService.isStockSymbolValid(symbol);
   }
 
-  private void validateInput(String input) {
+  protected void validateInput(String input) {
     if (StringUtils.isNullOrWhiteSpace(input)) {
       throw new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
     }
   }
 
-  private void validateDate(String date) {
+  protected void validateDate(String date) {
     if (!StringUtils.isNullOrWhiteSpace(date)) {
       if (!DateUtils.isValidDate(date, Constants.DEFAULT_DATETIME_FORMAT)) {
         throw new IllegalArgumentException(Constants.DATE_INVALID);
