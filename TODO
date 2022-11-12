@@ -19,25 +19,6 @@ bug fix with date retrieving top of the list
 abstract file service
 
 Done
--- resources folder
--- stocks in portfolio readonly - immutability. return all new objects
--- portfoliotype validation
--- ticker validation
--- This is a design decisions, up to you. If your program is doing things automatically it would be nice to let the user know.
--- addStock move to createPortfolio - prevents addStock from being called independently
--- createPortfolio - hashmap<ticker, quantity> - add same stock added twice
-empty portfolio?
--- weekends - return friday value
-readRecords CSV - take predicate?
--- create a portfolio by providing a file
--- map change to stock object
--- There is one restriction that your program must support: most brokers do not allow a client to directly purchase a fractional amount of shares - add validation in controller
--- rename to impl
--- check all exceptions and add
--- ticker capital
--- add dollar
--- empty string - take current date
--- table
 
 
 -limitations
@@ -85,3 +66,31 @@ New Features
 
 -- csv writing in the sequence of symbol,date
 -- csv may add operation or date sold field
+
+Purchase a specific number of shares of a specific stock on a specified date, and add them to the portfolio
+
+
+
+
+date of first purchase of stock = portfolio date
+cost basis = amount on buy transactions
+Commission fixed per transaction - user input
+two options to create inflexible and flexible
+future dates not supported
+Set commission fee (default 10$)
+
+
+
+validations
+SELECT * FROM stocks WHERE symbol = 'AAPL' and date <= sell_date ORDER BY date
+// number of stocks available
+buy quantity - sell quantity
+
+
+SELECT * FROM stocks WHERE symbol = 'AAPL' and date > sell_date
+if count > 0
+ invalid
+
+
+res = SELECT * FROM stocks WHERE symbol = 'AAPL'
+buy = res.filter(date <= sell_date)
