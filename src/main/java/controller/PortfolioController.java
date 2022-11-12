@@ -281,14 +281,21 @@ public class PortfolioController implements IPortfolioController {
       stockPair = new Pair<>(symbol, quantity);
 
       this.view.showPrompt(Constants.PROMPT_DATE_KEY);
-      date = this.bufferedReader.readLine();
+
+        date = this.bufferedReader.readLine();
+
     } catch (NumberFormatException numberFormatException) {
       this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
+      return;
     }
 
     switch (selectedSubmenuItem) {
       case 1: {
-        this.model.buyStock(portfolioName, stockPair, date);
+        try {
+          this.model.buyStock(portfolioName, stockPair, date);
+        } catch (IllegalArgumentException illegalArgumentException) {
+          this.view.showString(Constants.DATE_INVALID);
+        }
         break;
       }
       case 2: {

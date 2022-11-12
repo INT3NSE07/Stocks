@@ -10,10 +10,13 @@ ascii terminal package
 add ioex in tests
 move all strings to constants
 menu enum
-pub shouldf not call pub
+pub should not call pub
 check access modifiers
 String or date object? - change string to date in service
 fix comments and tests
+test fix with real stock data
+bug fix with date retrieving top of the list
+abstract file service
 
 Done
 -- resources folder

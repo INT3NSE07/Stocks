@@ -1,10 +1,14 @@
 package utilities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A utility class that contains common date helpers.
@@ -37,7 +41,15 @@ public final class DateUtils {
   public static boolean isValidDate(String date, DateTimeFormatter dateTimeFormatter) {
     try {
       LocalDate.parse(date, dateTimeFormatter);
+
+      Date givenDate = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH).parse(date);
+      Date currentDate = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH).parse(getCurrentDate(dateTimeFormatter));
+      if (givenDate.compareTo(currentDate) > 0) {
+        return false;
+      }
     } catch (DateTimeParseException e) {
+      return false;
+    } catch (ParseException e) {
       return false;
     }
 

@@ -10,7 +10,9 @@ import constants.Constants;
 import enums.Operation;
 import repository.IRepository;
 import service.IStockService;
+import utilities.DateUtils;
 import utilities.Pair;
+import utilities.StringUtils;
 
 public class FlexiblePortfolioModel extends PortfolioModel implements IFlexiblePortfolioModel  {
 
@@ -27,14 +29,18 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException {
+  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException,IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
     super.isStockSymbolValid(stockPair.getKey());
     if(stockPair.getValue() < 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
-    // cannot buy future stocks
+    // cannot buy future stocks - added
+    // cannot buy before IPO -comes from api
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
     super.validateDate(date);
 
     Portfolio portfolio= new Portfolio();
@@ -51,15 +57,20 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException {
+  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException,IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
     super.isStockSymbolValid(stockPair.getKey());
     if(stockPair.getValue() < 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
-    super.validateDate(date);
+    // cannot sell future stocks - added
+    // cannot sell before IPO
     // 1)check for chronology and 2) is quantity sufficiency to sell
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    super.validateDate(date);
 
     Portfolio portfolio= new Portfolio();
     portfolio.setName(portfolioName);
@@ -68,7 +79,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
             .create()
             .setSymbol(stockPair.getKey())
             .setQuantity(stockPair.getValue())
-            .setDate(date);
+            .setDate(date)
+            .setOperation(Operation.operations.SELL);
     portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
     super.portfolioRepository.update(portfolio);
 
