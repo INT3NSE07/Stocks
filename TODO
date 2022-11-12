@@ -68,6 +68,7 @@ New Features
 - calCommission
  - changing per transaction for broker fee. according to piazza @1047.
  - commission is usually fixed and not in percentage
+ - add commission parameter
 
 - display
 

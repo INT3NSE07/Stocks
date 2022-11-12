@@ -1,20 +1,17 @@
 package model;
 
+import constants.Constants;
+import enums.Operations;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-
-import constants.Constants;
-import enums.Operation;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
 import utilities.Pair;
 import utilities.StringUtils;
 
-public class FlexiblePortfolioModel extends PortfolioModel implements IFlexiblePortfolioModel  {
+public class FlexiblePortfolioModel extends PortfolioModel implements IFlexiblePortfolioModel {
 
   /**
    * Constructs a {@link PortfolioModel} object.
@@ -29,78 +26,100 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException,IllegalArgumentException {
+  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date)
+      throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
+
     super.isStockSymbolValid(stockPair.getKey());
-    if(stockPair.getValue() < 0) {
+
+    if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
-    // cannot buy future stocks - added
-    // cannot buy before IPO -comes from api
+
+    // cannot buy before IPO - comes from api
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     super.validateDate(date);
 
-    Portfolio portfolio= new Portfolio();
+    Portfolio portfolio = new Portfolio();
     portfolio.setName(portfolioName);
+
     Stock stock = Stock
-                  .StockBuilder
-                  .create()
-                  .setSymbol(stockPair.getKey())
-                  .setQuantity(stockPair.getValue())
-                  .setDate(date)
-                  .setOperation(Operation.operations.BUY);
+        .StockBuilder
+        .create()
+        .setSymbol(stockPair.getKey())
+        .setQuantity(stockPair.getValue())
+        .setDate(date)
+        .setOperation(Operations.BUY);
     portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
+
     super.portfolioRepository.update(portfolio);
   }
 
   @Override
-  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date) throws IOException,IllegalArgumentException {
+  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date)
+      throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
+
     super.isStockSymbolValid(stockPair.getKey());
-    if(stockPair.getValue() < 0) {
+
+    if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
-    // cannot sell future stocks - added
-    // cannot sell before IPO
+
     // 1)check for chronology and 2) is quantity sufficiency to sell
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     super.validateDate(date);
 
-    Portfolio portfolio= new Portfolio();
+    Portfolio portfolio = new Portfolio();
     portfolio.setName(portfolioName);
+
     Stock stock = Stock
-            .StockBuilder
-            .create()
-            .setSymbol(stockPair.getKey())
-            .setQuantity(stockPair.getValue())
-            .setDate(date)
-            .setOperation(Operation.operations.SELL);
+        .StockBuilder
+        .create()
+        .setSymbol(stockPair.getKey())
+        .setQuantity(stockPair.getValue())
+        .setDate(date)
+        .setOperation(Operations.SELL);
     portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
+
     super.portfolioRepository.update(portfolio);
-
   }
 
   @Override
-  public double calCommission() {
-    // Ask for commission rate per transaction
-    // well then what should be constant in commission fee.
-    return 0;
-  }
+  public Pair<Portfolio, Double> getCostBasis(String portfolioName, String date)
+      throws IOException {
+    super.validateInput(portfolioName);
 
-  @Override
-  public double costBasis(Portfolio portfolio) {
-    // costBasis = value of stocks bought + calCommission for only these bought transactions.
-     super.validateInput(portfolio.getName());
-//    Iterable<Portfolio> portfolios = super.portfolioRepository
-//             .read(x -> x.getName().getOperation().equals("Buy"));
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    super.validateDate(date);
 
-    return 0;
+    Iterable<Portfolio> portfolios = super.portfolioRepository.read(
+        x -> x.getName().equals(portfolioName));
+    Portfolio portfolio = portfolios.iterator().next();
+
+    double value = 0;
+    for (Stock stock : portfolio.getStocks()) {
+      stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
+          .getClose());
+
+      switch (stock.getOperation()) {
+        case BUY:
+          // change high to commission fees
+          value += (stock.getClose() * stock.getQuantity()) + stock.getHigh();
+        case SELL:
+          value += stock.getHigh();
+      }
+    }
+
+    return new Pair<>(portfolio, value);
   }
 
   @Override

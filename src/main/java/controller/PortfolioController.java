@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import model.IFlexiblePortfolioModel;
-import model.IPortfolioModel;
 import model.Portfolio;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -245,7 +244,7 @@ public class PortfolioController implements IPortfolioController {
   private void createTransactionSubMenuItem(int selectedSubmenuItem) throws IOException {
 
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-    Pair stockPair = new Pair<>(null,null);
+    Pair stockPair = new Pair<>(null, null);
     String portfolioName = this.bufferedReader.readLine();
     String date = null;
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
@@ -263,12 +262,12 @@ public class PortfolioController implements IPortfolioController {
     try {
       if (!this.model.isStockSymbolValid(symbol)) {
         this.view.showString(
-                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+            String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
         return;
       }
     } catch (IOException e) {
       this.view.showString(
-              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+          String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
       return;
     }
 
@@ -282,7 +281,7 @@ public class PortfolioController implements IPortfolioController {
 
       this.view.showPrompt(Constants.PROMPT_DATE_KEY);
 
-        date = this.bufferedReader.readLine();
+      date = this.bufferedReader.readLine();
 
     } catch (NumberFormatException numberFormatException) {
       this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
@@ -299,7 +298,7 @@ public class PortfolioController implements IPortfolioController {
         break;
       }
       case 2: {
-        this.model.sellStock(portfolioName,stockPair,date);
+        this.model.sellStock(portfolioName, stockPair, date);
         break;
       }
       case 3: {

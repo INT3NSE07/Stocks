@@ -72,7 +72,7 @@ public class ModelTest {
   }
 
   @Test
-    public void testCreatePortfolioCreateCallingCreateRepository() {
+  public void testCreatePortfolioCreateCallingCreateRepository() {
 
     List<String> mockLog = new ArrayList<>();
     MockRepository temp = new MockRepository(mockLog);
@@ -452,9 +452,8 @@ public class ModelTest {
       Double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022/09/23").getValue();
     } catch (IOException ioException) {
       fail(ioException.getMessage());
-    }
-    catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals(Constants.DATE_INVALID,illegalArgumentException.getMessage());
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(Constants.DATE_INVALID, illegalArgumentException.getMessage());
     }
   }
 

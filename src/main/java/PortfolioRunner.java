@@ -1,4 +1,3 @@
-import constants.CSVConstants;
 import constants.Constants;
 import controller.IPortfolioController;
 import controller.PortfolioController;
@@ -9,13 +8,10 @@ import io.IWriter;
 import java.util.List;
 import model.FlexiblePortfolioModel;
 import model.IFlexiblePortfolioModel;
-import model.IPortfolioModel;
 import model.Portfolio;
-import model.PortfolioModel;
 import repository.CSVPortfolioRepository;
 import repository.IRepository;
 import service.AlphaVantageStockService;
-import service.FileStockService;
 import service.IStockService;
 import view.IPortfolioView;
 import view.PortfolioTextView;

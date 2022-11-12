@@ -11,9 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-
 import model.IFlexiblePortfolioModel;
-import model.IPortfolioModel;
 import model.Portfolio;
 import org.junit.Test;
 import utilities.Pair;
@@ -758,7 +756,7 @@ public class ControllerTest {
     }
 
     @Override
-    public double costBasis(Portfolio portfolio) {
+    public double getCostBasis(Portfolio portfolio) {
       return 0;
     }
 

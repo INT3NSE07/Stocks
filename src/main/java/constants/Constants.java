@@ -72,9 +72,9 @@ public final class Constants {
   public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
       "Invalid quantity. Quantity must be a whole number.";
   public static final String[] TRANSACTIONS_SUBMENU = {
-          "Buy Stocks",
-          "Sell Stocks",
-          "Back"
+      "Buy Stocks",
+      "Sell Stocks",
+      "Back"
   };
 
 

@@ -100,6 +100,9 @@ public class PortfolioModel implements IPortfolioModel {
     Portfolio portfolio = this.readPortfolio(portFolioName);
     double value = 0;
 
+    // filter the earliest date present in the portfolio
+    // if given date < earliest data - show error
+
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
           .getClose());
