@@ -66,7 +66,4 @@ public interface IPortfolioModel {
    *                                  thrown.
    */
   boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException;
-
-  void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
-      throws IllegalArgumentException, IOException;
 }

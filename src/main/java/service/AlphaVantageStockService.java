@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,13 +22,15 @@ import utilities.MapperUtils;
 public class AlphaVantageStockService extends AbstractStockService {
 
   private static AlphaVantageStockService instance;
+
+  private final IReader<List<List<String>>> reader;
+
   private final String apiKey;
+
   private final String apiEndpoint;
 
   private AlphaVantageStockService(IReader<List<List<String>>> reader) {
-    super(reader);
-
-    // TODO: move to config
+    this.reader = reader;
     this.apiKey = "7TI4IRSWZWDASJHV";
     this.apiEndpoint = "https://www.alphavantage.co/query?";
   }
@@ -48,13 +51,21 @@ public class AlphaVantageStockService extends AbstractStockService {
   }
 
   @Override
-  protected InputStream getInputStream(String symbol) throws IOException {
-    return buildURL(symbol).openStream();
-  }
+  protected List<Stock> getStocks(String symbol) throws IOException {
+    List<Stock> stocks = new ArrayList<>();
 
-  @Override
-  protected Function<List<String>, Stock> getResponseToStockMapper() {
-    return MapperUtils.getAlphaVantageResponseToStockMapper();
+    try (InputStream inputStream = buildURL(symbol).openStream()) {
+      List<List<String>> stockData = this.reader.read(inputStream);
+      Function<List<String>, Stock> mapper = MapperUtils.getAlphaVantageResponseToStockMapper();
+
+      for (List<String> record : stockData) {
+        Stock stock = mapper.apply(record);
+        stock.setSymbol(symbol);
+        stocks.add(stock);
+      }
+    }
+
+    return stocks;
   }
 
   private URL buildURL(String symbol) {

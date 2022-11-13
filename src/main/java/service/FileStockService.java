@@ -3,6 +3,7 @@ package service;
 import io.IReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import model.Stock;
@@ -16,11 +17,13 @@ import utilities.MapperUtils;
 public class FileStockService extends AbstractStockService {
 
   private static FileStockService instance;
+
+  private final IReader<List<List<String>>> reader;
+
   private final String path;
 
   private FileStockService(IReader<List<List<String>>> reader, String filePath) {
-    super(reader);
-
+    this.reader = reader;
     this.path = filePath;
   }
 
@@ -41,12 +44,19 @@ public class FileStockService extends AbstractStockService {
   }
 
   @Override
-  protected InputStream getInputStream(String symbol) throws IOException {
-    return getClass().getResourceAsStream("/" + this.path);
-  }
+  protected List<Stock> getStocks(String symbol) throws IOException {
+    List<Stock> stocks = new ArrayList<>();
 
-  @Override
-  protected Function<List<String>, Stock> getResponseToStockMapper() {
-    return MapperUtils.getCSVFileToStockMapper();
+    try (InputStream inputStream = getClass().getResourceAsStream("/" + this.path)) {
+      List<List<String>> stockData = this.reader.read(inputStream);
+      Function<List<String>, Stock> mapper = MapperUtils.getCSVFileToStockMapper();
+
+      for (List<String> record : stockData) {
+        Stock stock = mapper.apply(record);
+        stocks.add(stock);
+      }
+    }
+
+    return stocks;
   }
 }

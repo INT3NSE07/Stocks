@@ -17,6 +17,7 @@ fix comments and tests
 test fix with real stock data
 bug fix with date retrieving top of the list
 abstract file service
+portfolio date on non trading day
 
 Done
 

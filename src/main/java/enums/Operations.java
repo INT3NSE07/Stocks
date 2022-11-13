@@ -10,10 +10,6 @@ public enum Operations {
     this.operation = operation;
   }
 
-  public String getOperation() {
-    return this.operation;
-  }
-
   public static Operations getOperationByValue(String operation)
       throws IllegalArgumentException {
     for (Operations op : Operations.values()) {
@@ -23,5 +19,9 @@ public enum Operations {
     }
 
     throw new IllegalArgumentException("Invalid gear number.");
+  }
+
+  public String getOperation() {
+    return this.operation;
   }
 }

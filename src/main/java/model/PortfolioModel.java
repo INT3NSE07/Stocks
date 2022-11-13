@@ -46,7 +46,7 @@ public class PortfolioModel implements IPortfolioModel {
     this.addStock(portFolioName, stockPairs);
   }
 
-  public void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
+  private void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException {
     this.validateInput(portFolioName);
 
@@ -66,7 +66,8 @@ public class PortfolioModel implements IPortfolioModel {
         throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
       }
 
-      Stock stock = this.stockService.getStock(symbol, quantity);
+      Stock stock = this.stockService.getStockOnDate(symbol, null);
+      stock.setQuantity(quantity);
 
       Portfolio portfolio = new Portfolio();
       portfolio.setName(portFolioName);
@@ -117,7 +118,13 @@ public class PortfolioModel implements IPortfolioModel {
   public boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException {
     this.validateInput(symbol);
 
-    return stockService.isStockSymbolValid(symbol);
+    try {
+      Stock stock = stockService.getStockOnDate(symbol, null);
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
+
+    return true;
   }
 
   protected void validateInput(String input) {
