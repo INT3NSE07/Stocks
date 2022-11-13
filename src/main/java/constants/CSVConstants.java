@@ -11,7 +11,8 @@ public final class CSVConstants {
       "symbol",
       "quantity",
       "date",
-      "Operation"
+      "Operation",
+      "Commission"
   };
 
   private CSVConstants() {

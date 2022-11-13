@@ -16,6 +16,7 @@ public class Stock {
   private double close;
   private double volume;
   private Operations operation;
+  private double commission;
 
   private Stock() {
   }
@@ -205,6 +206,26 @@ public class Stock {
    */
   public Stock setOperation(Operations operation) {
     this.operation = operation;
+    return this;
+  }
+
+  /**
+   * Get the stock commission set tp perform operation on stock.
+   *
+   * @return the commission value performed on it.
+   */
+  public double getCommission() {
+    return commission;
+  }
+
+  /**
+   * Set the stock commission set tp perform operation on stock.
+   *
+   * @param commission the commission that should be set for the operation to be performed on this stock.
+   * @return the {@link Stock} object with the updated value
+   */
+  public Stock setCommission(double commission) {
+    this.commission = commission;
     return this;
   }
 

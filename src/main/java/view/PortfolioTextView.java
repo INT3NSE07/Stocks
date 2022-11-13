@@ -46,7 +46,7 @@ public class PortfolioTextView implements IPortfolioView {
           this.out.println((i + 1) + ") " + Constants.CREATE_PORTFOLIO_SUBMENU_ITEMS[i]);
         }
         break;
-      case 2:
+      case 4:
         for (int i = 0; i < Constants.TRANSACTIONS_SUBMENU.length; i++) {
           this.out.println((i + 1) + ") " + Constants.TRANSACTIONS_SUBMENU[i]);
         }

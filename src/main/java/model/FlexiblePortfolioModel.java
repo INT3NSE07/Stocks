@@ -26,7 +26,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date)
+  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission)
       throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
@@ -52,14 +52,15 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .setSymbol(stockPair.getKey())
         .setQuantity(stockPair.getValue())
         .setDate(date)
-        .setOperation(Operations.BUY);
+        .setOperation(Operations.BUY)
+        .setCommission(commission);
     portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
 
     super.portfolioRepository.update(portfolio);
   }
 
   @Override
-  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date)
+  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission)
       throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
@@ -85,7 +86,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .setSymbol(stockPair.getKey())
         .setQuantity(stockPair.getValue())
         .setDate(date)
-        .setOperation(Operations.SELL);
+        .setOperation(Operations.SELL)
+        .setCommission(commission);
     portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
 
     super.portfolioRepository.update(portfolio);
@@ -113,9 +115,9 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       switch (stock.getOperation()) {
         case BUY:
           // change high to commission fees
-          value += (stock.getClose() * stock.getQuantity()) + stock.getHigh();
+          value += (stock.getClose() * stock.getQuantity()) + stock.getCommission();
         case SELL:
-          value += stock.getHigh();
+          value += stock.getCommission();
       }
     }
 

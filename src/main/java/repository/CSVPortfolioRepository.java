@@ -117,7 +117,7 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
         getFilePath(portfolio.getName()).toFile(), true)) {
       for (Stock stock : portfolio.getStocks()) {
         List<String> record = Arrays.asList(stock.getSymbol(),
-            Double.toString(stock.getQuantity()), stock.getDate(), stock.getOperation().toString());
+            Double.toString(stock.getQuantity()), stock.getDate(), stock.getOperation().toString(), Double.toString(stock.getCommission()));
         this.writer.write(record, fileOutputStream);
       }
     }

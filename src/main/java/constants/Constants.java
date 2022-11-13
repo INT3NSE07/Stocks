@@ -37,12 +37,11 @@ public final class Constants {
   public static final String[] MAIN_MENU_ITEMS = {
       "Portfolio Management Services",
       "Create a portfolio",
-      "Make a transactions in Portfolio",
-      "Calculate Cost Basis",
-      "Calculate Commission",
-      "Get Performance of Portfolio over period",
       "Examine a portfolio",
       "Determine value of a portfolio on a certain date",
+      "Make a transactions in portfolio",
+      "Calculate cost basis",
+      "Get performance of portfolio over period",
       "Exit"
   };
 
@@ -76,6 +75,7 @@ public final class Constants {
       "Sell Stocks",
       "Back"
   };
+  public static final int EXIT_CODE = Constants.MAIN_MENU_ITEMS.length - 1;
 
 
   private Constants() {

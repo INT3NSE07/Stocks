@@ -1,5 +1,10 @@
 package controller;
 
+import commands.CostBasis;
+import commands.CreatePortfolio;
+import commands.ExaminePortfolio;
+import commands.Transactions;
+import commands.ValueOfPortfolio;
 import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,172 +65,29 @@ public class PortfolioController implements IPortfolioController {
 
         switch (selectedMenuItem) {
           case 1: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-            String portfolioName = this.bufferedReader.readLine();
-            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-              continue;
-            }
-            List<Pair<String, Double>> stockPairs = new ArrayList<>();
-
-            int selectedSubmenuItem = 0;
-            while (selectedSubmenuItem != 2) {
-              this.view.showOptions(selectedMenuItem);
-              this.view.showPrompt(Constants.PROMPT_CHOICE);
-
-              try {
-                selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
-              } catch (NumberFormatException e) {
-                this.view.showString(Constants.INVALID_OPTION);
-                continue;
-              }
-
-              createPortfolioSubmenu(selectedSubmenuItem, stockPairs);
-            }
-
-            try {
-              this.model.createPortfolio(portfolioName, stockPairs);
-            } catch (IOException e) {
-              this.view.showString(
-                  String.format("The creation of portfolio %s has failed.", portfolioName));
-              break;
-            } catch (IllegalArgumentException e) {
-              this.view.showString(e.getMessage());
-              break;
-            }
-
-            this.view.showString(
-                String.format("The portfolio %s has been created.", portfolioName));
+            new CreatePortfolio(this.bufferedReader, this.model, this.view).go();
             break;
           }
           case 2: {
-            int selectedSubmenuItem = 0;
-            while (selectedSubmenuItem != 3) {
-              this.view.showOptions(selectedMenuItem);
-              this.view.showPrompt(Constants.PROMPT_CHOICE);
-
-              try {
-                selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
-              } catch (NumberFormatException e) {
-                this.view.showString(Constants.INVALID_OPTION);
-                break;
-              }
-              createTransactionSubMenuItem(selectedSubmenuItem);
-            }
+            new ExaminePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
-
-//            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-//            String portfolioName = this.bufferedReader.readLine();
-//            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-//              continue;
-//            }
-//            List<Pair<String, Double>> stockPair = new ArrayList<>();
-//            this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
-//            String symbol = this.bufferedReader.readLine();
-//
-//            if (StringUtils.isNullOrWhiteSpace(symbol)) {
-//              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-//              return;
-//            }
-//
-//            try {
-//              if (!this.model.isStockSymbolValid(symbol)) {
-//                this.view.showString(
-//                        String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-//                break;
-//              }
-//            } catch (IOException e) {
-//              this.view.showString(
-//                      String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-//              break;
-//            }
-//
-//            this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
-//
-//            try {
-//              // model can handle but broker restriction
-//              double quantity = Integer.parseInt(this.bufferedReader.readLine());
-//
-//              stockPair.add(new Pair<>(symbol, quantity));
-//
-//              try {
-//                this.model.addStock(portfolioName, stockPair);
-//              }
-//              catch (IllegalArgumentException illegalArgumentException) {
-//                this.view.showString(Constants.PORTFOLIO_DOES_NOT_EXIST);
-//              }
-//
-//            } catch (NumberFormatException numberFormatException) {
-//              this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
-//            }
-
-//            break;
-//          }
           case 3: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            new ValueOfPortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 4: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            new Transactions(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 5: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
+            new CostBasis(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 6: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-            String portfolioName = this.bufferedReader.readLine();
-
-            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-              continue;
-            }
-
-            try {
-              this.view.showPortfolio(this.model.readPortfolio(portfolioName));
-            } catch (IOException e) {
-              this.view.showString(
-                  String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
-              break;
-            } catch (IllegalArgumentException e) {
-              this.view.showString(e.getMessage());
-              break;
-            }
-
             break;
           }
-
           case 7: {
-            this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-            String portfolioName = this.bufferedReader.readLine();
-
-            if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-              this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-              continue;
-            }
-
-            this.view.showPrompt(Constants.PROMPT_DATE_KEY);
-            String date = this.bufferedReader.readLine();
-
-            try {
-              Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
-                  portfolioName, date);
-              this.view.showPortfolioValue(portfolioValue);
-            } catch (IOException e) {
-              this.view.showString(
-                  String.format("The fetching of value of the portfolio %s has failed.",
-                      portfolioName));
-              break;
-            } catch (IllegalArgumentException e) {
-              this.view.showString(e.getMessage());
-              break;
-            }
-            break;
-          }
-          case 8: {
             this.view.showString(Constants.EXITING_STATUS);
             break;
           }
@@ -235,122 +97,9 @@ public class PortfolioController implements IPortfolioController {
           }
         }
       }
-      while (selectedMenuItem != 8);
+      while (selectedMenuItem != Constants.EXIT_CODE);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
-    }
-  }
-
-  private void createTransactionSubMenuItem(int selectedSubmenuItem) throws IOException {
-
-    this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-    Pair stockPair = new Pair<>(null, null);
-    String portfolioName = this.bufferedReader.readLine();
-    String date = null;
-    if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
-      this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-      return;
-    }
-    this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
-    String symbol = this.bufferedReader.readLine();
-
-    if (StringUtils.isNullOrWhiteSpace(symbol)) {
-      this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-      return;
-    }
-
-    try {
-      if (!this.model.isStockSymbolValid(symbol)) {
-        this.view.showString(
-            String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-        return;
-      }
-    } catch (IOException e) {
-      this.view.showString(
-          String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-      return;
-    }
-
-    this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
-
-    try {
-      // model can handle but broker restriction
-      double quantity = Integer.parseInt(this.bufferedReader.readLine());
-
-      stockPair = new Pair<>(symbol, quantity);
-
-      this.view.showPrompt(Constants.PROMPT_DATE_KEY);
-
-      date = this.bufferedReader.readLine();
-
-    } catch (NumberFormatException numberFormatException) {
-      this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
-      return;
-    }
-
-    switch (selectedSubmenuItem) {
-      case 1: {
-        try {
-          this.model.buyStock(portfolioName, stockPair, date);
-        } catch (IllegalArgumentException illegalArgumentException) {
-          this.view.showString(Constants.DATE_INVALID);
-        }
-        break;
-      }
-      case 2: {
-        this.model.sellStock(portfolioName, stockPair, date);
-        break;
-      }
-      case 3: {
-        return;
-      }
-      default:
-        this.view.showOptionError();
-        break;
-    }
-  }
-
-  private void createPortfolioSubmenu(int selectedSubmenuItem,
-      List<Pair<String, Double>> stockPairs) throws IOException {
-    switch (selectedSubmenuItem) {
-      case 1:
-        this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
-        String symbol = this.bufferedReader.readLine();
-
-        if (StringUtils.isNullOrWhiteSpace(symbol)) {
-          this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
-          return;
-        }
-
-        try {
-          if (!this.model.isStockSymbolValid(symbol)) {
-            this.view.showString(
-                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-            break;
-          }
-        } catch (IOException e) {
-          this.view.showString(
-              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
-          break;
-        }
-
-        this.view.showPrompt(Constants.PROMPT_QUANTITY_KEY);
-
-        try {
-          // model can handle but broker restriction
-          double quantity = Integer.parseInt(this.bufferedReader.readLine());
-
-          stockPairs.add(new Pair<>(symbol, quantity));
-
-        } catch (NumberFormatException numberFormatException) {
-          this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
-        }
-        break;
-      case 2:
-        break;
-      default:
-        this.view.showOptionError();
-        break;
     }
   }
 

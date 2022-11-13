@@ -742,22 +742,17 @@ public class ControllerTest {
     }
 
     @Override
-    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date) {
+    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date, Double commission) {
 
     }
 
     @Override
-    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date) {
+    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission) {
     }
 
     @Override
-    public double calCommission() {
-      return 0;
-    }
-
-    @Override
-    public double getCostBasis(Portfolio portfolio) {
-      return 0;
+    public Pair<Portfolio, Double> getCostBasis(String portfolioName, String date) throws IOException {
+      return null;
     }
 
     @Override
