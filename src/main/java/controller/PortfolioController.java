@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Function;
-
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
+import model.IFlexiblePortfolioModel;
 import view.IPortfolioView;
 
 /**
@@ -79,15 +79,5 @@ public class PortfolioController implements IPortfolioController {
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }
-  }
-
-  private <T> Pair<Boolean, T> validateInput(String input, Function<String, T> validator) {
-    try {
-      return new Pair<>(true, validator.apply(input));
-    } catch (NumberFormatException e) {
-      this.view.showString("The entered input is invalid.");
-    }
-
-    return new Pair<>(false, null);
   }
 }

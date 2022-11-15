@@ -1,5 +1,6 @@
 package utilities;
 
+import enums.Operations;
 import java.util.List;
 import java.util.function.Function;
 import model.Stock;
@@ -55,6 +56,8 @@ public final class MapperUtils {
     return stockData -> Stock.StockBuilder.create()
         .setSymbol(stockData.get(0))
         .setQuantity(Double.parseDouble(stockData.get(1)))
-        .setDate(stockData.get(2));
+        .setDate(stockData.get(2))
+        .setOperation(Operations.getOperationByValue(stockData.get(3)))
+        .setCommission(Double.parseDouble(stockData.get(4)));
   }
 }

@@ -26,5 +26,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="apache.maven.plugins.assembly.plugin" level="project" />
+    <orderEntry type="library" name="github.freva.ascii.table" level="project" />
   </component>
 </module>
