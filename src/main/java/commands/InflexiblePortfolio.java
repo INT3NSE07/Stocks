@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import constants.Constants;
+import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import model.Portfolio;
 import utilities.Pair;
@@ -29,7 +30,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
     try {
       int selectedMenuItem;
       do {
-        selectedMenuItem = 0;
+        selectedMenuItem = MenuItem.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
 
@@ -51,12 +52,11 @@ public class InflexiblePortfolio implements PortfolioCommand {
             }
             List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-            int selectedSubmenuItem = 0;
-            while (selectedSubmenuItem != 2) {
-              this.view.showOptions(selectedMenuItem);
+            int selectedSubmenuItem = MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
+            while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
+              this.view.showOptions(selectedSubmenuItem);
               this.view.showPrompt(Constants.PROMPT_CHOICE);
 
-              selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
               try {
                 selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
               } catch (NumberFormatException e) {
@@ -142,8 +142,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
             view.showOptionError();
             break;
         }
-      }
-      while (selectedMenuItem != Constants.INFLEXIBLE_EXIT_CODE);
+      } while (selectedMenuItem != Constants.INFLEXIBLE_EXIT_CODE);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }

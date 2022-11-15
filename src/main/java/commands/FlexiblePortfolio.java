@@ -10,6 +10,7 @@ import commands.PortfolioCommand;
 import commands.Transactions;
 import commands.ValueOfPortfolio;
 import constants.Constants;
+import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import view.IPortfolioView;
 
@@ -31,7 +32,7 @@ public class FlexiblePortfolio implements PortfolioCommand {
   public void go() throws IOException {
     int selectedMenuItem;
     do {
-      selectedMenuItem = 0;
+      selectedMenuItem = MenuItem.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
       this.view.showOptions(selectedMenuItem);
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 

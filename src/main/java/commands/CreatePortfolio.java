@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import constants.Constants;
+import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -38,9 +39,9 @@ public class CreatePortfolio implements PortfolioCommand {
     }
     List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-    int selectedSubmenuItem = 0;
-    while (selectedSubmenuItem != 2) {
-      this.view.showOptions(1);
+    int selectedSubmenuItem = MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
+    while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
+      this.view.showOptions(MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue());
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 
       try {

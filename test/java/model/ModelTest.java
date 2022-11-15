@@ -465,22 +465,22 @@ public class ModelTest {
       this.log = log;
     }
 
-    @Override
-    public Stock getStock(String symbol, double quantity) {
-      this.log.add(MOCK_SERVICE_GET_STOCK_MESSAGE);
-      String date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-      return getStockOnDate(symbol, date);
-    }
+//    @Override
+//    public Stock getStock(String symbol, double quantity) {
+//      this.log.add(MOCK_SERVICE_GET_STOCK_MESSAGE);
+//      String date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+//      return getStockOnDate(symbol, date);
+//    }
 
     @Override
     public Stock getStockOnDate(String symbol, String date) throws IllegalArgumentException {
       this.log.add(MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE);
-      if (!isStockSymbolValid(symbol.toUpperCase())) {
-        throw new IllegalArgumentException(
-            String.format("Error occurred while fetching stock data for symbol: %s on date: %s",
-                symbol,
-                date));
-      }
+//      if (!isStockSymbolValid(symbol.toUpperCase())) {
+//        throw new IllegalArgumentException(
+//            String.format("Error occurred while fetching stock data for symbol: %s on date: %s",
+//                symbol,
+//                date));
+//      }
       return Stock
           .StockBuilder
           .create()
@@ -489,11 +489,11 @@ public class ModelTest {
           .setClose(234);
     }
 
-    @Override
-    public boolean isStockSymbolValid(String symbol) {
-      this.log.add(MOCK_SERVICE_IS_STOCK_SYMBOL_VALID_MESSAGE);
-      return symbol.equals(FOUND_A_MATCH.toUpperCase());
-    }
+//    @Override
+//    public boolean isStockSymbolValid(String symbol) {
+//      this.log.add(MOCK_SERVICE_IS_STOCK_SYMBOL_VALID_MESSAGE);
+//      return symbol.equals(FOUND_A_MATCH.toUpperCase());
+//    }
   }
 
   static class MockRepository implements IRepository<Portfolio> {

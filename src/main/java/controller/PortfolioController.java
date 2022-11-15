@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Function;
 
+import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
 import view.IPortfolioView;
@@ -44,8 +45,9 @@ public class PortfolioController implements IPortfolioController {
    */
   public void run() {
     try {
-      int selectedMenuItem = 0;
+      int selectedMenuItem;
       do {
+        selectedMenuItem = 0;
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
         try {
@@ -75,7 +77,7 @@ public class PortfolioController implements IPortfolioController {
             break;
           }
         }
-        } while (selectedMenuItem != Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS).length);
+      } while (selectedMenuItem != Constants.PORTFOLIO_OPTIONS_EXIT_CODE);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }

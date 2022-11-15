@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import constants.Constants;
+import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -25,7 +26,7 @@ public class Transactions implements PortfolioCommand {
 
   @Override
   public void go() throws IOException {
-    int selectedSubmenuItem = 0;
+    int selectedSubmenuItem = MenuItem.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
     double commission = 0;
     this.view.showString(String.format("Please Enter commission for this instance of transaction: "));
 
@@ -36,12 +37,16 @@ public class Transactions implements PortfolioCommand {
       return;
     }
 
-    while (selectedSubmenuItem != 3) {
-      this.view.showOptions(4);
+    while (selectedSubmenuItem != Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
+      this.view.showOptions(MenuItem.TRANSACTIONS_SUBMENU.getValue());
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 
       try {
         selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
+
+        if (!(selectedSubmenuItem <= Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (selectedSubmenuItem > 0 )) {
+          this.view.showString(Constants.INVALID_OPTION);
+        }
       } catch (NumberFormatException e) {
         this.view.showString(Constants.INVALID_OPTION);
         break;
@@ -52,7 +57,7 @@ public class Transactions implements PortfolioCommand {
 
   private void createTransactionSubMenuItem(int selectedSubmenuItem, double commission) throws IOException {
 
-    if (selectedSubmenuItem == 3) {
+    if (selectedSubmenuItem == Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
       return;
     }
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);

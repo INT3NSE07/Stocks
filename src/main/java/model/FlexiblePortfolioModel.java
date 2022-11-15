@@ -42,6 +42,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
 
+
+
     // cannot buy before IPO - comes from api
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
