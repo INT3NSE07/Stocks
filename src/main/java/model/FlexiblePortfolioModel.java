@@ -31,7 +31,41 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission)
+  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
+      throws IllegalArgumentException, IOException {
+    this.validateInput(portFolioName);
+
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    this.validateDate(date);
+
+    Portfolio portfolio = this.readPortfolio(portFolioName);
+    double value = 0;
+
+    // filter the earliest date present in the portfolio
+    // if given date < earliest data - show error
+
+    for (Stock stock : portfolio.getStocks()) {
+      stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
+          .getClose());
+
+      switch (stock.getOperation()) {
+        case BUY:
+          value += (stock.getQuantity() * stock.getClose());
+          break;
+        case SELL:
+          value -= (stock.getQuantity() * stock.getClose());
+          break;
+      }
+    }
+
+    return new Pair<>(portfolio, value);
+  }
+
+  @Override
+  public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date,
+      double commission)
       throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
@@ -67,7 +101,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission)
+  public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date,
+      double commission)
       throws IOException, IllegalArgumentException {
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
@@ -121,10 +156,11 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
       switch (stock.getOperation()) {
         case BUY:
-          // change high to commission fees
           value += (stock.getClose() * stock.getQuantity()) + stock.getCommission();
+          break;
         case SELL:
           value += stock.getCommission();
+          break;
       }
     }
 
@@ -132,7 +168,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void getPerformanceOverView(Portfolio portfolio) {
+  public void getPerformanceOverview(Portfolio portfolio) {
 
   }
 }

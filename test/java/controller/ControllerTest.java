@@ -742,12 +742,12 @@ public class ControllerTest {
     }
 
     @Override
-    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date, Double commission) {
+    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date, double commission) {
 
     }
 
     @Override
-    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, Double commission) {
+    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, double commission) {
     }
 
     @Override
@@ -756,7 +756,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void getPerformanceOverView(Portfolio portfolio) {
+    public void getPerformanceOverview(Portfolio portfolio) {
 
     }
 

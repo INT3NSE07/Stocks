@@ -1,9 +1,6 @@
 Pending
-unit tests use actual data
 Add chronology and quantity constraints to sell method in Flexible portfolio method.
-non trading day fix
 mapper adapter
-pub to pub -> pub to private
 integration testing
 integrate maven with bundling
 ascii terminal package
@@ -17,70 +14,23 @@ fix comments and tests
 test fix with real stock data
 bug fix with date retrieving top of the list
 abstract file service
-portfolio date on non trading day
+flexible and inflexible portfolio
+date of first purchase of stock = portfolio date
+portfolio check name during buy, sell
+composition date dependent
 
 Done
+Determine the cost basis
+
+Set commission fee
+future dates not supported
+non trading day fix
 
 
 -limitations
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.
 number of shares - INT.MAX
 market cap - validate number of stocks
-
-controller
-
-
-tests
--repository
-    -
-
-- S&P 500 only supported.
-
--testing
-
-
-New Features
-- buy <=> add on specified date.
-- sell (see piazza@1069)
-- costBasis
-    - 2 ideas
-        - sell should not delete the row but instead is an new addition with negative quantity.
-        - or keep a field to track cost_basis.
-
-- calCommission
- - changing per transaction for broker fee. according to piazza @1047.
- - commission is usually fixed and not in percentage
- - add commission parameter
-
-- display
-
-- questions
-    - commission fee from   user as per piazza@1073
-
-- while refactoring get stock value on date see piazza@1045
-- creating 2 types of portfolios
-
-
--- Combined task
- - Get together and reorder Menu Items.
-
-
--- csv writing in the sequence of symbol,date
--- csv may add operation or date sold field
-
-Purchase a specific number of shares of a specific stock on a specified date, and add them to the portfolio
-
-
-
-
-date of first purchase of stock = portfolio date
-cost basis = amount on buy transactions
-Commission fixed per transaction - user input
-two options to create inflexible and flexible
-future dates not supported
-Set commission fee (default 10$)
-
-
 
 validations
 SELECT * FROM stocks WHERE symbol = 'AAPL' and date <= sell_date ORDER BY date
