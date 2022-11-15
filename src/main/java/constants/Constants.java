@@ -1,7 +1,10 @@
 package constants;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
+
+import enums.MenuItem;
 
 /**
  * An immutable constants class that holds immutable constants fields.
@@ -34,21 +37,7 @@ public final class Constants {
 
   public static final String INVALID_OPTION = "Invalid option. Please try again.";
 
-  public static final String[] MAIN_MENU_ITEMS = {
-      "Portfolio Management Services",
-      "Create a portfolio",
-      "Examine a portfolio",
-      "Determine value of a portfolio on a certain date",
-      "Make a transactions in portfolio",
-      "Calculate cost basis",
-      "Get performance of portfolio over period",
-      "Exit"
-  };
-
-  public static final String[] CREATE_PORTFOLIO_SUBMENU_ITEMS = {
-      "Add a stock to this portfolio",
-      "Back"
-  };
+//  public static final String CREATE_PORTFOLIO_SUBMENU_ITEMS = "CREATE_PORTFOLIO_SUBMENU_ITEMS";
 
   public static final String PROMPT_CHOICE = "PROMPT_CHOICE";
   public static final String PROMPT_PORTFOLIO_NAME_KEY = "PROMPT_PORTFOLIO_NAME";
@@ -70,12 +59,57 @@ public final class Constants {
   public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
   public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
       "Invalid quantity. Quantity must be a whole number.";
-  public static final String[] TRANSACTIONS_SUBMENU = {
-      "Buy Stocks",
-      "Sell Stocks",
-      "Back"
-  };
-  public static final int EXIT_CODE = Constants.MAIN_MENU_ITEMS.length - 1;
+//  public static final String TRANSACTIONS_SUBMENU = "TRANSACTIONS_SUBMENU";
+  public static final String BACKING = "Going back to Type of Portfolio Menu";
+
+//  public static final String PORTFOLIO_OPTIONS = "PORTFOLIO_OPTIONS";
+
+  public static MenuItem PORTFOLIO_OPTIONS;
+  public static MenuItem INFLEXIBLE_PORTFOLIO_MAIN_MENU;
+  public static MenuItem FLEXIBLE_PORTFOLIO_MAIN_MENU;
+  public static MenuItem CREATE_PORTFOLIO_SUBMENU_ITEMS;
+  public static MenuItem TRANSACTIONS_SUBMENU;
+
+//  public static final String INFLEXIBLE_PORTFOLIO_MAIN_MENU = "INFLEXIBLE_PORTFOLIO_MAIN_MENU";
+  public static final int INFLEXIBLE_EXIT_CODE = Constants.MENU_TYPE.get(INFLEXIBLE_PORTFOLIO_MAIN_MENU).length - 1;
+  public static final int FLEXIBLE_EXIT_CODE = Constants.MENU_TYPE.get(FLEXIBLE_PORTFOLIO_MAIN_MENU).length - 1;
+
+  public static final Map<Integer, String[]> MENU_TYPE = Map.ofEntries(
+          Map.entry(PORTFOLIO_OPTIONS.getValue(), new String[]{
+                  "Type of Portfolios",
+                  "Inflexible Portfolio",
+                  "Flexible Portfolio",
+                  "Exit"
+          }),
+          Map.entry(INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+                  "Portfolio Management Services",
+                  "Create a portfolio",
+                  "Examine a portfolio",
+                  "Determine value of a portfolio on a certain date",
+                  "Back"
+          }),
+          Map.entry(FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+                  "Portfolio Management Services",
+                  "Create a portfolio",
+                  "Examine a portfolio",
+                  "Determine value of a portfolio on a certain date",
+                  "Make a transactions in portfolio",
+                  "Calculate cost basis",
+                  "Get performance of portfolio over period",
+                  "Back"
+          }),
+          Map.entry(CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue(), new String[]{
+                  "Create Portfolio Menu",
+                  "Add a stock to this portfolio",
+                  "Back"
+          }),
+          Map.entry(TRANSACTIONS_SUBMENU.getValue(), new String[]{
+                  "Transaction Menu",
+                  "Buy Stocks",
+                  "Sell Stocks",
+                  "Back"
+          })
+  );
 
 
   private Constants() {

@@ -1,22 +1,17 @@
 package controller;
 
-import commands.CostBasis;
-import commands.CreatePortfolio;
-import commands.ExaminePortfolio;
-import commands.Transactions;
-import commands.ValueOfPortfolio;
+import commands.FlexiblePortfolio;
+import commands.InflexiblePortfolio;
 import constants.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
+
 import model.IFlexiblePortfolioModel;
-import model.Portfolio;
 import utilities.Pair;
-import utilities.StringUtils;
 import view.IPortfolioView;
 
 /**
@@ -49,45 +44,29 @@ public class PortfolioController implements IPortfolioController {
    */
   public void run() {
     try {
-      int selectedMenuItem;
+      int selectedMenuItem = 0;
       do {
-        selectedMenuItem = 0;
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
-
         try {
           selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
 
         } catch (NumberFormatException e) {
           this.view.showString(Constants.INVALID_OPTION);
-          continue;
         }
 
         switch (selectedMenuItem) {
           case 1: {
-            new CreatePortfolio(this.bufferedReader, this.model, this.view).go();
+            // Should we add Only InFlexible portfolio object model here?
+            // this.model = new PortfolioModel();
+            new InflexiblePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 2: {
-            new ExaminePortfolio(this.model, this.view, this.bufferedReader).go();
+            new FlexiblePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 3: {
-            new ValueOfPortfolio(this.model, this.view, this.bufferedReader).go();
-            break;
-          }
-          case 4: {
-            new Transactions(this.model, this.view, this.bufferedReader).go();
-            break;
-          }
-          case 5: {
-            new CostBasis(this.model, this.view, this.bufferedReader).go();
-            break;
-          }
-          case 6: {
-            break;
-          }
-          case 7: {
             this.view.showString(Constants.EXITING_STATUS);
             break;
           }
@@ -96,8 +75,7 @@ public class PortfolioController implements IPortfolioController {
             break;
           }
         }
-      }
-      while (selectedMenuItem != Constants.EXIT_CODE);
+        } while (selectedMenuItem != Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS).length);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }

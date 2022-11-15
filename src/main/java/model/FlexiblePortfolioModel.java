@@ -5,6 +5,11 @@ import enums.Operations;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import model.IFlexiblePortfolioModel;
+import model.Portfolio;
+import model.PortfolioModel;
+import model.Stock;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;

@@ -33,26 +33,38 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showOptions(int selectedMenuItem) {
-    this.out.println(System.lineSeparator() + Constants.MAIN_MENU_ITEMS[selectedMenuItem]);
+//    try {
+      String[] options = Constants.MENU_TYPE.get(selectedMenuItem);
+      this.out.println(System.lineSeparator() + options[0]);
+      for (int i = 1; i < options.length; i++) {
+        this.out.println(i + ") " + options[i]);
+      }
 
-    switch (selectedMenuItem) {
-      case 0:
-        for (int i = 1; i < Constants.MAIN_MENU_ITEMS.length; i++) {
-          this.out.println(i + ") " + Constants.MAIN_MENU_ITEMS[i]);
-        }
-        break;
-      case 1:
-        for (int i = 0; i < Constants.CREATE_PORTFOLIO_SUBMENU_ITEMS.length; i++) {
-          this.out.println((i + 1) + ") " + Constants.CREATE_PORTFOLIO_SUBMENU_ITEMS[i]);
-        }
-        break;
-      case 4:
-        for (int i = 0; i < Constants.TRANSACTIONS_SUBMENU.length; i++) {
-          this.out.println((i + 1) + ") " + Constants.TRANSACTIONS_SUBMENU[i]);
-        }
-      default:
-        break;
-    }
+//    catch (Exception e){
+//
+//    }
+
+
+//    switch (selectedMenuItem) {
+//      case 0:
+//        Constants.MENU_TYPE.get(0)
+//        this.out.println(System.lineSeparator() + Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS.getValue())[0]);
+//        for (int i = 1; i < Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS).length; i++) {
+//          this.out.println(i + ") " + Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS)[i]);
+//        }
+//        break;
+////      case 1:
+////        for (int i = 0; i < Constants.MENU_TYPE.get(key).length; i++) {
+////          this.out.println((i + 1) + ") " + Constants.MENU_TYPE.get(key)[i]);
+////        }
+////        break;
+////      case 2:
+////        for (int i = 0; i < Constants.MENU_TYPE.get(key).length; i++) {
+////          this.out.println((i + 1) + ") " + Constants.MENU_TYPE.get(key)[i]);
+////        }
+//      default:
+//        break;
+//    }
   }
 
   @Override
