@@ -53,6 +53,7 @@ public final class MapperUtils {
    * @return a mapping function
    */
   public static Function<List<String>, Stock> getUserPortfolioToStockMapper() {
+    //
     return stockData -> Stock.StockBuilder.create()
         .setSymbol(stockData.get(0))
         .setQuantity(Double.parseDouble(stockData.get(1)))

@@ -1,7 +1,7 @@
 package commands;
 
 import constants.Constants;
-import enums.MenuItem;
+import enums.MenuItems;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
     try {
       int selectedMenuItem;
       do {
-        selectedMenuItem = MenuItem.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
+        selectedMenuItem = MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
 
@@ -54,7 +54,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
             }
             List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-            int selectedSubmenuItem = MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
+            int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
             while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
               this.view.showOptions(selectedSubmenuItem);
               this.view.showPrompt(Constants.PROMPT_CHOICE);

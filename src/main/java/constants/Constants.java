@@ -1,6 +1,6 @@
 package constants;
 
-import enums.MenuItem;
+import enums.MenuItems;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
@@ -65,20 +65,20 @@ public final class Constants {
 //  public static final String INFLEXIBLE_PORTFOLIO_MAIN_MENU = "INFLEXIBLE_PORTFOLIO_MAIN_MENU";
 
   public static final Map<Integer, String[]> MENU_TYPE = Map.ofEntries(
-      Map.entry(MenuItem.PORTFOLIO_OPTIONS.getValue(), new String[]{
+      Map.entry(MenuItems.PORTFOLIO_OPTIONS.getValue(), new String[]{
           "Type of Portfolios",
           "Inflexible Portfolio",
           "Flexible Portfolio",
           "Exit"
       }),
-      Map.entry(MenuItem.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+      Map.entry(MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
           "Portfolio Management Services",
           "Create a portfolio",
           "Examine a portfolio",
           "Determine value of a portfolio on a certain date",
           "Back"
       }),
-      Map.entry(MenuItem.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+      Map.entry(MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
           "Portfolio Management Services",
           "Create a portfolio",
           "Examine a portfolio",
@@ -88,12 +88,12 @@ public final class Constants {
           "Get performance of portfolio over period",
           "Back"
       }),
-      Map.entry(MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue(), new String[]{
+      Map.entry(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue(), new String[]{
           "Create Portfolio Menu",
           "Add a stock to this portfolio",
           "Back"
       }),
-      Map.entry(MenuItem.TRANSACTIONS_SUBMENU.getValue(), new String[]{
+      Map.entry(MenuItems.TRANSACTIONS_SUBMENU.getValue(), new String[]{
           "Transaction Menu",
           "Buy Stocks",
           "Sell Stocks",
@@ -102,15 +102,15 @@ public final class Constants {
   );
 
   public static final int INFLEXIBLE_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItem.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
   public static final int FLEXIBLE_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItem.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
   public static final int PORTFOLIO_OPTIONS_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItem.PORTFOLIO_OPTIONS.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.PORTFOLIO_OPTIONS.getValue()).length - 1;
   public static final int CREATE_PORTFOLIO_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue()).length - 1;
   public static final int TRANSACTION_SUBMENU_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItem.TRANSACTIONS_SUBMENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.TRANSACTIONS_SUBMENU.getValue()).length - 1;
 
   private Constants() {
   }

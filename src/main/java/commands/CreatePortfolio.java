@@ -1,7 +1,7 @@
 package commands;
 
 import constants.Constants;
-import enums.MenuItem;
+import enums.MenuItems;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,9 +40,9 @@ public class CreatePortfolio implements PortfolioCommand {
     }
     List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-    int selectedSubmenuItem = MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
+    int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
     while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
-      this.view.showOptions(MenuItem.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue());
+      this.view.showOptions(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue());
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 
       try {
