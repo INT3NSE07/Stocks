@@ -33,16 +33,15 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showOptions(int selectedMenuItem) {
 //    try {
-      String[] options = Constants.MENU_TYPE.get(selectedMenuItem);
-      this.out.println(System.lineSeparator() + options[0]);
-      for (int i = 1; i < options.length; i++) {
-        this.out.println(i + ") " + options[i]);
-      }
+    String[] options = Constants.MENU_TYPE.get(selectedMenuItem);
+    this.out.println(System.lineSeparator() + options[0]);
+    for (int i = 1; i < options.length; i++) {
+      this.out.println(i + ") " + options[i]);
+    }
 
 //    catch (Exception e){
 //
 //    }
-
 
 //    switch (selectedMenuItem) {
 //      case 0:
@@ -86,7 +85,7 @@ public class PortfolioTextView implements IPortfolioView {
 
     this.out.printf("%nComposition of the portfolio %s%n", portfolioName);
 
-    String[] headers = {"ID", "Ticker symbol", "Quantity"};
+    String[] headers = {"ID", "Ticker symbol", "Quantity" };
     String[][] data = new String[stocks.size()][];
     for (int i = 0; i < stocks.size(); i++) {
       Stock stock = stocks.get(i);
@@ -113,7 +112,7 @@ public class PortfolioTextView implements IPortfolioView {
 
     this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
 
-    String[] headers = {"ID", "Ticker symbol", "Quantity", "Closing price", "Date"};
+    String[] headers = {"ID", "Ticker symbol", "Quantity", "Closing price", "Date" };
     String[][] data = new String[stocks.size()][];
     for (int i = 0; i < stocks.size(); i++) {
       Stock stock = stocks.get(i);

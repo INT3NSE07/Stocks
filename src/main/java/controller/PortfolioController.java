@@ -3,16 +3,10 @@ package controller;
 import commands.FlexiblePortfolio;
 import commands.InflexiblePortfolio;
 import constants.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.function.Function;
-
-import enums.MenuItem;
-import model.IFlexiblePortfolioModel;
-import utilities.Pair;
 import model.IFlexiblePortfolioModel;
 import view.IPortfolioView;
 

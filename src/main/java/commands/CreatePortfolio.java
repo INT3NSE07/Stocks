@@ -1,12 +1,11 @@
 package commands;
 
+import constants.Constants;
+import enums.MenuItem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import constants.Constants;
-import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -19,7 +18,9 @@ public class CreatePortfolio implements PortfolioCommand {
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
-  public CreatePortfolio(BufferedReader bufferedReader, IFlexiblePortfolioModel model, IPortfolioView view) {
+
+  public CreatePortfolio(BufferedReader bufferedReader, IFlexiblePortfolioModel model,
+      IPortfolioView view) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;
@@ -58,7 +59,7 @@ public class CreatePortfolio implements PortfolioCommand {
       this.model.createPortfolio(portfolioName, stockPairs);
     } catch (IOException e) {
       this.view.showString(
-              String.format("The creation of portfolio %s has failed.", portfolioName));
+          String.format("The creation of portfolio %s has failed.", portfolioName));
       return;
     } catch (IllegalArgumentException e) {
       this.view.showString(e.getMessage());
@@ -66,11 +67,11 @@ public class CreatePortfolio implements PortfolioCommand {
     }
 
     this.view.showString(
-            String.format("The portfolio %s has been created.", portfolioName));
+        String.format("The portfolio %s has been created.", portfolioName));
   }
 
   private void createPortfolioSubmenu(int selectedSubmenuItem,
-                                      List<Pair<String, Double>> stockPairs) throws IOException {
+      List<Pair<String, Double>> stockPairs) throws IOException {
     switch (selectedSubmenuItem) {
       case 1:
         this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
@@ -84,12 +85,12 @@ public class CreatePortfolio implements PortfolioCommand {
         try {
           if (!this.model.isStockSymbolValid(symbol)) {
             this.view.showString(
-                    String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
             break;
           }
         } catch (IOException e) {
           this.view.showString(
-                  String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
           break;
         }
 

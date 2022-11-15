@@ -1,16 +1,15 @@
 package commands;
 
+import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-
-import constants.Constants;
 import model.IFlexiblePortfolioModel;
 import model.Portfolio;
 import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
-public class ValueOfPortfolio implements PortfolioCommand  {
+public class ValueOfPortfolio implements PortfolioCommand {
 
 
   private final IFlexiblePortfolioModel model;
@@ -19,9 +18,10 @@ public class ValueOfPortfolio implements PortfolioCommand  {
 
   private final BufferedReader bufferedReader;
 
-  public ValueOfPortfolio(IFlexiblePortfolioModel model, IPortfolioView view, BufferedReader bufferedReader) {
+  public ValueOfPortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.model = model;
-    this.view =view;
+    this.view = view;
     this.bufferedReader = bufferedReader;
   }
 
@@ -40,12 +40,12 @@ public class ValueOfPortfolio implements PortfolioCommand  {
 
     try {
       Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
-              portfolioName, date);
+          portfolioName, date);
       this.view.showPortfolioValue(portfolioValue);
     } catch (IOException e) {
       this.view.showString(
-              String.format("The fetching of value of the portfolio %s has failed.",
-                      portfolioName));
+          String.format("The fetching of value of the portfolio %s has failed.",
+              portfolioName));
     } catch (IllegalArgumentException e) {
       this.view.showString(e.getMessage());
     }

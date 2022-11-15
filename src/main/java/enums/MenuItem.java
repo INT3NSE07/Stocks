@@ -13,7 +13,7 @@ public enum MenuItem {
   }
 
   public static MenuItem getMenuByValue(int menu)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     for (MenuItem menuItem : MenuItem.values()) {
       if (menuItem.menu == menu) {
         return menuItem;
@@ -26,4 +26,4 @@ public enum MenuItem {
     return this.menu;
   }
 
-  }
+}

@@ -1,9 +1,8 @@
 package commands;
 
+import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-
-import constants.Constants;
 import model.IFlexiblePortfolioModel;
 import utilities.StringUtils;
 import view.IPortfolioView;
@@ -16,9 +15,10 @@ public class ExaminePortfolio implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
-  public ExaminePortfolio(IFlexiblePortfolioModel model, IPortfolioView view, BufferedReader bufferedReader) {
+  public ExaminePortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.model = model;
-    this.view =view;
+    this.view = view;
     this.bufferedReader = bufferedReader;
   }
 
@@ -37,7 +37,7 @@ public class ExaminePortfolio implements PortfolioCommand {
       this.view.showPortfolio(this.model.readPortfolio(portfolioName));
     } catch (IOException e) {
       this.view.showString(
-              String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
+          String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
     } catch (IllegalArgumentException e) {
       this.view.showString(e.getMessage());
     }

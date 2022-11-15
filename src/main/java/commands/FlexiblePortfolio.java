@@ -1,16 +1,9 @@
 package commands;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
-import commands.CostBasis;
-import commands.CreatePortfolio;
-import commands.ExaminePortfolio;
-import commands.PortfolioCommand;
-import commands.Transactions;
-import commands.ValueOfPortfolio;
 import constants.Constants;
 import enums.MenuItem;
+import java.io.BufferedReader;
+import java.io.IOException;
 import model.IFlexiblePortfolioModel;
 import view.IPortfolioView;
 
@@ -22,7 +15,8 @@ public class FlexiblePortfolio implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
-  public FlexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view, BufferedReader bufferedReader) {
+  public FlexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;

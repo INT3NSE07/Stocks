@@ -221,7 +221,8 @@ public class Stock {
   /**
    * Set the stock commission set tp perform operation on stock.
    *
-   * @param commission the commission that should be set for the operation to be performed on this stock.
+   * @param commission the commission that should be set for the operation to be performed on this
+   *                   stock.
    * @return the {@link Stock} object with the updated value
    */
   public Stock setCommission(double commission) {

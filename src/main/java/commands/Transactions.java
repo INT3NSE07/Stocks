@@ -1,10 +1,9 @@
 package commands;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
 import constants.Constants;
 import enums.MenuItem;
+import java.io.BufferedReader;
+import java.io.IOException;
 import model.IFlexiblePortfolioModel;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -18,9 +17,10 @@ public class Transactions implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
-  public Transactions(IFlexiblePortfolioModel model, IPortfolioView view, BufferedReader bufferedReader) {
+  public Transactions(IFlexiblePortfolioModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.model = model;
-    this.view =view;
+    this.view = view;
     this.bufferedReader = bufferedReader;
   }
 
@@ -28,7 +28,7 @@ public class Transactions implements PortfolioCommand {
   public void go() throws IOException {
     int selectedSubmenuItem = MenuItem.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
     double commission = 0;
-    this.view.showString(String.format("Please Enter commission for this instance of transaction: "));
+    this.view.showString("Please Enter commission for this instance of transaction: ");
 
     try {
       commission = Double.parseDouble(this.bufferedReader.readLine());
@@ -44,7 +44,8 @@ public class Transactions implements PortfolioCommand {
       try {
         selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
 
-        if (!(selectedSubmenuItem <= Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (selectedSubmenuItem > 0 )) {
+        if (!(selectedSubmenuItem <= Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (
+            selectedSubmenuItem > 0)) {
           this.view.showString(Constants.INVALID_OPTION);
         }
       } catch (NumberFormatException e) {
@@ -55,7 +56,8 @@ public class Transactions implements PortfolioCommand {
     }
   }
 
-  private void createTransactionSubMenuItem(int selectedSubmenuItem, double commission) throws IOException {
+  private void createTransactionSubMenuItem(int selectedSubmenuItem, double commission)
+      throws IOException {
 
     if (selectedSubmenuItem == Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
       return;
@@ -79,12 +81,12 @@ public class Transactions implements PortfolioCommand {
     try {
       if (!this.model.isStockSymbolValid(symbol)) {
         this.view.showString(
-                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+            String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
         return;
       }
     } catch (IOException e) {
       this.view.showString(
-              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+          String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
       return;
     }
 
@@ -123,8 +125,6 @@ public class Transactions implements PortfolioCommand {
         break;
     }
   }
-
-
 
 
   @Override

@@ -5,11 +5,6 @@ import enums.Operations;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import model.IFlexiblePortfolioModel;
-import model.Portfolio;
-import model.PortfolioModel;
-import model.Stock;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -75,8 +70,6 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
-
-
 
     // cannot buy before IPO - comes from api
     if (StringUtils.isNullOrWhiteSpace(date)) {

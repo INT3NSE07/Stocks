@@ -1,12 +1,11 @@
 package commands;
 
+import constants.Constants;
+import enums.MenuItem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import constants.Constants;
-import enums.MenuItem;
 import model.IFlexiblePortfolioModel;
 import model.Portfolio;
 import utilities.Pair;
@@ -14,12 +13,15 @@ import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class InflexiblePortfolio implements PortfolioCommand {
+
   private final IFlexiblePortfolioModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
-  public InflexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view, BufferedReader bufferedReader) {
+
+  public InflexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;
@@ -71,7 +73,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
               this.model.createPortfolio(portfolioName, stockPairs);
             } catch (IOException e) {
               this.view.showString(
-                      String.format("The creation of portfolio %s has failed.", portfolioName));
+                  String.format("The creation of portfolio %s has failed.", portfolioName));
               break;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
@@ -79,7 +81,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
             }
 
             this.view.showString(
-                    String.format("The portfolio %s has been created.", portfolioName));
+                String.format("The portfolio %s has been created.", portfolioName));
             break;
           }
 
@@ -96,7 +98,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
               this.view.showPortfolio(this.model.readPortfolio(portfolioName));
             } catch (IOException e) {
               this.view.showString(
-                      String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
+                  String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
               break;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
@@ -120,12 +122,12 @@ public class InflexiblePortfolio implements PortfolioCommand {
 
             try {
               Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
-                      portfolioName, date);
+                  portfolioName, date);
               this.view.showPortfolioValue(portfolioValue);
             } catch (IOException e) {
               this.view.showString(
-                      String.format("The fetching of value of the portfolio %s has failed.",
-                              portfolioName));
+                  String.format("The fetching of value of the portfolio %s has failed.",
+                      portfolioName));
               break;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
@@ -149,7 +151,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
   }
 
   private void createPortfolioSubmenu(int selectedSubmenuItem,
-                                      List<Pair<String, Double>> stockPairs) throws IOException {
+      List<Pair<String, Double>> stockPairs) throws IOException {
     switch (selectedSubmenuItem) {
       case 1:
         this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
@@ -163,12 +165,12 @@ public class InflexiblePortfolio implements PortfolioCommand {
         try {
           if (!this.model.isStockSymbolValid(symbol)) {
             this.view.showString(
-                    String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
             break;
           }
         } catch (IOException e) {
           this.view.showString(
-                  String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+              String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
           break;
         }
 
@@ -190,8 +192,6 @@ public class InflexiblePortfolio implements PortfolioCommand {
         break;
     }
   }
-
-
 
 
   @Override
