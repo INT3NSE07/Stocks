@@ -3,8 +3,14 @@ package model;
 import constants.Constants;
 import enums.Operations;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -71,7 +77,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
 
-    // cannot buy before IPO - comes from api
+    // cannot buy before IPO - comes from api - throws illegal arg catches up top in controller.
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
@@ -106,11 +112,47 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
 
-    // 1)check for chronology and 2) is quantity sufficiency to sell
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
+
     super.validateDate(date);
+    // select only flexible csv - not her in upper levels
+    // 1) check for chronology and
+    // 2) is quantity sufficiency to sell
+    Portfolio validPortfolio = super.readPortfolio(portfolioName);
+    List<Stock> transactions = null;
+
+    String finalDate = date;
+    transactions = validPortfolio.getStocks().stream().filter(x -> x.getSymbol().equals(stockPair.getKey())
+            && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
+            && x.getOperation().equals(Operations.BUY)
+            ).collect(Collectors.toList());
+
+    if (transactions.size() == 0) {
+      throw new IllegalArgumentException("No Purchases of Stock: " + stockPair.getKey() + "before date: " + date);
+    }
+
+
+    List<Stock> Alltransactions = validPortfolio.getStocks().stream().filter(x -> x.getSymbol().equals(stockPair.getKey())
+            && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
+    ).collect(Collectors.toList());
+
+    final int[] quantity = {0};
+    Alltransactions.forEach(
+            stock -> {
+//              int quantity = 0;
+              if (stock.getOperation().equals(Operations.BUY)) {
+                quantity[0] += stock.getQuantity();
+              }
+              if (stock.getOperation().equals(Operations.SELL)) {
+                quantity[0] -= stock.getQuantity();
+              }
+            }
+    );
+    if (quantity[0] < stockPair.getValue()) {
+      throw new IllegalArgumentException("Not enough sufficient quantity of Stocks to sell");
+    }
 
     Portfolio portfolio = new Portfolio();
     portfolio.setName(portfolioName);
