@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -203,7 +206,55 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void getPerformanceOverview(Portfolio portfolio) {
+  public void getPerformanceOverview(String portfolioName, String fromDate, String toDate) {
+    super.validateInput(portfolioName);
 
+    super.validateDate(fromDate);
+    if (StringUtils.isNullOrWhiteSpace(toDate)) {
+      toDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    super.validateDate(toDate);
+
+    LocalDate from = LocalDate.parse(fromDate, Constants.DEFAULT_DATETIME_FORMAT);
+    LocalDate to = LocalDate.parse(toDate, Constants.DEFAULT_DATETIME_FORMAT);
+    long days = ChronoUnit.DAYS.between(from, to);
+    int splits = Constants.BAR_CHART_MAX_LINES;
+
+    if (days < Constants.BAR_CHART_MIN_LINES) {
+      throw new IllegalArgumentException();
+    } else if (days <= Constants.BAR_CHART_MAX_LINES) {
+      splits = (int) days;
+    }
+    //Pair<Pair<LocalDate, LocalDate>, Double>
+
+    List<Long> splitDays = getSplitDays(days, splits);
+    // readportfolio
+    // distinct symbols, getStock(symbol from, to)
+
+
+    var x = 10;
+
+  }
+
+  private List<Long> getSplitDays(long days, int splits) {
+    List<Long> splitDays = new ArrayList<>();
+
+    if (days % splits == 0) {
+      for (int i = 0; i < splits; i++) {
+        splitDays.add(days / splits);
+      }
+    } else {
+      long maxDivisibleNumber = splits - (days % splits);
+      long nonDivisibleNumber = days / splits;
+      for (int i = 0; i < splits; i++) {
+        if (i >= maxDivisibleNumber) {
+          splitDays.add(Long.sum(nonDivisibleNumber, 1));
+        } else {
+          splitDays.add(nonDivisibleNumber);
+        }
+      }
+    }
+
+    return splitDays;
   }
 }

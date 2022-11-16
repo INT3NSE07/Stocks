@@ -15,5 +15,5 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
 
   Pair<Portfolio, Double> getCostBasis(String portfolioName, String date) throws IOException;
 
-  void getPerformanceOverview(Portfolio portfolio);
+  void getPerformanceOverview(String portfolioName, String fromDate, String toDate);
 }

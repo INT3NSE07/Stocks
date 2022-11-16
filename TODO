@@ -18,6 +18,8 @@ flexible and inflexible portfolio
 date of first purchase of stock = portfolio date
 portfolio check name during buy, sell
 composition date dependent
+add isFlexible prop, check in mapper
+change addStocks
 
 Done
 Determine the cost basis

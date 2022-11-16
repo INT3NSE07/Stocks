@@ -60,6 +60,7 @@ public class FlexiblePortfolio implements PortfolioCommand {
           break;
         }
         case 6: {
+          new PortfolioPerformance(this.model, this.view, this.bufferedReader).go();
           break;
         }
         case 7: {

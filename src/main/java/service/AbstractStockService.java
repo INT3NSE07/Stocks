@@ -25,7 +25,6 @@ public abstract class AbstractStockService implements IStockService {
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
-//    date = "2022-10-30";
 
     String finalSymbol = symbol;
     String finalDate = date;

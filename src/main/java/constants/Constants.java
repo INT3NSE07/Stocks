@@ -111,6 +111,8 @@ public final class Constants {
       Constants.MENU_TYPE.get(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue()).length - 1;
   public static final int TRANSACTION_SUBMENU_EXIT_CODE =
       Constants.MENU_TYPE.get(MenuItems.TRANSACTIONS_SUBMENU.getValue()).length - 1;
+  public static final int BAR_CHART_MIN_LINES = 5;
+  public static final int BAR_CHART_MAX_LINES = 30;
 
   private Constants() {
   }
