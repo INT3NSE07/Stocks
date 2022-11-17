@@ -87,6 +87,13 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
               value));
     }
 
+    String finalDate = date;
+    List<Stock> filteredStocks = portfolio.getStocks().stream()
+        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
+        .collect(
+            Collectors.toList());
+    portfolio.setStocks(filteredStocks);
+
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
           .getClose());

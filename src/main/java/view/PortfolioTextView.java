@@ -1,14 +1,15 @@
 package view;
 
-import com.github.freva.asciitable.AsciiTable;
 import constants.Constants;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
 import utilities.DateUtils;
+import utilities.DisplayUtils;
 import utilities.Pair;
 
 /**
@@ -62,18 +63,24 @@ public class PortfolioTextView implements IPortfolioView {
 
     this.out.printf("%nComposition of the portfolio %s%n", portfolioName);
 
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
     String[] headers = {"ID", "Ticker symbol", "Quantity" };
-    String[][] data = new String[stocks.size()][];
-    for (int i = 0; i < stocks.size(); i++) {
-      Stock stock = stocks.get(i);
-      data[i] = new String[]{
-          String.valueOf(i + 1),
-          stock.getSymbol(),
-          String.valueOf(stock.getQuantity())
-      };
+    for (String header : headers) {
+      tableGenerator.addHeader(header);
     }
 
-    out.println(AsciiTable.getTable(headers, data));
+    for (int i = 0; i < stocks.size(); i++) {
+      List<String> row = new ArrayList<>();
+
+      Stock stock = stocks.get(i);
+      row.add(String.valueOf(i + 1));
+      row.add(stock.getSymbol());
+      row.add(String.valueOf(stock.getQuantity()));
+
+      tableGenerator.addRow(row);
+    }
+
+    tableGenerator.printTable();
   }
 
   @Override
@@ -91,20 +98,26 @@ public class PortfolioTextView implements IPortfolioView {
 
     this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
 
-    String[] headers = {"ID", "Ticker symbol", "Quantity", "Closing price", "Date" };
-    String[][] data = new String[stocks.size()][];
-    for (int i = 0; i < stocks.size(); i++) {
-      Stock stock = stocks.get(i);
-      data[i] = new String[]{
-          String.valueOf(i + 1),
-          stock.getSymbol(),
-          String.valueOf(stock.getQuantity()),
-          String.valueOf(stock.getClose()),
-          date
-      };
+    DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
+    String[] headers = {"ID", "Ticker symbol", "Quantity", "Closing price" };
+    for (String header : headers) {
+      tableGenerator.addHeader(header);
     }
 
-    out.println(AsciiTable.getTable(headers, data));
+    for (int i = 0; i < stocks.size(); i++) {
+      List<String> row = new ArrayList<>();
+
+      Stock stock = stocks.get(i);
+      row.add(String.valueOf(i + 1));
+      row.add(stock.getSymbol());
+      row.add(String.valueOf(stock.getQuantity()));
+      row.add(String.valueOf(stock.getClose()));
+
+      tableGenerator.addRow(row);
+    }
+
+    tableGenerator.printTable();
+
     this.out.printf("%nTotal value: $%.2f%n", portfolioValue.getValue());
   }
 
