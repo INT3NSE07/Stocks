@@ -36,7 +36,7 @@ public class CostBasis implements PortfolioCommand {
     String date = this.bufferedReader.readLine();
 
     try {
-      this.view.showString(String.format(Constants.COST_BASIS, portfolioName, date,
+      this.view.showString(String.format(Constants.COST_BASIS, portfolioName,
           this.model.getCostBasis(portfolioName, date)));
     } catch (IllegalArgumentException e) {
       this.view.showString(e.getMessage());

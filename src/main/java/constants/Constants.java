@@ -57,10 +57,10 @@ public final class Constants {
       Map.entry(PROMPT_COMMISSION_KEY,
           "Please enter commission for this instance of transaction"),
       Map.entry(PROMPT_START_DATE_KEY,
-          "Enter start date"),
+          "Enter start date in format YYYY-MM-DD"),
       Map.entry(PROMPT_END_DATE_KEY,
-          "Enter end date in format YYYY-MM-DD (if no input is given, the default is current date)"
-              + "")
+          "Enter end date in format YYYY-MM-DD (if no input is given, the default "
+              + "is current date)")
   );
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
@@ -126,8 +126,8 @@ public final class Constants {
   public static final int BAR_CHART_MAX_LINES = 30;
   public static final int BAR_CHART_MAX_STARS = 50;
   public static final String BAR_CHART_MIN_DAYS_INPUT =
-      "The minimum number of days to analyze portfolio performance is " + BAR_CHART_MIN_LINES;
-  public static final String COST_BASIS = "Cost basis of portfolio %s on date %s is %.2f";
+      "The minimum number of days to analyze the portfolio performance is " + BAR_CHART_MIN_LINES;
+  public static final String COST_BASIS = "Cost basis of portfolio %s on is %.2f";
 
   private Constants() {
   }

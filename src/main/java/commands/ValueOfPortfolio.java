@@ -41,7 +41,7 @@ public class ValueOfPortfolio implements PortfolioCommand {
     try {
       Pair<Portfolio, Double> portfolioValue = this.model.getPortfolioValueOnDate(
           portfolioName, date);
-      this.view.showPortfolioValue(portfolioValue, date);
+      this.view.showPortfolioValue(portfolioValue);
     } catch (IOException e) {
       this.view.showString(
           String.format("The fetching of value of the portfolio %s has failed.",

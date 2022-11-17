@@ -73,7 +73,14 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
         portfolio.getName()).toFile(), true)) {
-      this.writer.write(Arrays.asList(CSVConstants.STOCK_CSV_HEADERS), fileOutputStream);
+      switch (portfolio.getPortfolioType()) {
+        case INFLEXIBLE:
+          this.writer.write(Arrays.asList(CSVConstants.INFLEXIBLE_PORTFOLIO_STOCK_CSV_HEADERS), fileOutputStream);
+          break;
+        case FLEXIBLE:
+          this.writer.write(Arrays.asList(CSVConstants.FLEXIBLE_PORTFOLIO_STOCK_CSV_HEADERS), fileOutputStream);
+          break;
+      }
     }
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(portfolioMapping.toFile(),

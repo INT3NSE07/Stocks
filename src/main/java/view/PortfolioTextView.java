@@ -1,6 +1,7 @@
 package view;
 
 import constants.Constants;
+import enums.PortfolioTypes;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,7 +9,6 @@ import java.util.List;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
-import utilities.DateUtils;
 import utilities.DisplayUtils;
 import utilities.Pair;
 
@@ -59,12 +59,17 @@ public class PortfolioTextView implements IPortfolioView {
     List<Stock> stocks = portfolio.getStocks();
     if (stocks.size() == 0) {
       this.out.printf("%nThe portfolio %s has no stocks.%n", portfolioName);
+      return;
     }
 
     this.out.printf("%nComposition of the portfolio %s%n", portfolioName);
 
     DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
-    String[] headers = {"ID", "Ticker symbol", "Quantity" };
+    List<String> headers = new ArrayList<>(List.of("ID", "Ticker symbol", "Quantity"));
+    if (portfolio.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
+      headers.add("Operation");
+    }
+
     for (String header : headers) {
       tableGenerator.addHeader(header);
     }
@@ -76,6 +81,9 @@ public class PortfolioTextView implements IPortfolioView {
       row.add(String.valueOf(i + 1));
       row.add(stock.getSymbol());
       row.add(String.valueOf(stock.getQuantity()));
+      if (portfolio.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
+        row.add(stock.getOperation().toString());
+      }
 
       tableGenerator.addRow(row);
     }
@@ -84,22 +92,25 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue, String date) {
+  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
     Portfolio portfolio = portfolioValue.getKey();
     String portfolioName = portfolio.getName();
     List<Stock> stocks = portfolio.getStocks();
 
     if (stocks.size() == 0) {
       this.out.printf("%nThe portfolio %s has no stocks.%n", portfolioName);
-    }
-    if (date == null) {
-      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+      return;
     }
 
-    this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
+    this.out.printf("%nValue of the portfolio %s%n", portfolio.getName());
 
     DisplayUtils.TextTableGenerator tableGenerator = new DisplayUtils.TextTableGenerator(this.out);
-    String[] headers = {"ID", "Ticker symbol", "Quantity", "Closing price" };
+    List<String> headers = new ArrayList<>(
+        List.of("ID", "Ticker symbol", "Quantity", "Closing price"));
+    if (portfolio.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
+      headers.add("Operation");
+    }
+
     for (String header : headers) {
       tableGenerator.addHeader(header);
     }
@@ -112,6 +123,9 @@ public class PortfolioTextView implements IPortfolioView {
       row.add(stock.getSymbol());
       row.add(String.valueOf(stock.getQuantity()));
       row.add(String.valueOf(stock.getClose()));
+      if (portfolio.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
+        row.add(stock.getOperation().toString());
+      }
 
       tableGenerator.addRow(row);
     }
@@ -134,8 +148,8 @@ public class PortfolioTextView implements IPortfolioView {
     for (PortfolioValue portfolioValue : portfolioValues) {
       this.out.printf("%s - %s:  ", portfolioValue.getFromDate(), portfolioValue.getToDate());
 
-      int stars = 1;
       double value = portfolioValue.getValue();
+      int stars = value == 0 ? 0 : 1;
       if (value > scale) {
         stars = (int) (portfolioValue.getValue() / scale);
       }
@@ -146,6 +160,6 @@ public class PortfolioTextView implements IPortfolioView {
       this.out.println();
     }
 
-    this.out.printf("\nScale:  * = %.2f\n", scale);
+    this.out.printf("\nScale:  * = $%.2f\n", scale);
   }
 }

@@ -7,7 +7,12 @@ public final class CSVConstants {
 
   public static final String SEPARATOR = ",";
   public static final String EXTENSION = ".csv";
-  public static final String[] STOCK_CSV_HEADERS = new String[]{
+  public static final String[] INFLEXIBLE_PORTFOLIO_STOCK_CSV_HEADERS = new String[]{
+      "symbol",
+      "quantity",
+      "date"
+  };
+  public static final String[] FLEXIBLE_PORTFOLIO_STOCK_CSV_HEADERS = new String[]{
       "symbol",
       "quantity",
       "date",

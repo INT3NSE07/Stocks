@@ -51,6 +51,7 @@ public class PortfolioController implements IPortfolioController {
 
         } catch (NumberFormatException e) {
           this.view.showString(Constants.INVALID_OPTION);
+          continue;
         }
 
         switch (selectedMenuItem) {
