@@ -2,32 +2,29 @@ package commands;
 
 import constants.Constants;
 import enums.MenuItems;
+import enums.PortfolioTypes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class CreatePortfolio implements PortfolioCommand {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public CreatePortfolio(BufferedReader bufferedReader, IFlexiblePortfolioModel model,
+  public CreatePortfolio(BufferedReader bufferedReader, IPortfolioFacadeModel model,
       IPortfolioView view) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;
-  }
-
-  @Override
-  public void help() {
   }
 
   @Override
@@ -38,21 +35,23 @@ public class CreatePortfolio implements PortfolioCommand {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       return;
     }
+
     List<Pair<String, Double>> stockPairs = new ArrayList<>();
+    if (this.model.getPortfolioType() != PortfolioTypes.FLEXIBLE) {
+      int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO.getValue();
+      while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
+        this.view.showOptions(MenuItems.CREATE_PORTFOLIO.getValue());
+        this.view.showPrompt(Constants.PROMPT_CHOICE);
 
-    int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
-    while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
-      this.view.showOptions(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue());
-      this.view.showPrompt(Constants.PROMPT_CHOICE);
+        try {
+          selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
+        } catch (NumberFormatException e) {
+          this.view.showString(Constants.INVALID_OPTION);
+          continue;
+        }
 
-      try {
-        selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
-      } catch (NumberFormatException e) {
-        this.view.showString(Constants.INVALID_OPTION);
-        continue;
+        createPortfolioSubmenu(selectedSubmenuItem, stockPairs);
       }
-
-      createPortfolioSubmenu(selectedSubmenuItem, stockPairs);
     }
 
     try {
@@ -113,6 +112,4 @@ public class CreatePortfolio implements PortfolioCommand {
         break;
     }
   }
-
-
 }

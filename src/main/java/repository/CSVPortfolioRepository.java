@@ -2,6 +2,7 @@ package repository;
 
 import constants.CSVConstants;
 import constants.Constants;
+import enums.PortfolioTypes;
 import io.IReader;
 import io.IWriter;
 import java.io.FileInputStream;
@@ -55,16 +56,30 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
   @Override
   public Portfolio create(Portfolio portfolio) throws IllegalArgumentException, IOException {
     String portFolioName = portfolio.getName();
-
     Files.createDirectories(Paths.get(this.path));
+
+    Path portfolioMapping = getFilePath(Constants.PORTFOLIO_MAPPING_PATH);
+    if (!portfolioMapping.toFile().exists()) {
+      Files.createFile(portfolioMapping);
+      try (FileOutputStream fileOutputStream = new FileOutputStream(portfolioMapping.toFile(),
+          true)) {
+        this.writer.write(Arrays.asList(CSVConstants.PORTFOLIO_CSV_HEADERS), fileOutputStream);
+      }
+    }
 
     if (getFilePath(portFolioName).toFile().exists()) {
       throw new IllegalArgumentException(Constants.PORTFOLIO_EXISTS);
     }
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(getFilePath(
-        portfolio.getName()).toFile())) {
+        portfolio.getName()).toFile(), true)) {
       this.writer.write(Arrays.asList(CSVConstants.STOCK_CSV_HEADERS), fileOutputStream);
+    }
+
+    try (FileOutputStream fileOutputStream = new FileOutputStream(portfolioMapping.toFile(),
+        true)) {
+      this.writer.write(Arrays.asList(portFolioName, portfolio.getPortfolioType().toString()),
+          fileOutputStream);
     }
 
     return portfolio;
@@ -75,6 +90,8 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
       throws IllegalArgumentException, IOException {
     List<Portfolio> portfolios = new ArrayList<>();
     Function<List<String>, Stock> mapper = MapperUtils.getUserPortfolioToStockMapper();
+    Function<List<String>, Portfolio> portfolioMapper = MapperUtils.getCSVFileToPortfolioMapper();
+    Path portfolioMapping = getFilePath(Constants.PORTFOLIO_MAPPING_PATH);
 
     List<Path> filteredPaths;
     try (Stream<Path> paths = Files.walk(Paths.get(this.path))) {
@@ -88,7 +105,20 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
     for (Path path : filteredPaths) {
       Portfolio portfolio = mapPathToPortfolio(path);
 
-      try (FileInputStream inputStream = new FileInputStream(path.toAbsolutePath().toString())) {
+      try (FileInputStream inputStream = new FileInputStream(path.toAbsolutePath().toString());
+          FileInputStream portfolioInputStream = new FileInputStream(
+              portfolioMapping.toAbsolutePath().toFile())) {
+        this.reader.read(portfolioInputStream).forEach(record -> {
+          Portfolio mappedPortfolio = portfolioMapper.apply(record);
+          if (mappedPortfolio.getName().equals(portfolio.getName())) {
+            portfolio.setPortfolioType(mappedPortfolio.getPortfolioType());
+          }
+        });
+
+        if (portfolio.getPortfolioType() == null) {
+          portfolio.setPortfolioType(PortfolioTypes.INFLEXIBLE);
+        }
+
         this.reader.read(inputStream).forEach(record -> {
           Stock stock = mapper.apply(record);
           portfolio.getStocks().add(stock);
@@ -117,8 +147,13 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
         getFilePath(portfolio.getName()).toFile(), true)) {
       for (Stock stock : portfolio.getStocks()) {
         List<String> record = Arrays.asList(stock.getSymbol(),
-            Double.toString(stock.getQuantity()), stock.getDate(),
-            stock.getOperation().toString(), Double.toString(stock.getCommission()));
+            Double.toString(stock.getQuantity()), stock.getDate());
+
+        // inflexible portfolio
+        if (stock.getOperation() != null) {
+          record.add(stock.getOperation().toString());
+          record.add(Double.toString(stock.getCommission()));
+        }
         this.writer.write(record, fileOutputStream);
       }
     }

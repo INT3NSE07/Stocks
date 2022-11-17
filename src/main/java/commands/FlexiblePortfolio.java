@@ -4,18 +4,18 @@ import constants.Constants;
 import enums.MenuItems;
 import java.io.BufferedReader;
 import java.io.IOException;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import view.IPortfolioView;
 
 public class FlexiblePortfolio implements PortfolioCommand {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public FlexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+  public FlexiblePortfolio(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
@@ -26,7 +26,7 @@ public class FlexiblePortfolio implements PortfolioCommand {
   public void go() throws IOException {
     int selectedMenuItem;
     do {
-      selectedMenuItem = MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
+      selectedMenuItem = MenuItems.FLEXIBLE_PORTFOLIO.getValue();
       this.view.showOptions(selectedMenuItem);
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 
@@ -64,7 +64,7 @@ public class FlexiblePortfolio implements PortfolioCommand {
           break;
         }
         case 7: {
-          this.view.showString(Constants.BACKING);
+          this.view.showString(Constants.GOING_BACK_STATUS);
           break;
         }
         default: {
@@ -74,12 +74,5 @@ public class FlexiblePortfolio implements PortfolioCommand {
       }
     }
     while (selectedMenuItem != Constants.FLEXIBLE_EXIT_CODE);
-
-
-  }
-
-  @Override
-  public void help() {
-
   }
 }

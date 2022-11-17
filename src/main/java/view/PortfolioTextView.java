@@ -3,8 +3,10 @@ package view;
 import com.github.freva.asciitable.AsciiTable;
 import constants.Constants;
 import java.io.PrintStream;
+import java.util.Comparator;
 import java.util.List;
 import model.Portfolio;
+import model.PortfolioValue;
 import model.Stock;
 import utilities.Pair;
 
@@ -127,5 +129,33 @@ public class PortfolioTextView implements IPortfolioView {
 
     out.println(AsciiTable.getTable(headers, data));
     this.out.printf("%nTotal value: $%.2f%n", portfolioValue.getValue());
+  }
+
+  @Override
+  public void showPortfolioPerformance(String portfolioName, String fromDate, String toDate,
+      List<PortfolioValue> portfolioValues) {
+    this.out.printf("Performance of portfolio %s from %s to %s\n\n", portfolioName, fromDate,
+        toDate);
+
+    double maxValue = portfolioValues.stream().max(Comparator.comparing(PortfolioValue::getValue))
+        .get().getValue();
+    double scale = maxValue / Constants.BAR_CHART_MAX_STARS;
+
+    for (PortfolioValue portfolioValue : portfolioValues) {
+      this.out.printf("%s - %s:  ", portfolioValue.getFromDate(), portfolioValue.getToDate());
+
+      int stars = 1;
+      double value = portfolioValue.getValue();
+      if (value > scale) {
+        stars = (int) (portfolioValue.getValue() / scale);
+      }
+
+      for (int i = 0; i < stars; i++) {
+        this.out.print("*");
+      }
+      this.out.println();
+    }
+
+    this.out.printf("\nScale:  * = %s\n", scale);
   }
 }

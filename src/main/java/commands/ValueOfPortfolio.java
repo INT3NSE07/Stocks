@@ -3,7 +3,7 @@ package commands;
 import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import model.Portfolio;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -12,13 +12,13 @@ import view.IPortfolioView;
 public class ValueOfPortfolio implements PortfolioCommand {
 
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public ValueOfPortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+  public ValueOfPortfolio(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
@@ -49,11 +49,5 @@ public class ValueOfPortfolio implements PortfolioCommand {
     } catch (IllegalArgumentException e) {
       this.view.showString(e.getMessage());
     }
-
-  }
-
-  @Override
-  public void help() {
-
   }
 }

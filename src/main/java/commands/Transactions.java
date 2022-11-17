@@ -4,20 +4,20 @@ import constants.Constants;
 import enums.MenuItems;
 import java.io.BufferedReader;
 import java.io.IOException;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class Transactions implements PortfolioCommand {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public Transactions(IFlexiblePortfolioModel model, IPortfolioView view,
+  public Transactions(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
@@ -26,7 +26,7 @@ public class Transactions implements PortfolioCommand {
 
   @Override
   public void go() throws IOException {
-    int selectedSubmenuItem = MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
+    int selectedSubmenuItem = MenuItems.FLEXIBLE_PORTFOLIO.getValue();
     double commission = 0;
     this.view.showString("Please Enter commission for this instance of transaction: ");
 
@@ -38,7 +38,7 @@ public class Transactions implements PortfolioCommand {
     }
 
     while (selectedSubmenuItem != Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
-      this.view.showOptions(MenuItems.TRANSACTIONS_SUBMENU.getValue());
+      this.view.showOptions(MenuItems.CREATE_TRANSACTION.getValue());
       this.view.showPrompt(Constants.PROMPT_CHOICE);
 
       try {
@@ -124,11 +124,5 @@ public class Transactions implements PortfolioCommand {
         this.view.showOptionError();
         break;
     }
-  }
-
-
-  @Override
-  public void help() {
-
   }
 }

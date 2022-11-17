@@ -1,5 +1,6 @@
 package model;
 
+import enums.PortfolioTypes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Portfolio {
 
   private String name;
   private List<Stock> stocks;
+  private PortfolioTypes portfolioType;
 
   /**
    * A {@link Portfolio} object constructor that assigns the List of Stocks to new Empty List.
@@ -33,5 +35,13 @@ public class Portfolio {
 
   public void setStocks(List<Stock> stocks) {
     this.stocks = stocks;
+  }
+
+  public PortfolioTypes getPortfolioType() {
+    return portfolioType;
+  }
+
+  public void setPortfolioType(PortfolioTypes portfolioType) {
+    this.portfolioType = portfolioType;
   }
 }

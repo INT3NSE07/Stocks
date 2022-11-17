@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import model.Portfolio;
 import utilities.Pair;
 import utilities.StringUtils;
@@ -14,13 +14,13 @@ import view.IPortfolioView;
 
 public class InflexiblePortfolio implements PortfolioCommand {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public InflexiblePortfolio(IFlexiblePortfolioModel model, IPortfolioView view,
+  public InflexiblePortfolio(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
@@ -32,13 +32,12 @@ public class InflexiblePortfolio implements PortfolioCommand {
     try {
       int selectedMenuItem;
       do {
-        selectedMenuItem = MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue();
+        selectedMenuItem = MenuItems.INFLEXIBLE_PORTFOLIO.getValue();
         this.view.showOptions(selectedMenuItem);
         this.view.showPrompt(Constants.PROMPT_CHOICE);
 
         try {
           selectedMenuItem = Integer.parseInt(this.bufferedReader.readLine());
-
         } catch (NumberFormatException e) {
           this.view.showString(Constants.INVALID_OPTION);
           continue;
@@ -54,7 +53,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
             }
             List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-            int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue();
+            int selectedSubmenuItem = MenuItems.CREATE_PORTFOLIO.getValue();
             while (selectedSubmenuItem != Constants.CREATE_PORTFOLIO_EXIT_CODE) {
               this.view.showOptions(selectedSubmenuItem);
               this.view.showPrompt(Constants.PROMPT_CHOICE);
@@ -137,7 +136,7 @@ public class InflexiblePortfolio implements PortfolioCommand {
           }
 
           case 4:
-            this.view.showString(Constants.BACKING);
+            this.view.showString(Constants.GOING_BACK_STATUS);
             break;
 
           default:
@@ -191,11 +190,5 @@ public class InflexiblePortfolio implements PortfolioCommand {
         this.view.showOptionError();
         break;
     }
-  }
-
-
-  @Override
-  public void help() {
-
   }
 }

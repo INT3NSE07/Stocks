@@ -732,9 +732,9 @@ public class ControllerTest {
     }
 
     @Override
-    public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
+    public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
         throws IllegalArgumentException {
-      this.log.add(String.format(MOCK_MODEL_CREATE_PORTFOLIO, portFolioName));
+      this.log.add(String.format(MOCK_MODEL_CREATE_PORTFOLIO, portfolioName));
       for (Pair<String, Double> stockPair :
           stockPairs) {
         this.log.add(stockPair.getKey() + " " + stockPair.getValue());
@@ -742,7 +742,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void buyStock(String portFolioName, Pair<String, Double> stockPair, String Date, double commission) {
+    public void buyStock(String portfolioName, Pair<String, Double> stockPair, String Date, double commission) {
 
     }
 
@@ -761,11 +761,11 @@ public class ControllerTest {
     }
 
     @Override
-    public Portfolio readPortfolio(String portFolioName) throws IllegalArgumentException {
-      this.log.add(String.format(MOCK_MODEL_READ_PORTFOLIO, portFolioName));
-      if (!portFolioName.equals(FOUND_A_MATCH)) {
+    public Portfolio readPortfolio(String portfolioName) throws IllegalArgumentException {
+      this.log.add(String.format(MOCK_MODEL_READ_PORTFOLIO, portfolioName));
+      if (!portfolioName.equals(FOUND_A_MATCH)) {
         throw new IllegalArgumentException(
-            String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
+            String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
       }
       Portfolio portfolio = new Portfolio();
       portfolio.setName(FOUND_A_MATCH);
@@ -773,12 +773,12 @@ public class ControllerTest {
     }
 
     @Override
-    public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
+    public Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date)
         throws IllegalArgumentException {
-      this.log.add(String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, portFolioName, date));
-      if (!portFolioName.equals(FOUND_A_MATCH)) {
+      this.log.add(String.format(MOCK_MODEL_GET_PORTFOLIO_ON_DATE, portfolioName, date));
+      if (!portfolioName.equals(FOUND_A_MATCH)) {
         throw new IllegalArgumentException(
-            String.format(Constants.PORTFOLIO_FETCH_FAIL, portFolioName));
+            String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));
       }
       if (date.equals("2022-02-14")) {
         return new Pair<>(new Portfolio(), 2 * PORTFOLIO_VALUE);

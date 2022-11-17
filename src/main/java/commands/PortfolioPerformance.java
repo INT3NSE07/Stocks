@@ -1,22 +1,19 @@
 package commands;
 
-import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-import model.IFlexiblePortfolioModel;
-import model.Portfolio;
-import utilities.Pair;
-import utilities.StringUtils;
+import model.IPortfolioFacadeModel;
 import view.IPortfolioView;
 
 public class PortfolioPerformance implements PortfolioCommand {
-  private final IFlexiblePortfolioModel model;
+
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public PortfolioPerformance(IFlexiblePortfolioModel model, IPortfolioView view,
+  public PortfolioPerformance(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
@@ -47,11 +44,9 @@ public class PortfolioPerformance implements PortfolioCommand {
 //    } catch (IllegalArgumentException e) {
 //      this.view.showString(e.getMessage());
 //    }
-    this.model.getPerformanceOverview("asda", "2022-09-10", "2022-10-25");
-  }
-
-  @Override
-  public void help() {
-
+    this.view.showPortfolioPerformance(
+        "qqq", "2022-01-01",
+        "2022-01-07", this.model.getPerformanceOverview("qqq", "2022-01-01",
+            "2022-01-07"));
   }
 }

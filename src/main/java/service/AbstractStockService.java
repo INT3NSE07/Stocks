@@ -19,6 +19,30 @@ public abstract class AbstractStockService implements IStockService {
   protected abstract List<Stock> getStocks(String symbol) throws IOException;
 
   @Override
+  public List<Stock> getHistoricalStockData(String symbol)
+      throws IllegalArgumentException, IOException {
+    symbol = symbol.toUpperCase();
+
+    String finalSymbol = symbol;
+    List<Stock> stocks;
+    try {
+      stocks = getStocks(symbol);
+    } catch (IOException e) {
+      throw new IOException(
+          String.format(Constants.STOCK_FETCH_FAILED, symbol, ""));
+    }
+    stocks = stocks.stream().filter(x -> x.getSymbol().equals(finalSymbol))
+        .collect(Collectors.toList());
+
+    if (stocks.isEmpty()) {
+      throw new IllegalArgumentException(
+          String.format(Constants.NO_STOCK_DATA_FOUND, symbol, ""));
+    }
+
+    return stocks;
+  }
+
+  @Override
   public Stock getStockOnDate(String symbol, String date)
       throws IllegalArgumentException, IOException {
     symbol = symbol.toUpperCase();

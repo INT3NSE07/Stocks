@@ -1,6 +1,7 @@
 package service;
 
 import java.io.IOException;
+import java.util.List;
 import model.Stock;
 
 /**
@@ -12,6 +13,8 @@ import model.Stock;
  * </ul>
  */
 public interface IStockService {
+
+  List<Stock> getHistoricalStockData(String symbol) throws IllegalArgumentException, IOException;
 
   /**
    * Fetches the stock data based on the specified stock symbol and date.

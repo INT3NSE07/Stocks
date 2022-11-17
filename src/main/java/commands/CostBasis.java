@@ -3,19 +3,19 @@ package commands;
 import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class CostBasis implements PortfolioCommand {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
   private final BufferedReader bufferedReader;
 
-  public CostBasis(IFlexiblePortfolioModel model, IPortfolioView view,
+  public CostBasis(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
@@ -40,10 +40,4 @@ public class CostBasis implements PortfolioCommand {
 
     this.model.getCostBasis(portfolioName, date);
   }
-
-  @Override
-  public void help() {
-
-  }
-
 }

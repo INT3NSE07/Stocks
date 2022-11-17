@@ -20,6 +20,7 @@ portfolio check name during buy, sell
 composition date dependent
 add isFlexible prop, check in mapper
 change addStocks
+facade add type validation for portfolios
 
 Done
 Determine the cost basis

@@ -12,6 +12,7 @@ public final class Constants {
   public static final String DATA_DIR = "portfolios/default_user";
 
   public static final String STOCK_DATA_PATH = "stock_data";
+  public static final String PORTFOLIO_MAPPING_PATH = "portfolios_mapping";
 
   public static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
 
@@ -58,27 +59,28 @@ public final class Constants {
   public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
       "Invalid quantity. Quantity must be a whole number.";
   //  public static final String TRANSACTIONS_SUBMENU = "TRANSACTIONS_SUBMENU";
-  public static final String BACKING = "Going back to Type of Portfolio Menu";
+  public static final String GOING_BACK_STATUS = "Going back...";
+  public static final String INVALID_PORTFOLIO_TYPE = "Invalid portfolio type.";
 
 //  public static final String PORTFOLIO_OPTIONS = "PORTFOLIO_OPTIONS";
 
 //  public static final String INFLEXIBLE_PORTFOLIO_MAIN_MENU = "INFLEXIBLE_PORTFOLIO_MAIN_MENU";
 
   public static final Map<Integer, String[]> MENU_TYPE = Map.ofEntries(
-      Map.entry(MenuItems.PORTFOLIO_OPTIONS.getValue(), new String[]{
-          "Type of Portfolios",
-          "Inflexible Portfolio",
-          "Flexible Portfolio",
+      Map.entry(MenuItems.TYPE_OF_PORTFOLIO.getValue(), new String[]{
+          "Enter the type of portfolio",
+          "Inflexible portfolio",
+          "Flexible portfolio",
           "Exit"
       }),
-      Map.entry(MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+      Map.entry(MenuItems.INFLEXIBLE_PORTFOLIO.getValue(), new String[]{
           "Portfolio Management Services",
           "Create a portfolio",
           "Examine a portfolio",
           "Determine value of a portfolio on a certain date",
           "Back"
       }),
-      Map.entry(MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue(), new String[]{
+      Map.entry(MenuItems.FLEXIBLE_PORTFOLIO.getValue(), new String[]{
           "Portfolio Management Services",
           "Create a portfolio",
           "Examine a portfolio",
@@ -88,12 +90,12 @@ public final class Constants {
           "Get performance of portfolio over period",
           "Back"
       }),
-      Map.entry(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue(), new String[]{
+      Map.entry(MenuItems.CREATE_PORTFOLIO.getValue(), new String[]{
           "Create Portfolio Menu",
           "Add a stock to this portfolio",
           "Back"
       }),
-      Map.entry(MenuItems.TRANSACTIONS_SUBMENU.getValue(), new String[]{
+      Map.entry(MenuItems.CREATE_TRANSACTION.getValue(), new String[]{
           "Transaction Menu",
           "Buy Stocks",
           "Sell Stocks",
@@ -102,17 +104,18 @@ public final class Constants {
   );
 
   public static final int INFLEXIBLE_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItems.INFLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.INFLEXIBLE_PORTFOLIO.getValue()).length - 1;
   public static final int FLEXIBLE_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO_MAIN_MENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue()).length - 1;
   public static final int PORTFOLIO_OPTIONS_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItems.PORTFOLIO_OPTIONS.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.TYPE_OF_PORTFOLIO.getValue()).length - 1;
   public static final int CREATE_PORTFOLIO_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItems.CREATE_PORTFOLIO_SUBMENU_ITEMS.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.CREATE_PORTFOLIO.getValue()).length - 1;
   public static final int TRANSACTION_SUBMENU_EXIT_CODE =
-      Constants.MENU_TYPE.get(MenuItems.TRANSACTIONS_SUBMENU.getValue()).length - 1;
+      Constants.MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue()).length - 1;
   public static final int BAR_CHART_MIN_LINES = 5;
   public static final int BAR_CHART_MAX_LINES = 30;
+  public static final int BAR_CHART_MAX_STARS = 50;
 
   private Constants() {
   }

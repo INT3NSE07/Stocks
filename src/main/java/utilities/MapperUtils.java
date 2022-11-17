@@ -1,8 +1,10 @@
 package utilities;
 
 import enums.Operations;
+import enums.PortfolioTypes;
 import java.util.List;
 import java.util.function.Function;
+import model.Portfolio;
 import model.Stock;
 
 /**
@@ -53,12 +55,27 @@ public final class MapperUtils {
    * @return a mapping function
    */
   public static Function<List<String>, Stock> getUserPortfolioToStockMapper() {
-    //
-    return stockData -> Stock.StockBuilder.create()
-        .setSymbol(stockData.get(0))
-        .setQuantity(Double.parseDouble(stockData.get(1)))
-        .setDate(stockData.get(2))
-        .setOperation(Operations.getOperationByValue(stockData.get(3)))
-        .setCommission(Double.parseDouble(stockData.get(4)));
+    return stockData -> {
+      Stock stock = Stock.StockBuilder.create()
+          .setSymbol(stockData.get(0))
+          .setQuantity(Double.parseDouble(stockData.get(1)))
+          .setDate(stockData.get(2));
+      if (stockData.size() > 3) {
+        stock.setOperation(Operations.getOperationByValue(stockData.get(3)));
+        stock.setCommission(Double.parseDouble(stockData.get(4)));
+      }
+
+      return stock;
+    };
+  }
+
+  public static Function<List<String>, Portfolio> getCSVFileToPortfolioMapper() {
+    return portfolioData -> {
+      Portfolio portfolio = new Portfolio();
+      portfolio.setName(portfolioData.get(0));
+      portfolio.setPortfolioType(PortfolioTypes.getPortfolioTypeByValue(portfolioData.get(1)));
+
+      return portfolio;
+    };
   }
 }

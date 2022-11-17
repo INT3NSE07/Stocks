@@ -2,21 +2,20 @@ package model;
 
 import constants.Constants;
 import enums.Operations;
+import enums.PortfolioTypes;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
+import utilities.Helpers;
 import utilities.Pair;
 import utilities.StringUtils;
 
@@ -35,16 +34,28 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
+  public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException {
-    this.validateInput(portFolioName);
+    this.validateInput(portfolioName);
+
+    Portfolio portfolio = new Portfolio();
+    portfolio.setName(portfolioName);
+    portfolio.setPortfolioType(PortfolioTypes.FLEXIBLE);
+
+    portfolioRepository.create(portfolio);
+  }
+
+  @Override
+  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date)
+      throws IllegalArgumentException, IOException {
+    this.validateInput(portfolioName);
 
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     this.validateDate(date);
 
-    Portfolio portfolio = this.readPortfolio(portFolioName);
+    Portfolio portfolio = this.readPortfolio(portfolioName);
     double value = 0;
 
     // filter the earliest date present in the portfolio
@@ -127,31 +138,33 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     List<Stock> transactions = null;
 
     String finalDate = date;
-    transactions = validPortfolio.getStocks().stream().filter(x -> x.getSymbol().equals(stockPair.getKey())
+    transactions = validPortfolio.getStocks().stream()
+        .filter(x -> x.getSymbol().equals(stockPair.getKey())
             && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
             && x.getOperation().equals(Operations.BUY)
-            ).collect(Collectors.toList());
+        ).collect(Collectors.toList());
 
     if (transactions.size() == 0) {
-      throw new IllegalArgumentException("No Purchases of Stock: " + stockPair.getKey() + "before date: " + date);
+      throw new IllegalArgumentException(
+          "No Purchases of Stock: " + stockPair.getKey() + "before date: " + date);
     }
 
-
-    List<Stock> Alltransactions = validPortfolio.getStocks().stream().filter(x -> x.getSymbol().equals(stockPair.getKey())
+    List<Stock> Alltransactions = validPortfolio.getStocks().stream()
+        .filter(x -> x.getSymbol().equals(stockPair.getKey())
             && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
-    ).collect(Collectors.toList());
+        ).collect(Collectors.toList());
 
     final int[] quantity = {0};
     Alltransactions.forEach(
-            stock -> {
+        stock -> {
 //              int quantity = 0;
-              if (stock.getOperation().equals(Operations.BUY)) {
-                quantity[0] += stock.getQuantity();
-              }
-              if (stock.getOperation().equals(Operations.SELL)) {
-                quantity[0] -= stock.getQuantity();
-              }
-            }
+          if (stock.getOperation().equals(Operations.BUY)) {
+            quantity[0] += stock.getQuantity();
+          }
+          if (stock.getOperation().equals(Operations.SELL)) {
+            quantity[0] -= stock.getQuantity();
+          }
+        }
     );
     if (quantity[0] < stockPair.getValue()) {
       throw new IllegalArgumentException("Not enough sufficient quantity of Stocks to sell");
@@ -206,7 +219,9 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void getPerformanceOverview(String portfolioName, String fromDate, String toDate) {
+  public List<PortfolioValue> getPerformanceOverview(String portfolioName, String fromDate,
+      String toDate)
+      throws IOException {
     super.validateInput(portfolioName);
 
     super.validateDate(fromDate);
@@ -217,7 +232,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
     LocalDate from = LocalDate.parse(fromDate, Constants.DEFAULT_DATETIME_FORMAT);
     LocalDate to = LocalDate.parse(toDate, Constants.DEFAULT_DATETIME_FORMAT);
-    long days = ChronoUnit.DAYS.between(from, to);
+    long days = ChronoUnit.DAYS.between(from, to) + 1;
     int splits = Constants.BAR_CHART_MAX_LINES;
 
     if (days < Constants.BAR_CHART_MIN_LINES) {
@@ -225,36 +240,79 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     } else if (days <= Constants.BAR_CHART_MAX_LINES) {
       splits = (int) days;
     }
-    //Pair<Pair<LocalDate, LocalDate>, Double>
 
-    List<Long> splitDays = getSplitDays(days, splits);
-    // readportfolio
-    // distinct symbols, getStock(symbol from, to)
+    List<PortfolioValue> portfolioValues = new ArrayList<>();
 
+    List<Long> splitDays = Helpers.splitValue(days, splits);
+    List<Pair<String, String>> dateRanges = new ArrayList<>();
+    dateRanges.add(new Pair<>(fromDate, LocalDate.parse(fromDate).plusDays(splitDays.get(0))
+        .format(Constants.DEFAULT_DATETIME_FORMAT)));
 
-    var x = 10;
+    for (int i = 1; i < splitDays.size(); i++) {
+      String prevDate = dateRanges.get(i - 1).getValue();
+      String startDate = LocalDate.parse(prevDate).plusDays(1)
+          .format(Constants.DEFAULT_DATETIME_FORMAT);
 
-  }
-
-  private List<Long> getSplitDays(long days, int splits) {
-    List<Long> splitDays = new ArrayList<>();
-
-    if (days % splits == 0) {
-      for (int i = 0; i < splits; i++) {
-        splitDays.add(days / splits);
-      }
-    } else {
-      long maxDivisibleNumber = splits - (days % splits);
-      long nonDivisibleNumber = days / splits;
-      for (int i = 0; i < splits; i++) {
-        if (i >= maxDivisibleNumber) {
-          splitDays.add(Long.sum(nonDivisibleNumber, 1));
-        } else {
-          splitDays.add(nonDivisibleNumber);
-        }
-      }
+      dateRanges.add(new Pair<>(startDate, LocalDate.parse(startDate).plusDays(splitDays.get(i))
+          .format(Constants.DEFAULT_DATETIME_FORMAT)));
     }
 
-    return splitDays;
+    Portfolio portfolio = this.portfolioRepository.read(
+        x -> x.getName().equals(portfolioName)).iterator().next();
+    List<Stock> stocks = portfolio.getStocks();
+    List<String> symbols = stocks.stream().map(Stock::getSymbol).distinct()
+        .collect(Collectors.toList());
+
+    Map<String, List<Stock>> stockData = new HashMap<>();
+    for (String symbol : symbols) {
+      stockData.put(symbol, this.stockService.getHistoricalStockData(symbol));
+    }
+
+    for (Pair<String, String> dateRange : dateRanges) {
+      LocalDate startDate = LocalDate.parse(dateRange.getKey(), Constants.DEFAULT_DATETIME_FORMAT);
+      LocalDate endDate = LocalDate.parse(dateRange.getValue(),
+          Constants.DEFAULT_DATETIME_FORMAT);
+      List<Stock> stocksBetweenRange = stocks.stream()
+          .filter(x -> endDate.compareTo(LocalDate.parse(x.getDate())) >= 0)
+          .collect(Collectors.toList());
+
+      Map<String, Double> stockQuantityMap = new HashMap<>();
+      for (Stock stock : stocksBetweenRange) {
+        String symbol = stock.getSymbol();
+        switch (stock.getOperation()) {
+          case BUY:
+            if (stockQuantityMap.containsKey(symbol)) {
+              stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) + stock.getQuantity());
+            } else {
+              stockQuantityMap.put(symbol, stock.getQuantity());
+            }
+            break;
+          case SELL:
+            stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) - stock.getQuantity());
+            break;
+        }
+      }
+
+      double value = 0;
+      for (String stockSymbol : stockQuantityMap.keySet()) {
+        Stock stockOnEndDate = stockData.get(stockSymbol).stream()
+            .filter(x -> x.getDate().equals(endDate.format(Constants.DEFAULT_DATETIME_FORMAT)))
+            .findFirst().orElse(null);
+        if (stockOnEndDate == null) {
+          stockOnEndDate = stockData.get(stockSymbol).stream()
+              .filter(x -> LocalDate.parse(x.getDate())
+                  .isBefore(LocalDate.parse(endDate.format(Constants.DEFAULT_DATETIME_FORMAT))))
+              .findFirst().orElse(null);
+        }
+
+        if (stockOnEndDate != null) {
+          value += stockOnEndDate.getClose() * stockQuantityMap.get(stockSymbol);
+        }
+      }
+
+      portfolioValues.add(new PortfolioValue(startDate, endDate, value));
+    }
+
+    return portfolioValues;
   }
 }

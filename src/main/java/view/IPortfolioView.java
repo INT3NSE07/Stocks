@@ -1,6 +1,8 @@
 package view;
 
+import java.util.List;
 import model.Portfolio;
+import model.PortfolioValue;
 import utilities.Pair;
 
 /**
@@ -48,4 +50,7 @@ public interface IPortfolioView {
    * @param portfolioValue A {@link Pair} object of Portfolio linked to its value.
    */
   void showPortfolioValue(Pair<Portfolio, Double> portfolioValue);
+
+  void showPortfolioPerformance(String portfolioName, String fromDate, String toDate,
+      List<PortfolioValue> portfolioValues);
 }

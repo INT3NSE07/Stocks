@@ -8,7 +8,11 @@ import io.IWriter;
 import java.util.List;
 import model.FlexiblePortfolioModel;
 import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
+import model.IPortfolioModel;
 import model.Portfolio;
+import model.PortfolioFacadeModel;
+import model.PortfolioModel;
 import repository.CSVPortfolioRepository;
 import repository.IRepository;
 import service.AlphaVantageStockService;
@@ -35,9 +39,15 @@ public class PortfolioRunner {
     IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
         Constants.DATA_DIR);
 
-    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
     IPortfolioView view = new PortfolioTextView(System.out);
-    IPortfolioController controller = new PortfolioController(model, view, System.in);
+
+    IFlexiblePortfolioModel flexiblePortfolioModel = new FlexiblePortfolioModel(repository,
+        stockService);
+    IPortfolioModel inflexiblePortfolioModel = new PortfolioModel(repository, stockService);
+    IPortfolioFacadeModel portfolioFacadeModel = new PortfolioFacadeModel(flexiblePortfolioModel,
+        inflexiblePortfolioModel, repository);
+    IPortfolioController controller = new PortfolioController(portfolioFacadeModel, view,
+        System.in);
 
     controller.run();
   }

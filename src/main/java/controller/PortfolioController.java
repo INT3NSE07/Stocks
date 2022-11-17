@@ -3,11 +3,12 @@ package controller;
 import commands.FlexiblePortfolio;
 import commands.InflexiblePortfolio;
 import constants.Constants;
+import enums.PortfolioTypes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import model.IFlexiblePortfolioModel;
+import model.IPortfolioFacadeModel;
 import view.IPortfolioView;
 
 /**
@@ -16,7 +17,7 @@ import view.IPortfolioView;
  */
 public class PortfolioController implements IPortfolioController {
 
-  private final IFlexiblePortfolioModel model;
+  private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
 
@@ -29,7 +30,7 @@ public class PortfolioController implements IPortfolioController {
    * @param view  the view which displays output to the end user
    * @param in    the input stream through which user input is taken
    */
-  public PortfolioController(IFlexiblePortfolioModel model, IPortfolioView view, InputStream in) {
+  public PortfolioController(IPortfolioFacadeModel model, IPortfolioView view, InputStream in) {
     this.model = model;
     this.view = view;
     this.bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -54,12 +55,12 @@ public class PortfolioController implements IPortfolioController {
 
         switch (selectedMenuItem) {
           case 1: {
-            // Should we add Only InFlexible portfolio object model here?
-            // this.model = new PortfolioModel();
+            this.model.setPortfolioType(PortfolioTypes.INFLEXIBLE);
             new InflexiblePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
           case 2: {
+            this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
             new FlexiblePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }

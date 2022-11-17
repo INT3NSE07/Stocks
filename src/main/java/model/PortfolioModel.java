@@ -1,6 +1,7 @@
 package model;
 
 import constants.Constants;
+import enums.PortfolioTypes;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -34,16 +35,17 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public void createPortfolio(String portFolioName, List<Pair<String, Double>> stockPairs)
+  public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException {
-    this.validateInput(portFolioName);
+    this.validateInput(portfolioName);
 
     Portfolio portfolio = new Portfolio();
-    portfolio.setName(portFolioName);
+    portfolio.setName(portfolioName);
+    portfolio.setPortfolioType(PortfolioTypes.INFLEXIBLE);
 
     portfolioRepository.create(portfolio);
 
-    this.addStock(portFolioName, stockPairs);
+    this.addStock(portfolioName, stockPairs);
   }
 
   private void addStock(String portFolioName, List<Pair<String, Double>> stockPairs)
@@ -78,27 +80,27 @@ public class PortfolioModel implements IPortfolioModel {
   }
 
   @Override
-  public Portfolio readPortfolio(String portFolioName)
+  public Portfolio readPortfolio(String portfolioName)
       throws IllegalArgumentException, IOException {
-    this.validateInput(portFolioName);
+    this.validateInput(portfolioName);
 
     Iterable<Portfolio> portfolios = this.portfolioRepository.read(
-        x -> x.getName().equals(portFolioName));
+        x -> x.getName().equals(portfolioName));
 
     return portfolios.iterator().next();
   }
 
   @Override
-  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portFolioName, String date)
+  public Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date)
       throws IllegalArgumentException, IOException {
-    this.validateInput(portFolioName);
+    this.validateInput(portfolioName);
 
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     this.validateDate(date);
 
-    Portfolio portfolio = this.readPortfolio(portFolioName);
+    Portfolio portfolio = this.readPortfolio(portfolioName);
     double value = 0;
 
     for (Stock stock : portfolio.getStocks()) {
