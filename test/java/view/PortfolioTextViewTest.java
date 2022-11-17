@@ -163,7 +163,7 @@ public class PortfolioTextViewTest {
     List<Stock> stocks = new ArrayList<>();
     stocks.add(amzn);
     stocks.add(msft);
-    portfolio.setStocks(stocks);
+    portfolio.addStocks(stocks);
     view.showPortfolio(portfolio);
     String expected =
         System.lineSeparator() + "Composition of the portfolio ez"
@@ -190,7 +190,7 @@ public class PortfolioTextViewTest {
     List<Stock> stocks = new ArrayList<>();
     stocks.add(amzn);
     stocks.add(msft);
-    portfolio.setStocks(stocks);
+    portfolio.addStocks(stocks);
     view.showPortfolioValue(new Pair<>(portfolio, 103896.0));
     String expected =
         System.lineSeparator() + "Value of the portfolio ez" + System.lineSeparator()

@@ -1,18 +1,5 @@
 This project has been implemented in a generic way and leverages multiple design patterns.
 
-Assignment 5 design:
-Facade design pattern:
-   As there may be multiple types of portfolio (flexible, inflexible), a PortfolioFacade has been implemented which has all the required methods by different types of portfolios. There are checks in place which prevent an inflexible portfolio from calling methods specific to a flexible portfolio. The PortfolioFacade is responsible for mapping the methods called by the controller to the corresponding model implementation.
-
-Command design pattern:
-  The Command pattern has been implemented in the controller. All the commands have been neatly segregated into their own classes which makes it easier to scale in the future.
-
-Model interface design:
-  The original IPortfolioModel interface has not been changed. A new IFlexiblePortfolioModel extends this interface and adds the methods needed for new functionality. It also overrides a few methods in IPortfolioModel
-
-AlphaVantage service:
-  To query stock data, the program utilizes AlphaVantage's REST endpoints. The responses are cached in-memory to prevent frequent API calls 
-
 Assignment 4:
 1) IWriter<T> is a generic interface for writing any format of data to an OutputStream. Currently, this interface has been implemented by CSVWriter which writes the provided data in CSV format. In the future, the IWriter interface can be implemented to write any other formats of data. Ex: IWriter can be implemented by JsonWriter, XMLWriter, etc.
 2) IReader<T> is a generic interface for reading any format of data from an InputStream. Currently, this interface has been implemented by CSVReader which reads and parses data in CSV format. In the future, the IReader interface can be implemented to read any other formats of data. Ex: IReader can be implemented by JsonReader, XMLReader, etc.

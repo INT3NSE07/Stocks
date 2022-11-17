@@ -33,8 +33,8 @@ public class Portfolio {
     return stocks;
   }
 
-  public void setStocks(List<Stock> stocks) {
-    this.stocks = stocks;
+  public void addStocks(List<Stock> stocks) {
+    this.stocks.addAll(stocks);
   }
 
   public PortfolioTypes getPortfolioType() {

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -30,10 +31,13 @@ public class AlphaVantageStockService extends AbstractStockService {
 
   private final String apiEndpoint;
 
+  private final Map<String, List<Stock>> stocksCache;
+
   private AlphaVantageStockService(IReader<List<List<String>>> reader) {
     this.reader = reader;
     this.apiKey = "7TI4IRSWZWDASJHV";
     this.apiEndpoint = "https://www.alphavantage.co/query?";
+    this.stocksCache = new HashMap<>();
   }
 
   /**
@@ -54,20 +58,25 @@ public class AlphaVantageStockService extends AbstractStockService {
   @Override
   protected List<Stock> getStocks(String symbol) throws IOException {
     List<Stock> stocks = new ArrayList<>();
+    if (stocksCache.containsKey(symbol)) {
+      return stocksCache.get(symbol);
+    }
 
     try (InputStream inputStream = buildURL(symbol).openStream()) {
       List<List<String>> stockData = this.reader.read(inputStream);
       Function<List<String>, Stock> mapper = MapperUtils.getAlphaVantageResponseToStockMapper();
 
       for (List<String> record : stockData) {
+        if (String.join(",", record).contains(Constants.API_ERROR_MESSAGE)) {
+          throw new IllegalArgumentException(Constants.STOCK_FETCH_FAILED);
+        }
+
         Stock stock = mapper.apply(record);
         stock.setSymbol(symbol);
         stocks.add(stock);
       }
-    }
-    // confirm again.
-    catch (Exception e) {
-      throw new IllegalArgumentException(String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+
+      stocksCache.put(symbol, stocks);
     }
 
     return stocks;
@@ -100,7 +109,7 @@ public class AlphaVantageStockService extends AbstractStockService {
     try {
       url = new URL(sb.toString());
     } catch (MalformedURLException e) {
-      throw new RuntimeException("The AlphaVantage API endpoint is invalid.");
+      throw new IllegalArgumentException("The AlphaVantage API endpoint is invalid.");
     }
 
     return url;

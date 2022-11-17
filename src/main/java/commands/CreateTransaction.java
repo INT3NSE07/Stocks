@@ -32,8 +32,14 @@ public class CreateTransaction implements PortfolioCommand {
 
     try {
       commission = Double.parseDouble(this.bufferedReader.readLine());
+      if (commission < 0) {
+        throw new IllegalArgumentException(Constants.COMMISSION_NON_NEGATIVE);
+      }
     } catch (NumberFormatException numberFormatException) {
-      this.view.showString("Please Enter valid commission value in $");
+      this.view.showString("Please enter a valid commission value in $");
+      return;
+    } catch (IllegalArgumentException e) {
+      this.view.showString(e.getMessage());
       return;
     }
 

@@ -60,7 +60,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
         .collect(
             Collectors.toList());
-    portfolio.setStocks(filteredStocks);
+    portfolio.getStocks().clear();
+    portfolio.addStocks(filteredStocks);
 
     return portfolio;
   }
@@ -93,7 +94,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
         .collect(
             Collectors.toList());
-    portfolio.setStocks(filteredStocks);
+    portfolio.getStocks().clear();
+    portfolio.addStocks(filteredStocks);
 
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
@@ -128,6 +130,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
     super.validateDate(date);
 
+    if (commission < 0) {
+      throw new IllegalArgumentException(Constants.COMMISSION_NON_NEGATIVE);
+    }
+
     Portfolio portfolio = new Portfolio();
     portfolio.setName(portfolioName);
 
@@ -139,7 +145,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .setDate(date)
         .setOperation(Operations.BUY)
         .setCommission(commission);
-    portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
+    portfolio.addStocks(new ArrayList<>(Collections.singletonList(stock)));
 
     super.portfolioRepository.update(portfolio);
   }
@@ -159,6 +165,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
     super.validateDate(date);
+
+    if (commission < 0) {
+      throw new IllegalArgumentException(Constants.COMMISSION_NON_NEGATIVE);
+    }
 
     Portfolio validPortfolio = super.readPortfolio(portfolioName);
 
@@ -217,7 +227,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .setDate(date)
         .setOperation(Operations.SELL)
         .setCommission(commission);
-    portfolio.setStocks(new ArrayList<>(Collections.singletonList(stock)));
+    portfolio.addStocks(new ArrayList<>(Collections.singletonList(stock)));
 
     super.portfolioRepository.update(portfolio);
   }

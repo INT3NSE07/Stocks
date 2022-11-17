@@ -1,3 +1,5 @@
+Must
+
 Pending
 mapper adapter
 integration testing
@@ -9,10 +11,9 @@ pub should not call pub
 check access modifiers
 String or date object? - change string to date in service
 fix comments and tests
-test fix with real stock data
-abstract file service
-change addStocks
 performance years, months scale
+abstract file service
+test fix with real stock data
 
 Done
 Determine the cost basis
@@ -29,6 +30,7 @@ menu enum
 Add chronology and quantity constraints to sell method in Flexible portfolio method.
 composition date dependent
 validations should not be in controller
+change addStocks
 
 
 -limitations

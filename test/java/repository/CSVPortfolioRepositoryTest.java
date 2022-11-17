@@ -110,7 +110,7 @@ public class CSVPortfolioRepositoryTest {
               .setQuantity(Double.parseDouble(stockCSVString.get(1)))
               .setDate(stockCSVString.get(2)));
     }
-    portfolio.setStocks(stocks);
+    portfolio.addStocks(stocks);
 
     Portfolio updatedPortfolio = repository.update(portfolio);
     for (int i = 0; i < stocks.size(); i++) {
@@ -146,7 +146,7 @@ public class CSVPortfolioRepositoryTest {
         Stock.StockBuilder.create().setSymbol("AAPL").setQuantity(210.0).setDate("2022-10-28"),
         Stock.StockBuilder.create().setSymbol("AMZN").setQuantity(881.0).setDate("2022-10-11")
     );
-    portfolio.setStocks(stocks);
+    portfolio.addStocks(stocks);
 
     Portfolio updatedPortfolio = repository.update(portfolio);
     for (int i = 0; i < stocks.size(); i++) {
