@@ -94,20 +94,20 @@ public final class Constants {
           "Create a portfolio",
           "Examine a portfolio",
           "Determine value of a portfolio on a certain date",
-          "Make a transactions in portfolio",
+          "Make a transactions in a portfolio",
           "Calculate cost basis",
-          "Get performance of portfolio over period",
+          "Get performance of a portfolio over a period",
           "Back"
       }),
       Map.entry(MenuItems.CREATE_PORTFOLIO.getValue(), new String[]{
-          "Create Portfolio Menu",
+          "Create portfolio menu",
           "Add a stock to this portfolio",
           "Back"
       }),
       Map.entry(MenuItems.CREATE_TRANSACTION.getValue(), new String[]{
-          "Transaction Menu",
-          "Buy Stocks",
-          "Sell Stocks",
+          "Transaction menu",
+          "Buy stocks",
+          "Sell stocks",
           "Back"
       })
   );
@@ -127,7 +127,7 @@ public final class Constants {
   public static final int BAR_CHART_MAX_STARS = 50;
   public static final String BAR_CHART_MIN_DAYS_INPUT =
       "The minimum number of days to analyze the portfolio performance is " + BAR_CHART_MIN_LINES;
-  public static final String COST_BASIS = "Cost basis of portfolio %s on is %.2f";
+  public static final String COST_BASIS = "Cost basis of portfolio %s on is $%.2f";
   public static final String API_ERROR_MESSAGE = "Invalid API call";
   public static final String COMMISSION_NON_NEGATIVE =
       "Commission for a stock transaction cannot be negative.";

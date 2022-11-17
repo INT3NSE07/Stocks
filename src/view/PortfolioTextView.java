@@ -122,7 +122,7 @@ public class PortfolioTextView implements IPortfolioView {
       row.add(String.valueOf(i + 1));
       row.add(stock.getSymbol());
       row.add(String.valueOf(stock.getQuantity()));
-      row.add(String.valueOf(stock.getClose()));
+      row.add("$" + stock.getClose());
       if (portfolio.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
         row.add(stock.getOperation().toString());
       }
