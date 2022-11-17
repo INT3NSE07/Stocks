@@ -10,7 +10,6 @@ import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class CreateTransaction implements PortfolioCommand {
-
   private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
@@ -110,6 +109,7 @@ public class CreateTransaction implements PortfolioCommand {
       case 1: {
         try {
           this.model.buyStock(portfolioName, stockPair, date, commission);
+          this.view.showString(String.format(Constants.STOCK_BOUGHT_SUCESFULLY,stockPair.getKey()));
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
         }
@@ -118,6 +118,7 @@ public class CreateTransaction implements PortfolioCommand {
       case 2: {
         try {
           this.model.sellStock(portfolioName, stockPair, date, commission);
+          this.view.showString(String.format(Constants.STOCK_SOLD_SUCESFULLY,stockPair.getKey()));
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
         }
