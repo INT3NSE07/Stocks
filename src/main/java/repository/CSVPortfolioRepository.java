@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -146,8 +147,8 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
     try (FileOutputStream fileOutputStream = new FileOutputStream(
         getFilePath(portfolio.getName()).toFile(), true)) {
       for (Stock stock : portfolio.getStocks()) {
-        List<String> record = Arrays.asList(stock.getSymbol(),
-            Double.toString(stock.getQuantity()), stock.getDate());
+        List<String> record = new LinkedList<>(Arrays.asList(stock.getSymbol(),
+            Double.toString(stock.getQuantity()), stock.getDate()));
 
         // inflexible portfolio
         if (stock.getOperation() != null) {

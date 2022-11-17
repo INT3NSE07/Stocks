@@ -52,7 +52,7 @@ public class FlexiblePortfolio implements PortfolioCommand {
           break;
         }
         case 4: {
-          new Transactions(this.model, this.view, this.bufferedReader).go();
+          new CreateTrasaction(this.model, this.view, this.bufferedReader).go();
           break;
         }
         case 5: {

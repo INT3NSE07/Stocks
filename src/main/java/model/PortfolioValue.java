@@ -14,7 +14,7 @@ public class PortfolioValue {
 
   }
 
-  PortfolioValue(LocalDate fromDate, LocalDate toDate, double value) {
+  public PortfolioValue(LocalDate fromDate, LocalDate toDate, double value) {
     this.fromDate = fromDate;
     this.toDate = toDate;
     this.value = value;

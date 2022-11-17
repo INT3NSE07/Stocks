@@ -1,5 +1,6 @@
 package service;
 
+import constants.Constants;
 import io.IReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,10 @@ public class AlphaVantageStockService extends AbstractStockService {
         stock.setSymbol(symbol);
         stocks.add(stock);
       }
+    }
+    // confirm again.
+    catch (Exception e) {
+      throw new IllegalArgumentException(String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
     }
 
     return stocks;

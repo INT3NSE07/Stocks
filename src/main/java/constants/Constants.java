@@ -44,6 +44,8 @@ public final class Constants {
   public static final String PROMPT_DATE_KEY = "PROMPT_DATE";
   public static final String PROMPT_QUANTITY_KEY = "PROMPT_QUANTITY";
 
+  public static final String PROMPT_COMMISSION_KEY = "PROMPT_COMMISSION_KEY";
+
   public static final Map<String, String> TEXT_VIEW_CONSTANTS = Map.ofEntries(
       Map.entry(PROMPT_CHOICE, "Enter your choice"),
       Map.entry(PROMPT_PORTFOLIO_NAME_KEY, "Enter portfolio name"),
@@ -51,7 +53,8 @@ public final class Constants {
           "Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500)"),
       Map.entry(PROMPT_DATE_KEY,
           "Enter date in format YYYY-MM-DD (if no input is given, the default is current date)"),
-      Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity")
+      Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity"),
+      Map.entry(PROMPT_COMMISSION_KEY,"Please enter commission for this instance of transaction")
   );
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
@@ -116,6 +119,9 @@ public final class Constants {
   public static final int BAR_CHART_MIN_LINES = 5;
   public static final int BAR_CHART_MAX_LINES = 30;
   public static final int BAR_CHART_MAX_STARS = 50;
+  public static final String PROMPT_START_DATE_KEY = "Please enter start date (default today): ";
+  public static final String PROMPT_END_DATE_KEY = "Please enter end date (default today): ";
+
 
   private Constants() {
   }

@@ -9,7 +9,7 @@ import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
-public class Transactions implements PortfolioCommand {
+public class CreateTrasaction implements PortfolioCommand {
 
   private final IPortfolioFacadeModel model;
 
@@ -17,8 +17,8 @@ public class Transactions implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
-  public Transactions(IPortfolioFacadeModel model, IPortfolioView view,
-      BufferedReader bufferedReader) {
+  public CreateTrasaction(IPortfolioFacadeModel model, IPortfolioView view,
+                          BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
     this.bufferedReader = bufferedReader;
@@ -28,7 +28,7 @@ public class Transactions implements PortfolioCommand {
   public void go() throws IOException {
     int selectedSubmenuItem = MenuItems.FLEXIBLE_PORTFOLIO.getValue();
     double commission = 0;
-    this.view.showString("Please Enter commission for this instance of transaction: ");
+    this.view.showPrompt(Constants.PROMPT_COMMISSION_KEY);
 
     try {
       commission = Double.parseDouble(this.bufferedReader.readLine());
@@ -63,7 +63,7 @@ public class Transactions implements PortfolioCommand {
       return;
     }
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
-    Pair stockPair = new Pair<>(null, null);
+    Pair<String, Double> stockPair = null;
     String portfolioName = this.bufferedReader.readLine();
     String date = null;
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
@@ -112,7 +112,7 @@ public class Transactions implements PortfolioCommand {
         try {
           this.model.buyStock(portfolioName, stockPair, date, commission);
         } catch (IllegalArgumentException illegalArgumentException) {
-          this.view.showString(Constants.DATE_INVALID);
+          this.view.showString(illegalArgumentException.getMessage());
         }
         break;
       }

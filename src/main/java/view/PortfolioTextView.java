@@ -40,31 +40,6 @@ public class PortfolioTextView implements IPortfolioView {
     for (int i = 1; i < options.length; i++) {
       this.out.println(i + ") " + options[i]);
     }
-
-//    catch (Exception e){
-//
-//    }
-
-//    switch (selectedMenuItem) {
-//      case 0:
-//        Constants.MENU_TYPE.get(0)
-//        this.out.println(System.lineSeparator() + Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS.getValue())[0]);
-//        for (int i = 1; i < Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS).length; i++) {
-//          this.out.println(i + ") " + Constants.MENU_TYPE.get(Constants.PORTFOLIO_OPTIONS)[i]);
-//        }
-//        break;
-////      case 1:
-////        for (int i = 0; i < Constants.MENU_TYPE.get(key).length; i++) {
-////          this.out.println((i + 1) + ") " + Constants.MENU_TYPE.get(key)[i]);
-////        }
-////        break;
-////      case 2:
-////        for (int i = 0; i < Constants.MENU_TYPE.get(key).length; i++) {
-////          this.out.println((i + 1) + ") " + Constants.MENU_TYPE.get(key)[i]);
-////        }
-//      default:
-//        break;
-//    }
   }
 
   @Override

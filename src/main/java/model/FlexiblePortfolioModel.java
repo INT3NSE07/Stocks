@@ -85,7 +85,9 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
 
-    super.isStockSymbolValid(stockPair.getKey());
+    if(!super.isStockSymbolValid(stockPair.getKey())) {
+      throw new IllegalArgumentException(String.format(Constants.SYMBOL_FETCH_FAIL, stockPair.getKey()));
+    }
 
     if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
