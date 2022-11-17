@@ -541,7 +541,7 @@ public class ModelTest {
               .setSymbol(FOUND_A_MATCH)
               .setQuantity(234)
               .setClose(234)));
-      portfolio.setStocks(stocks);
+      portfolio.addStocks(stocks);
       List<Portfolio> portfolios = new ArrayList<>();
       if (predicate.test(portfolio)) {
         portfolios.add(portfolio);
