@@ -5,6 +5,7 @@ import io.CSVReader;
 import io.CSVWriter;
 import io.IReader;
 import io.IWriter;
+import io.GenericWriter;
 import java.util.List;
 import model.FlexiblePortfolioModel;
 import model.IFlexiblePortfolioModel;
@@ -32,7 +33,7 @@ public class PortfolioRunner {
    */
   public static void main(String[] args) {
     IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new CSVWriter();
+    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
 
     IStockService stockService = AlphaVantageStockService.getInstance(reader);
 

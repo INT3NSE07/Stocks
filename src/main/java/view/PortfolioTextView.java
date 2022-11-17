@@ -138,8 +138,8 @@ public class PortfolioTextView implements IPortfolioView {
   @Override
   public void showPortfolioPerformance(String portfolioName, String fromDate, String toDate,
       List<PortfolioValue> portfolioValues) {
-    this.out.printf("Performance of portfolio %s from %s to %s\n\n", portfolioName, fromDate,
-        toDate);
+    this.out.printf("Performance of portfolio %s from %s to %s", portfolioName, fromDate,
+        toDate + System.lineSeparator() + System.lineSeparator());
 
     double maxValue = portfolioValues.stream().max(Comparator.comparing(PortfolioValue::getValue))
         .get().getValue();
@@ -160,6 +160,6 @@ public class PortfolioTextView implements IPortfolioView {
       this.out.println();
     }
 
-    this.out.printf("\nScale:  * = $%.2f\n", scale);
+    this.out.printf(System.lineSeparator() + "Scale:  * = $%.2f" + System.lineSeparator(), scale);
   }
 }

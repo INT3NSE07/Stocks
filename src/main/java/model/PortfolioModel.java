@@ -73,7 +73,7 @@ public class PortfolioModel implements IPortfolioModel {
 
       Portfolio portfolio = new Portfolio();
       portfolio.setName(portFolioName);
-      portfolio.setStocks(Collections.singletonList(stock));
+      portfolio.addStocks(Collections.singletonList(stock));
 
       this.portfolioRepository.update(portfolio);
     }
