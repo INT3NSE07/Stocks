@@ -9,7 +9,7 @@ import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
-public class CreateTrasaction implements PortfolioCommand {
+public class CreateTransaction implements PortfolioCommand {
 
   private final IPortfolioFacadeModel model;
 
@@ -17,8 +17,8 @@ public class CreateTrasaction implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
-  public CreateTrasaction(IPortfolioFacadeModel model, IPortfolioView view,
-                          BufferedReader bufferedReader) {
+  public CreateTransaction(IPortfolioFacadeModel model, IPortfolioView view,
+      BufferedReader bufferedReader) {
     this.model = model;
     this.view = view;
     this.bufferedReader = bufferedReader;
@@ -99,7 +99,6 @@ public class CreateTrasaction implements PortfolioCommand {
       stockPair = new Pair<>(symbol, quantity);
 
       this.view.showPrompt(Constants.PROMPT_DATE_KEY);
-
       date = this.bufferedReader.readLine();
 
     } catch (NumberFormatException numberFormatException) {
@@ -111,13 +110,17 @@ public class CreateTrasaction implements PortfolioCommand {
       case 1: {
         try {
           this.model.buyStock(portfolioName, stockPair, date, commission);
-        } catch (IllegalArgumentException illegalArgumentException) {
-          this.view.showString(illegalArgumentException.getMessage());
+        } catch (IllegalArgumentException e) {
+          this.view.showString(e.getMessage());
         }
         break;
       }
       case 2: {
-        this.model.sellStock(portfolioName, stockPair, date, commission);
+        try {
+          this.model.sellStock(portfolioName, stockPair, date, commission);
+        } catch (IllegalArgumentException e) {
+          this.view.showString(e.getMessage());
+        }
         break;
       }
       default:

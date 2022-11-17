@@ -1,6 +1,7 @@
 package commands;
 
 import constants.Constants;
+import enums.PortfolioTypes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import model.IPortfolioFacadeModel;
@@ -22,19 +23,23 @@ public class ExaminePortfolio implements PortfolioCommand {
     this.bufferedReader = bufferedReader;
   }
 
-
   @Override
   public void go() throws IOException {
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
     String portfolioName = this.bufferedReader.readLine();
-
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       return;
     }
 
+    String date = null;
+    if (this.model.getPortfolioType() == PortfolioTypes.FLEXIBLE) {
+      this.view.showPrompt(Constants.PROMPT_DATE_KEY);
+      date = this.bufferedReader.readLine();
+    }
+
     try {
-      this.view.showPortfolio(this.model.readPortfolio(portfolioName));
+      this.view.showPortfolio(this.model.readPortfolio(portfolioName, date));
     } catch (IOException e) {
       this.view.showString(
           String.format(Constants.PORTFOLIO_FETCH_FAIL, portfolioName));

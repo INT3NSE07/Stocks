@@ -10,12 +10,11 @@ public interface IPortfolioFacadeModel {
   void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
       throws IllegalArgumentException, IOException;
 
-  Portfolio readPortfolio(String portfolioName)
+  Portfolio readPortfolio(String portfolioName, String date)
       throws IllegalArgumentException, IOException;
 
   Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date)
       throws IllegalArgumentException, IOException;
-
 
   void buyStock(String portfolioName, Pair<String, Double> stockPair, String Date,
       double commission) throws IOException;
@@ -23,7 +22,7 @@ public interface IPortfolioFacadeModel {
   void sellStock(String portfolioName, Pair<String, Double> stockPair, String date,
       double commission) throws IOException;
 
-  Pair<Portfolio, Double> getCostBasis(String portfolioName, String date) throws IOException;
+  double getCostBasis(String portfolioName, String date) throws IOException;
 
   List<PortfolioValue> getPerformanceOverview(String portfolioName, String fromDate, String toDate)
       throws IOException;

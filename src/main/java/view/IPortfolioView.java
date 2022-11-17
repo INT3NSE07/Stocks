@@ -49,7 +49,7 @@ public interface IPortfolioView {
    *
    * @param portfolioValue A {@link Pair} object of Portfolio linked to its value.
    */
-  void showPortfolioValue(Pair<Portfolio, Double> portfolioValue);
+  void showPortfolioValue(Pair<Portfolio, Double> portfolioValue, String date);
 
   void showPortfolioPerformance(String portfolioName, String fromDate, String toDate,
       List<PortfolioValue> portfolioValues);

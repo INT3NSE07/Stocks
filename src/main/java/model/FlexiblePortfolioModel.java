@@ -46,6 +46,26 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
+  public Portfolio readPortfolio(String portfolioName, String date)
+      throws IllegalArgumentException, IOException {
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    this.validateDate(date);
+
+    Portfolio portfolio = super.readPortfolio(portfolioName);
+
+    String finalDate = date;
+    List<Stock> filteredStocks = portfolio.getStocks().stream()
+        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
+        .collect(
+            Collectors.toList());
+    portfolio.setStocks(filteredStocks);
+
+    return portfolio;
+  }
+
+  @Override
   public Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date)
       throws IllegalArgumentException, IOException {
     this.validateInput(portfolioName);
@@ -58,8 +78,14 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     Portfolio portfolio = this.readPortfolio(portfolioName);
     double value = 0;
 
-    // filter the earliest date present in the portfolio
-    // if given date < earliest data - show error
+    LocalDate portfolioCreationDate = portfolio.getStocks().stream()
+        .map(x -> LocalDate.parse(x.getDate()))
+        .min(LocalDate::compareTo).orElse(null);
+    if (portfolioCreationDate != null && LocalDate.parse(date).isBefore(portfolioCreationDate)) {
+      throw new IllegalArgumentException(
+          String.format("\nValue of the portfolio %s on %s is %.2f", portfolio.getName(), date,
+              value));
+    }
 
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
@@ -85,15 +111,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
 
-    if(!super.isStockSymbolValid(stockPair.getKey())) {
-      throw new IllegalArgumentException(String.format(Constants.SYMBOL_FETCH_FAIL, stockPair.getKey()));
-    }
-
     if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
 
-    // cannot buy before IPO - comes from api - throws illegal arg catches up top in controller.
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
@@ -122,8 +143,6 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     super.validateInput(portfolioName);
     super.validateInput(stockPair.getKey());
 
-    super.isStockSymbolValid(stockPair.getKey());
-
     if (stockPair.getValue() <= 0) {
       throw new IllegalArgumentException(Constants.QUANTITY_NON_NEGATIVE_AND_ZERO);
     }
@@ -131,45 +150,52 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     if (StringUtils.isNullOrWhiteSpace(date)) {
       date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
-
     super.validateDate(date);
-    // select only flexible csv - not her in upper levels
-    // 1) check for chronology and
-    // 2) is quantity sufficiency to sell
+
     Portfolio validPortfolio = super.readPortfolio(portfolioName);
-    List<Stock> transactions = null;
+
+    String symbol = stockPair.getKey();
+    double quantity = stockPair.getValue();
+    List<Stock> allTransactions = validPortfolio.getStocks().stream()
+        .filter(x -> x.getSymbol().equals(symbol)).collect(Collectors.toList());
 
     String finalDate = date;
-    transactions = validPortfolio.getStocks().stream()
-        .filter(x -> x.getSymbol().equals(stockPair.getKey())
-            && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
-            && x.getOperation().equals(Operations.BUY)
-        ).collect(Collectors.toList());
+    List<Stock> transactionsBeforeDate = allTransactions.stream()
+        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
+        .collect(Collectors.toList());
 
-    if (transactions.size() == 0) {
+    if (allTransactions.size() == 0 && transactionsBeforeDate.size() == 0) {
       throw new IllegalArgumentException(
-          "No Purchases of Stock: " + stockPair.getKey() + "before date: " + date);
+          String.format("No purchases of stock %s before date %s found.", symbol, date));
     }
 
-    List<Stock> Alltransactions = validPortfolio.getStocks().stream()
-        .filter(x -> x.getSymbol().equals(stockPair.getKey())
-            && LocalDate.parse(x.getDate()).isBefore(LocalDate.parse(finalDate))
-        ).collect(Collectors.toList());
+    double buyQuantity =
+        transactionsBeforeDate.stream().filter(x -> x.getOperation() == Operations.BUY)
+            .mapToDouble(Stock::getQuantity).sum();
+    double sellQuantity =
+        transactionsBeforeDate.stream().filter(x -> x.getOperation() == Operations.SELL)
+            .mapToDouble(Stock::getQuantity).sum();
+    double availableQuantity = buyQuantity - sellQuantity;
+    if (availableQuantity < quantity) {
+      throw new IllegalArgumentException(
+          String.format(
+              "The portfolio %s does not contain %.2f of %s to sell on date %s.",
+              portfolioName, quantity, symbol, date));
+    }
 
-    final int[] quantity = {0};
-    Alltransactions.forEach(
-        stock -> {
-//              int quantity = 0;
-          if (stock.getOperation().equals(Operations.BUY)) {
-            quantity[0] += stock.getQuantity();
-          }
-          if (stock.getOperation().equals(Operations.SELL)) {
-            quantity[0] -= stock.getQuantity();
-          }
-        }
-    );
-    if (quantity[0] < stockPair.getValue()) {
-      throw new IllegalArgumentException("Not enough sufficient quantity of Stocks to sell");
+    double totalBuyQuantity =
+        allTransactions.stream().filter(x -> x.getOperation() == Operations.BUY)
+            .mapToDouble(Stock::getQuantity).sum();
+    double totalSellQuantity =
+        allTransactions.stream().filter(x -> x.getOperation() == Operations.SELL)
+            .mapToDouble(Stock::getQuantity).sum();
+    double totalAvailableQuantity = totalBuyQuantity - totalSellQuantity;
+    if (totalAvailableQuantity < quantity) {
+      throw new IllegalArgumentException(
+          String.format(
+              "This transaction cannot be performed because selling %.2f stocks of %s "
+                  + "on date %s in portfolio %s invalidates a previous transaction. ",
+              quantity, symbol, date, portfolioName));
     }
 
     Portfolio portfolio = new Portfolio();
@@ -189,7 +215,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public Pair<Portfolio, Double> getCostBasis(String portfolioName, String date)
+  public double getCostBasis(String portfolioName, String date)
       throws IOException {
     super.validateInput(portfolioName);
 
@@ -202,10 +228,18 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         x -> x.getName().equals(portfolioName));
     Portfolio portfolio = portfolios.iterator().next();
 
+    Map<String, Double> stockValueMap = new HashMap<>();
+    List<String> uniqueStockSymbols = portfolio.getStocks().stream().map(Stock::getSymbol)
+        .distinct()
+        .collect(Collectors.toList());
+    for (String symbol : uniqueStockSymbols) {
+      stockValueMap.put(symbol, this.stockService.getStockOnDate(symbol, date)
+          .getClose());
+    }
+
     double value = 0;
     for (Stock stock : portfolio.getStocks()) {
-      stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
-          .getClose());
+      stock.setClose(stockValueMap.get(stock.getSymbol()));
 
       switch (stock.getOperation()) {
         case BUY:
@@ -217,7 +251,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       }
     }
 
-    return new Pair<>(portfolio, value);
+    return value;
   }
 
   @Override
@@ -226,7 +260,11 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       throws IOException {
     super.validateInput(portfolioName);
 
+    if (StringUtils.isNullOrWhiteSpace(fromDate)) {
+      throw new IllegalArgumentException(Constants.DATE_INVALID);
+    }
     super.validateDate(fromDate);
+
     if (StringUtils.isNullOrWhiteSpace(toDate)) {
       toDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
@@ -234,11 +272,15 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
     LocalDate from = LocalDate.parse(fromDate, Constants.DEFAULT_DATETIME_FORMAT);
     LocalDate to = LocalDate.parse(toDate, Constants.DEFAULT_DATETIME_FORMAT);
+    if (to.compareTo(from) < 0) {
+      throw new IllegalArgumentException(Constants.DATE_INVALID);
+    }
+
     long days = ChronoUnit.DAYS.between(from, to) + 1;
     int splits = Constants.BAR_CHART_MAX_LINES;
 
     if (days < Constants.BAR_CHART_MIN_LINES) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(Constants.BAR_CHART_MIN_DAYS_INPUT);
     } else if (days <= Constants.BAR_CHART_MAX_LINES) {
       splits = (int) days;
     }

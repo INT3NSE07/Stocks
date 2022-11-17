@@ -8,6 +8,7 @@ import java.util.List;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
+import utilities.DateUtils;
 import utilities.Pair;
 
 /**
@@ -34,7 +35,6 @@ public class PortfolioTextView implements IPortfolioView {
 
   @Override
   public void showOptions(int selectedMenuItem) {
-//    try {
     String[] options = Constants.MENU_TYPE.get(selectedMenuItem);
     this.out.println(System.lineSeparator() + options[0]);
     for (int i = 1; i < options.length; i++) {
@@ -77,14 +77,16 @@ public class PortfolioTextView implements IPortfolioView {
   }
 
   @Override
-  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
+  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue, String date) {
     Portfolio portfolio = portfolioValue.getKey();
     String portfolioName = portfolio.getName();
     List<Stock> stocks = portfolio.getStocks();
-    String date = stocks.get(0).getDate();
 
     if (stocks.size() == 0) {
       this.out.printf("%nThe portfolio %s has no stocks.%n", portfolioName);
+    }
+    if (date == null) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
 
     this.out.printf("%nValue of the portfolio %s on %s%n", portfolio.getName(), date);
@@ -131,6 +133,6 @@ public class PortfolioTextView implements IPortfolioView {
       this.out.println();
     }
 
-    this.out.printf("\nScale:  * = %s\n", scale);
+    this.out.printf("\nScale:  * = %.2f\n", scale);
   }
 }

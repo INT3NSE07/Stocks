@@ -1,10 +1,8 @@
 package commands;
 
+import constants.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalDate;
-
-import constants.Constants;
 import model.IPortfolioFacadeModel;
 import utilities.DateUtils;
 import utilities.StringUtils;
@@ -29,7 +27,6 @@ public class PortfolioPerformance implements PortfolioCommand {
   public void go() throws IOException {
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
     String portfolioName = this.bufferedReader.readLine();
-
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       return;
@@ -37,23 +34,28 @@ public class PortfolioPerformance implements PortfolioCommand {
 
     this.view.showPrompt(Constants.PROMPT_START_DATE_KEY);
     String startDate = this.bufferedReader.readLine();
-
     if (StringUtils.isNullOrWhiteSpace(startDate)) {
-      startDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-    }
-    if(DateUtils.isValidDate(startDate,Constants.DEFAULT_DATETIME_FORMAT)){
       this.view.showString(Constants.DATE_INVALID);
+      return;
+    }
+    if (!DateUtils.isValidDate(startDate, Constants.DEFAULT_DATETIME_FORMAT)) {
+      this.view.showString(Constants.DATE_INVALID);
+      return;
     }
 
     this.view.showPrompt(Constants.PROMPT_END_DATE_KEY);
     String endDate = this.bufferedReader.readLine();
-
-    if (StringUtils.isNullOrWhiteSpace(startDate)) {
+    if (StringUtils.isNullOrWhiteSpace(endDate)) {
       endDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
     }
 
-    this.view.showPortfolioPerformance(
-        portfolioName, startDate, endDate, this.model.getPerformanceOverview(portfolioName, startDate,
-            endDate));
+    try {
+      this.view.showPortfolioPerformance(
+          portfolioName, startDate, endDate,
+          this.model.getPerformanceOverview(portfolioName, startDate,
+              endDate));
+    } catch (IllegalArgumentException e) {
+      this.view.showString(e.getMessage());
+    }
   }
 }

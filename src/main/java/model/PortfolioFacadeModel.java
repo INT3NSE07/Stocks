@@ -37,11 +37,18 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
   }
 
   @Override
-  public Portfolio readPortfolio(String portfolioName)
+  public Portfolio readPortfolio(String portfolioName, String date)
       throws IllegalArgumentException, IOException {
     this.validatePortfolioType(portfolioName);
 
-    return this.portfolioModel.readPortfolio(portfolioName);
+    switch (this.portfolioType) {
+      case FLEXIBLE:
+        return this.flexiblePortfolioModel.readPortfolio(portfolioName, date);
+      case INFLEXIBLE:
+        return this.portfolioModel.readPortfolio(portfolioName);
+      default:
+        throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
+    }
   }
 
   @Override
@@ -64,10 +71,13 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
       double commission) throws IOException {
     this.validatePortfolioType(portfolioName);
 
-    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
-      this.flexiblePortfolioModel.buyStock(portfolioName, stockPair, date, commission);
+    switch (this.portfolioType) {
+      case FLEXIBLE:
+        this.flexiblePortfolioModel.buyStock(portfolioName, stockPair, date, commission);
+        break;
+      default:
+        throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }
-    throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
   }
 
   @Override
@@ -75,21 +85,26 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
       double commission) throws IOException {
     this.validatePortfolioType(portfolioName);
 
-    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
-      this.flexiblePortfolioModel.sellStock(portfolioName, stockPair, date, commission);
+    switch (this.portfolioType) {
+      case FLEXIBLE:
+        this.flexiblePortfolioModel.sellStock(portfolioName, stockPair, date, commission);
+        break;
+      default:
+        throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }
-    throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
   }
 
   @Override
-  public Pair<Portfolio, Double> getCostBasis(String portfolioName, String date)
+  public double getCostBasis(String portfolioName, String date)
       throws IOException {
     this.validatePortfolioType(portfolioName);
 
-    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
-      this.flexiblePortfolioModel.getCostBasis(portfolioName, date);
+    switch (this.portfolioType) {
+      case FLEXIBLE:
+        return this.flexiblePortfolioModel.getCostBasis(portfolioName, date);
+      default:
+        throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }
-    throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
   }
 
   @Override
@@ -97,10 +112,12 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
       String toDate) throws IOException {
     this.validatePortfolioType(portfolioName);
 
-    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
-      this.flexiblePortfolioModel.getPerformanceOverview(portfolioName, fromDate, toDate);
+    switch (this.portfolioType) {
+      case FLEXIBLE:
+        return this.flexiblePortfolioModel.getPerformanceOverview(portfolioName, fromDate, toDate);
+      default:
+        throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }
-    throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
   }
 
   @Override

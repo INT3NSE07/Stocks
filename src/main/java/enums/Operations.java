@@ -18,7 +18,7 @@ public enum Operations {
       }
     }
 
-    throw new IllegalArgumentException("Invalid gear number.");
+    throw new IllegalArgumentException("Invalid operation type.");
   }
 
   public String getOperation() {

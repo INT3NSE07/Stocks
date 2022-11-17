@@ -4,12 +4,7 @@ import constants.Constants;
 import enums.MenuItems;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import model.IPortfolioFacadeModel;
-import model.Portfolio;
-import utilities.Pair;
-import utilities.StringUtils;
 import view.IPortfolioView;
 
 public class InflexiblePortfolio implements PortfolioCommand {
@@ -44,17 +39,17 @@ public class InflexiblePortfolio implements PortfolioCommand {
         }
         switch (selectedMenuItem) {
           case 1: {
-            new CreatePortfolio(this.bufferedReader,this.model,this.view).go();
+            new CreatePortfolio(this.bufferedReader, this.model, this.view).go();
             break;
           }
 
           case 2: {
-            new ExaminePortfolio(this.model,this.view,this.bufferedReader).go();
+            new ExaminePortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
 
           case 3: {
-            new ValueOfPortfolio(this.model,this.view,this.bufferedReader).go();
+            new ValueOfPortfolio(this.model, this.view, this.bufferedReader).go();
             break;
           }
 

@@ -24,11 +24,8 @@ public class CostBasis implements PortfolioCommand {
 
   @Override
   public void go() throws IOException {
-
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
     String portfolioName = this.bufferedReader.readLine();
-    String date = null;
-
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       return;
@@ -36,8 +33,13 @@ public class CostBasis implements PortfolioCommand {
 
     this.view.showPrompt(Constants.PROMPT_DATE_KEY);
 
-    date = this.bufferedReader.readLine();
+    String date = this.bufferedReader.readLine();
 
-    this.model.getCostBasis(portfolioName, date);
+    try {
+      this.view.showString(String.format(Constants.COST_BASIS, portfolioName, date,
+          this.model.getCostBasis(portfolioName, date)));
+    } catch (IllegalArgumentException e) {
+      this.view.showString(e.getMessage());
+    }
   }
 }

@@ -1,34 +1,35 @@
 Pending
-Add chronology and quantity constraints to sell method in Flexible portfolio method.
 mapper adapter
 integration testing
 integrate maven with bundling
 ascii terminal package
 add ioex in tests
 move all strings to constants
-menu enum
 pub should not call pub
 check access modifiers
 String or date object? - change string to date in service
 fix comments and tests
 test fix with real stock data
-bug fix with date retrieving top of the list
 abstract file service
-flexible and inflexible portfolio
-date of first purchase of stock = portfolio date
-portfolio check name during buy, sell
-composition date dependent
-add isFlexible prop, check in mapper
 change addStocks
-facade add type validation for portfolios
+validations should not be in controller
+performance years, months scale
+``
 
 Done
 Determine the cost basis
-
+facade add type validation for portfolios
 Set commission fee
 future dates not supported
 non trading day fix
-
+add isFlexible prop, check in mapper
+portfolio check name during buy, sell
+flexible and inflexible portfolio
+date of first purchase of stock = portfolio date
+bug fix with date retrieving top of the list
+menu enum
+Add chronology and quantity constraints to sell method in Flexible portfolio method.
+composition date dependent
 
 -limitations
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.
