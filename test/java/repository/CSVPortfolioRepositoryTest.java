@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import constants.CSVConstants;
 import constants.Constants;
+import enums.PortfolioTypes;
 import io.IReader;
 import io.IWriter;
 import java.io.File;
@@ -54,6 +55,7 @@ public class CSVPortfolioRepositoryTest {
 
     Portfolio portfolio = new Portfolio();
     portfolio.setName(fileName);
+    portfolio.setPortfolioType(PortfolioTypes.INFLEXIBLE);
 
     Portfolio createdPortfolio = repository.create(portfolio);
 
@@ -76,6 +78,7 @@ public class CSVPortfolioRepositoryTest {
 
     Portfolio portfolio = new Portfolio();
     portfolio.setName(tmpFile.getName());
+    portfolio.setPortfolioType(PortfolioTypes.INFLEXIBLE);
 
     try {
       Portfolio createdPortfolio = repository.create(portfolio);
@@ -172,7 +175,7 @@ public class CSVPortfolioRepositoryTest {
     }
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testReadPortfolio() throws IOException {
     List<String> mockLog = new ArrayList<>();
     String path = tmpFolder.getRoot().toString();
@@ -184,6 +187,8 @@ public class CSVPortfolioRepositoryTest {
 
     File tmpFile = tmpFolder.newFile();
     File file = tmpFolder.newFile(tmpFile.getName() + CSVConstants.EXTENSION);
+
+    File mappingFile = tmpFolder.newFile(Constants.PORTFOLIO_MAPPING_PATH + CSVConstants.EXTENSION);
 
     for (List<String> stockCSVString : stockCSVStrings) {
       Files.writeString(file.toPath(), String.join(",", stockCSVString));

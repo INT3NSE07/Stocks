@@ -12,9 +12,7 @@ fix comments and tests
 test fix with real stock data
 abstract file service
 change addStocks
-validations should not be in controller
 performance years, months scale
-``
 
 Done
 Determine the cost basis
@@ -30,6 +28,8 @@ bug fix with date retrieving top of the list
 menu enum
 Add chronology and quantity constraints to sell method in Flexible portfolio method.
 composition date dependent
+validations should not be in controller
+
 
 -limitations
 read is fine from any source. But write is restricted to text based stream because of human readable limitation.
