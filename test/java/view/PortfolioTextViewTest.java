@@ -171,12 +171,12 @@ public class PortfolioTextViewTest {
     String expected =
         System.lineSeparator() + "Composition of the portfolio ez"
             + System.lineSeparator()
-            + "+----+---------------+--------------+" + System.lineSeparator()
-            + "| ID | Ticker Symbol | No of Stocks |" + System.lineSeparator()
-            + "+----+---------------+--------------+" + System.lineSeparator()
-            + "| 1  | AMZN          | 234.0        |" + System.lineSeparator()
-            + "| 2  | MSFT          | 234.0        |" + System.lineSeparator()
-            + "+----+---------------+--------------+" + System.lineSeparator();
+            + "+----+---------------+----------+" + System.lineSeparator()
+            + "| ID | Ticker symbol | Quantity |" + System.lineSeparator()
+            + "+----+---------------+----------+" + System.lineSeparator()
+            + "| 1  | AMZN          | 234.0    |" + System.lineSeparator()
+            + "| 2  | MSFT          | 234.0    |" + System.lineSeparator()
+            + "+----+---------------+----------+" + System.lineSeparator();
     assertEquals(expected, outputStream.toString());
   }
 
@@ -196,7 +196,7 @@ public class PortfolioTextViewTest {
     portfolio.setStocks(stocks);
     view.showPortfolioValue(new Pair<>(portfolio, 103896.0));
     String expected =
-        System.lineSeparator() + "Value of the portfolio ez on null" + System.lineSeparator()
+        System.lineSeparator() + "Value of the portfolio ez" + System.lineSeparator()
             + "+----+---------------+----------+---------------+" + System.lineSeparator()
             + "| ID | Ticker symbol | Quantity | Closing price |" + System.lineSeparator()
             + "+----+---------------+----------+---------------+" + System.lineSeparator()
@@ -230,7 +230,7 @@ public class PortfolioTextViewTest {
             "2022-01-10 - 2022-01-27:  **************************************************" + System.lineSeparator() +
             "2022-01-25 - 2022-02-07:  ***" + System.lineSeparator() +
             System.lineSeparator() +
-            "Scale:  * = 18187.158" + System.lineSeparator();
+            "Scale:  * = $18187.16" + System.lineSeparator();
 
     assertEquals(expected,outputStream.toString());
   }
@@ -277,11 +277,6 @@ public class PortfolioTextViewTest {
 
 
   }
-
-
-
-
-
 
   private String getRandomString(int length) {
     StringBuilder sb = new StringBuilder(length);

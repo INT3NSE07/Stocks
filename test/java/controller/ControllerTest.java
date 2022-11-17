@@ -1,27 +1,28 @@
-//package controller;
-//
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.fail;
-//
-//import constants.Constants;
-//import java.io.ByteArrayInputStream;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.concurrent.ThreadLocalRandom;
-//import java.util.stream.Collectors;
-//import model.IFlexiblePortfolioModel;
-//import model.Portfolio;
-//import org.junit.Test;
-//import utilities.Pair;
-//import view.IPortfolioView;
-//
-///**
-// * A JUnit test class for the {@link IPortfolioController}s class.
-// */
-//public class ControllerTest {
-//
+package controller;
+
+import org.junit.Test;
+
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import constants.Constants;
+import enums.PortfolioTypes;
+import model.IPortfolioFacadeModel;
+import model.Portfolio;
+import model.PortfolioValue;
+import utilities.Pair;
+import view.IPortfolioView;
+
+/**
+ * A JUnit test class for the {@link controller.IPortfolioController}s class.
+ */
+public class ControllerTest {
+
 //  private static final String MOCK_VIEW_SHOW_OPTIONS =
 //      "MockView showOptions() called with option %s";
 //  private static final String MOCK_VIEW_SHOW_OPTION_ERROR =
@@ -47,24 +48,25 @@
 //  private static final String FOUND_A_MATCH = "SymbolValid";
 //  private static final Double PORTFOLIO_VALUE = 23455.0;
 //  private static final String FOUND_A_MATCH1 = "SymbolValid1";
-//
-//  @Test
+
+  //@Test
 //  public void testInitialState() {
+//
 //    List<String> mockLog = new ArrayList<>();
 //    MockView mockView = new MockView(mockLog);
 //    MockModel mockModel = new MockModel(mockLog);
 //
 //    int initialSelectedMenuItem = 0;
-//    int selectedMenuItem = 4;
+//    int exitCode = Constants.PORTFOLIO_OPTIONS_EXIT_CODE;
 //    try (ByteArrayInputStream bais = new ByteArrayInputStream(
-//        Integer.toString(selectedMenuItem).getBytes())) {
+//        Integer.toString(exitCode).getBytes())) {
 //      IPortfolioController controller = new PortfolioController(mockModel, mockView, bais);
 //      controller.run();
 //    } catch (IOException e) {
 //      fail(e.getMessage());
 //    }
 //
-//    assertEquals(String.format(MOCK_VIEW_SHOW_OPTIONS, initialSelectedMenuItem), mockLog.get(0));
+//    assertEquals("", mockLog.get(0));
 //  }
 //
 //  @Test
@@ -723,14 +725,65 @@
 //    }
 //  }
 //
-//  static class MockModel implements IFlexiblePortfolioModel {
-//
-//    private final List<String> log;
-//
-//    public MockModel(List<String> log) {
-//      this.log = log;
-//    }
-//
+  static class MockModel implements IPortfolioFacadeModel {
+
+    private final List<String> log;
+
+    public MockModel(List<String> log) {
+      this.log = log;
+    }
+
+    @Override
+    public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs) throws IllegalArgumentException, IOException {
+
+    }
+
+    @Override
+    public Portfolio readPortfolio(String portfolioName, String date) throws IllegalArgumentException, IOException {
+      return null;
+    }
+
+    @Override
+    public Pair<Portfolio, Double> getPortfolioValueOnDate(String portfolioName, String date) throws IllegalArgumentException, IOException {
+      return null;
+    }
+
+    @Override
+    public void buyStock(String portfolioName, Pair<String, Double> stockPair, String Date, double commission) throws IOException {
+
+    }
+
+    @Override
+    public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date, double commission) throws IOException {
+
+    }
+
+    @Override
+    public double getCostBasis(String portfolioName, String date) throws IOException {
+      return 0;
+    }
+
+    @Override
+    public List<PortfolioValue> getPerformanceOverview(String portfolioName, String fromDate, String toDate) throws IOException {
+      return null;
+    }
+
+    @Override
+    public boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException {
+      return false;
+    }
+
+    @Override
+    public PortfolioTypes getPortfolioType() {
+      return null;
+    }
+
+    @Override
+    public void setPortfolioType(PortfolioTypes portfolioType) {
+
+    }
+  }
+}
 //    @Override
 //    public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
 //        throws IllegalArgumentException {
@@ -793,45 +846,80 @@
 //    }
 //
 //  }
-//
+//}
 //  static class MockView implements IPortfolioView {
+
+//  private final List<String> log;
 //
-//    private final List<String> log;
+//  public MockView(List<String> log) {
+//    this.log = log;
+//  }
 //
-//    public MockView(List<String> log) {
-//      this.log = log;
-//    }
+//  @Override
+//  public void showString(String s) {
 //
-//    @Override
-//    public void showString(String s) {
-//      this.log.add(String.format(MOCK_VIEW_SHOW_STRING, s));
-//    }
+//  }
 //
-//    @Override
-//    public void showOptions(int selectedMenuItem) {
-//      this.log.add(String.format(MOCK_VIEW_SHOW_OPTIONS, selectedMenuItem));
-//    }
+//  @Override
+//  public void showOptions(int selectedMenuItem) {
 //
-//    @Override
-//    public void showOptionError() {
-//      this.log.add(MOCK_VIEW_SHOW_OPTION_ERROR);
-//    }
+//  }
 //
-//    @Override
-//    public void showPrompt(String key) {
-//      this.log.add(String.format(MOCK_VIEW_SHOW_PROMPT, key));
-//    }
+//  @Override
+//  public void showOptionError() {
 //
-//    @Override
-//    public void showPortfolio(Portfolio portfolio) {
-//      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO, portfolio.getName()));
-//    }
+//  }
 //
-//    @Override
-//    public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
-//      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, portfolioValue.getKey().getName(),
-//          portfolioValue.getValue()));
-//    }
+//  @Override
+//  public void showPrompt(String key) {
+//
+//  }
+//
+//  @Override
+//  public void showPortfolio(Portfolio portfolio) {
+//
+//  }
+//
+//  @Override
+//  public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue, String date) {
+//
+//  }
+//
+//  @Override
+//  public void showPortfolioPerformance(String portfolioName, String fromDate, String toDate, List<PortfolioValue> portfolioValues) {
+//
+//  }
+//
+////    @Override
+////    public void showString(String s) {
+////      this.log.add(String.format(MOCK_VIEW_SHOW_STRING, s));
+////    }
+////
+////    @Override
+////    public void showOptions(int selectedMenuItem) {
+////      this.log.add(String.format(MOCK_VIEW_SHOW_OPTIONS, selectedMenuItem));
+////    }
+////
+////    @Override
+////    public void showOptionError() {
+////      this.log.add(MOCK_VIEW_SHOW_OPTION_ERROR);
+////    }
+////
+////    @Override
+////    public void showPrompt(String key) {
+////      this.log.add(String.format(MOCK_VIEW_SHOW_PROMPT, key));
+////    }
+////
+////    @Override
+////    public void showPortfolio(Portfolio portfolio) {
+////      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO, portfolio.getName()));
+////    }
+////
+////    @Override
+////    public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
+////      this.log.add(String.format(MOCK_VIEW_SHOW_PORTFOLIO_VALUE, portfolioValue.getKey().getName(),
+////          portfolioValue.getValue()));
+////    }
 //  }
 //}
 //
