@@ -17,7 +17,7 @@ import org.junit.Test;
 public class CSVReaderTest {
 
   @Test
-  public void testReadSkipsHeader() {
+  public void testReadCSV() {
     String csvString = "symbol,quantity,date" + System.lineSeparator()
         + "AAPL,210.0,2022-10-28" + System.lineSeparator()
         + "AMZN,881.0,2022-01-11" + System.lineSeparator();

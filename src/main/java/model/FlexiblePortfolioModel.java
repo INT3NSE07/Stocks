@@ -83,7 +83,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         .min(LocalDate::compareTo).orElse(null);
     if (portfolioCreationDate != null && LocalDate.parse(date).isBefore(portfolioCreationDate)) {
       throw new IllegalArgumentException(
-          String.format("\nValue of the portfolio %s on %s is %.2f", portfolio.getName(), date,
+          String.format(System.lineSeparator() + "Value of the portfolio %s on %s is %.2f",
+              portfolio.getName(), date,
               value));
     }
 

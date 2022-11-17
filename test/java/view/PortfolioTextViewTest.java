@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -67,40 +66,38 @@ public class PortfolioTextViewTest {
       String expected = null;
       if (i == 0) {
         expected = System.lineSeparator()
-        + "Enter the type of portfolio" + System.lineSeparator()
-        + "1) Inflexible portfolio" + System.lineSeparator()
-        + "2) Flexible portfolio" + System.lineSeparator()
-        + "3) Exit" + System.lineSeparator();
-      } 
-      else if (i == 1) {
+            + "Enter the type of portfolio" + System.lineSeparator()
+            + "1) Inflexible portfolio" + System.lineSeparator()
+            + "2) Flexible portfolio" + System.lineSeparator()
+            + "3) Exit" + System.lineSeparator();
+      } else if (i == 1) {
         expected = System.lineSeparator()
-        + "Portfolio Management Services" + System.lineSeparator()
-        + "1) Create a portfolio" + System.lineSeparator()
-        + "2) Examine a portfolio" + System.lineSeparator()
-        + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
-        + "4) Back" + System.lineSeparator();
-      } else if (i == 2){
+            + "Portfolio Management Services" + System.lineSeparator()
+            + "1) Create a portfolio" + System.lineSeparator()
+            + "2) Examine a portfolio" + System.lineSeparator()
+            + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
+            + "4) Back" + System.lineSeparator();
+      } else if (i == 2) {
         expected = System.lineSeparator()
-                + "Portfolio Management Services" + System.lineSeparator()
-                + "1) Create a portfolio" + System.lineSeparator()
-                + "2) Examine a portfolio" + System.lineSeparator()
-                + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
-                + "4) Make a transactions in portfolio" + System.lineSeparator()
-                + "5) Calculate cost basis" + System.lineSeparator()
-                + "6) Get performance of portfolio over period" + System.lineSeparator()
-                + "7) Back" + System.lineSeparator();
-      } else if (i == 3){
+            + "Portfolio Management Services" + System.lineSeparator()
+            + "1) Create a portfolio" + System.lineSeparator()
+            + "2) Examine a portfolio" + System.lineSeparator()
+            + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
+            + "4) Make a transactions in portfolio" + System.lineSeparator()
+            + "5) Calculate cost basis" + System.lineSeparator()
+            + "6) Get performance of portfolio over period" + System.lineSeparator()
+            + "7) Back" + System.lineSeparator();
+      } else if (i == 3) {
         expected = System.lineSeparator()
-                + "Create Portfolio Menu" +  System.lineSeparator()
-                + "1) Add a stock to this portfolio" + System.lineSeparator()
-                + "2) Back" + System.lineSeparator();
-      }
-      else if (i == 4){
+            + "Create Portfolio Menu" + System.lineSeparator()
+            + "1) Add a stock to this portfolio" + System.lineSeparator()
+            + "2) Back" + System.lineSeparator();
+      } else if (i == 4) {
         expected = System.lineSeparator()
-                + "Transaction Menu" + System.lineSeparator()
-                + "1) Buy Stocks" + System.lineSeparator()
-                + "2) Sell Stocks" + System.lineSeparator()
-                + "3) Back" + System.lineSeparator();
+            + "Transaction Menu" + System.lineSeparator()
+            + "1) Buy Stocks" + System.lineSeparator()
+            + "2) Sell Stocks" + System.lineSeparator()
+            + "3) Back" + System.lineSeparator();
       }
       assertEquals(expected, outputStream.toString());
     }
@@ -213,26 +210,31 @@ public class PortfolioTextViewTest {
     OutputStream outputStream = new ByteArrayOutputStream();
     IPortfolioView view = new PortfolioTextView(new PrintStream(outputStream));
     view.showPortfolioPerformance(
-            "Investment_Portfolio",
-            "2022-01-01",
-            "2022-01-07",
-            new ArrayList<PortfolioValue>(
-                    List.of(
-                            new PortfolioValue(LocalDate.parse("2022-01-01"), LocalDate.parse("2022-01-07"), 9667.9),
-                            new PortfolioValue(LocalDate.parse("2022-01-10"), LocalDate.parse("2022-01-27"), 909357.9),
-                            new PortfolioValue(LocalDate.parse("2022-01-25"), LocalDate.parse("2022-02-07"), 56267.9)
-                    )
+        "Investment_Portfolio",
+        "2022-01-01",
+        "2022-01-07",
+        new ArrayList<PortfolioValue>(
+            List.of(
+                new PortfolioValue(LocalDate.parse("2022-01-01"), LocalDate.parse("2022-01-07"),
+                    9667.9),
+                new PortfolioValue(LocalDate.parse("2022-01-10"), LocalDate.parse("2022-01-27"),
+                    909357.9),
+                new PortfolioValue(LocalDate.parse("2022-01-25"), LocalDate.parse("2022-02-07"),
+                    56267.9)
             )
+        )
     );
-    String expected = "Performance of portfolio Investment_Portfolio from 2022-01-01 to 2022-01-07" + System.lineSeparator() +
-            System.lineSeparator() +
-            "2022-01-01 - 2022-01-07:  *" + System.lineSeparator() +
-            "2022-01-10 - 2022-01-27:  **************************************************" + System.lineSeparator() +
-            "2022-01-25 - 2022-02-07:  ***" + System.lineSeparator() +
-            System.lineSeparator() +
-            "Scale:  * = $18187.16" + System.lineSeparator();
+    String expected = "Performance of portfolio Investment_Portfolio from 2022-01-01 to 2022-01-07"
+        + System.lineSeparator() +
+        System.lineSeparator() +
+        "2022-01-01 - 2022-01-07:  *" + System.lineSeparator() +
+        "2022-01-10 - 2022-01-27:  **************************************************"
+        + System.lineSeparator() +
+        "2022-01-25 - 2022-02-07:  ***" + System.lineSeparator() +
+        System.lineSeparator() +
+        "Scale:  * = $18187.16" + System.lineSeparator();
 
-    assertEquals(expected,outputStream.toString());
+    assertEquals(expected, outputStream.toString());
   }
 
   @Test
@@ -244,23 +246,23 @@ public class PortfolioTextViewTest {
       // invalid date formats
       view.showPortfolioPerformance("Investment_Portfolio", "random", "random", new ArrayList<>());
     } catch (NoSuchElementException noSuchElementException) {
-      assertEquals("No value present",noSuchElementException.getMessage());
+      assertEquals("No value present", noSuchElementException.getMessage());
     }
 
     // null dates
     try {
       // invalid date formats
-      view.showPortfolioPerformance("Investment_Portfolio",null,null,new ArrayList<>());
+      view.showPortfolioPerformance("Investment_Portfolio", null, null, new ArrayList<>());
     } catch (NoSuchElementException noSuchElementException) {
-      assertEquals("No value present",noSuchElementException.getMessage());
+      assertEquals("No value present", noSuchElementException.getMessage());
     }
 
     // empty date strings
     try {
       // invalid date formats
-      view.showPortfolioPerformance("Investment_Portfolio","","",new ArrayList<>());
+      view.showPortfolioPerformance("Investment_Portfolio", "", "", new ArrayList<>());
     } catch (NoSuchElementException noSuchElementException) {
-      assertEquals("No value present",noSuchElementException.getMessage());
+      assertEquals("No value present", noSuchElementException.getMessage());
     }
   }
 
@@ -272,8 +274,8 @@ public class PortfolioTextViewTest {
     view.showOptionError();
 
     assertEquals(Constants.INVALID_OPTION
-            + System.lineSeparator()
-            + System.lineSeparator(),outputStream.toString());
+        + System.lineSeparator()
+        + System.lineSeparator(), outputStream.toString());
 
 
   }
