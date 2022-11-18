@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import org.junit.Test;
+
+import enums.Operations;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -419,7 +421,7 @@ public class ModelTest {
     try {
       Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(FOUND_A_MATCH,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-      assertEquals(35268.48, pair.getValue(), 0);
+      assertEquals(2411.52, pair.getValue(), 0);
 
     } catch (IOException e) {
       fail(e.getMessage());
@@ -538,9 +540,20 @@ public class ModelTest {
           Collections.singletonList(Stock
               .StockBuilder
               .create()
-              .setSymbol(FOUND_A_MATCH)
-              .setQuantity(234)
-              .setClose(234)));
+              .setSymbol(FOUND_A_MATCH.toUpperCase())
+              .setOperation(Operations.BUY)
+              .setQuantity(9)
+              .setClose(234)
+              .setDate("2022-10-10")));
+      //  8 sell
+      Stock s = Stock.
+              StockBuilder.
+              create()
+              .setSymbol("VZ")
+              .setOperation(Operations.SELL)
+              .setQuantity(7)
+              .setDate("2022-10-17");
+      stocks.add(s);
       portfolio.addStocks(stocks);
       List<Portfolio> portfolios = new ArrayList<>();
       if (predicate.test(portfolio)) {
