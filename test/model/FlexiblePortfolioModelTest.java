@@ -258,4 +258,20 @@ public class FlexiblePortfolioModelTest {
     }
   }
 
+  @Test
+  public void testGetCostBasis() {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+    try {
+      double value = model.getCostBasis(FOUND_A_MATCH, "2022-10-10");
+      assertEquals(3003.68, value, 0.01);
+    } catch (IllegalArgumentException illegalArgumentException) {
+      assertEquals(Constants.INPUT_NULL_OR_EMPTY, illegalArgumentException.getMessage());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
