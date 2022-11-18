@@ -2,14 +2,16 @@ package commands;
 
 import constants.Constants;
 import enums.MenuItems;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+
 import model.IPortfolioFacadeModel;
 import view.IPortfolioView;
 
 /**
  * This class represents a command in the command design pattern. It handles main menu
- * functionality of an inflexible portfolio.
+ *                    functionality of an inflexible portfolio.
  */
 public class InflexiblePortfolio implements PortfolioCommand {
 
@@ -20,15 +22,15 @@ public class InflexiblePortfolio implements PortfolioCommand {
   private final BufferedReader bufferedReader;
 
   /**
-   * Constructs a {@link InflexiblePortfolio} command object and initializes the model, view and reader
-   * fields.
+   * Constructs a {@link InflexiblePortfolio} command object and initializes the model,
+   *                        view and reader fields.
    *
    * @param model          the model instance which is used to perform the actual operations
    * @param view           the view which displays output to the end user
    * @param bufferedReader the input stream through which user input is taken
    */
   public InflexiblePortfolio(IPortfolioFacadeModel model, IPortfolioView view,
-      BufferedReader bufferedReader) {
+                             BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;
@@ -73,7 +75,8 @@ public class InflexiblePortfolio implements PortfolioCommand {
             view.showOptionError();
             break;
         }
-      } while (selectedMenuItem != Constants.INFLEXIBLE_EXIT_CODE);
+      }
+      while (selectedMenuItem != Constants.INFLEXIBLE_EXIT_CODE);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }

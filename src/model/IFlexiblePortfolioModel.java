@@ -26,6 +26,10 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
       throws IllegalArgumentException, IOException;
 
   /**
+   * Buys a stock when given a valid portfolio name, stock pair, date and commission.
+   * Fetches the stock and its closing price from {@link service.AlphaVantageStockService} and
+   *              writes into ths portfolio object with operation performed on it.
+   *
    * @param portfolioName Name of the portfolio in which the bought stocks will be added.
    * @param stockPair     {@link Pair} objects with symbol and quantity to be added to the
    *                      Portfolio.
@@ -38,6 +42,11 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
       double commission) throws IOException;
 
   /**
+   * Sells a stock when given a valid portfolio name, stock pair, date and commission.
+   * Fetches the stock and its closing price from {@link service.AlphaVantageStockService} and
+   *              writes into ths portfolio object with operation performed on it.
+
+   *
    * @param portfolioName Name of the portfolio in which the stocks will be sold.
    * @param stockPair     {@link Pair} objects with symbol and quantity to be added to the
    *                      Portfolio.   * @param date the date on which the stock is sold
@@ -49,6 +58,9 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
       double commission) throws IOException;
 
   /**
+   * Calculates the total value that was put in the portfolio in buying the stocks and as commission
+   *              for each transaction.
+   *
    * @param portfolioName Name of the portfolio to read from.
    * @param date          the date on which cost basis is calculated
    * @return the calculated cost basis
@@ -58,6 +70,9 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
   double getCostBasis(String portfolioName, String date) throws IOException;
 
   /**
+   * Draws a bar chart that summarizes the performance of the given portfolio
+   *                      over the given period of time.
+   *
    * @param portfolioName Name of the portfolio to read from.
    * @param fromDate      the date from which the performance is calculated
    * @param toDate        the date till which the performance is calculated

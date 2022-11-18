@@ -21,8 +21,8 @@ public class CreateTransaction implements PortfolioCommand {
   private final BufferedReader bufferedReader;
 
   /**
-   * Constructs a {@link CreateTransaction} command object and initializes the model, view and reader
-   * fields.
+   * Constructs a {@link CreateTransaction} command object and initializes the model,
+   *                       view and reader fields.
    *
    * @param model          the model instance which is used to perform the actual operations
    * @param view           the view which displays output to the end user
@@ -61,7 +61,7 @@ public class CreateTransaction implements PortfolioCommand {
       try {
         selectedSubmenuItem = Integer.parseInt(this.bufferedReader.readLine());
 
-        if (!(selectedSubmenuItem <= Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (
+        if ((selectedSubmenuItem > Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (
             selectedSubmenuItem > 0)) {
           this.view.showString(Constants.INVALID_OPTION);
         }
