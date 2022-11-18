@@ -2,10 +2,13 @@
 - Execute the jar by typing java -jar .\Stocks.jar
 
 
+# List of stocks that our program supports
+- Our program supports all stocks which are supported by the AlphaVantage web API
+
+
 # Instructions to Run the Program:
 - Below are the sequence of steps for the scenario:
 You should also include detailed instructions on how to run your program to create a portfolio, purchase stocks of at least 3 different companies in that portfolio at different dates and then query the value and cost basis of that portfolio on two specific dates.
-
 
 Enter the type of portfolio
 1) Inflexible portfolio
