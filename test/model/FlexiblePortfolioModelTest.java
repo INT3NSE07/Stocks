@@ -10,6 +10,9 @@ import java.util.List;
 import org.junit.Test;
 import utilities.Pair;
 
+/**
+ * A JUnit test class for the {@link IFlexiblePortfolioModel}s class.
+ */
 public class FlexiblePortfolioModelTest {
 
   private static final String MOCK_REPO_UPDATE_MESSAGE = "MockRepository update() called";

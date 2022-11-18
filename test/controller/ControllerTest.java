@@ -204,7 +204,7 @@ public class ControllerTest {
     @Override
     public void createPortfolio(String portfolioName, List<Pair<String, Double>> stockPairs)
         throws IllegalArgumentException, IOException {
-
+      // no implementation needed
     }
 
     @Override
@@ -222,12 +222,13 @@ public class ControllerTest {
     @Override
     public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date,
         double commission) throws IOException {
+      // no implementation needed
     }
 
     @Override
     public void sellStock(String portfolioName, Pair<String, Double> stockPair, String date,
         double commission) throws IOException {
-
+      // no implementation needed
     }
 
     @Override
@@ -288,18 +289,18 @@ public class ControllerTest {
 
     @Override
     public void showPortfolio(Portfolio portfolio) {
-
+      // no implementation needed
     }
 
     @Override
     public void showPortfolioValue(Pair<Portfolio, Double> portfolioValue) {
-
+      // no implementation needed
     }
 
     @Override
     public void showPortfolioPerformance(String portfolioName, String fromDate, String toDate,
         List<PortfolioValue> portfolioValues) {
-
+      // no implementation needed
     }
 
   }
