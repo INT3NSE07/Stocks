@@ -9,8 +9,11 @@ import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
 
+/**
+ * This class represents a command in the command design pattern. It handles the value of portfolio
+ * functionality.
+ */
 public class ValueOfPortfolio implements PortfolioCommand {
-
 
   private final IPortfolioFacadeModel model;
 
@@ -18,6 +21,14 @@ public class ValueOfPortfolio implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
+  /**
+   * Constructs a {@link ValueOfPortfolio} command object and initializes the model, view and reader
+   * fields.
+   *
+   * @param model          the model instance which is used to perform the actual operations
+   * @param view           the view which displays output to the end user
+   * @param bufferedReader the input stream through which user input is taken
+   */
   public ValueOfPortfolio(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader) {
     this.model = model;
@@ -26,7 +37,7 @@ public class ValueOfPortfolio implements PortfolioCommand {
   }
 
   @Override
-  public void go() throws IOException {
+  public void execute() throws IOException {
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
     String portfolioName = this.bufferedReader.readLine();
 

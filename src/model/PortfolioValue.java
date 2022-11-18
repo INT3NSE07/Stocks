@@ -2,45 +2,55 @@ package model;
 
 import java.time.LocalDate;
 
+/**
+ * This class that holds the performance related metrics across a time frame.
+ */
 public class PortfolioValue {
 
-  private LocalDate fromDate;
+  private final LocalDate fromDate;
 
-  private LocalDate toDate;
+  private final LocalDate toDate;
 
-  private double value;
+  private final double value;
 
-  public PortfolioValue() {
-
-  }
-
+  /**
+   * Creates an instance of {@link PortfolioValue}.
+   *
+   * @param fromDate the date from which the performance is calculated
+   * @param toDate   the date till which the performance is calculated
+   * @param value    the calculated value
+   */
   public PortfolioValue(LocalDate fromDate, LocalDate toDate, double value) {
     this.fromDate = fromDate;
     this.toDate = toDate;
     this.value = value;
   }
 
+  /**
+   * Return the date from which the performance is calculated.
+   *
+   * @return the date from which the performance is calculated.
+   */
   public LocalDate getFromDate() {
     return fromDate;
   }
 
-  void setFromDate(LocalDate fromDate) {
-    this.fromDate = fromDate;
-  }
-
+  /**
+   * Return the date till which the performance is calculated.
+   *
+   * @return the date till which the performance is calculated.
+   */
   public LocalDate getToDate() {
     return toDate;
   }
 
-  void setToDate(LocalDate toDate) {
-    this.toDate = toDate;
-  }
-
+  /**
+   * Return the computed value.
+   *
+   * @return the computed value
+   */
   public Double getValue() {
     return value;
   }
 
-  void setValue(Double value) {
-    this.value = value;
-  }
 }

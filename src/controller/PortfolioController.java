@@ -57,12 +57,12 @@ public class PortfolioController implements IPortfolioController {
         switch (selectedMenuItem) {
           case 1: {
             this.model.setPortfolioType(PortfolioTypes.INFLEXIBLE);
-            new InflexiblePortfolio(this.model, this.view, this.bufferedReader).go();
+            new InflexiblePortfolio(this.model, this.view, this.bufferedReader).execute();
             break;
           }
           case 2: {
             this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-            new FlexiblePortfolio(this.model, this.view, this.bufferedReader).go();
+            new FlexiblePortfolio(this.model, this.view, this.bufferedReader).execute();
             break;
           }
           case 3: {
@@ -74,7 +74,8 @@ public class PortfolioController implements IPortfolioController {
             break;
           }
         }
-      } while (selectedMenuItem != Constants.PORTFOLIO_OPTIONS_EXIT_CODE);
+      }
+      while (selectedMenuItem != Constants.PORTFOLIO_OPTIONS_EXIT_CODE);
     } catch (IOException e) {
       this.view.showString("Failed to initialize the program.");
     }

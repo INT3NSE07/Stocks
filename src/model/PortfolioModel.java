@@ -25,7 +25,7 @@ public class PortfolioModel implements IPortfolioModel {
   /**
    * Constructs a {@link PortfolioModel} object.
    *
-   * @param portfolioRepository the portfolio repository which is used the write the data to the
+   * @param portfolioRepository the portfolio repository which is used to write the data to the
    *                            actual datastore
    * @param stockService        the stock service which is used to fetch the stocks
    */

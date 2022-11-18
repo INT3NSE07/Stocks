@@ -19,10 +19,13 @@ import utilities.Helpers;
 import utilities.Pair;
 import utilities.StringUtils;
 
+/**
+ * This class represents the flexible portfolio model. It performs the actual operations.
+ */
 public class FlexiblePortfolioModel extends PortfolioModel implements IFlexiblePortfolioModel {
 
   /**
-   * Constructs a {@link PortfolioModel} object.
+   * Constructs a {@link FlexiblePortfolioModel} object.
    *
    * @param portfolioRepository the portfolio repository which is used the write the data to the
    *                            actual datastore
@@ -89,13 +92,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
           .getClose());
 
-      switch (stock.getOperation()) {
-        case BUY:
-          value += (stock.getQuantity() * stock.getClose());
-          break;
-        case SELL:
-          value -= (stock.getQuantity() * stock.getClose());
-          break;
+      if (stock.getOperation() == Operations.BUY) {
+        value += (stock.getQuantity() * stock.getClose());
+      } else if (stock.getOperation() == Operations.SELL) {
+        value -= (stock.getQuantity() * stock.getClose());
       }
     }
 
@@ -249,13 +249,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(stockValueMap.get(stock.getSymbol()));
 
-      switch (stock.getOperation()) {
-        case BUY:
-          value += (stock.getClose() * stock.getQuantity()) + stock.getCommission();
-          break;
-        case SELL:
-          value += stock.getCommission();
-          break;
+      if (stock.getOperation() == Operations.BUY) {
+        value += (stock.getClose() * stock.getQuantity()) + stock.getCommission();
+      } else if (stock.getOperation() == Operations.SELL) {
+        value += stock.getCommission();
       }
     }
 
@@ -263,9 +260,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   private void getFilteredStocks(String date, Portfolio portfolio) {
-    String finalDate = date;
     List<Stock> filteredStocks = portfolio.getStocks().stream()
-        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
+        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(date)) <= 0)
         .collect(
             Collectors.toList());
     portfolio.getStocks().clear();
@@ -341,17 +337,14 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       Map<String, Double> stockQuantityMap = new HashMap<>();
       for (Stock stock : stocksBetweenRange) {
         String symbol = stock.getSymbol();
-        switch (stock.getOperation()) {
-          case BUY:
-            if (stockQuantityMap.containsKey(symbol)) {
-              stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) + stock.getQuantity());
-            } else {
-              stockQuantityMap.put(symbol, stock.getQuantity());
-            }
-            break;
-          case SELL:
-            stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) - stock.getQuantity());
-            break;
+        if (stock.getOperation() == Operations.BUY) {
+          if (stockQuantityMap.containsKey(symbol)) {
+            stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) + stock.getQuantity());
+          } else {
+            stockQuantityMap.put(symbol, stock.getQuantity());
+          }
+        } else if (stock.getOperation() == Operations.SELL) {
+          stockQuantityMap.put(symbol, stockQuantityMap.get(symbol) - stock.getQuantity());
         }
       }
 

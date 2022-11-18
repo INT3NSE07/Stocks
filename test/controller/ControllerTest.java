@@ -218,7 +218,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void buyStock(String portfolioName, Pair<String, Double> stockPair, String Date, double commission) throws IOException {
+    public void buyStock(String portfolioName, Pair<String, Double> stockPair, String date, double commission) throws IOException {
 
     }
 

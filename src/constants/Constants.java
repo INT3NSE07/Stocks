@@ -35,9 +35,6 @@ public final class Constants {
   // Text UI constants
 
   public static final String INVALID_OPTION = "Invalid option. Please try again.";
-
-//  public static final String CREATE_PORTFOLIO_SUBMENU_ITEMS = "CREATE_PORTFOLIO_SUBMENU_ITEMS";
-
   public static final String PROMPT_CHOICE = "PROMPT_CHOICE";
   public static final String PROMPT_PORTFOLIO_NAME_KEY = "PROMPT_PORTFOLIO_NAME";
   public static final String PROMPT_STOCK_SYMBOL_KEY = "PROMPT_STOCK_SYMBOL";
@@ -67,14 +64,8 @@ public final class Constants {
   public static final String SYMBOL_FETCH_FAIL = "The stock symbol %s does not exist.";
   public static final String QUANTITY_MUST_BE_A_WHOLE_NUMBER =
       "Invalid quantity. Quantity must be a whole number.";
-  //  public static final String TRANSACTIONS_SUBMENU = "TRANSACTIONS_SUBMENU";
   public static final String GOING_BACK_STATUS = "Going back...";
   public static final String INVALID_PORTFOLIO_TYPE = "Invalid portfolio type.";
-
-//  public static final String PORTFOLIO_OPTIONS = "PORTFOLIO_OPTIONS";
-
-//  public static final String INFLEXIBLE_PORTFOLIO_MAIN_MENU = "INFLEXIBLE_PORTFOLIO_MAIN_MENU";
-
   public static final Map<Integer, String[]> MENU_TYPE = Map.ofEntries(
       Map.entry(MenuItems.TYPE_OF_PORTFOLIO.getValue(), new String[]{
           "Enter the type of portfolio",
