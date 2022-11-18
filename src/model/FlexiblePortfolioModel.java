@@ -55,13 +55,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
     Portfolio portfolio = super.readPortfolio(portfolioName);
 
-    String finalDate = date;
-    List<Stock> filteredStocks = portfolio.getStocks().stream()
-        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
-        .collect(
-            Collectors.toList());
-    portfolio.getStocks().clear();
-    portfolio.addStocks(filteredStocks);
+    getFilteredStocks(date, portfolio);
 
     return portfolio;
   }
@@ -89,13 +83,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
               value));
     }
 
-    String finalDate = date;
-    List<Stock> filteredStocks = portfolio.getStocks().stream()
-        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
-        .collect(
-            Collectors.toList());
-    portfolio.getStocks().clear();
-    portfolio.addStocks(filteredStocks);
+    getFilteredStocks(date, portfolio);
 
     for (Stock stock : portfolio.getStocks()) {
       stock.setClose(this.stockService.getStockOnDate(stock.getSymbol(), date)
@@ -246,6 +234,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         x -> x.getName().equals(portfolioName));
     Portfolio portfolio = portfolios.iterator().next();
 
+    getFilteredStocks(date, portfolio);
+
     Map<String, Double> stockValueMap = new HashMap<>();
     List<String> uniqueStockSymbols = portfolio.getStocks().stream().map(Stock::getSymbol)
         .distinct()
@@ -270,6 +260,16 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
 
     return value;
+  }
+
+  private void getFilteredStocks(String date, Portfolio portfolio) {
+    String finalDate = date;
+    List<Stock> filteredStocks = portfolio.getStocks().stream()
+        .filter(x -> LocalDate.parse(x.getDate()).compareTo(LocalDate.parse(finalDate)) <= 0)
+        .collect(
+            Collectors.toList());
+    portfolio.getStocks().clear();
+    portfolio.addStocks(filteredStocks);
   }
 
   @Override

@@ -4,119 +4,162 @@
 
 # Instructions to Run the Program:
 - Below are the sequence of steps for the scenario:
-"to create a portfolio with 3 different stocks, a second portfolio with 2 different stocks and query their value on a specific date."
+You should also include detailed instructions on how to run your program to create a portfolio, purchase stocks of at least 3 different companies in that portfolio at different dates and then query the value and cost basis of that portfolio on two specific dates.
 
 
-Portfolio Management Services
-1) Create a portfolio
-2) Examine a portfolio
-3) Determine value of a portfolio on a certain date
-4) Exit
-Enter your choice: 1
-Enter portfolio name: Retirement
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 1
-Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500): AAPL
-Enter quantity: 2345
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 1
-Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500): AMZN
-Enter quantity: 987
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 1
-Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500): MSFT
-Enter quantity: 156
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
+Enter the type of portfolio
+1) Inflexible portfolio
+2) Flexible portfolio
+3) Exit
 Enter your choice: 2
-The portfolio Retirement has been created.
 
 Portfolio Management Services
 1) Create a portfolio
 2) Examine a portfolio
 3) Determine value of a portfolio on a certain date
-4) Exit
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
 Enter your choice: 1
-Enter portfolio name:  College-Savings
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 1
-Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500): AMZN
-Enter quantity: 2345
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 1
-Enter stock symbol (the stock symbol must belong to the list of stocks in S&P 500): AAPL
-Enter quantity: 566
-
-Create a portfolio
-1) Add a stock to this portfolio
-2) Back
-Enter your choice: 2
-The portfolio  College-Savings has been created.
+Enter portfolio name: retirement-flexible
+The portfolio retirement-flexible has been created.
 
 Portfolio Management Services
 1) Create a portfolio
 2) Examine a portfolio
 3) Determine value of a portfolio on a certain date
-4) Exit
-Enter your choice: 3
-Enter portfolio name:  College-Savings
-Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-02
-
-Value of the portfolio  College-Savings on 2022-11-02
-+----+---------------+----------+---------------+
-| ID | Ticker symbol | Quantity | Closing price |
-+----+---------------+----------+---------------+
-| 1  | AAPL          | 566.0    | 145.03        |
-| 2  | AMZN          | 2345.0   | 92.12         |
-+----+---------------+----------+---------------+
-
-Total value: $298108.38
-
-Portfolio Management Services
-1) Create a portfolio
-2) Examine a portfolio
-3) Determine value of a portfolio on a certain date
-4) Exit
-Enter your choice: 3
-Enter portfolio name: Retirement
-Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-02
-
-Value of the portfolio Retirement on 2022-11-02
-+----+---------------+----------+---------------+
-| ID | Ticker symbol | Quantity | Closing price |
-+----+---------------+----------+---------------+
-| 1  | MSFT          | 156.0    | 220.1         |
-| 2  | AAPL          | 2345.0   | 145.03        |
-| 3  | AMZN          | 987.0    | 92.12         |
-+----+---------------+----------+---------------+
-
-Total value: $465353.39
-
-Portfolio Management Services
-1) Create a portfolio
-2) Examine a portfolio
-3) Determine value of a portfolio on a certain date
-4) Exit
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
 Enter your choice: 4
-Exiting...
+Please enter commission for this instance of transaction: 10
 
-# List of Stocks that supports the program
-- List of stocks in S&P 500 like AMZN(Amazon), AAPL(Apple), MSFT(Microsoft), etc..
-- We have support for stock values till dates 2022-11-02 any date after this will fetch the latest day value in the stock.
+Transaction menu
+1) Buy stocks
+2) Sell stocks
+3) Back
+Enter your choice: 1
+Enter portfolio name: retirement-flexible
+Enter stock symbol: AAPL
+Enter quantity: 100
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 
+Stock AAPL bought successfully.
+
+Transaction menu
+1) Buy stocks
+2) Sell stocks
+3) Back
+Enter your choice: 1
+Enter portfolio name: retirement-flexible
+Enter stock symbol: MSFT
+Enter quantity: 35
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-01
+Stock MSFT bought successfully.
+
+Transaction menu
+1) Buy stocks
+2) Sell stocks
+3) Back
+Enter your choice: 1
+Enter portfolio name: retirement-flexible
+Enter stock symbol: AMZN
+Enter quantity: 10
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-08-01
+Stock AMZN bought successfully.
+
+Transaction menu
+1) Buy stocks
+2) Sell stocks
+3) Back
+Enter your choice: 3
+
+Portfolio Management Services
+1) Create a portfolio
+2) Examine a portfolio
+3) Determine value of a portfolio on a certain date
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
+Enter your choice: 3
+Enter portfolio name: retirement-flexible
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-17
+
+Value of the portfolio retirement-flexible
++----+---------------+----------+---------------+-----------+
+| ID | Ticker symbol | Quantity | Closing price | Operation |
++----+---------------+----------+---------------+-----------+
+| 1  | AAPL          | 100.0    | $150.72       | BUY       |
+| 2  | MSFT          | 35.0     | $241.68       | BUY       |
+| 3  | AMZN          | 10.0     | $94.85        | BUY       |
++----+---------------+----------+---------------+-----------+
+
+Total value: $24479.30
+
+Portfolio Management Services
+1) Create a portfolio
+2) Examine a portfolio
+3) Determine value of a portfolio on a certain date
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
+Enter your choice: 3
+Enter portfolio name: retirement-flexible
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-15
+
+Value of the portfolio retirement-flexible
++----+---------------+----------+---------------+-----------+
+| ID | Ticker symbol | Quantity | Closing price | Operation |
++----+---------------+----------+---------------+-----------+
+| 1  | MSFT          | 35.0     | $241.97       | BUY       |
+| 2  | AMZN          | 10.0     | $98.94        | BUY       |
++----+---------------+----------+---------------+-----------+
+
+Total value: $9458.35
+
+Portfolio Management Services
+1) Create a portfolio
+2) Examine a portfolio
+3) Determine value of a portfolio on a certain date
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
+Enter your choice: 5
+Enter portfolio name: retirement-flexible
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-11-17
+Cost basis of portfolio retirement-flexible on is $24509.30
+
+Portfolio Management Services
+1) Create a portfolio
+2) Examine a portfolio
+3) Determine value of a portfolio on a certain date
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
+Enter your choice: 5
+Enter portfolio name: retirement-flexible
+Enter date in format YYYY-MM-DD (if no input is given, the default is current date): 2022-10-01
+Cost basis of portfolio retirement-flexible on is $1140.00
+
+Portfolio Management Services
+1) Create a portfolio
+2) Examine a portfolio
+3) Determine value of a portfolio on a certain date
+4) Make a transactions in a portfolio
+5) Calculate cost basis
+6) Get performance of a portfolio over a period
+7) Back
+Enter your choice: 7
+Going back...
+
+Enter the type of portfolio
+1) Inflexible portfolio
+2) Flexible portfolio
+3) Exit
+Enter your choice: 3
+Exiting...

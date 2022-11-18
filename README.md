@@ -1,14 +1,14 @@
 # Stocks
 
 Stocks is a portfolio management system.
-The features that have been implemented and tested in the current iteration are:
+The features that have been implemented and tested in the current iteration (Assignment 5) are:
 1) Allow a user to create one or more flexible portfolios. A specific number of shares of a stock can be purchased on a specific date which are then added them to the portfolio
 2) Allow a user to sell a specific number of shares of a specific stock on a specified date from their portfolio
 3) Calculate the cost basis of a portfolio on a specific date. This includes brokers commission during both purchase and sell transactions
 4) Allow a user to determine the value of their portfolio on a specific date
 5) The user can enter the commission fee for each transaction. It is fixed per transaction
-6) The stock data is queried from AlphaVantage
-7) Portfolio performance can be visualized through a barchart
+6) The program has been integrated with the AlphaVantage Web API through which stock data is queried
+7) Portfolio performance can be visualized through a barchart across a range of dates
 
 
 The features that have been implemented and tested in the previous iteration are:
