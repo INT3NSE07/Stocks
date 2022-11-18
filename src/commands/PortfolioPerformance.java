@@ -21,8 +21,8 @@ public class PortfolioPerformance implements PortfolioCommand {
   private final BufferedReader bufferedReader;
 
   /**
-   * Constructs a {@link PortfolioPerformance} command object and initializes the model, view and reader
-   * fields.
+   * Constructs a {@link PortfolioPerformance} command object and initializes the model,
+   *                        view and reader fields.
    *
    * @param model          the model instance which is used to perform the actual operations
    * @param view           the view which displays output to the end user

@@ -77,7 +77,7 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
    * @param fromDate      the date from which the performance is calculated
    * @param toDate        the date till which the performance is calculated
    * @return the list of {@link PortfolioValue} which contains the performance metrics across time
-   * ranges
+   *                        ranges.
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */
