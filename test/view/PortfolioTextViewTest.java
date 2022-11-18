@@ -225,14 +225,14 @@ public class PortfolioTextViewTest {
         )
     );
     String expected = "Performance of portfolio Investment_Portfolio from 2022-01-01 to 2022-01-07"
-        + System.lineSeparator() +
-        System.lineSeparator() +
-        "2022-01-01 - 2022-01-07:  *" + System.lineSeparator() +
-        "2022-01-10 - 2022-01-27:  **************************************************"
-        + System.lineSeparator() +
-        "2022-01-25 - 2022-02-07:  ***" + System.lineSeparator() +
-        System.lineSeparator() +
-        "Scale:  * = $18187.16" + System.lineSeparator();
+        + System.lineSeparator()
+        + System.lineSeparator()
+        + "2022-01-01 - 2022-01-07:  *" + System.lineSeparator()
+        + "2022-01-10 - 2022-01-27:  **************************************************"
+        + System.lineSeparator()
+        + "2022-01-25 - 2022-02-07:  ***" + System.lineSeparator()
+        + System.lineSeparator()
+        + "Scale:  * = $18187.16" + System.lineSeparator();
 
     assertEquals(expected, outputStream.toString());
   }

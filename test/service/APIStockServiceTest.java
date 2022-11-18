@@ -14,7 +14,7 @@ import utilities.MapperUtils;
 /**
  * A JUnit test class for the {@link FileStockService}s class.
  */
-public class FileStockServiceTest extends AbstractStockServiceTest {
+public class APIStockServiceTest extends AbstractStockServiceTest {
 
   private static final String MOCK_READER_READ_MESSAGE = "MockReader read() called";
   private static List<List<String>> stockFileCSV;
@@ -23,9 +23,9 @@ public class FileStockServiceTest extends AbstractStockServiceTest {
   private List<String> mockLog;
 
   /**
-   * Creates and instance of {@link FileStockServiceTest}s class.
+   * Creates and instance of {@link APIStockServiceTest}s class.
    */
-  public FileStockServiceTest() {
+  public APIStockServiceTest() {
     stockFileCSV = new ArrayList<>();
     stockFileCSV.add(new ArrayList<>(
         List.of(this.currentDate, "AAPL", "136.38", "139.12", "135.02", "138.77", "901900.0")));
