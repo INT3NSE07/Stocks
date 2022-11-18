@@ -48,7 +48,8 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
    *
    * @param portfolioName Name of the portfolio in which the stocks will be sold.
    * @param stockPair     {@link Pair} objects with symbol and quantity to be added to the
-   *                      Portfolio.   * @param date the date on which the stock is sold
+   *                      Portfolio.
+   * @param date          the date on which the stock is sold
    * @param commission    the broker commission
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
@@ -75,8 +76,7 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
    * @param portfolioName Name of the portfolio to read from.
    * @param fromDate      the date from which the performance is calculated
    * @param toDate        the date till which the performance is calculated
-   * @return the list of {@link PortfolioValue} which contains the performance metrics across time
-   *                        ranges.
+   * @return list of {@link PortfolioValue} which contains the performance metrics across ranges.
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */

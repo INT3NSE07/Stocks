@@ -521,23 +521,23 @@ public class ModelTest {
                   .setQuantity(9)
                   .setClose(234)
                   .setDate("2022-10-10"),
-              Stock.
-                  StockBuilder.
-                  create()
+              Stock
+                  .StockBuilder
+                  .create()
                   .setSymbol("VZ")
                   .setOperation(Operations.SELL)
                   .setQuantity(7)
                   .setDate("2022-10-17"),
-              Stock.
-                  StockBuilder.
-                  create()
+              Stock
+                  .StockBuilder
+                  .create()
                   .setSymbol("AMZN")
                   .setOperation(Operations.BUY)
                   .setQuantity(10)
                   .setDate("2022-01-01"),
-              Stock.
-                  StockBuilder.
-                  create()
+              Stock
+                  .StockBuilder
+                  .create()
                   .setSymbol("AMZN")
                   .setOperation(Operations.SELL)
                   .setQuantity(8)
@@ -545,9 +545,9 @@ public class ModelTest {
           )
       );
       //  8 sell
-      Stock s = Stock.
-          StockBuilder.
-          create()
+      Stock s = Stock
+          .StockBuilder
+          .create()
           .setSymbol("VZ")
           .setOperation(Operations.SELL)
           .setQuantity(7)

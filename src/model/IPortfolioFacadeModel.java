@@ -44,6 +44,7 @@ public interface IPortfolioFacadeModel {
    * Reads the Stock data from the persisted Portfolio.
    *
    * @param portfolioName Name of the portfolio to read from.
+   * @param date          the date on which the stock is bought
    * @return an {@link Portfolio} Object having stock details.
    * @throws IllegalArgumentException If the portfolio name is null or empty or service is unable to
    *                                  find the name this exception is thrown.
@@ -77,6 +78,7 @@ public interface IPortfolioFacadeModel {
    * @param portfolioName Name of the portfolio in which the stocks will be sold.
    * @param stockPair     {@link Pair} objects with symbol and quantity to be added to the
    *                      Portfolio.   * @param date the date on which the stock is sold
+   * @param date          the date on which the stock is bought
    * @param commission    the broker commission
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
@@ -103,8 +105,7 @@ public interface IPortfolioFacadeModel {
    * @param portfolioName Name of the portfolio to read from.
    * @param fromDate      the date from which the performance is calculated
    * @param toDate        the date till which the performance is calculated
-   * @return the list of {@link PortfolioValue} which contains the performance metrics across time
-   * ranges
+   * @return list of {@link PortfolioValue} which contains the performance metrics across ranges.
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */
@@ -125,14 +126,14 @@ public interface IPortfolioFacadeModel {
   boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException;
 
   /**
-   * Returns the type of the portfolio
+   * Returns the type of the portfolio.
    *
    * @return the type of the portfolio
    */
   PortfolioTypes getPortfolioType();
 
   /**
-   * Set the type of the portfolio
+   * Set the type of the portfolio.
    *
    * @param portfolioType the type of the portfolio
    */

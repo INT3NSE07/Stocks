@@ -111,8 +111,8 @@ public class FlexiblePortfolioModelTest {
     try {
       model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-10", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals("The portfolio ValidSymbol does not contain 38.16 of VZ to " +
-          "sell on date 2022-10-10.", illegalArgumentException.getMessage());
+      assertEquals("The portfolio ValidSymbol does not contain 38.16 of VZ to "
+          + "sell on date 2022-10-10.", illegalArgumentException.getMessage());
     }
   }
 
@@ -197,8 +197,8 @@ public class FlexiblePortfolioModelTest {
     try {
       model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-15", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals("The portfolio ValidSymbol does not contain 10.00 of " +
-          "VALIDSYMBOL to sell on date 2022-10-15.", illegalArgumentException.getMessage());
+      assertEquals("The portfolio ValidSymbol does not contain 10.00 of "
+          + "VALIDSYMBOL to sell on date 2022-10-15.", illegalArgumentException.getMessage());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

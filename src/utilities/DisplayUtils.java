@@ -25,8 +25,11 @@ public final class DisplayUtils {
     private final List<String> headers;
     private final PrintStream out;
 
+
     /**
      * Creates and instance {@link TextTableGenerator} class.
+     *
+     * @param out the output stream to which the table is printed
      */
     public TextTableGenerator(PrintStream out) {
       this.headers = new ArrayList<>();
