@@ -83,20 +83,20 @@ public class PortfolioTextViewTest {
             + "1) Create a portfolio" + System.lineSeparator()
             + "2) Examine a portfolio" + System.lineSeparator()
             + "3) Determine value of a portfolio on a certain date" + System.lineSeparator()
-            + "4) Make a transactions in portfolio" + System.lineSeparator()
+            + "4) Make a transactions in a portfolio" + System.lineSeparator()
             + "5) Calculate cost basis" + System.lineSeparator()
-            + "6) Get performance of portfolio over period" + System.lineSeparator()
+            + "6) Get performance of a portfolio over a period" + System.lineSeparator()
             + "7) Back" + System.lineSeparator();
       } else if (i == 3) {
         expected = System.lineSeparator()
-            + "Create Portfolio Menu" + System.lineSeparator()
+            + "Create portfolio menu" + System.lineSeparator()
             + "1) Add a stock to this portfolio" + System.lineSeparator()
             + "2) Back" + System.lineSeparator();
       } else if (i == 4) {
         expected = System.lineSeparator()
-            + "Transaction Menu" + System.lineSeparator()
-            + "1) Buy Stocks" + System.lineSeparator()
-            + "2) Sell Stocks" + System.lineSeparator()
+            + "Transaction menu" + System.lineSeparator()
+            + "1) Buy stocks" + System.lineSeparator()
+            + "2) Sell stocks" + System.lineSeparator()
             + "3) Back" + System.lineSeparator();
       }
       assertEquals(expected, outputStream.toString());
@@ -197,8 +197,8 @@ public class PortfolioTextViewTest {
             + "+----+---------------+----------+---------------+" + System.lineSeparator()
             + "| ID | Ticker symbol | Quantity | Closing price |" + System.lineSeparator()
             + "+----+---------------+----------+---------------+" + System.lineSeparator()
-            + "| 1  | AMZN          | 234.0    | 123.0         |" + System.lineSeparator()
-            + "| 2  | MSFT          | 234.0    | 321.0         |" + System.lineSeparator()
+            + "| 1  | AMZN          | 234.0    | $123.0        |" + System.lineSeparator()
+            + "| 2  | MSFT          | 234.0    | $321.0        |" + System.lineSeparator()
             + "+----+---------------+----------+---------------+" + System.lineSeparator()
             + System.lineSeparator()
             + "Total value: $103896.00" + System.lineSeparator();

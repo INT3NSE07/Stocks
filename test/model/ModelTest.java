@@ -5,15 +5,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import constants.Constants;
+import enums.Operations;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import org.junit.Test;
-
-import enums.Operations;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -256,17 +254,17 @@ public class ModelTest {
 
       List<String> expected = new ArrayList<>(
           Arrays.asList(MOCK_REPO_CREATE_MESSAGE,
-                  MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
-                  MOCK_REPO_UPDATE_MESSAGE,
-                  MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
-                  MOCK_REPO_UPDATE_MESSAGE,
-                  MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
-                  MOCK_REPO_UPDATE_MESSAGE,
-                  MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
-                  MOCK_REPO_UPDATE_MESSAGE,
-                  MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
-                  MOCK_REPO_UPDATE_MESSAGE
-                  ));
+              MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
+              MOCK_REPO_UPDATE_MESSAGE,
+              MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
+              MOCK_REPO_UPDATE_MESSAGE,
+              MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
+              MOCK_REPO_UPDATE_MESSAGE,
+              MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
+              MOCK_REPO_UPDATE_MESSAGE,
+              MOCK_SERVICE_GET_STOCK_ON_DATE_MESSAGE,
+              MOCK_REPO_UPDATE_MESSAGE
+          ));
 
       assertEquals(Arrays.toString(mockLog.toArray()), Arrays.toString(expected.toArray()));
 
@@ -416,12 +414,11 @@ public class ModelTest {
 
     List<Pair<String, Double>> stockPairs = new ArrayList<>();
 
-
-    stockPairs.add(new Pair<>("AAPL",Double.parseDouble("100")));
+    stockPairs.add(new Pair<>("AAPL", Double.parseDouble("100")));
     try {
       Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(FOUND_A_MATCH,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-      assertEquals(2411.52, pair.getValue(), 0);
+      assertEquals(6179.52, pair.getValue(), 0);
 
     } catch (IOException e) {
       fail(e.getMessage());
@@ -485,7 +482,8 @@ public class ModelTest {
 //    }
 
     @Override
-    public List<Stock> getHistoricalStockData(String symbol) throws IllegalArgumentException, IOException {
+    public List<Stock> getHistoricalStockData(String symbol)
+        throws IllegalArgumentException, IOException {
       return null;
     }
 
@@ -537,22 +535,46 @@ public class ModelTest {
       Portfolio portfolio = new Portfolio();
       portfolio.setName(FOUND_A_MATCH);
       List<Stock> stocks = new ArrayList<>(
-          Collections.singletonList(Stock
-              .StockBuilder
-              .create()
-              .setSymbol(FOUND_A_MATCH.toUpperCase())
-              .setOperation(Operations.BUY)
-              .setQuantity(9)
-              .setClose(234)
-              .setDate("2022-10-10")));
+          List.of(
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol(FOUND_A_MATCH.toUpperCase())
+                  .setOperation(Operations.BUY)
+                  .setQuantity(9)
+                  .setClose(234)
+                  .setDate("2022-10-10"),
+              Stock.
+                  StockBuilder.
+                  create()
+                  .setSymbol("VZ")
+                  .setOperation(Operations.SELL)
+                  .setQuantity(7)
+                  .setDate("2022-10-17"),
+              Stock.
+                  StockBuilder.
+                  create()
+                  .setSymbol("AMZN")
+                  .setOperation(Operations.BUY)
+                  .setQuantity(10)
+                  .setDate("2022-01-01"),
+              Stock.
+                  StockBuilder.
+                  create()
+                  .setSymbol("AMZN")
+                  .setOperation(Operations.SELL)
+                  .setQuantity(8)
+                  .setDate("2022-01-10")
+          )
+      );
       //  8 sell
       Stock s = Stock.
-              StockBuilder.
-              create()
-              .setSymbol("VZ")
-              .setOperation(Operations.SELL)
-              .setQuantity(7)
-              .setDate("2022-10-17");
+          StockBuilder.
+          create()
+          .setSymbol("VZ")
+          .setOperation(Operations.SELL)
+          .setQuantity(7)
+          .setDate("2022-10-17");
       stocks.add(s);
       portfolio.addStocks(stocks);
       List<Portfolio> portfolios = new ArrayList<>();

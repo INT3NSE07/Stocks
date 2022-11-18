@@ -1,16 +1,14 @@
 package model;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import constants.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import constants.Constants;
+import org.junit.Test;
 import utilities.Pair;
-
-import static org.junit.Assert.*;
 
 public class FlexiblePortfolioModelTest {
 
@@ -30,9 +28,9 @@ public class FlexiblePortfolioModelTest {
     model.buyStock("portfolioName", stockPair, "2022-10-10", Double.parseDouble("10"));
 
     List<String> expected = new ArrayList<>(
-            Arrays.asList(
-                    MOCK_REPO_UPDATE_MESSAGE
-            ));
+        Arrays.asList(
+            MOCK_REPO_UPDATE_MESSAGE
+        ));
 
     assertEquals(Arrays.toString(expected.toArray()), Arrays.toString(mockLog.toArray()));
 
@@ -111,7 +109,7 @@ public class FlexiblePortfolioModelTest {
       model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-10", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals("The portfolio ValidSymbol does not contain 38.16 of VZ to " +
-              "sell on date 2022-10-10.", illegalArgumentException.getMessage());
+          "sell on date 2022-10-10.", illegalArgumentException.getMessage());
     }
   }
 
@@ -170,12 +168,13 @@ public class FlexiblePortfolioModelTest {
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
 
     Pair<String, Double> stockPair = new Pair<>(FOUND_A_MATCH.toUpperCase(),
-            Double.parseDouble("-10"));
+        Double.parseDouble("-10"));
 
     try {
       model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-19", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals("Quantity of a stock cannot be negative or zero.", illegalArgumentException.getMessage());
+      assertEquals("Quantity of a stock cannot be negative or zero.",
+          illegalArgumentException.getMessage());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -190,13 +189,13 @@ public class FlexiblePortfolioModelTest {
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
 
     Pair<String, Double> stockPair = new Pair<>(FOUND_A_MATCH.toUpperCase(),
-            Double.parseDouble("10"));
+        Double.parseDouble("10"));
 
     try {
       model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-15", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
       assertEquals("The portfolio ValidSymbol does not contain 10.00 of " +
-              "VALIDSYMBOL to sell on date 2022-10-15.", illegalArgumentException.getMessage());
+          "VALIDSYMBOL to sell on date 2022-10-15.", illegalArgumentException.getMessage());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -210,14 +209,16 @@ public class FlexiblePortfolioModelTest {
     ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
 
-    Pair<String, Double> stockPair = new Pair<>(FOUND_A_MATCH.toUpperCase(),
-            Double.parseDouble("2"));
+    Pair<String, Double> stockPair = new Pair<>("AMZN",
+        Double.parseDouble("3"));
 
     try {
-      model.sellStock(FOUND_A_MATCH, stockPair, "2022-10-15", Double.parseDouble("10"));
+      model.sellStock(FOUND_A_MATCH, stockPair, "2022-01-03", Double.parseDouble("10"));
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals("The portfolio ValidSymbol does not contain 10.00 of " +
-              "VALIDSYMBOL to sell on date 2022-10-15.", illegalArgumentException.getMessage());
+      assertEquals(
+          "This transaction cannot be performed because selling 3.00 stocks of AMZN "
+              + "on date 2022-01-03 in portfolio ValidSymbol invalidates a previous transaction. ",
+          illegalArgumentException.getMessage());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
