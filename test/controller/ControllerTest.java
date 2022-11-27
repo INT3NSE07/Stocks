@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import model.IPortfolioFacadeModel;
+import model.InvestmentStrategy;
 import model.Portfolio;
 import model.PortfolioValue;
 import org.junit.Test;
@@ -245,6 +246,12 @@ public class ControllerTest {
     @Override
     public boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException {
       return false;
+    }
+
+    @Override
+    public void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
+        throws IOException {
+
     }
 
     @Override

@@ -155,10 +155,18 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
         List<String> record = new ArrayList<>(Arrays.asList(stock.getSymbol(),
             Double.toString(stock.getQuantity()), stock.getDate()));
 
-        // inflexible portfolio
+        // flexible portfolio
         if (stock.getOperation() != null) {
           record.add(stock.getOperation().toString());
           record.add(Double.toString(stock.getCommission()));
+          record.add(Double.toString(stock.getWeight()));
+          record.add(stock.getStrategyName());
+          if (stock.getStrategyType() != null) {
+            record.add(stock.getStrategyType().toString());
+          }
+          record.add(Double.toString(stock.getStrategyInvestment()));
+          record.add(stock.getStrategyEndDate());
+          record.add(Integer.toString(stock.getStrategyPeriod()));
         }
         this.writer.write(record, fileOutputStream);
       }

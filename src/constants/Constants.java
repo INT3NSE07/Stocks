@@ -26,6 +26,7 @@ public final class Constants {
 
   public static final String INPUT_NULL_OR_EMPTY = "Input cannot be null or empty.";
   public static final String DATE_INVALID = "Date is invalid.";
+  public static final String INPUT_INVALID = "Input is invalid.";
   public static final String QUANTITY_NON_NEGATIVE_AND_ZERO =
       "Quantity of a stock cannot be negative or zero.";
 
@@ -120,10 +121,12 @@ public final class Constants {
       "The minimum number of days to analyze the portfolio performance is " + BAR_CHART_MIN_LINES;
   public static final String COST_BASIS = "Cost basis of portfolio %s on is $%.2f";
   public static final String API_ERROR_MESSAGE = "Invalid API call";
-  public static final String COMMISSION_NON_NEGATIVE =
-      "Commission for a stock transaction cannot be negative.";
-  public static final String STOCK_BOUGHT_SUCESFULLY = "Stock %s bought successfully.";
-  public static final String STOCK_SOLD_SUCESFULLY = "Stock %s sold successfully.";
+  public static final String NON_NEGATIVE =
+      "%s cannot be negative.";
+  public static final String WEIGHT_INVALID =
+      "The sum of the weights of the given stocks do not add up to 100%.";
+  public static final String STOCK_BOUGHT_SUCCESSFULLY = "Stock %s bought successfully.";
+  public static final String STOCK_SOLD_SUCCESSFULLY = "Stock %s sold successfully.";
 
 
   private Constants() {

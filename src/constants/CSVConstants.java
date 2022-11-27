@@ -17,7 +17,13 @@ public final class CSVConstants {
       "quantity",
       "date",
       "operation",
-      "commission"
+      "commission",
+      "weight",
+      "strategyName",
+      "strategyType",
+      "investment",
+      "endDate",
+      "period"
   };
   public static final String[] PORTFOLIO_CSV_HEADERS = new String[]{
       "name",

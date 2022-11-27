@@ -490,6 +490,11 @@ public class ModelTest {
           .setQuantity(234)
           .setClose(Double.parseDouble("150.72"));
     }
+
+    @Override
+    public boolean isTradingDay(String date) throws IllegalArgumentException, IOException {
+      return false;
+    }
   }
 
   static class MockRepository implements IRepository<Portfolio> {

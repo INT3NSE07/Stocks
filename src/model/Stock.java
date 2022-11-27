@@ -1,6 +1,7 @@
 package model;
 
 import enums.Operations;
+import enums.StrategyTypes;
 
 /**
  * This class represents a stock and holds information related to it.
@@ -17,6 +18,15 @@ public class Stock {
   private double volume;
   private Operations operation;
   private double commission;
+
+  // properties to support portfolio strategy
+  private double weight;
+  private String strategyName;
+  private StrategyTypes strategyType;
+  private double strategyInvestment;
+  private String strategyStartDate;
+  private String strategyEndDate;
+  private int strategyPeriod;
 
   private Stock() {
   }
@@ -227,6 +237,76 @@ public class Stock {
    */
   public Stock setCommission(double commission) {
     this.commission = commission;
+    return this;
+  }
+
+  public double getWeight() {
+    return weight;
+  }
+
+  public Stock setWeight(double weight) {
+    this.weight = weight;
+
+    return this;
+  }
+
+  public String getStrategyName() {
+    return strategyName;
+  }
+
+  public Stock setStrategyName(String strategyName) {
+    this.strategyName = strategyName;
+
+    return this;
+  }
+
+  public StrategyTypes getStrategyType() {
+    return strategyType;
+  }
+
+  public Stock setStrategyType(StrategyTypes strategyType) {
+    this.strategyType = strategyType;
+
+    return this;
+  }
+
+  public double getStrategyInvestment() {
+    return strategyInvestment;
+  }
+
+  public Stock setStrategyInvestment(double strategyInvestment) {
+    this.strategyInvestment = strategyInvestment;
+
+    return this;
+  }
+
+  public String getStrategyStartDate() {
+    return strategyStartDate;
+  }
+
+  public Stock setStrategyStartDate(String strategyStartDate) {
+    this.strategyStartDate = strategyStartDate;
+
+    return this;
+  }
+
+  public String getStrategyEndDate() {
+    return strategyEndDate;
+  }
+
+  public Stock setStrategyEndDate(String strategyEndDate) {
+    this.strategyEndDate = strategyEndDate;
+
+    return this;
+  }
+
+  public int getStrategyPeriod() {
+    return strategyPeriod;
+  }
+
+  public Stock setStrategyPeriod(int strategyPeriod) {
+    this.strategyPeriod = strategyPeriod;
+
     return this;
   }
 

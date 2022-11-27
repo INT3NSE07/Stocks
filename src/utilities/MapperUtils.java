@@ -2,6 +2,7 @@ package utilities;
 
 import enums.Operations;
 import enums.PortfolioTypes;
+import enums.StrategyTypes;
 import java.util.List;
 import java.util.function.Function;
 import model.Portfolio;
@@ -63,6 +64,14 @@ public final class MapperUtils {
       if (stockData.size() > 3) {
         stock.setOperation(Operations.getOperationByValue(stockData.get(3)));
         stock.setCommission(Double.parseDouble(stockData.get(4)));
+      }
+      if (stockData.size() > 5) {
+        stock.setWeight(Double.parseDouble(stockData.get(5)));
+        stock.setStrategyName(stockData.get(6));
+        stock.setStrategyType(StrategyTypes.getStrategyTypeByValue(stockData.get(7)));
+        stock.setStrategyInvestment(Double.parseDouble(stockData.get(8)));
+        stock.setStrategyEndDate(stockData.get(9));
+        stock.setStrategyPeriod(Integer.parseInt(stockData.get(10)));
       }
 
       return stock;

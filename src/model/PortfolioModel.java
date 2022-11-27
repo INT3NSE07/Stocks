@@ -134,7 +134,7 @@ public class PortfolioModel implements IPortfolioModel {
 
   protected void validateDate(String date) {
     if (!StringUtils.isNullOrWhiteSpace(date)) {
-      if (!DateUtils.isValidDate(date, Constants.DEFAULT_DATETIME_FORMAT)) {
+      if (!DateUtils.isDateWithinRange(date, Constants.DEFAULT_DATETIME_FORMAT)) {
         throw new IllegalArgumentException(Constants.DATE_INVALID);
       }
     }

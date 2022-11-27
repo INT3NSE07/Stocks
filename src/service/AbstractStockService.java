@@ -82,4 +82,35 @@ public abstract class AbstractStockService implements IStockService {
 
     return stock;
   }
+
+  @Override
+  public boolean isTradingDay(String date)
+      throws IllegalArgumentException, IOException {
+    String defaultSymbol = "AAPL";
+
+    if (StringUtils.isNullOrWhiteSpace(date)) {
+      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    if (LocalDate.parse(date)
+        .isAfter(LocalDate.parse(DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT)))) {
+      throw new IllegalArgumentException(
+          String.format(Constants.NO_STOCK_DATA_FOUND, defaultSymbol, date));
+    }
+
+    List<Stock> stocks;
+    try {
+      stocks = getStocks(defaultSymbol);
+    } catch (IOException e) {
+      throw new IOException(
+          String.format(Constants.STOCK_FETCH_FAILED, defaultSymbol, date));
+    }
+
+    String finalDate = date;
+    Stock stock = stocks.stream()
+        .filter(x -> x.getSymbol().equals(defaultSymbol) && x.getDate().equals(finalDate))
+        .findFirst()
+        .orElse(null);
+
+    return stock != null;
+  }
 }

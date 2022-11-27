@@ -3,11 +3,20 @@ package model;
 import static org.junit.Assert.assertEquals;
 
 import constants.Constants;
+import io.CSVReader;
+import io.CSVWriter;
+import io.GenericWriter;
+import io.IReader;
+import io.IWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import repository.CSVPortfolioRepository;
+import repository.IRepository;
+import service.AlphaVantageStockService;
+import service.IStockService;
 import utilities.Pair;
 
 /**
@@ -94,7 +103,8 @@ public class FlexiblePortfolioModelTest {
     try {
       model.buyStock("portfolioName", stockPair, "2022-10-10", Double.parseDouble("-10"));
     } catch (IllegalArgumentException illegalArgumentException) {
-      assertEquals(Constants.COMMISSION_NON_NEGATIVE, illegalArgumentException.getMessage());
+      assertEquals(String.format(Constants.NON_NEGATIVE, "Commission"),
+          illegalArgumentException.getMessage());
     }
   }
 
@@ -273,5 +283,61 @@ public class FlexiblePortfolioModelTest {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Test
+  public void testFixedCostStrategy() throws IOException {
+//    List<String> mockLog = new ArrayList<>();
+//
+//    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+//    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IReader<List<List<String>>> reader = new CSVReader();
+    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
+
+    IStockService stockService = AlphaVantageStockService.getInstance(reader);
+
+    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
+        Constants.DATA_DIR);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
+    List<Pair<String, Double>> stocks = new ArrayList<>();
+    stocks.add(new Pair<>("AAPL", 10.00));
+    stocks.add(new Pair<>("AAPL", 20.00));
+    stocks.add(new Pair<>("AMZN", 70.00));
+    InvestmentStrategy investmentStrategy = new InvestmentStrategy(stocks);
+    investmentStrategy.setStrategyStartDate("2022-10-10");
+    investmentStrategy.setCommission(12.00);
+    investmentStrategy.setStrategyInvestment(2000.00);
+
+    model.applyFixedAmountInvestmentStrategy("fixed1",
+        investmentStrategy);
+  }
+
+  @Test
+  public void testDollarCostAveragingStrategy() throws IOException {
+//    List<String> mockLog = new ArrayList<>();
+//
+//    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+//    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IReader<List<List<String>>> reader = new CSVReader();
+    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
+
+    IStockService stockService = AlphaVantageStockService.getInstance(reader);
+
+    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
+        Constants.DATA_DIR);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
+    List<Pair<String, Double>> stocks = new ArrayList<>();
+    stocks.add(new Pair<>("AAPL", 10.00));
+    stocks.add(new Pair<>("AAPL", 20.00));
+    stocks.add(new Pair<>("AMZN", 70.00));
+    InvestmentStrategy investmentStrategy = new InvestmentStrategy(stocks);
+    investmentStrategy.setCommission(12.00);
+    investmentStrategy.setStrategyInvestment(2000.00);
+    investmentStrategy.setStrategyStartDate("2022-11-01");
+    investmentStrategy.setStrategyEndDate("2022-12-01");
+    investmentStrategy.setStrategyPeriod(5);
+
+    model.applyDollarCostAveragingInvestmentStrategy("fixed1",
+        investmentStrategy);
   }
 }

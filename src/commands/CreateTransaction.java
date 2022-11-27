@@ -14,6 +14,7 @@ import view.IPortfolioView;
  * functionality of a portfolio.
  */
 public class CreateTransaction implements PortfolioCommand {
+
   private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
@@ -21,8 +22,8 @@ public class CreateTransaction implements PortfolioCommand {
   private final BufferedReader bufferedReader;
 
   /**
-   * Constructs a {@link CreateTransaction} command object and initializes the model,
-   *                       view and reader fields.
+   * Constructs a {@link CreateTransaction} command object and initializes the model, view and
+   * reader fields.
    *
    * @param model          the model instance which is used to perform the actual operations
    * @param view           the view which displays output to the end user
@@ -44,7 +45,7 @@ public class CreateTransaction implements PortfolioCommand {
     try {
       commission = Double.parseDouble(this.bufferedReader.readLine());
       if (commission < 0) {
-        throw new IllegalArgumentException(Constants.COMMISSION_NON_NEGATIVE);
+        throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
       }
     } catch (NumberFormatException numberFormatException) {
       this.view.showString("Please enter a valid commission value in $");
@@ -127,7 +128,8 @@ public class CreateTransaction implements PortfolioCommand {
       case 1: {
         try {
           this.model.buyStock(portfolioName, stockPair, date, commission);
-          this.view.showString(String.format(Constants.STOCK_BOUGHT_SUCESFULLY,stockPair.getKey()));
+          this.view.showString(
+              String.format(Constants.STOCK_BOUGHT_SUCCESSFULLY, stockPair.getKey()));
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
         }
@@ -136,7 +138,8 @@ public class CreateTransaction implements PortfolioCommand {
       case 2: {
         try {
           this.model.sellStock(portfolioName, stockPair, date, commission);
-          this.view.showString(String.format(Constants.STOCK_SOLD_SUCESFULLY,stockPair.getKey()));
+          this.view.showString(
+              String.format(Constants.STOCK_SOLD_SUCCESSFULLY, stockPair.getKey()));
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
         }

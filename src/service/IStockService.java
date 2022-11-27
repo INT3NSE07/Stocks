@@ -27,4 +27,6 @@ public interface IStockService {
    *                                  operations
    */
   Stock getStockOnDate(String symbol, String date) throws IllegalArgumentException, IOException;
+
+  boolean isTradingDay(String date) throws IllegalArgumentException, IOException;
 }

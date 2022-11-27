@@ -1,5 +1,7 @@
 package utilities;
 
+import java.util.Random;
+
 /**
  * A utility class that contains string helpers.
  */
@@ -35,5 +37,16 @@ public final class StringUtils {
     } else {
       return fileName;
     }
+  }
+
+  public static String getRandomString(int maxLength) {
+    int lowerBound = 'a';
+    int upperBound = 'z';
+    Random random = new Random();
+
+    return random.ints(lowerBound, upperBound + 1)
+        .limit(maxLength)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
   }
 }

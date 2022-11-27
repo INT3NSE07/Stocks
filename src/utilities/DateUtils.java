@@ -34,13 +34,31 @@ public final class DateUtils {
    * @param dateTimeFormatter the date-time formatter to use
    * @return true if the specified date string is a valid {@link java.util.Date}, else false
    */
-  public static boolean isValidDate(String date, DateTimeFormatter dateTimeFormatter) {
+  public static boolean isDateWithinRange(String date, DateTimeFormatter dateTimeFormatter) {
+    if (date == null) {
+      return false;
+    }
+
     try {
       LocalDate givenDate = LocalDate.parse(date, dateTimeFormatter);
       LocalDate currentDate = LocalDate.parse(getCurrentDate(dateTimeFormatter), dateTimeFormatter);
       if (givenDate.compareTo(currentDate) > 0) {
         return false;
       }
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public static boolean isValidDate(String date, DateTimeFormatter dateTimeFormatter) {
+    if (date == null) {
+      return false;
+    }
+
+    try {
+      LocalDate.parse(date, dateTimeFormatter);
     } catch (DateTimeParseException e) {
       return false;
     }

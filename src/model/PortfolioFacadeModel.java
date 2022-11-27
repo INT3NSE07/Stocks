@@ -2,6 +2,7 @@ package model;
 
 import constants.Constants;
 import enums.PortfolioTypes;
+import enums.StrategyTypes;
 import java.io.IOException;
 import java.util.List;
 import repository.IRepository;
@@ -124,13 +125,31 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
   }
 
   @Override
+  public void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
+      throws IOException {
+    this.validatePortfolioType(portfolioName);
+
+    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
+      if (investmentStrategy.getStrategyType() == StrategyTypes.FIXED_AMOUNT) {
+        this.flexiblePortfolioModel.applyFixedAmountInvestmentStrategy(portfolioName,
+            investmentStrategy);
+      } else if (investmentStrategy.getStrategyType() == StrategyTypes.DOLLAR_COST_AVERAGING) {
+        this.flexiblePortfolioModel.applyDollarCostAveragingInvestmentStrategy(portfolioName,
+            investmentStrategy);
+      }
+    } else {
+      throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
+    }
+  }
+
+  @Override
   public PortfolioTypes getPortfolioType() {
     return this.portfolioType;
   }
 
   private PortfolioTypes getPortfolioType(String portFolioName) throws IOException {
     Portfolio portfolio = this.repository.read(x -> x.getName().equals(portFolioName)).iterator()
-            .next();
+        .next();
 
     return portfolio.getPortfolioType();
   }

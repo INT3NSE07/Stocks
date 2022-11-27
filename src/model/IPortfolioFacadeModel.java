@@ -125,6 +125,9 @@ public interface IPortfolioFacadeModel {
    */
   boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException;
 
+  void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
+      throws IOException;
+
   /**
    * Returns the type of the portfolio.
    *

@@ -50,7 +50,7 @@ public class PortfolioPerformance implements PortfolioCommand {
       this.view.showString(Constants.DATE_INVALID);
       return;
     }
-    if (!DateUtils.isValidDate(startDate, Constants.DEFAULT_DATETIME_FORMAT)) {
+    if (!DateUtils.isDateWithinRange(startDate, Constants.DEFAULT_DATETIME_FORMAT)) {
       this.view.showString(Constants.DATE_INVALID);
       return;
     }
@@ -59,6 +59,10 @@ public class PortfolioPerformance implements PortfolioCommand {
     String endDate = this.bufferedReader.readLine();
     if (StringUtils.isNullOrWhiteSpace(endDate)) {
       endDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    if (!DateUtils.isDateWithinRange(endDate, Constants.DEFAULT_DATETIME_FORMAT)) {
+      this.view.showString(Constants.DATE_INVALID);
+      return;
     }
 
     try {

@@ -82,4 +82,12 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
    */
   List<PortfolioValue> getPerformanceOverview(String portfolioName, String fromDate, String toDate)
       throws IOException;
+
+  void applyFixedAmountInvestmentStrategy(String portfolioName,
+      InvestmentStrategy investmentStrategy)
+      throws IOException;
+
+  void applyDollarCostAveragingInvestmentStrategy(String portfolioName,
+      InvestmentStrategy investmentStrategy)
+      throws IOException;
 }
