@@ -484,11 +484,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     return null;
   }
 
-  @Override
-  public void setActionLister(ActionListener actionLister) {
-
-  }
-
 
 //  @Override
 //  public String getOption() {
