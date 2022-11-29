@@ -3,6 +3,7 @@ package repository;
 import constants.CSVConstants;
 import constants.Constants;
 import enums.PortfolioTypes;
+import enums.StrategyTypes;
 import io.IReader;
 import io.IWriter;
 import java.io.FileInputStream;
@@ -161,7 +162,9 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
           record.add(Double.toString(stock.getCommission()));
           record.add(Double.toString(stock.getWeight()));
           record.add(stock.getStrategyName());
-          if (stock.getStrategyType() != null) {
+
+          StrategyTypes strategyType = stock.getStrategyType();
+          if (strategyType != null) {
             record.add(stock.getStrategyType().toString());
           }
           record.add(Double.toString(stock.getStrategyInvestment()));

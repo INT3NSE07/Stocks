@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import repository.IRepository;
 import service.IStockService;
 import utilities.DateUtils;
@@ -58,6 +59,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
     this.validateDate(date);
 
+    this.addScheduledBuys(portfolioName);
     Portfolio portfolio = super.readPortfolio(portfolioName);
 
     getFilteredStocks(date, portfolio);
@@ -75,6 +77,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
     this.validateDate(date);
 
+    this.addScheduledBuys(portfolioName);
     Portfolio portfolio = this.readPortfolio(portfolioName);
     double value = 0;
 
@@ -160,6 +163,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
     }
 
+    this.addScheduledBuys(portfolioName);
     Portfolio validPortfolio = super.readPortfolio(portfolioName);
 
     String symbol = stockPair.getKey();
@@ -232,6 +236,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
     super.validateDate(date);
 
+    this.addScheduledBuys(portfolioName);
     Iterable<Portfolio> portfolios = super.portfolioRepository.read(
         x -> x.getName().equals(portfolioName));
     Portfolio portfolio = portfolios.iterator().next();
@@ -317,8 +322,10 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
           .format(Constants.DEFAULT_DATETIME_FORMAT)));
     }
 
+    this.addScheduledBuys(portfolioName);
     Portfolio portfolio = this.portfolioRepository.read(
         x -> x.getName().equals(portfolioName)).iterator().next();
+
     List<Stock> stocks = portfolio.getStocks();
     List<String> symbols = stocks.stream().map(Stock::getSymbol).distinct()
         .collect(Collectors.toList());
@@ -431,7 +438,6 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
           .setCommission(commission)
           .setStrategyType(StrategyTypes.FIXED_AMOUNT)
           .setStrategyInvestment(strategyInvestment)
-          .setStrategyStartDate(date)
           .setWeight(weight)
           .setStrategyName(strategyName);
 
@@ -572,7 +578,34 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
     Portfolio portfolio = this.portfolioRepository.read(
         x -> x.getName().equals(portfolioName)).iterator().next();
-    
+    Map<String, List<Stock>> strategyStockGroup = portfolio
+        .getStocks()
+        .stream()
+        .filter(x -> x.getStrategyType() == StrategyTypes.DOLLAR_COST_AVERAGING)
+        .collect(Collectors.groupingBy(Stock::getStrategyName));
+    for (String strategyName : strategyStockGroup.keySet()) {
+      List<Stock> stocks = strategyStockGroup.get(strategyName);
+      Stock lastBoughtStock = stocks.get(stocks.size() - 1);
 
+      Stream<Stock> stockStream = stocks.stream();
+      List<String> uniqueStockSymbols = stockStream
+          .map(Stock::getSymbol)
+          .distinct()
+          .collect(Collectors.toList());
+      List<Pair<String, Double>> stockWeightPairs = new ArrayList<>();
+      for (String symbol : uniqueStockSymbols) {
+        stocks.stream().filter(x -> x.getSymbol().equals(symbol)).findFirst()
+            .ifPresent(stock -> stockWeightPairs.add(new Pair<>(symbol, stock.getWeight())));
+      }
+
+      InvestmentStrategy investmentStrategy = new InvestmentStrategy(stockWeightPairs);
+      investmentStrategy.setCommission(lastBoughtStock.getCommission());
+      investmentStrategy.setStrategyInvestment(lastBoughtStock.getStrategyInvestment());
+      investmentStrategy.setStrategyStartDate(lastBoughtStock.getDate());
+      investmentStrategy.setStrategyEndDate(lastBoughtStock.getStrategyEndDate());
+      investmentStrategy.setStrategyPeriod(lastBoughtStock.getStrategyPeriod());
+
+      this.applyDollarCostAveragingInvestmentStrategy(portfolioName, investmentStrategy);
+    }
   }
 }

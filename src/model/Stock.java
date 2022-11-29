@@ -24,7 +24,6 @@ public class Stock {
   private String strategyName;
   private StrategyTypes strategyType;
   private double strategyInvestment;
-  private String strategyStartDate;
   private String strategyEndDate;
   private int strategyPeriod;
 
@@ -276,16 +275,6 @@ public class Stock {
 
   public Stock setStrategyInvestment(double strategyInvestment) {
     this.strategyInvestment = strategyInvestment;
-
-    return this;
-  }
-
-  public String getStrategyStartDate() {
-    return strategyStartDate;
-  }
-
-  public Stock setStrategyStartDate(String strategyStartDate) {
-    this.strategyStartDate = strategyStartDate;
 
     return this;
   }
