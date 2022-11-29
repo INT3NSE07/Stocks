@@ -147,16 +147,16 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
     return this.portfolioType;
   }
 
+  @Override
+  public void setPortfolioType(PortfolioTypes portfolioType) {
+    this.portfolioType = portfolioType;
+  }
+
   private PortfolioTypes getPortfolioType(String portFolioName) throws IOException {
     Portfolio portfolio = this.repository.read(x -> x.getName().equals(portFolioName)).iterator()
         .next();
 
     return portfolio.getPortfolioType();
-  }
-
-  @Override
-  public void setPortfolioType(PortfolioTypes portfolioType) {
-    this.portfolioType = portfolioType;
   }
 
   private void validatePortfolioType(String portfolioName) throws IOException {

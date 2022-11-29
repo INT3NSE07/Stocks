@@ -194,7 +194,6 @@ public class ApplyStrategy implements PortfolioCommand {
 
           String marker = "e";
           List<Pair<String, Double>> stockWeightPairs = new ArrayList<>();
-          this.view.showPrompt(Constants.PROMPT_STOCK_WEIGHT_ENTRY);
           while (!marker.equals("q")) {
             try {
               this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
@@ -230,6 +229,7 @@ public class ApplyStrategy implements PortfolioCommand {
 
               stockWeightPairs.add(new Pair<>(symbol, weight));
 
+              this.view.showPrompt(Constants.PROMPT_STOCK_WEIGHT_ENTRY);
               marker = this.bufferedReader.readLine();
             } catch (NumberFormatException numberFormatException) {
               this.view.showString("Please enter a valid stock weight");

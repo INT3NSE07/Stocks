@@ -32,8 +32,8 @@ public class CreatePortfolio implements PortfolioCommand {
    * @param view           the view which displays output to the end user
    * @param bufferedReader the input stream through which user input is taken
    */
-  public CreatePortfolio(BufferedReader bufferedReader, IPortfolioFacadeModel model,
-      IPortfolioView view) {
+  public CreatePortfolio(IPortfolioFacadeModel model,
+      IPortfolioView view, BufferedReader bufferedReader) {
     this.bufferedReader = bufferedReader;
     this.model = model;
     this.view = view;

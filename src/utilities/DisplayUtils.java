@@ -1,5 +1,10 @@
 package utilities;
 
+import java.awt.Color;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -10,12 +15,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.ui.ApplicationFrame;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import java.awt.*;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * A utility class that contains display related helpers.
@@ -113,13 +112,12 @@ public final class DisplayUtils {
     /**
      * Creates a new demo instance.
      *
-     * @param title  the frame title.
+     * @param title the frame title.
      */
     public BarChart(String title, String heading, CategoryDataset dataset, double maxVal) {
       super(title);
       this.dataset = dataset;
       final JFreeChart chart = createChart(dataset, heading, maxVal);
-
 
       // add the chart to a panel...
       final ChartPanel chartPanel = new ChartPanel(chart);
@@ -130,20 +128,19 @@ public final class DisplayUtils {
     /**
      * Creates a sample chart.
      *
-     * @param dataset  the dataset.
-     *
+     * @param dataset the dataset.
      * @return The chart.
      */
     public static JFreeChart createChart(CategoryDataset dataset, String heading, double rangeMax) {
       final JFreeChart chart = ChartFactory.createBarChart(
-              heading,                      // chart title
-              "Timeline",                 // domain axis label
-              "Value in $",                // range axis label
-              dataset,                    // data
-              PlotOrientation.HORIZONTAL, // orientation
-              false,                       // include legend
-              true,
-              false
+          heading,                      // chart title
+          "Timeline",                 // domain axis label
+          "Value in $",                // range axis label
+          dataset,                    // data
+          PlotOrientation.HORIZONTAL, // orientation
+          false,                       // include legend
+          true,
+          false
       );
 
       // set the background color for the chart...

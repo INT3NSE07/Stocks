@@ -1,8 +1,15 @@
 package view;
 
-import org.jfree.data.category.DefaultCategoryDataset;
+import static org.jfree.chart.ui.UIUtils.centerFrameOnScreen;
 
-import java.awt.*;
+import constants.Constants;
+import controller.IPortfolioFeatures;
+import enums.MenuItems;
+import enums.PortfolioTypes;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
@@ -11,113 +18,118 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
-
-import javax.swing.*;
-
-import constants.Constants;
-import controller.Features;
-import enums.MenuItems;
-import enums.PortfolioTypes;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
+import org.jfree.data.category.DefaultCategoryDataset;
 import utilities.DisplayUtils.BarChart;
 import utilities.Pair;
 
-import static org.jfree.chart.ui.UIUtils.centerFrameOnScreen;
-
 public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemListener {
+
+  final static String CREATE_PANEL = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[1];
+  final static String EXAMINE_PANEL = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[2];
+  final static String VALUE_OF_PORTFOLIO_ON_DATE = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[3];
+  final static String MAKE_TRANSACTIONS = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[4];
+  final static String COST_BASIS = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[5];
+  final static String PERFORMANCE_OF_PORTFOLIO = Constants.
+      MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[6];
+  final static String APPLY_A_STRATEGY = "Apply a Strategy";
   private static final String BUY_STOCK = Constants
-          .MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue())[1];
-
+      .MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue())[1];
   private static final String SELL_STOCK = Constants
-          .MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue())[2];
-
+      .MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue())[2];
+  // create components
+  private final JLabel createPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+  private final JTextField createPortfolioNameTextField = new JTextField(10);
+  private final JButton createPortfolioSubmit = new JButton("Submit");
+  // examine components
+  private final JLabel examinePortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+  private final JTextField examinePortfolioNameTextField = new JTextField(10);
+  private final JLabel examinePortfolioDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_DATE_KEY) + ": ");
+  private final JTextField examinePortfolioDateTextField = new JTextField(10);
+  private final JButton examinePortfolioSubmit = new JButton("Submit");
+  // Value of portfolio Components
+  private final JLabel valueOfPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+  private final JTextField valueOfPortfolioNameTextField = new JTextField(10);
+  private final JLabel valueOfPortfolioDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_DATE_KEY) + ": ");
+  private final JTextField valueOfPortfolioDateTextField = new JTextField(10);
+  private final JButton valueOfPortfolioSubmit = new JButton("Submit");
+  // transactions
+  private final JLabel transactionCommissionLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_COMMISSION_KEY) + ": ");
+  private final JTextField transactionCommissionTextField = new JTextField(10);
+  //  JPanel card4bForTransactionCombobox = new JPanel();
+  private final JButton transactionCommissionSubmit = new JButton("Proceed");
+  // cost basis
+  private final JLabel costBasisOfPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+      .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+  ;
+  private final JTextField costBasisOfPortfolioNameTextField = new JTextField(10);
+  private final JLabel costBasisOfPortfolioDateLabel = new JLabel(
+      Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
+  private final JTextField costBasisOfPortfolioDateTextField = new JTextField(10);
+  private final JButton costBasisOfPortfolioSubmit = new JButton("Submit");
+  // performance of portfolio
+  private final JLabel performanceOfPortfolioNameLabel = new JLabel(
+      Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+  private final JTextField performanceOfPortfolioNameTextField = new JTextField(10);
+  private final JLabel performanceOfPortfolioStartDateLabel = new JLabel(
+      Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_START_DATE_KEY) + ": ");
+  private final JTextField performanceOfPortfolioStartDateTextField = new JTextField(10);
+  private final JLabel performanceOfPortfolioEndDateLabel = new JLabel(
+      Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
+  private final JTextField performanceOfPortfolioEndDateTextField = new JTextField(10);
+  private final JButton performanceOfPortfolioSubmit = new JButton("Submit");
   //  private final JLabel display;
 //  private JButton enterButton;
 //  public final JTextField input;
   JPanel cards; //a panel that uses CardLayout
-  final static String CREATE_PANEL = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[1];
-  final static String EXAMINE_PANEL = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[2];
-
-  final static String VALUE_OF_PORTFOLIO_ON_DATE = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[3];
-
-  final static String MAKE_TRANSACTIONS = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[4];
-
-  final static String COST_BASIS = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[5];
-
-  final static String PERFORMANCE_OF_PORTFOLIO = Constants.
-          MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[6];
-
-  final static String APPLY_A_STRATEGY = "Apply a Strategy";
-
-  // create components
-  private final JLabel createPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-  private final JTextField createPortfolioNameTextField = new JTextField(10);
-  private final JButton createPortfolioSubmit = new JButton("Submit");
 
 
-  // examine components
-  private final JLabel examinePortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-  private final JTextField examinePortfolioNameTextField = new JTextField(10);
-  private final JLabel examinePortfolioDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_DATE_KEY) + ": ");
-  private final JTextField examinePortfolioDateTextField = new JTextField(10);
+  public JPortfolioView() {
+    //Create and set up the window.
+    JFrame frame = new JFrame(Constants.
+        MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[0]);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-  private final JButton examinePortfolioSubmit = new JButton("Submit");
+    //Create and set up the content pane.
+    this.addComponentToPane(frame.getContentPane());
 
-
-  // Value of portfolio Components
-  private final JLabel valueOfPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-  private final JTextField valueOfPortfolioNameTextField = new JTextField(10);
-  private final JLabel valueOfPortfolioDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_DATE_KEY) + ": ");
-  private final JTextField valueOfPortfolioDateTextField = new JTextField(10);
-  private final JButton valueOfPortfolioSubmit = new JButton("Submit");
-
-  // transactions
-  private final JLabel transactionCommissionLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_COMMISSION_KEY) + ": ");
-  private final JTextField transactionCommissionTextField = new JTextField(10);
-//  JPanel card4bForTransactionCombobox = new JPanel();
-  private final JButton transactionCommissionSubmit = new JButton("Proceed");;
-
-  // cost basis
-  private final JLabel costBasisOfPortfolioNameLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-          .get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-  private final JTextField costBasisOfPortfolioNameTextField = new JTextField(10);
-  private final JLabel costBasisOfPortfolioDateLabel = new JLabel(
-          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
-  private final JTextField costBasisOfPortfolioDateTextField = new JTextField(10);
-  private final JButton costBasisOfPortfolioSubmit = new JButton("Submit");
-
-  // performance of portfolio
-  private final JLabel performanceOfPortfolioNameLabel = new JLabel(
-          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-  private final JTextField performanceOfPortfolioNameTextField = new JTextField(10);
-  private final JLabel performanceOfPortfolioStartDateLabel = new JLabel(
-          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_START_DATE_KEY) + ": ");
-  private final JTextField performanceOfPortfolioStartDateTextField = new JTextField(10);
-  private final JLabel performanceOfPortfolioEndDateLabel = new JLabel(
-          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
-  private final JTextField performanceOfPortfolioEndDateTextField = new JTextField(10);
-  private final JButton performanceOfPortfolioSubmit = new JButton("Submit");
-
+    //Display the window.
+    frame.setSize(500, 300);
+    frame.setLocation(200, 200);
+    frame.pack();
+    frame.setVisible(true);
+  }
 
   public void addComponentToPane(Container pane) {
 
     JPanel comboBoxPane = new JPanel();
 
     String[] comboBoxItems = {CREATE_PANEL, EXAMINE_PANEL, VALUE_OF_PORTFOLIO_ON_DATE
-            , MAKE_TRANSACTIONS, COST_BASIS, PERFORMANCE_OF_PORTFOLIO};
+        , MAKE_TRANSACTIONS, COST_BASIS, PERFORMANCE_OF_PORTFOLIO};
     JComboBox<String> cb = new JComboBox<>(comboBoxItems);
     cb.setEditable(false);
     cb.addItemListener(this);
@@ -140,11 +152,9 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     card2b.add(examinePortfolioDateLabel);
     card2b.add(examinePortfolioDateTextField);
 
-
     card2.add(card2a);
     card2.add(card2b);
     card2.add(examinePortfolioSubmit);
-
 
     // value of a portfolio
     JPanel card3 = new JPanel();
@@ -161,7 +171,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     card3.add(card3b);
     card3.add(valueOfPortfolioSubmit);
 
-
     // transactions - not completed
     JPanel card4 = new JPanel();
     card4.setLayout(new BoxLayout(card4, BoxLayout.Y_AXIS));
@@ -171,7 +180,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     card4a.add(transactionCommissionLabel);
     card4a.add(transactionCommissionTextField);
 
-
     // Prompt for commission fee
     JPanel card4b = new JPanel();
     card4b.add(transactionCommissionSubmit);
@@ -180,14 +188,12 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     card4.add(card4a);
     card4.add(card4b);
 
-
 //    JPanel card4b = new JPanel();
 //    card4a.add(new JButton("dss"));
 //    JPanel card4b = new JPanel();
 //    card4b.add(new JTextField());
 //    card4.add(card4a);
 //    card4.add(card4b);
-
 
     // cost basis
     JPanel card5 = new JPanel();
@@ -233,27 +239,9 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     cards.add(card6, PERFORMANCE_OF_PORTFOLIO);
 //    cards.add(card7, APPLY_A_STRATEGY);
 
-
     pane.add(comboBoxPane, BorderLayout.PAGE_START);
     pane.add(cards, BoxLayout.Y_AXIS);
 //    pane.add(buttonPanel, BorderLayout.SOUTH);
-  }
-
-
-  public JPortfolioView(int promptNumber) {
-    //Create and set up the window.
-    JFrame frame = new JFrame(Constants.
-            MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[0]);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    //Create and set up the content pane.
-    this.addComponentToPane(frame.getContentPane());
-
-    //Display the window.
-    frame.setSize(500, 300);
-    frame.setLocation(200, 200);
-    frame.pack();
-    frame.setVisible(true);
   }
 
   @Override
@@ -284,7 +272,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
   }
 
   @Override
-  public void addFeatures(Features features) {
+  public void addFeatures(IPortfolioFeatures features) {
     createPortfolioSubmit.addActionListener(evt -> {
       try {
         features.createPortfolio(createPortfolioNameTextField.getText());
@@ -296,7 +284,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     examinePortfolioSubmit.addActionListener(evt -> {
       try {
         features.examinePortfolio(examinePortfolioNameTextField.getText(),
-                examinePortfolioDateTextField.getText());
+            examinePortfolioDateTextField.getText());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -305,7 +293,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     valueOfPortfolioSubmit.addActionListener(evt -> {
       try {
         features.valueOfPortfolio(valueOfPortfolioNameTextField.getText(),
-                valueOfPortfolioDateTextField.getText());
+            valueOfPortfolioDateTextField.getText());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -313,78 +301,78 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     // add transaction event
     transactionCommissionSubmit.addActionListener(evt -> {
-        String commissionFee = transactionCommissionTextField.getText();
+      String commissionFee = transactionCommissionTextField.getText();
 
-        JPanel transactionsPopup = new JPanel();
-        transactionsPopup.setLayout(new BoxLayout(transactionsPopup, BoxLayout.Y_AXIS));
+      JPanel transactionsPopup = new JPanel();
+      transactionsPopup.setLayout(new BoxLayout(transactionsPopup, BoxLayout.Y_AXIS));
 
-        // combo box
-        String[] transactionComboBoxItems = {BUY_STOCK, SELL_STOCK, APPLY_A_STRATEGY};
-        JComboBox<String> transactionComboBox = new JComboBox<>(transactionComboBoxItems);
+      // combo box
+      String[] transactionComboBoxItems = {BUY_STOCK, SELL_STOCK, APPLY_A_STRATEGY};
+      JComboBox<String> transactionComboBox = new JComboBox<>(transactionComboBoxItems);
 
-        // portfolio name
-        JPanel portfolioNamePanel = new JPanel();
-        JLabel portfolioNameLabel = new JLabel(
-                Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
-        JTextField portfolioNameTextField = new JTextField(10);
-        portfolioNamePanel.add(portfolioNameLabel);
-        portfolioNamePanel.add(portfolioNameTextField);
+      // portfolio name
+      JPanel portfolioNamePanel = new JPanel();
+      JLabel portfolioNameLabel = new JLabel(
+          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
+      JTextField portfolioNameTextField = new JTextField(10);
+      portfolioNamePanel.add(portfolioNameLabel);
+      portfolioNamePanel.add(portfolioNameTextField);
 
-        // ticker symbol
-        JPanel symbolPanel = new JPanel();
-        JLabel symbolNameLabel = new JLabel(
-                Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_STOCK_SYMBOL_KEY) + ": ");
-        JTextField symbolNameTextField = new JTextField(10);
-        symbolPanel.add(symbolNameLabel);
-        symbolPanel.add(symbolNameTextField);
+      // ticker symbol
+      JPanel symbolPanel = new JPanel();
+      JLabel symbolNameLabel = new JLabel(
+          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_STOCK_SYMBOL_KEY) + ": ");
+      JTextField symbolNameTextField = new JTextField(10);
+      symbolPanel.add(symbolNameLabel);
+      symbolPanel.add(symbolNameTextField);
 
-        //quantity
-        JPanel quantityPanel = new JPanel();
-        JLabel quantityLabel = new JLabel(
-                Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_QUANTITY_KEY) + ": ");
-        JTextField quantityTextField = new JTextField(10);
-        quantityPanel.add(quantityLabel);
-        quantityPanel.add(quantityTextField);
+      //quantity
+      JPanel quantityPanel = new JPanel();
+      JLabel quantityLabel = new JLabel(
+          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_QUANTITY_KEY) + ": ");
+      JTextField quantityTextField = new JTextField(10);
+      quantityPanel.add(quantityLabel);
+      quantityPanel.add(quantityTextField);
 
-        // date
-        JPanel datePanel = new JPanel();
-        JLabel dateLabel = new JLabel(
-                Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
-        JTextField dateTextField = new JTextField(10);
-        datePanel.add(dateLabel);
-        datePanel.add(dateTextField);
+      // date
+      JPanel datePanel = new JPanel();
+      JLabel dateLabel = new JLabel(
+          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
+      JTextField dateTextField = new JTextField(10);
+      datePanel.add(dateLabel);
+      datePanel.add(dateTextField);
 
-        transactionsPopup.add(transactionComboBox);
-        transactionsPopup.add(portfolioNamePanel);
-        transactionsPopup.add(symbolPanel);
-        transactionsPopup.add(quantityPanel);
-        transactionsPopup.add(datePanel);
+      transactionsPopup.add(transactionComboBox);
+      transactionsPopup.add(portfolioNamePanel);
+      transactionsPopup.add(symbolPanel);
+      transactionsPopup.add(quantityPanel);
+      transactionsPopup.add(datePanel);
 
-        JOptionPane.showMessageDialog(
-        getParent(),
-        transactionsPopup,
-        "",
-        JOptionPane.INFORMATION_MESSAGE
-        ,new ImageIcon()
+      JOptionPane.showMessageDialog(
+          getParent(),
+          transactionsPopup,
+          "",
+          JOptionPane.INFORMATION_MESSAGE,
+          new ImageIcon()
+      );
+
+      try {
+        features.createTransaction(commissionFee,
+            portfolioNameTextField.getText(),
+            symbolNameTextField.getText(),
+            quantityTextField.getText(),
+            dateTextField.getText(),
+            String.valueOf(transactionComboBox.getSelectedIndex() + 1)
         );
-
-        try {
-          features.transactionsOfPortfolio(commissionFee,
-                  String.valueOf(transactionComboBox.getSelectedIndex()+1),
-                  portfolioNameTextField.getText(),
-                  symbolNameTextField.getText(),
-                  quantityTextField.getText(),
-                  dateTextField.getText()
-                  );
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     });
 
     costBasisOfPortfolioSubmit.addActionListener(evt -> {
       try {
         features.costBasisOfPortfolio(costBasisOfPortfolioNameTextField.getText(),
-                costBasisOfPortfolioDateTextField.getText());
+            costBasisOfPortfolioDateTextField.getText());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -394,8 +382,8 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     performanceOfPortfolioSubmit.addActionListener(evt -> {
       try {
         features.performanceOfPortfolio(performanceOfPortfolioNameTextField.getText(),
-                performanceOfPortfolioStartDateTextField.getText(),
-                performanceOfPortfolioEndDateTextField.getText());
+            performanceOfPortfolioStartDateTextField.getText(),
+            performanceOfPortfolioEndDateTextField.getText());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -434,11 +422,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
   @Override
   public void showString(String s) {
     JOptionPane.showMessageDialog(
-            this.getParent(),
-            s,
-            "",
-            JOptionPane.INFORMATION_MESSAGE,
-            new ImageIcon());
+        this.getParent(),
+        s,
+        "",
+        JOptionPane.INFORMATION_MESSAGE,
+        new ImageIcon());
   }
 
   @Override
@@ -487,7 +475,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     JPanel compositionPanel = new JPanel(new BorderLayout(0, 10));
 
     JLabel msgLabel = new JLabel(
-            String.format("Composition of the portfolio %s", portfolioName));
+        String.format("Composition of the portfolio %s", portfolioName));
 
     final JTable table = new JTable(tableRows, columnNames);
     JScrollPane jScrollPane = new JScrollPane(table);
@@ -496,11 +484,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     table.setPreferredScrollableViewportSize(new Dimension(500, 70));
     table.setFillsViewportHeight(true);
     JOptionPane.showMessageDialog(
-            this.getParent(),
-            compositionPanel,
-            "",
-            JOptionPane.INFORMATION_MESSAGE,
-            new ImageIcon());
+        this.getParent(),
+        compositionPanel,
+        "",
+        JOptionPane.INFORMATION_MESSAGE,
+        new ImageIcon());
   }
 
   @Override
@@ -538,14 +526,13 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     columnNames.add("Closing price");
     columnNames.add("Operation");
 
-
     JPanel compositionPanel = new JPanel(new BorderLayout(0, 10));
 
     JLabel msgLabelNorth = new JLabel(
-            String.format("Value of the portfolio %s", portfolioName));
+        String.format("Value of the portfolio %s", portfolioName));
 
     JLabel msgLabelSouth = new JLabel(
-            String.format("Total value: $%.2f", portfolioValue.getValue()));
+        String.format("Total value: $%.2f", portfolioValue.getValue()));
 
     final JTable table = new JTable(tableRows, columnNames);
     JScrollPane jScrollPane = new JScrollPane(table);
@@ -555,35 +542,35 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     table.setPreferredScrollableViewportSize(new Dimension(500, 70));
     table.setFillsViewportHeight(true);
     JOptionPane.showMessageDialog(this.getParent(),
-            compositionPanel,
-            "",
-            JOptionPane.INFORMATION_MESSAGE,
-            new ImageIcon());
+        compositionPanel,
+        "",
+        JOptionPane.INFORMATION_MESSAGE,
+        new ImageIcon());
   }
 
   @Override
   public void showPortfolioPerformance(String portfolioName,
-                                       String fromDate,
-                                       String toDate,
-                                       List<PortfolioValue> portfolioValues) {
+      String fromDate,
+      String toDate,
+      List<PortfolioValue> portfolioValues) {
 
     String heading = String.format("Performance of portfolio %s from %s to %s",
-            portfolioName,
-            fromDate,
-            toDate);
+        portfolioName,
+        fromDate,
+        toDate);
 
     double maxValue = portfolioValues.stream().max(Comparator.comparing(PortfolioValue::getValue))
-            .get().getValue();
+        .get().getValue();
 
     DefaultCategoryDataset defaultCategoryDataset = new DefaultCategoryDataset();
     for (PortfolioValue portfolioValue : portfolioValues) {
-      defaultCategoryDataset.addValue(portfolioValue.getValue(),"",
-              String.format("%s - %s:  ",
-                      portfolioValue.getFromDate(), portfolioValue.getToDate()));
+      defaultCategoryDataset.addValue(portfolioValue.getValue(), "",
+          String.format("%s - %s:  ",
+              portfolioValue.getFromDate(), portfolioValue.getToDate()));
     }
 
     BarChart performanceGraph = new BarChart("Portfolio Performance",
-            heading,defaultCategoryDataset, maxValue);
+        heading, defaultCategoryDataset, maxValue);
     performanceGraph.pack();
     centerFrameOnScreen(performanceGraph);
     performanceGraph.setVisible(true);
@@ -594,7 +581,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
   public String getOption() {
     return null;
   }
-
 
 //  @Override
 //  public String getOption() {
