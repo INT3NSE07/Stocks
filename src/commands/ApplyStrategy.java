@@ -98,8 +98,9 @@ public class ApplyStrategy implements PortfolioCommand {
             return;
           }
 
-          String marker = this.bufferedReader.readLine();
+          String marker = "e";
           List<Pair<String, Double>> stockWeightPairs = new ArrayList<>();
+          this.view.showPrompt(Constants.PROMPT_STOCK_WEIGHT_ENTRY);
           while (!marker.equals("q")) {
             try {
               this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
@@ -191,8 +192,9 @@ public class ApplyStrategy implements PortfolioCommand {
             return;
           }
 
-          String marker = this.bufferedReader.readLine();
+          String marker = "e";
           List<Pair<String, Double>> stockWeightPairs = new ArrayList<>();
+          this.view.showPrompt(Constants.PROMPT_STOCK_WEIGHT_ENTRY);
           while (!marker.equals("q")) {
             try {
               this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);

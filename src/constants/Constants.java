@@ -47,11 +47,12 @@ public final class Constants {
   public static final String PROMPT_INVESTMENT = "PROMPT_INVESTMENT";
   public static final String PROMPT_WEIGHT = "PROMPT_WEIGHT";
   public static final String PROMPT_PERIOD = "PROMPT_PERIOD";
+  public static final String PROMPT_STOCK_WEIGHT_ENTRY = "PROMPT_STOCK_WEIGHT_ENTRY";
   public static final Map<String, String> TEXT_VIEW_CONSTANTS = Map.ofEntries(
       Map.entry(PROMPT_CHOICE, "Enter your choice"),
       Map.entry(PROMPT_PORTFOLIO_NAME_KEY, "Enter portfolio name"),
       Map.entry(PROMPT_STOCK_SYMBOL_KEY,
-          "Enter stock symbol"),
+          "\nEnter stock symbol"),
       Map.entry(PROMPT_DATE_KEY,
           "Enter date in format YYYY-MM-DD (if no input is given, the default is current date)"),
       Map.entry(PROMPT_QUANTITY_KEY, "Enter quantity"),
@@ -67,7 +68,9 @@ public final class Constants {
       Map.entry(PROMPT_WEIGHT,
           "Enter the stock weight"),
       Map.entry(PROMPT_PERIOD,
-          "Enter the frequency of investment in days")
+          "Enter the frequency of investment in days"),
+      Map.entry(PROMPT_STOCK_WEIGHT_ENTRY,
+          "Enter stocks to be added. Press q to quit")
   );
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
