@@ -10,7 +10,12 @@ public interface Features {
 
   void valueOfPortfolio(String text, String text1) throws IOException;
 
-  void transactionsOfPortfolio(String text, String text1) throws IOException;
+  void transactionsOfPortfolio(String commissionFee,
+                               String option,
+                               String portfolioName,
+                               String stockSymbol,
+                               String quantity,
+                               String date) throws IOException;
 
   void costBasisOfPortfolio(String portfolioName, String date) throws IOException;
 
