@@ -1,11 +1,14 @@
 package view;
 
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,7 +21,10 @@ import enums.PortfolioTypes;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
+import utilities.DisplayUtils.BarChart;
 import utilities.Pair;
+
+import static org.jfree.chart.ui.UIUtils.centerFrameOnScreen;
 
 public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemListener {
   private static final String BUY_STOCK = Constants
@@ -98,7 +104,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
           Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_PORTFOLIO_NAME_KEY) + ": ");
   private final JTextField performanceOfPortfolioNameTextField = new JTextField(10);
   private final JLabel performanceOfPortfolioStartDateLabel = new JLabel(
-          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
+          Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_START_DATE_KEY) + ": ");
   private final JTextField performanceOfPortfolioStartDateTextField = new JTextField(10);
   private final JLabel performanceOfPortfolioEndDateLabel = new JLabel(
           Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
@@ -169,17 +175,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     // Prompt for commission fee
     JPanel card4b = new JPanel();
     card4b.add(transactionCommissionSubmit);
-
-    // dropdown for transactions
-//    if (!(transactionCommissionTextField.getText().equals("")
-//            || transactionCommissionTextField.getText() == null)){
-//    String[] transactionComboBoxItems = {BUY_STOCK, SELL_STOCK, APPLY_A_STRATEGY};
-//    JComboBox<String> transactionComboBox = new JComboBox<>(transactionComboBoxItems);
-//    card4b.add(transactionComboBox);
-//    }
-
-    //fields to enter to buy or to sell a stock
-
 
     // summing aa sub cards
     card4.add(card4a);
@@ -418,7 +413,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       @Override
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          System.out.println(e.getKeyCode());
+//          System.out.println(e.getKeyCode());
           try {
             features.createPortfolio(createPortfolioNameTextField.getText());
           } catch (IOException ex) {
@@ -439,11 +434,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
   @Override
   public void showString(String s) {
     JOptionPane.showMessageDialog(
-            this.getParent()
-            , s
-            , ""
-            , JOptionPane.INFORMATION_MESSAGE
-            , new ImageIcon());
+            this.getParent(),
+            s,
+            "",
+            JOptionPane.INFORMATION_MESSAGE,
+            new ImageIcon());
   }
 
   @Override
@@ -572,6 +567,26 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
                                        String toDate,
                                        List<PortfolioValue> portfolioValues) {
 
+    String heading = String.format("Performance of portfolio %s from %s to %s",
+            portfolioName,
+            fromDate,
+            toDate);
+
+    double maxValue = portfolioValues.stream().max(Comparator.comparing(PortfolioValue::getValue))
+            .get().getValue();
+
+    DefaultCategoryDataset defaultCategoryDataset = new DefaultCategoryDataset();
+    for (PortfolioValue portfolioValue : portfolioValues) {
+      defaultCategoryDataset.addValue(portfolioValue.getValue(),"",
+              String.format("%s - %s:  ",
+                      portfolioValue.getFromDate(), portfolioValue.getToDate()));
+    }
+
+    BarChart performanceGraph = new BarChart("Portfolio Performance",
+            heading,defaultCategoryDataset, maxValue);
+    performanceGraph.pack();
+    centerFrameOnScreen(performanceGraph);
+    performanceGraph.setVisible(true);
 
   }
 

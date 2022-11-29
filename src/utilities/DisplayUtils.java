@@ -1,5 +1,17 @@
 package utilities;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.ui.ApplicationFrame;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import java.awt.*;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,4 +100,66 @@ public final class DisplayUtils {
       this.out.println();
     }
   }
+
+  /**
+   * A simple demonstration application showing how to create a bar chart.
+   */
+  public static class BarChart extends ApplicationFrame {
+
+    private static final long serialVersionUID = 1L;
+
+    public CategoryDataset dataset = new DefaultCategoryDataset();
+
+    /**
+     * Creates a new demo instance.
+     *
+     * @param title  the frame title.
+     */
+    public BarChart(String title, String heading, CategoryDataset dataset, double maxVal) {
+      super(title);
+      this.dataset = dataset;
+      final JFreeChart chart = createChart(dataset, heading, maxVal);
+
+
+      // add the chart to a panel...
+      final ChartPanel chartPanel = new ChartPanel(chart);
+//      chartPanel.setPreferredSize(new java.awt.Dimension(700, 270));
+      setContentPane(chartPanel);
+    }
+
+    /**
+     * Creates a sample chart.
+     *
+     * @param dataset  the dataset.
+     *
+     * @return The chart.
+     */
+    public static JFreeChart createChart(CategoryDataset dataset, String heading, double rangeMax) {
+      final JFreeChart chart = ChartFactory.createBarChart(
+              heading,                      // chart title
+              "Timeline",                 // domain axis label
+              "Value in $",                // range axis label
+              dataset,                    // data
+              PlotOrientation.HORIZONTAL, // orientation
+              false,                       // include legend
+              true,
+              false
+      );
+
+      // set the background color for the chart...
+      chart.setBackgroundPaint(Color.lightGray);
+
+      // get a reference to the plot for further customisation...
+      final CategoryPlot plot = chart.getCategoryPlot();
+      plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+
+      // change the auto tick unit selection to integer units only...
+      final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+      rangeAxis.setRange(0.0, rangeMax);
+      rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+      return chart;
+    }
+  }
+
 }
