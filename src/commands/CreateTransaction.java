@@ -21,6 +21,8 @@ public class CreateTransaction implements PortfolioCommand {
 
   private final BufferedReader bufferedReader;
 
+  private Double commission = null;
+
   /**
    * Constructs a {@link CreateTransaction} command object and initializes the model, view and
    * reader fields.
@@ -39,21 +41,6 @@ public class CreateTransaction implements PortfolioCommand {
   @Override
   public void execute() throws IOException {
     int selectedSubmenuItem = MenuItems.FLEXIBLE_PORTFOLIO.getValue();
-    double commission = 0;
-    this.view.showPrompt(Constants.PROMPT_COMMISSION_KEY);
-
-    try {
-      commission = Double.parseDouble(this.bufferedReader.readLine());
-      if (commission < 0) {
-        throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
-      }
-    } catch (NumberFormatException numberFormatException) {
-      this.view.showString("Please enter a valid commission value in $");
-      return;
-    } catch (IllegalArgumentException e) {
-      this.view.showString(e.getMessage());
-      return;
-    }
 
     while (selectedSubmenuItem != Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
       this.view.showOptions(MenuItems.CREATE_TRANSACTION.getValue());
@@ -65,21 +52,44 @@ public class CreateTransaction implements PortfolioCommand {
         if ((selectedSubmenuItem > Constants.TRANSACTION_SUBMENU_EXIT_CODE) && (
             selectedSubmenuItem > 0)) {
           this.view.showString(Constants.INVALID_OPTION);
+          return;
         }
       } catch (NumberFormatException e) {
         this.view.showString(Constants.INVALID_OPTION);
-        break;
+        return;
       }
-      createTransactionSubMenuItem(selectedSubmenuItem, commission);
+      createTransactionSubMenuItem(selectedSubmenuItem);
     }
   }
 
-  private void createTransactionSubMenuItem(int selectedSubmenuItem, double commission)
+  private void createTransactionSubMenuItem(int selectedSubmenuItem)
       throws IOException {
 
     if (selectedSubmenuItem == Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
       return;
     }
+
+    if (selectedSubmenuItem == 3) {
+      new ApplyStrategy(this.model, this.view, this.bufferedReader).execute();
+      return;
+    }
+
+    if (this.commission == null) {
+      this.view.showPrompt(Constants.PROMPT_COMMISSION_KEY);
+      try {
+        this.commission = Double.parseDouble(this.bufferedReader.readLine());
+        if (this.commission < 0) {
+          throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
+        }
+      } catch (NumberFormatException numberFormatException) {
+        this.view.showString("Please enter a valid commission value in $");
+        return;
+      } catch (IllegalArgumentException e) {
+        this.view.showString(e.getMessage());
+        return;
+      }
+    }
+
     this.view.showPrompt(Constants.PROMPT_PORTFOLIO_NAME_KEY);
     Pair<String, Double> stockPair = null;
     String portfolioName = this.bufferedReader.readLine();

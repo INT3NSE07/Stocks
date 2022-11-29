@@ -463,11 +463,11 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     super.validateDate(startDate);
 
     String endDate = investmentStrategy.getStrategyEndDate();
-    if (!DateUtils.isValidDate(endDate, Constants.DEFAULT_DATETIME_FORMAT)) {
-      throw new IllegalArgumentException(Constants.DATE_INVALID);
-    }
     if (StringUtils.isNullOrWhiteSpace(endDate)) {
       endDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
+    }
+    if (!DateUtils.isValidDate(endDate, Constants.DEFAULT_DATETIME_FORMAT)) {
+      throw new IllegalArgumentException(Constants.DATE_INVALID);
     }
 
     LocalDate currentDate = LocalDate.parse(
@@ -593,6 +593,15 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       List<Stock> stocks = strategyStockGroup.get(strategyName);
       Stock lastBoughtStock = stocks.get(stocks.size() - 1);
 
+      String strategyStartDate;
+      try {
+        strategyStartDate = this.getClosestTradingDay(
+            LocalDate.parse(lastBoughtStock.getDate()),
+            lastBoughtStock.getStrategyPeriod()).format(Constants.DEFAULT_DATETIME_FORMAT);
+      } catch (IllegalArgumentException e) {
+        continue;
+      }
+
       Stream<Stock> stockStream = stocks.stream();
       List<String> uniqueStockSymbols = stockStream
           .map(Stock::getSymbol)
@@ -608,7 +617,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       investmentStrategy.setCommission(lastBoughtStock.getCommission());
       investmentStrategy.setStrategyName(lastBoughtStock.getStrategyName());
       investmentStrategy.setStrategyInvestment(lastBoughtStock.getStrategyInvestment());
-      investmentStrategy.setStrategyStartDate(lastBoughtStock.getDate());
+      investmentStrategy.setStrategyStartDate(strategyStartDate);
       investmentStrategy.setStrategyEndDate(lastBoughtStock.getStrategyEndDate());
       investmentStrategy.setStrategyPeriod(lastBoughtStock.getStrategyPeriod());
 

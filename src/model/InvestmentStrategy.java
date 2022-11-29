@@ -71,11 +71,6 @@ public class InvestmentStrategy {
     return stockWeightPairs;
   }
 
-  public void setStockWeightPairs(
-      List<Pair<String, Double>> stockWeightPairs) {
-    this.stockWeightPairs = stockWeightPairs;
-  }
-
   public double getCommission() {
     return commission;
   }

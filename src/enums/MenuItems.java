@@ -8,7 +8,8 @@ public enum MenuItems {
   INFLEXIBLE_PORTFOLIO(1),
   FLEXIBLE_PORTFOLIO(2),
   CREATE_PORTFOLIO(3),
-  CREATE_TRANSACTION(4);
+  CREATE_TRANSACTION(4),
+  APPLY_STRATEGY(5);
 
   private final int menu;
 

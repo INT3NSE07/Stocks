@@ -44,6 +44,9 @@ public final class Constants {
   public static final String PROMPT_COMMISSION_KEY = "PROMPT_COMMISSION_KEY";
   public static final String PROMPT_START_DATE_KEY = "PROMPT_START_DATE_KEY";
   public static final String PROMPT_END_DATE_KEY = "PROMPT_END_DATE_KEY";
+  public static final String PROMPT_INVESTMENT = "PROMPT_INVESTMENT";
+  public static final String PROMPT_WEIGHT = "PROMPT_WEIGHT";
+  public static final String PROMPT_PERIOD = "PROMPT_PERIOD";
   public static final Map<String, String> TEXT_VIEW_CONSTANTS = Map.ofEntries(
       Map.entry(PROMPT_CHOICE, "Enter your choice"),
       Map.entry(PROMPT_PORTFOLIO_NAME_KEY, "Enter portfolio name"),
@@ -58,7 +61,13 @@ public final class Constants {
           "Enter start date in format YYYY-MM-DD"),
       Map.entry(PROMPT_END_DATE_KEY,
           "Enter end date in format YYYY-MM-DD (if no input is given, the default "
-              + "is current date)")
+              + "is current date)"),
+      Map.entry(PROMPT_INVESTMENT,
+          "Enter the total investment"),
+      Map.entry(PROMPT_WEIGHT,
+          "Enter the stock weight"),
+      Map.entry(PROMPT_PERIOD,
+          "Enter the frequency of investment in days")
   );
   public static final String EXITING_STATUS = "Exiting...";
   public static final String PORTFOLIO_FETCH_FAIL = "The fetching of portfolio %s has failed.";
@@ -100,6 +109,13 @@ public final class Constants {
           "Transaction menu",
           "Buy stocks",
           "Sell stocks",
+          "Apply strategy",
+          "Back"
+      }),
+      Map.entry(MenuItems.APPLY_STRATEGY.getValue(), new String[]{
+          "Apply strategy menu",
+          "Fixed amount",
+          "Dollar-cost averaging",
           "Back"
       })
   );
@@ -114,6 +130,8 @@ public final class Constants {
       Constants.MENU_TYPE.get(MenuItems.CREATE_PORTFOLIO.getValue()).length - 1;
   public static final int TRANSACTION_SUBMENU_EXIT_CODE =
       Constants.MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue()).length - 1;
+  public static final int APPLY_STRATEGY_SUBMENU_EXIT_CODE =
+      Constants.MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue()).length - 1;
   public static final int BAR_CHART_MIN_LINES = 5;
   public static final int BAR_CHART_MAX_LINES = 30;
   public static final int BAR_CHART_MAX_STARS = 50;
