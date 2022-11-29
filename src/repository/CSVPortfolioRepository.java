@@ -162,11 +162,7 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
           record.add(Double.toString(stock.getCommission()));
           record.add(Double.toString(stock.getWeight()));
           record.add(stock.getStrategyName());
-
-          StrategyTypes strategyType = stock.getStrategyType();
-          if (strategyType != null) {
-            record.add(stock.getStrategyType().toString());
-          }
+          record.add(stock.getStrategyType() != null ? stock.getStrategyType().toString() : null);
           record.add(Double.toString(stock.getStrategyInvestment()));
           record.add(stock.getStrategyEndDate());
           record.add(Integer.toString(stock.getStrategyPeriod()));

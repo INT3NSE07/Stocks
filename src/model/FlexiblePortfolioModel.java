@@ -510,7 +510,13 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
 
     DecimalFormat df = new DecimalFormat("0.00");
-    String strategyName = StringUtils.getRandomString(6);
+
+    String strategyName;
+    if (investmentStrategy.getStrategyName() != null) {
+      strategyName = investmentStrategy.getStrategyName();
+    } else {
+      strategyName = StringUtils.getRandomString(6);
+    }
 
     Map<String, Double> uniqueStockPairs = investmentStrategy.getStockWeightPairs().stream()
         .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
@@ -600,6 +606,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
 
       InvestmentStrategy investmentStrategy = new InvestmentStrategy(stockWeightPairs);
       investmentStrategy.setCommission(lastBoughtStock.getCommission());
+      investmentStrategy.setStrategyName(lastBoughtStock.getStrategyName());
       investmentStrategy.setStrategyInvestment(lastBoughtStock.getStrategyInvestment());
       investmentStrategy.setStrategyStartDate(lastBoughtStock.getDate());
       investmentStrategy.setStrategyEndDate(lastBoughtStock.getStrategyEndDate());

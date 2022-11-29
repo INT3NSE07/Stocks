@@ -17,15 +17,14 @@ public enum StrategyTypes {
    * @return the enum constant associated with the type
    * @throws IllegalArgumentException if the type is invalid
    */
-  public static StrategyTypes getStrategyTypeByValue(String type)
-      throws IllegalArgumentException {
+  public static StrategyTypes getStrategyTypeByValue(String type) {
     for (StrategyTypes strategyType : StrategyTypes.values()) {
       if (strategyType.strategyType.equals(type)) {
         return strategyType;
       }
     }
 
-    throw new IllegalArgumentException("Invalid strategy type.");
+    return null;
   }
 
   /**
