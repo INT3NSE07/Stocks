@@ -2,6 +2,11 @@ package model;
 
 import java.io.IOException;
 
+/**
+ * This interface represents an investment strategy which can be applied to a portfolio.
+ *
+ * @param <T> the return type of the strategy
+ */
 public interface IPortfolioInvestmentStrategyVisitor<T> {
 
   /**

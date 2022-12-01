@@ -17,6 +17,11 @@ import utilities.DateUtils;
 import utilities.Pair;
 import utilities.StringUtils;
 
+/**
+ * Apply the dollar cost averaging investment strategy to a portfolio.
+ *
+ * @param <T> the return type of the strategy
+ */
 public class DollarCostAveragingVisitor<T> implements IPortfolioInvestmentStrategyVisitor<T> {
 
   private IStockService stockService;
@@ -138,7 +143,7 @@ public class DollarCostAveragingVisitor<T> implements IPortfolioInvestmentStrate
             .setStrategyPeriod(period);
 
         portfolio.addStocks(new ArrayList<>(Collections.singletonList(newStock)));
-        portfolioRepository.update(portfolio);
+          portfolioRepository.update(portfolio);
         portfolio.getStocks().clear();
       }
     }

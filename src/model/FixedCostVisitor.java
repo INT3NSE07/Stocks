@@ -15,6 +15,11 @@ import utilities.DateUtils;
 import utilities.Pair;
 import utilities.StringUtils;
 
+/**
+ * Apply the fixed amount investment strategy to a portfolio.
+ *
+ * @param <T> the return type of the strategy
+ */
 public class FixedCostVisitor<T> implements IPortfolioInvestmentStrategyVisitor<T> {
 
   @Override

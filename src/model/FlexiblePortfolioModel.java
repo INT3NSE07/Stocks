@@ -383,6 +383,12 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   public <T> T acceptInvestmentStrategy(IPortfolioInvestmentStrategyVisitor<T> visitor,
       String portfolioName,
       InvestmentStrategy investmentStrategy) throws IOException {
+    try {
+      this.createPortfolio(portfolioName, new ArrayList<>());
+    } catch (IllegalArgumentException ignored) {
+      // ignore exception
+    }
+
     return visitor.applyStrategy(this, portfolioName,
         investmentStrategy);
   }
