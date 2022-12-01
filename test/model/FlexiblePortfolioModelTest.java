@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import constants.Constants;
 import io.CSVReader;
 import io.CSVWriter;
-import io.GenericWriter;
 import io.IReader;
 import io.IWriter;
 import java.io.IOException;
@@ -292,7 +291,7 @@ public class FlexiblePortfolioModelTest {
 //    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
 //    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
+    IWriter<List<String>> writer = new CSVWriter();
 
     IStockService stockService = AlphaVantageStockService.getInstance(reader);
 
@@ -319,7 +318,7 @@ public class FlexiblePortfolioModelTest {
 //    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
 //    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
+    IWriter<List<String>> writer = new CSVWriter();
 
     IStockService stockService = AlphaVantageStockService.getInstance(reader);
 

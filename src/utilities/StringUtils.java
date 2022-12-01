@@ -39,6 +39,12 @@ public final class StringUtils {
     }
   }
 
+  /**
+   * Generates a random string with the specified length consisting of lowercase alphabets.
+   *
+   * @param maxLength the maximum length of the generated string
+   * @return a random string
+   */
   public static String getRandomString(int maxLength) {
     int lowerBound = 'a';
     int upperBound = 'z';

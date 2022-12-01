@@ -27,8 +27,8 @@ public final class DateUtils {
   }
 
   /**
-   * Checks if the specified date string is a valid {@link java.util.Date} using the specific
-   * date-time formatter.
+   * Checks if the specified date string is a valid {@link java.util.Date} and whether it is within
+   * today's range using the specific date-time formatter.
    *
    * @param date              the date text to parse
    * @param dateTimeFormatter the date-time formatter to use
@@ -52,6 +52,14 @@ public final class DateUtils {
     return true;
   }
 
+  /**
+   * Checks if the specified date string is a valid {@link java.util.Date} using the specific
+   * date-time formatter.
+   *
+   * @param date              the date text to parse
+   * @param dateTimeFormatter the date-time formatter to use
+   * @return true if the specified date string is a valid {@link java.util.Date}, else false
+   */
   public static boolean isValidDate(String date, DateTimeFormatter dateTimeFormatter) {
     if (date == null) {
       return false;

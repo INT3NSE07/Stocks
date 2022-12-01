@@ -78,6 +78,12 @@ public final class MapperUtils {
     };
   }
 
+  /**
+   * Returns a mapping function which maps the data stored in the portfolio mapping file to a
+   * {@link Portfolio}.
+   *
+   * @return a mapping function
+   */
   public static Function<List<String>, Portfolio> getCSVFileToPortfolioMapper() {
     return portfolioData -> {
       Portfolio portfolio = new Portfolio();

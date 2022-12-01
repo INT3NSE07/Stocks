@@ -28,5 +28,14 @@ public interface IStockService {
    */
   Stock getStockOnDate(String symbol, String date) throws IllegalArgumentException, IOException;
 
+  /**
+   * Checks if the given date is a trading day.
+   *
+   * @param date
+   * @return true if the given date is a trading date, else false
+   * @throws IllegalArgumentException if the specified stock symbol does not exist
+   * @throws IOException              if the fetching of stock data failure of network or I/O
+   *                                  operations
+   */
   boolean isTradingDay(String date) throws IllegalArgumentException, IOException;
 }

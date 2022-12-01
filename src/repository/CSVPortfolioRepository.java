@@ -60,6 +60,8 @@ public class CSVPortfolioRepository implements IRepository<Portfolio> {
 
     Path portfolioMapping = getFilePath(Constants.PORTFOLIO_MAPPING_PATH);
     if (!portfolioMapping.toFile().exists()) {
+      // create a portfolio mapping file. It stores mapping of portfolio name
+      // and portfolio type (flexible, inflexible, etc)
       Files.createFile(portfolioMapping);
       try (FileOutputStream fileOutputStream = new FileOutputStream(portfolioMapping.toFile(),
           true)) {

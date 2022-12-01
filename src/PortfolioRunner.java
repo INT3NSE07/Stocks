@@ -4,7 +4,6 @@ import controller.PortfolioController;
 import controller.PortfolioGUIController;
 import io.CSVReader;
 import io.CSVWriter;
-import io.GenericWriter;
 import io.IReader;
 import io.IWriter;
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class PortfolioRunner {
    */
   public static void main(String[] args) throws IOException {
     IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new GenericWriter(new CSVWriter());
+    IWriter<List<String>> writer = new CSVWriter();
 
     IStockService stockService = AlphaVantageStockService.getInstance(reader);
 
@@ -50,6 +49,7 @@ public class PortfolioRunner {
     IPortfolioFacadeModel portfolioFacadeModel = new PortfolioFacadeModel(flexiblePortfolioModel,
         inflexiblePortfolioModel, repository);
 
+    // supported views
     List<String> views = List.of("text", "gui");
     if (args.length == 0 || !views.contains(args[0])) {
       System.out.printf("Please enter a valid view to render. Valid views are: %s%n",

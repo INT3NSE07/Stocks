@@ -1,5 +1,11 @@
 package utilities;
 
+import java.awt.BorderLayout;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -9,14 +15,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import java.awt.*;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.swing.*;
 
 /**
  * A utility class that contains display related helpers.
@@ -103,16 +101,13 @@ public final class DisplayUtils {
   }
 
   /**
-   * A simple demonstration application showing how to create a bar chart.
+   * This class represents a barchart and contains methods which render a barchart.
    */
   public static class BarChart {
-
-    private static final long serialVersionUID = 1L;
-
-    public CategoryDataset dataset = new DefaultCategoryDataset();
+    public CategoryDataset dataset;
 
     /**
-     * Creates a new demo instance.
+     * Creates a new instance of a {@link BarChart}
      *
      * @param title the frame title.
      */
