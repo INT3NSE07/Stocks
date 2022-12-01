@@ -1,5 +1,9 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+
 import commands.ApplyStrategy;
 import commands.CostBasis;
 import commands.CreatePortfolio;
@@ -9,12 +13,8 @@ import commands.PortfolioPerformance;
 import commands.ValueOfPortfolio;
 import constants.Constants;
 import enums.PortfolioTypes;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
 import model.IPortfolioFacadeModel;
+import utilities.Helpers;
 import utilities.Pair;
 import view.IGUIPortfolioView;
 
@@ -44,7 +44,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
   @Override
   public void createPortfolio(String portfolioName) throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(portfolioName);
+    BufferedReader bufferedReader = Helpers.getBufferedReader(portfolioName);
     new CreatePortfolio(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
   }
@@ -52,7 +52,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
   @Override
   public void examinePortfolio(String portfolioName, String date) throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(portfolioName, date);
+    BufferedReader bufferedReader = Helpers.getBufferedReader(portfolioName, date);
     new ExaminePortfolio(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
   }
@@ -60,7 +60,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
   @Override
   public void valueOfPortfolio(String portfolioName, String date) throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(portfolioName, date);
+    BufferedReader bufferedReader = Helpers.getBufferedReader(portfolioName, date);
     new ValueOfPortfolio(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
   }
@@ -73,7 +73,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
       String date,
       String selectedOption) throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(commissionFee, String.valueOf(selectedOption),
+    BufferedReader bufferedReader = Helpers.getBufferedReader(selectedOption, commissionFee,
         portfolioName,
         stockSymbol, quantity, date, String.valueOf(Constants.TRANSACTION_SUBMENU_EXIT_CODE));
     new CreateTransaction(this.model, this.view, bufferedReader).execute();
@@ -83,7 +83,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
   @Override
   public void costBasisOfPortfolio(String portfolioName, String date) throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(portfolioName, date);
+    BufferedReader bufferedReader = Helpers.getBufferedReader(portfolioName, date);
     new CostBasis(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
   }
@@ -92,7 +92,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
   public void performanceOfPortfolio(String portfolioName, String startDate, String endDate)
       throws IOException {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
-    BufferedReader bufferedReader = getBufferedReader(portfolioName, startDate, endDate);
+    BufferedReader bufferedReader = Helpers.getBufferedReader(portfolioName, startDate, endDate);
     new PortfolioPerformance(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
   }
@@ -127,7 +127,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
     BufferedReader bufferedReader = null;
     if (strategyOption + 1 == 1) {
-      bufferedReader = getBufferedReader(
+      bufferedReader = Helpers.getBufferedReader(
           commissionFee,
           String.valueOf(strategyOption + 1),
           portfolioName,
@@ -137,7 +137,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
           String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE)
       );
     } else {
-      bufferedReader = getBufferedReader(
+      bufferedReader = Helpers.getBufferedReader(
           commissionFee,
           String.valueOf(strategyOption + 1),
           portfolioName,
@@ -151,19 +151,5 @@ public class PortfolioGUIController implements IPortfolioFeatures {
     }
     new ApplyStrategy(this.model, this.view, bufferedReader).execute();
     this.view.clearInputString();
-  }
-
-  private BufferedReader getBufferedReader(String... inputs) {
-    StringBuilder res = new StringBuilder();
-    for (String input : inputs) {
-      res.append(input).append(System.lineSeparator());
-    }
-    return new BufferedReader(
-        new InputStreamReader(
-            new ByteArrayInputStream(
-                res.toString().getBytes()
-            )
-        )
-    );
   }
 }

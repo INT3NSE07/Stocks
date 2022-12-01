@@ -1,16 +1,18 @@
 package commands;
 
-import constants.Constants;
-import enums.MenuItems;
-import enums.StrategyTypes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import constants.Constants;
+import enums.MenuItems;
+import enums.StrategyTypes;
 import model.IPortfolioFacadeModel;
 import model.InvestmentStrategy;
 import utilities.DateUtils;
+import utilities.Helpers;
 import utilities.Pair;
 import utilities.StringUtils;
 import view.IPortfolioView;
@@ -25,7 +27,7 @@ public class ApplyStrategy implements PortfolioCommand {
 
   private final IPortfolioView view;
 
-  private final BufferedReader bufferedReader;
+  private BufferedReader bufferedReader;
 
   /**
    * Constructs a {@link ApplyStrategy} command object and initializes the model, view and reader
@@ -95,6 +97,8 @@ public class ApplyStrategy implements PortfolioCommand {
           String portfolioName = this.bufferedReader.readLine();
           if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
             this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
 
@@ -108,6 +112,8 @@ public class ApplyStrategy implements PortfolioCommand {
 
               if (StringUtils.isNullOrWhiteSpace(symbol)) {
                 this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+                this.bufferedReader = Helpers.getBufferedReader(
+                        String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                 return;
               }
 
@@ -115,11 +121,15 @@ public class ApplyStrategy implements PortfolioCommand {
                 if (!this.model.isStockSymbolValid(symbol)) {
                   this.view.showString(
                       String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                  this.bufferedReader = Helpers.getBufferedReader(
+                          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                   return;
                 }
               } catch (IOException e) {
                 this.view.showString(
                     String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                this.bufferedReader = Helpers.getBufferedReader(
+                        String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                 return;
               }
 
@@ -139,9 +149,13 @@ public class ApplyStrategy implements PortfolioCommand {
               marker = this.bufferedReader.readLine();
             } catch (NumberFormatException numberFormatException) {
               this.view.showString("Please enter a valid stock weight");
+              this.bufferedReader = Helpers.getBufferedReader(
+                      String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
               return;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
+              this.bufferedReader = Helpers.getBufferedReader(
+                      String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
               return;
             }
           }
@@ -157,6 +171,8 @@ public class ApplyStrategy implements PortfolioCommand {
             investmentStrategy.setStrategyInvestment(investment);
           } catch (NumberFormatException numberFormatException) {
             this.view.showString(Constants.INPUT_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
 
@@ -168,6 +184,8 @@ public class ApplyStrategy implements PortfolioCommand {
           }
           if (!DateUtils.isDateWithinRange(startDate, Constants.DEFAULT_DATETIME_FORMAT)) {
             this.view.showString(Constants.DATE_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
           investmentStrategy.setStrategyStartDate(startDate);
@@ -178,6 +196,9 @@ public class ApplyStrategy implements PortfolioCommand {
           this.view.showString("Strategy successfully created");
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
+          this.bufferedReader = Helpers.getBufferedReader(
+                  String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          return;
         }
         break;
       }
@@ -189,6 +210,8 @@ public class ApplyStrategy implements PortfolioCommand {
           String portfolioName = this.bufferedReader.readLine();
           if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
             this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
 
@@ -201,6 +224,8 @@ public class ApplyStrategy implements PortfolioCommand {
 
               if (StringUtils.isNullOrWhiteSpace(symbol)) {
                 this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
+                this.bufferedReader = Helpers.getBufferedReader(
+                        String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                 return;
               }
 
@@ -208,11 +233,15 @@ public class ApplyStrategy implements PortfolioCommand {
                 if (!this.model.isStockSymbolValid(symbol)) {
                   this.view.showString(
                       String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                  this.bufferedReader = Helpers.getBufferedReader(
+                          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                   return;
                 }
               } catch (IOException e) {
                 this.view.showString(
                     String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
+                this.bufferedReader = Helpers.getBufferedReader(
+                        String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
                 return;
               }
 
@@ -233,9 +262,13 @@ public class ApplyStrategy implements PortfolioCommand {
               marker = this.bufferedReader.readLine();
             } catch (NumberFormatException numberFormatException) {
               this.view.showString("Please enter a valid stock weight");
+              this.bufferedReader = Helpers.getBufferedReader(
+                      String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
               return;
             } catch (IllegalArgumentException e) {
               this.view.showString(e.getMessage());
+              this.bufferedReader = Helpers.getBufferedReader(
+                      String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
               return;
             }
           }
@@ -251,6 +284,8 @@ public class ApplyStrategy implements PortfolioCommand {
             investmentStrategy.setStrategyInvestment(investment);
           } catch (NumberFormatException numberFormatException) {
             this.view.showString(Constants.INPUT_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
 
@@ -258,10 +293,14 @@ public class ApplyStrategy implements PortfolioCommand {
           String startDate = this.bufferedReader.readLine();
           if (StringUtils.isNullOrWhiteSpace(startDate)) {
             this.view.showString(Constants.DATE_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
           if (!DateUtils.isDateWithinRange(startDate, Constants.DEFAULT_DATETIME_FORMAT)) {
             this.view.showString(Constants.DATE_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
           investmentStrategy.setStrategyStartDate(startDate);
@@ -273,6 +312,8 @@ public class ApplyStrategy implements PortfolioCommand {
           }
           if (!DateUtils.isValidDate(endDate, Constants.DEFAULT_DATETIME_FORMAT)) {
             this.view.showString(Constants.DATE_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
           investmentStrategy.setStrategyEndDate(endDate);
@@ -287,6 +328,8 @@ public class ApplyStrategy implements PortfolioCommand {
             investmentStrategy.setStrategyPeriod(period);
           } catch (NumberFormatException numberFormatException) {
             this.view.showString(Constants.INPUT_INVALID);
+            this.bufferedReader = Helpers.getBufferedReader(
+                    String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
             return;
           }
 
@@ -296,6 +339,9 @@ public class ApplyStrategy implements PortfolioCommand {
           this.view.showString("Strategy successfully created");
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
+          this.bufferedReader = Helpers.getBufferedReader(
+                  String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          return;
         }
         break;
       }
