@@ -1,8 +1,7 @@
 package view;
 
-import java.io.IOException;
-
 import controller.IPortfolioFeatures;
+import java.io.IOException;
 
 public interface IGUIPortfolioView extends IPortfolioView {
 

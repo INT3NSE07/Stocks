@@ -14,12 +14,12 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import model.Portfolio;
-import model.Stock;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import model.Portfolio;
+import model.Stock;
 
 /**
  * A JUnit test class for the {@link CSVPortfolioRepository}s class.

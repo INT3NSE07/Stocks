@@ -14,7 +14,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * A utility class that contains display related helpers.
@@ -104,6 +103,7 @@ public final class DisplayUtils {
    * This class represents a barchart and contains methods which render a barchart.
    */
   public static class BarChart {
+
     public CategoryDataset dataset;
 
     /**

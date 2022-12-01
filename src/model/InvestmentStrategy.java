@@ -6,7 +6,7 @@ import utilities.Pair;
 
 public class InvestmentStrategy {
 
-  private List<Pair<String, Double>> stockWeightPairs;
+  private final List<Pair<String, Double>> stockWeightPairs;
   private String strategyName;
   private StrategyTypes strategyType;
   private double strategyInvestment;

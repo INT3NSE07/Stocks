@@ -38,6 +38,7 @@ import utilities.Pair;
 
 public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemListener {
 
+  final static String APPLY_A_STRATEGY = "Apply a Strategy";
   private final static String CREATE_PANEL = Constants.
       MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[1];
   private final static String EXAMINE_PANEL = Constants.
@@ -50,7 +51,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[5];
   private final static String PERFORMANCE_OF_PORTFOLIO = Constants.
       MENU_TYPE.get(MenuItems.FLEXIBLE_PORTFOLIO.getValue())[6];
-  final static String APPLY_A_STRATEGY = "Apply a Strategy";
   private static final String BUY_STOCK = Constants
       .MENU_TYPE.get(MenuItems.CREATE_TRANSACTION.getValue())[1];
   private static final String SELL_STOCK = Constants

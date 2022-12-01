@@ -50,7 +50,7 @@ public final class MapperUtils {
   }
 
   /**
-   * Returns a mapping function which maps the stock data stored in {@link model.Portfolio} to a
+   * Returns a mapping function which maps the stock data stored in {@link Portfolio} to a
    * {@link Stock}.
    *
    * @return a mapping function

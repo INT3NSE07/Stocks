@@ -12,11 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import org.junit.Test;
 import model.IPortfolioFacadeModel;
 import model.InvestmentStrategy;
 import model.Portfolio;
 import model.PortfolioValue;
-import org.junit.Test;
 import utilities.Pair;
 import view.IPortfolioView;
 
@@ -143,7 +143,7 @@ public class ControllerTest {
           Arrays.asList(
               String.format(MOCK_VIEW_SHOW_OPTIONS, 0),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
-              String.format(MOCK_MODEL_SET_PORTFOLIO_TYPE, PortfolioTypes.INFLEXIBLE.toString()),
+              String.format(MOCK_MODEL_SET_PORTFOLIO_TYPE, PortfolioTypes.INFLEXIBLE),
               String.format(MOCK_VIEW_SHOW_OPTIONS, 1),
               String.format(MOCK_VIEW_SHOW_PROMPT, "PROMPT_CHOICE"),
               String.format(MOCK_VIEW_SHOW_STRING, Constants.GOING_BACK_STATUS),

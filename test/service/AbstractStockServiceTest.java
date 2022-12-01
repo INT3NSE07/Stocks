@@ -5,10 +5,10 @@ import static org.junit.Assert.fail;
 
 import constants.Constants;
 import java.io.IOException;
-import model.Stock;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import model.Stock;
 import utilities.DateUtils;
 
 /**

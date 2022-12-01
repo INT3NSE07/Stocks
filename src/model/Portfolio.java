@@ -11,7 +11,7 @@ import java.util.List;
 public class Portfolio {
 
   private String name;
-  private List<Stock> stocks;
+  private final List<Stock> stocks;
   private PortfolioTypes portfolioType;
 
   /**

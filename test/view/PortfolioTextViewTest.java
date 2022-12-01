@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
+import org.junit.Test;
 import model.Portfolio;
 import model.PortfolioValue;
 import model.Stock;
-import org.junit.Test;
 import utilities.Pair;
 
 /**

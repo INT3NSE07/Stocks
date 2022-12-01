@@ -39,7 +39,7 @@ public class FlexiblePortfolioModelTest {
     model.buyStock("portfolioName", stockPair, "2022-10-10", Double.parseDouble("10"));
 
     List<String> expected = new ArrayList<>(
-        Arrays.asList(
+        List.of(
             MOCK_REPO_UPDATE_MESSAGE
         ));
 
