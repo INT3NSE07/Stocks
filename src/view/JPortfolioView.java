@@ -2,7 +2,11 @@ package view;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.CardLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
@@ -12,7 +16,19 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.Box;
+import javax.swing.JTable;
+
 
 import constants.Constants;
 import controller.IPortfolioFeatures;

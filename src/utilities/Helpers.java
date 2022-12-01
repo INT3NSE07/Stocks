@@ -41,6 +41,13 @@ public class Helpers {
     return splitValues;
   }
 
+  /**
+   * A general purpose buffer reader generator for given inputs. Used by
+   *                  {@link controller.PortfolioGUIController} for parsing inputs.
+   *
+   * @param inputs values that are variable in number for each functionality
+   * @return a BufferReader object which has the inputs that we have sent as parameters
+   */
   public static BufferedReader getBufferedReader(String... inputs) {
     StringBuilder res = new StringBuilder();
     for (String input : inputs) {

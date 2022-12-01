@@ -1,14 +1,16 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
-import constants.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+
+import constants.Constants;
 import utilities.Pair;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * A JUnit test class for the {@link IFlexiblePortfolioModel}s class.
@@ -400,7 +402,7 @@ public class FlexiblePortfolioModelTest {
     double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-01").getValue();
     assertEquals(2101.03, value, 0.01);
 
-     value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-10").getValue();
+    value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-10").getValue();
     assertEquals(4853.18, value, 0.01);
 
     value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-18").getValue();
