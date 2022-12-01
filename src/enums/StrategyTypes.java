@@ -1,5 +1,8 @@
 package enums;
 
+/**
+ * This enum represents the types of strategies.
+ */
 public enum StrategyTypes {
   FIXED_AMOUNT("FIXED_AMOUNT"),
   DOLLAR_COST_AVERAGING("DOLLAR_COST_AVERAGING");

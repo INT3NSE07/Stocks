@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Portfolio {
 
-  private String name;
   private final List<Stock> stocks;
+  private String name;
   private PortfolioTypes portfolioType;
 
   /**

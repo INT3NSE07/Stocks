@@ -239,60 +239,126 @@ public class Stock {
     return this;
   }
 
+  /**
+   * Get the weight of the stock.
+   *
+   * @return the weight of the stock.
+   */
   public double getWeight() {
     return weight;
   }
 
+  /**
+   * Set the weight of the stock.
+   *
+   * @param weight the weight of the stock.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setWeight(double weight) {
     this.weight = weight;
 
     return this;
   }
 
+  /**
+   * Get the strategy name.
+   *
+   * @return the strategy name.
+   */
   public String getStrategyName() {
     return strategyName;
   }
 
+  /**
+   * Set the strategy name.
+   *
+   * @param strategyName the strategy name.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setStrategyName(String strategyName) {
     this.strategyName = strategyName;
 
     return this;
   }
 
+  /**
+   * Get the strategy type.
+   *
+   * @return the strategy type.
+   */
   public StrategyTypes getStrategyType() {
     return strategyType;
   }
 
+  /**
+   * Set the strategy type.
+   *
+   * @param strategyType the strategy type.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setStrategyType(StrategyTypes strategyType) {
     this.strategyType = strategyType;
 
     return this;
   }
 
+  /**
+   * Get the strategy investment.
+   *
+   * @return the strategy investment.
+   */
   public double getStrategyInvestment() {
     return strategyInvestment;
   }
 
+  /**
+   * Set the strategy investment.
+   *
+   * @param strategyInvestment the strategy investment.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setStrategyInvestment(double strategyInvestment) {
     this.strategyInvestment = strategyInvestment;
 
     return this;
   }
 
+  /**
+   * Get the strategy end date.
+   *
+   * @return the strategy end date.
+   */
   public String getStrategyEndDate() {
     return strategyEndDate;
   }
 
+  /**
+   * Set the strategy end date.
+   *
+   * @param strategyEndDate the strategy end date.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setStrategyEndDate(String strategyEndDate) {
     this.strategyEndDate = strategyEndDate;
 
     return this;
   }
 
+  /**
+   * Get the strategy period.
+   *
+   * @return the stock strategy period.
+   */
   public int getStrategyPeriod() {
     return strategyPeriod;
   }
 
+  /**
+   * Set the strategy period.
+   *
+   * @param strategyPeriod the strategy period.
+   * @return the {@link Stock} object with the updated value
+   */
   public Stock setStrategyPeriod(int strategyPeriod) {
     this.strategyPeriod = strategyPeriod;
 

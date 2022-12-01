@@ -152,7 +152,7 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
     this.portfolioType = portfolioType;
   }
 
-  private PortfolioTypes getPortfolioType(String portFolioName) throws IOException {
+  private PortfolioTypes readPortfolioType(String portFolioName) throws IOException {
     Portfolio portfolio = this.repository.read(x -> x.getName().equals(portFolioName)).iterator()
         .next();
 
@@ -160,7 +160,7 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
   }
 
   private void validatePortfolioType(String portfolioName) throws IOException {
-    if (this.portfolioType == null || this.portfolioType != this.getPortfolioType(portfolioName)) {
+    if (this.portfolioType == null || this.portfolioType != this.readPortfolioType(portfolioName)) {
       throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }
   }

@@ -83,10 +83,26 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
   List<PortfolioValue> getPerformanceOverview(String portfolioName, String fromDate, String toDate)
       throws IOException;
 
+  /**
+   * Apply the fixed amount investment strategy to a portfolio.
+   *
+   * @param portfolioName      name of the portfolio to which the strategy is applied
+   * @param investmentStrategy the various options which are needed to create the strategy
+   * @throws IOException If given portfolio name is found but un able to open/read then this
+   *                     exception is thrown.
+   */
   void applyFixedAmountInvestmentStrategy(String portfolioName,
       InvestmentStrategy investmentStrategy)
       throws IOException;
 
+  /**
+   * Apply the dollar cost averaging investment strategy to a portfolio.
+   *
+   * @param portfolioName      name of the portfolio to which the strategy is applied
+   * @param investmentStrategy the various options which are needed to create the strategy
+   * @throws IOException If given portfolio name is found but un able to open/read then this
+   *                     exception is thrown.
+   */
   void applyDollarCostAveragingInvestmentStrategy(String portfolioName,
       InvestmentStrategy investmentStrategy)
       throws IOException;

@@ -107,12 +107,11 @@ public final class DisplayUtils {
     public CategoryDataset dataset;
 
     /**
-     * Creates a new instance of a {@link BarChart}
+     * Creates a new instance of a {@link BarChart}.
      *
      * @param title the frame title.
      */
     public BarChart(String title, String heading, CategoryDataset dataset, double maxVal) {
-//      super(title);
       JFrame f = new JFrame(title);
       f.setTitle(title);
       f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -124,13 +123,9 @@ public final class DisplayUtils {
       final ChartPanel chartPanel = new ChartPanel(chart);
       f.add(chartPanel, BorderLayout.CENTER);
       chartPanel.setMouseWheelEnabled(true);
-//      chartPanel.setHorizontalAxisTrace(true);
-//      chartPanel.setVerticalAxisTrace(true);
       f.pack();
       f.setLocationRelativeTo(null);
       f.setVisible(true);
-//      chartPanel.setPreferredSize(new java.awt.Dimension(700, 270));
-//      setContentPane(chartPanel);
     }
 
     /**

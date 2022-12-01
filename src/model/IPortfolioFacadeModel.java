@@ -129,10 +129,12 @@ public interface IPortfolioFacadeModel {
   boolean isStockSymbolValid(String symbol) throws IOException, IllegalArgumentException;
 
   /**
-   * 
-   * @param portfolioName
-   * @param investmentStrategy
-   * @throws IOException
+   * Apply a strategy to a portfolio.
+   *
+   * @param portfolioName      name of the portfolio to which the strategy is applied
+   * @param investmentStrategy the various options which are needed to create the strategy
+   * @throws IOException If given portfolio name is found but un able to open/read then this
+   *                     exception is thrown.
    */
   void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
       throws IOException;

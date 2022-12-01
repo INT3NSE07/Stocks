@@ -31,7 +31,7 @@ public interface IStockService {
   /**
    * Checks if the given date is a trading day.
    *
-   * @param date
+   * @param date the date to be checked
    * @return true if the given date is a trading date, else false
    * @throws IllegalArgumentException if the specified stock symbol does not exist
    * @throws IOException              if the fetching of stock data failure of network or I/O

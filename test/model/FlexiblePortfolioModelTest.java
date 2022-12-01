@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import constants.Constants;
 import io.CSVReader;
@@ -286,10 +287,6 @@ public class FlexiblePortfolioModelTest {
 
   @Test
   public void testFixedCostStrategy() throws IOException {
-//    List<String> mockLog = new ArrayList<>();
-//
-//    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
-//    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IReader<List<List<String>>> reader = new CSVReader();
     IWriter<List<String>> writer = new CSVWriter();
 
@@ -309,14 +306,12 @@ public class FlexiblePortfolioModelTest {
 
     model.applyFixedAmountInvestmentStrategy("fixed1",
         investmentStrategy);
+
+    assertNotNull(model);
   }
 
   @Test
   public void testDollarCostAveragingStrategy() throws IOException {
-//    List<String> mockLog = new ArrayList<>();
-//
-//    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
-//    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IReader<List<List<String>>> reader = new CSVReader();
     IWriter<List<String>> writer = new CSVWriter();
 
@@ -338,5 +333,7 @@ public class FlexiblePortfolioModelTest {
 
     model.applyDollarCostAveragingInvestmentStrategy("fixed1",
         investmentStrategy);
+
+    assertNotNull(model);
   }
 }

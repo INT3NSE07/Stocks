@@ -12,11 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-import org.junit.Test;
 import model.IPortfolioFacadeModel;
 import model.InvestmentStrategy;
 import model.Portfolio;
 import model.PortfolioValue;
+import org.junit.Test;
 import utilities.Pair;
 import view.IPortfolioView;
 
@@ -40,6 +40,8 @@ public class ControllerTest {
       "MockModel readPortfolio() called with Portfolio Name: %s";
   private static final String MOCK_MODEL_GET_PORTFOLIO_TYPE =
       "MockModel getPortfolioType() called";
+  private static final String MOCK_MODEL_APPLY_STRATEGY =
+      "MockModel applyStrategy() called on portfolio name %s";
 
   @Test
   public void testInitialState() {
@@ -251,7 +253,7 @@ public class ControllerTest {
     @Override
     public void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
         throws IOException {
-
+      this.log.add(String.format(MOCK_MODEL_APPLY_STRATEGY, portfolioName));
     }
 
     @Override

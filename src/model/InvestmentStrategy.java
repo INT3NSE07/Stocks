@@ -4,6 +4,9 @@ import enums.StrategyTypes;
 import java.util.List;
 import utilities.Pair;
 
+/**
+ * This class encapsulates all the various options which are needed to create a strategy.
+ */
 public class InvestmentStrategy {
 
   private final List<Pair<String, Double>> stockWeightPairs;

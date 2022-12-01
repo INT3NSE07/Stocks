@@ -18,6 +18,10 @@ import model.IPortfolioFacadeModel;
 import utilities.Pair;
 import view.IGUIPortfolioView;
 
+/**
+ * This class represents the GUI portfolio controller. The controller takes inputs from the user
+ * through the UI and tells the model what to do and the view what to show.
+ */
 public class PortfolioGUIController implements IPortfolioFeatures {
 
   private final IPortfolioFacadeModel model;
@@ -119,7 +123,6 @@ public class PortfolioGUIController implements IPortfolioFeatures {
         inputForWeights.append(System.lineSeparator());
       }
     }
-//    inputForWeights.append("q");
 
     this.model.setPortfolioType(PortfolioTypes.FLEXIBLE);
     BufferedReader bufferedReader = null;

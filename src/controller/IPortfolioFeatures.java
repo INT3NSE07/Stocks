@@ -43,15 +43,6 @@ public interface IPortfolioFeatures extends IPortfolioController {
    * Callback function for GUI elements which invokes the portfolio's create transaction
    * implementation.
    *
-   * @param portfolioName Name of the portfolio to read from.
-   * @param date          reads the stock data on the specified date
-   * @throws IOException If given portfolio name is found but un able to open/read then this
-   *                     exception is thrown.
-   */
-  /**
-   * Callback function for GUI elements which invokes the portfolio's create transaction
-   * implementation.
-   *
    * @param commissionFee the commission fee of the transaction
    * @param option        the selected sub-menu option
    * @param portfolioName name of the portfolio to be read from
@@ -90,12 +81,18 @@ public interface IPortfolioFeatures extends IPortfolioController {
    * Callback function for GUI elements which invokes the portfolio's apply strategy
    * implementation.
    *
-   * @param portfolioName Name of the portfolio to read from.
-   * @param date          reads the stock data on the specified date
+   * @param commissionFee     commission fee for the strategy creation
+   * @param strategyOption    the selected sub-menu option
+   * @param portfolioName     name of the portofolio
+   * @param symbolWeightPairs the symbol, weight pairs
+   * @param investment        the total investment
+   * @param startDate         start date of the strategy
+   * @param endDate           end date of the strategy
+   * @param period            the frequency of investments
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */
   void applyStrategy(String commissionFee, Integer strategyOption, String portfolioName,
-      List<Pair<String, String>> symbolWeightPair, String investment, String startDate,
+      List<Pair<String, String>> symbolWeightPairs, String investment, String startDate,
       String endDate, Integer period) throws IOException;
 }
