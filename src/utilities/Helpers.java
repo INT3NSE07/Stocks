@@ -43,7 +43,7 @@ public class Helpers {
 
   /**
    * A general purpose buffer reader generator for given inputs. Used by
-   *                  {@link controller.PortfolioGUIController} for parsing inputs.
+   * {@link controller.PortfolioGUIController} for parsing inputs.
    *
    * @param inputs values that are variable in number for each functionality
    * @return a BufferReader object which has the inputs that we have sent as parameters
@@ -54,11 +54,11 @@ public class Helpers {
       res.append(input).append(System.lineSeparator());
     }
     return new BufferedReader(
-            new InputStreamReader(
-                    new ByteArrayInputStream(
-                            res.toString().getBytes()
-                    )
+        new InputStreamReader(
+            new ByteArrayInputStream(
+                res.toString().getBytes()
             )
+        )
     );
   }
 }

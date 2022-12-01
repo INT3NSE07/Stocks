@@ -84,26 +84,16 @@ public interface IFlexiblePortfolioModel extends IPortfolioModel {
       throws IOException;
 
   /**
-   * Apply the fixed amount investment strategy to a portfolio.
+   * This method makes this model visitable.
    *
+   * @param visitor            the type of visitor
    * @param portfolioName      name of the portfolio to which the strategy is applied
    * @param investmentStrategy the various options which are needed to create the strategy
+   * @param <T>                the return type
+   * @return the value based on a specific implementation
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */
-  void applyFixedAmountInvestmentStrategy(String portfolioName,
-      InvestmentStrategy investmentStrategy)
-      throws IOException;
-
-  /**
-   * Apply the dollar cost averaging investment strategy to a portfolio.
-   *
-   * @param portfolioName      name of the portfolio to which the strategy is applied
-   * @param investmentStrategy the various options which are needed to create the strategy
-   * @throws IOException If given portfolio name is found but un able to open/read then this
-   *                     exception is thrown.
-   */
-  void applyDollarCostAveragingInvestmentStrategy(String portfolioName,
-      InvestmentStrategy investmentStrategy)
-      throws IOException;
+  <T> T acceptInvestmentStrategy(IPortfolioInvestmentStrategyVisitor<T> visitor,
+      String portfolioName, InvestmentStrategy investmentStrategy) throws IOException;
 }

@@ -129,14 +129,15 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
       throws IOException {
     this.validatePortfolioType(portfolioName);
 
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = null;
     if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
       if (investmentStrategy.getStrategyType() == StrategyTypes.FIXED_AMOUNT) {
-        this.flexiblePortfolioModel.applyFixedAmountInvestmentStrategy(portfolioName,
-            investmentStrategy);
+        visitor = new FixedCostVisitor<>();
       } else if (investmentStrategy.getStrategyType() == StrategyTypes.DOLLAR_COST_AVERAGING) {
-        this.flexiblePortfolioModel.applyDollarCostAveragingInvestmentStrategy(portfolioName,
-            investmentStrategy);
+        visitor = new DollarCostAveragingVisitor<>();
       }
+      this.flexiblePortfolioModel.acceptInvestmentStrategy(visitor, portfolioName,
+          investmentStrategy);
     } else {
       throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
     }

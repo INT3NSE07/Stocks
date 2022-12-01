@@ -5,7 +5,6 @@ import enums.Operations;
 import enums.PortfolioTypes;
 import enums.StrategyTypes;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -381,189 +380,11 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
   }
 
   @Override
-  public void applyFixedAmountInvestmentStrategy(String portfolioName,
-      InvestmentStrategy investmentStrategy) throws IOException, IllegalArgumentException {
-    if (investmentStrategy == null) {
-      throw new IllegalArgumentException(Constants.INPUT_INVALID);
-    }
-
-    this.validateInput(portfolioName);
-
-    Portfolio portfolio = new Portfolio();
-    portfolio.setName(portfolioName);
-
-    String date = investmentStrategy.getStrategyStartDate();
-    if (StringUtils.isNullOrWhiteSpace(date)) {
-      date = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-      investmentStrategy.setStrategyStartDate(date);
-    }
-    super.validateDate(date);
-
-    double commission = investmentStrategy.getCommission();
-    if (commission < 0) {
-      throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
-    }
-
-    double strategyInvestment = investmentStrategy.getStrategyInvestment();
-    if (strategyInvestment < 0) {
-      throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Total investment"));
-    }
-
-    double percentage = investmentStrategy.getStockWeightPairs()
-        .stream().mapToDouble(Pair::getValue).sum();
-    if (percentage != 100) {
-      throw new IllegalArgumentException(Constants.WEIGHT_INVALID);
-    }
-
-    DecimalFormat df = new DecimalFormat("0.00");
-    String strategyName = StringUtils.getRandomString(6);
-
-    Map<String, Double> uniqueStockPairs = investmentStrategy.getStockWeightPairs().stream()
-        .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
-    for (String symbol : uniqueStockPairs.keySet()) {
-      double weight = uniqueStockPairs.get(symbol);
-      double stockInvestment = strategyInvestment * (weight / 100);
-
-      Stock stock = this.stockService.getStockOnDate(symbol, date);
-      double stockQuantity = Double.parseDouble(
-          df.format(stockInvestment / stock.getClose()));
-
-      Stock newStock = Stock
-          .StockBuilder
-          .create()
-          .setSymbol(symbol)
-          .setQuantity(stockQuantity)
-          .setDate(date)
-          .setOperation(Operations.BUY)
-          .setCommission(commission)
-          .setStrategyType(StrategyTypes.FIXED_AMOUNT)
-          .setStrategyInvestment(strategyInvestment)
-          .setWeight(weight)
-          .setStrategyName(strategyName);
-
-      portfolio.addStocks(new ArrayList<>(Collections.singletonList(newStock)));
-      portfolioRepository.update(portfolio);
-      portfolio.getStocks().clear();
-    }
-  }
-
-  @Override
-  public void applyDollarCostAveragingInvestmentStrategy(String portfolioName,
-      InvestmentStrategy investmentStrategy) throws IOException, IllegalArgumentException {
-    if (investmentStrategy == null) {
-      throw new IllegalArgumentException(Constants.INPUT_INVALID);
-    }
-
-    this.validateInput(portfolioName);
-
-    Portfolio portfolio = new Portfolio();
-    portfolio.setName(portfolioName);
-
-    String startDate = investmentStrategy.getStrategyStartDate();
-    super.validateDate(startDate);
-
-    String endDate = investmentStrategy.getStrategyEndDate();
-    if (StringUtils.isNullOrWhiteSpace(endDate)) {
-      endDate = DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT);
-    }
-    if (!DateUtils.isValidDate(endDate, Constants.DEFAULT_DATETIME_FORMAT)) {
-      throw new IllegalArgumentException(Constants.DATE_INVALID);
-    }
-
-    LocalDate currentDate = LocalDate.parse(
-        DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-    LocalDate from = LocalDate.parse(startDate, Constants.DEFAULT_DATETIME_FORMAT);
-    LocalDate to = LocalDate.parse(endDate, Constants.DEFAULT_DATETIME_FORMAT);
-
-    if (!this.stockService.isTradingDay(from.format(Constants.DEFAULT_DATETIME_FORMAT))) {
-      from = getClosestTradingDay(from, 1);
-    }
-
-    if (to.compareTo(currentDate) <= 0 && !this.stockService.isTradingDay(
-        to.format(Constants.DEFAULT_DATETIME_FORMAT))) {
-      to = getClosestTradingDay(to, 1);
-    }
-
-    if (to.compareTo(from) < 0) {
-      throw new IllegalArgumentException(Constants.DATE_INVALID);
-    }
-
-    double commission = investmentStrategy.getCommission();
-    if (commission < 0) {
-      throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Commission"));
-    }
-
-    double strategyInvestment = investmentStrategy.getStrategyInvestment();
-    if (strategyInvestment < 0) {
-      throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Total investment"));
-    }
-
-    double percentage = investmentStrategy.getStockWeightPairs()
-        .stream().mapToDouble(Pair::getValue).sum();
-    if (percentage != 100) {
-      throw new IllegalArgumentException(Constants.WEIGHT_INVALID);
-    }
-
-    int period = investmentStrategy.getStrategyPeriod();
-    if (period < 0) {
-      throw new IllegalArgumentException(String.format(Constants.NON_NEGATIVE, "Period"));
-    }
-
-    DecimalFormat df = new DecimalFormat("0.00");
-
-    String strategyName;
-    if (investmentStrategy.getStrategyName() != null) {
-      strategyName = investmentStrategy.getStrategyName();
-    } else {
-      strategyName = StringUtils.getRandomString(6);
-    }
-
-    Map<String, Double> uniqueStockPairs = investmentStrategy.getStockWeightPairs().stream()
-        .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
-
-    List<String> dates = new ArrayList<>();
-    dates.add(from.format(Constants.DEFAULT_DATETIME_FORMAT));
-    while (from.compareTo(to) <= 0) {
-      try {
-        from = getClosestTradingDay(from, period);
-      } catch (IllegalArgumentException e) {
-        break;
-      }
-
-      if (!from.isAfter(to)) {
-        dates.add(from.format(Constants.DEFAULT_DATETIME_FORMAT));
-      }
-    }
-
-    for (String symbol : uniqueStockPairs.keySet()) {
-      double weight = uniqueStockPairs.get(symbol);
-      double stockInvestment = strategyInvestment * (weight / 100);
-
-      for (String date : dates) {
-        Stock stock = this.stockService.getStockOnDate(symbol, date);
-        double stockQuantity = Double.parseDouble(
-            df.format(stockInvestment / stock.getClose()));
-
-        Stock newStock = Stock
-            .StockBuilder
-            .create()
-            .setSymbol(symbol)
-            .setQuantity(stockQuantity)
-            .setDate(date)
-            .setOperation(Operations.BUY)
-            .setCommission(commission)
-            .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
-            .setStrategyInvestment(strategyInvestment)
-            .setStrategyEndDate(endDate)
-            .setWeight(weight)
-            .setStrategyName(strategyName)
-            .setStrategyPeriod(period);
-
-        portfolio.addStocks(new ArrayList<>(Collections.singletonList(newStock)));
-        portfolioRepository.update(portfolio);
-        portfolio.getStocks().clear();
-      }
-    }
+  public <T> T acceptInvestmentStrategy(IPortfolioInvestmentStrategyVisitor<T> visitor,
+      String portfolioName,
+      InvestmentStrategy investmentStrategy) throws IOException {
+    return visitor.applyStrategy(this, portfolioName,
+        investmentStrategy);
   }
 
   private LocalDate getClosestTradingDay(LocalDate date, int period)
@@ -577,6 +398,14 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
     }
 
     return date;
+  }
+
+  IStockService getStockService() {
+    return this.stockService;
+  }
+
+  IRepository<Portfolio> getRepository() {
+    return this.portfolioRepository;
   }
 
   private void addScheduledBuys(String portfolioName) throws IOException {
@@ -626,7 +455,8 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       investmentStrategy.setStrategyEndDate(lastBoughtStock.getStrategyEndDate());
       investmentStrategy.setStrategyPeriod(lastBoughtStock.getStrategyPeriod());
 
-      this.applyDollarCostAveragingInvestmentStrategy(portfolioName, investmentStrategy);
+      IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>();
+      visitor.applyStrategy(this, portfolioName, investmentStrategy);
     }
   }
 }

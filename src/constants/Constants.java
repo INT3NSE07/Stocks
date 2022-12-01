@@ -140,7 +140,7 @@ public final class Constants {
   public static final int BAR_CHART_MAX_STARS = 50;
   public static final String BAR_CHART_MIN_DAYS_INPUT =
       "The minimum number of days to analyze the portfolio performance is " + BAR_CHART_MIN_LINES;
-  public static final String COST_BASIS = "Cost basis of portfolio %s on is $%.2f";
+  public static final String COST_BASIS = "Cost basis of portfolio %s is $%.2f";
   public static final String API_ERROR_MESSAGE = "Invalid API call";
   public static final String NON_NEGATIVE =
       "%s cannot be negative.";

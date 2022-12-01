@@ -1,16 +1,14 @@
 package model;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import constants.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import constants.Constants;
+import org.junit.Test;
 import utilities.Pair;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * A JUnit test class for the {@link IFlexiblePortfolioModel}s class.
@@ -285,6 +283,7 @@ public class FlexiblePortfolioModelTest {
     ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
     ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = new FixedCostVisitor<>();
 
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));
@@ -295,7 +294,7 @@ public class FlexiblePortfolioModelTest {
     investmentStrategy.setCommission(12.00);
     investmentStrategy.setStrategyInvestment(2000.00);
 
-    model.applyFixedAmountInvestmentStrategy("fixed1",
+    model.acceptInvestmentStrategy(visitor, "fixed1",
         investmentStrategy);
 
     assertEquals(2, mockLog.stream().filter(x ->
@@ -309,6 +308,7 @@ public class FlexiblePortfolioModelTest {
     ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
     ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>();
 
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));
@@ -321,7 +321,7 @@ public class FlexiblePortfolioModelTest {
     investmentStrategy.setStrategyEndDate("2022-12-01");
     investmentStrategy.setStrategyPeriod(5);
 
-    model.applyDollarCostAveragingInvestmentStrategy("fixed1",
+    model.acceptInvestmentStrategy(visitor, "fixed1",
         investmentStrategy);
 
     assertEquals(10, mockLog.stream().filter(x ->
