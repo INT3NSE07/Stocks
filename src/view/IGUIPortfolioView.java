@@ -1,17 +1,14 @@
 package view;
 
-import controller.IPortfolioFeatures;
 import java.io.IOException;
+
+import controller.IPortfolioFeatures;
 
 public interface IGUIPortfolioView extends IPortfolioView {
 
   void addFeatures(IPortfolioFeatures features) throws IOException;
 
-  String getOption();
-
   void resetFocus();
-
-  String getPortfolioNameInputString();
 
   void clearInputString();
 

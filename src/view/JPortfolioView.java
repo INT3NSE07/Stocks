@@ -5,8 +5,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -93,9 +91,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
           Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_DATE_KEY) + ": ");
   private final JTextField performanceOfPortfolioEndDateTextField = new JTextField(10);
   private final JButton performanceOfPortfolioSubmit = new JButton("Submit");
-  //  private final JLabel display;
-//  private JButton enterButton;
-//  public final JTextField input;
   JPanel cards; //a panel that uses CardLayout
 
 
@@ -126,81 +121,20 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     cb.addItemListener(this);
     comboBoxPane.add(cb);
 
-    // createPortfolio card
-    JPanel card1 = new JPanel();
-    card1.add(createPortfolioNameLabel);
-    card1.add(createPortfolioNameTextField);
-    card1.add(createPortfolioSubmit);
+    //Create the panel that contains the "cards".
+    cards = new JPanel(new CardLayout());
+    cards.add(getCreateCardPanel(), CREATE_PANEL);
+    cards.add(getExamineCardPanel(), EXAMINE_PANEL);
+    cards.add(getValueOfPortfolioCardPanel(), VALUE_OF_PORTFOLIO_ON_DATE);
+    cards.add(getTransactionCardPanel(), MAKE_TRANSACTIONS);
+    cards.add(getCostBasisCardPanel(), COST_BASIS);
+    cards.add(getPerformanceOfPortfolioCardPanel(), PERFORMANCE_OF_PORTFOLIO);
 
-    // examinePortfolio card
-    JPanel card2 = new JPanel();
-    card2.setLayout(new BoxLayout(card2, BoxLayout.Y_AXIS));
-    JPanel card2a = new JPanel();
-    JPanel card2b = new JPanel();
+    pane.add(comboBoxPane, BorderLayout.PAGE_START);
+    pane.add(cards, BoxLayout.Y_AXIS);
+  }
 
-    card2a.add(examinePortfolioNameLabel);
-    card2a.add(examinePortfolioNameTextField);
-    card2b.add(examinePortfolioDateLabel);
-    card2b.add(examinePortfolioDateTextField);
-
-    card2.add(card2a);
-    card2.add(card2b);
-    card2.add(examinePortfolioSubmit);
-
-    // value of a portfolio
-    JPanel card3 = new JPanel();
-    card3.setLayout(new BoxLayout(card3, BoxLayout.Y_AXIS));
-    JPanel card3a = new JPanel();
-    JPanel card3b = new JPanel();
-
-    card3a.add(valueOfPortfolioNameLabel);
-    card3a.add(valueOfPortfolioNameTextField);
-    card3b.add(valueOfPortfolioDateLabel);
-    card3b.add(valueOfPortfolioDateTextField);
-
-    card3.add(card3a);
-    card3.add(card3b);
-    card3.add(valueOfPortfolioSubmit);
-
-    // transactions - not completed
-    JPanel card4 = new JPanel();
-    card4.setLayout(new BoxLayout(card4, BoxLayout.Y_AXIS));
-
-    // Prompt for commission fee
-    JPanel card4a = new JPanel();
-    card4a.add(transactionCommissionLabel);
-    card4a.add(transactionCommissionTextField);
-
-    // Prompt for commission fee
-    JPanel card4b = new JPanel();
-    card4b.add(transactionCommissionSubmit);
-
-    // summing aa sub cards
-    card4.add(card4a);
-    card4.add(card4b);
-
-//    JPanel card4b = new JPanel();
-//    card4a.add(new JButton("dss"));
-//    JPanel card4b = new JPanel();
-//    card4b.add(new JTextField());
-//    card4.add(card4a);
-//    card4.add(card4b);
-
-    // cost basis
-    JPanel card5 = new JPanel();
-    card5.setLayout(new BoxLayout(card5, BoxLayout.Y_AXIS));
-    JPanel card5a = new JPanel();
-    JPanel card5b = new JPanel();
-
-    card5a.add(costBasisOfPortfolioNameLabel);
-    card5a.add(costBasisOfPortfolioNameTextField);
-    card5b.add(costBasisOfPortfolioDateLabel);
-    card5b.add(costBasisOfPortfolioDateTextField);
-
-    card5.add(card5a);
-    card5.add(card5b);
-    card5.add(costBasisOfPortfolioSubmit);
-
+  private JPanel getPerformanceOfPortfolioCardPanel() {
     // Performance of Portfolio
     JPanel card6 = new JPanel();
     card6.setLayout(new BoxLayout(card6, BoxLayout.Y_AXIS));
@@ -219,32 +153,94 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     card6.add(card6b);
     card6.add(card6c);
     card6.add(performanceOfPortfolioSubmit);
+    return card6;
+  }
 
-    //Create the panel that contains the "cards".
-    cards = new JPanel(new CardLayout());
-    cards.add(card1, CREATE_PANEL);
-    cards.add(card2, EXAMINE_PANEL);
-    cards.add(card3, VALUE_OF_PORTFOLIO_ON_DATE);
-    cards.add(card4, MAKE_TRANSACTIONS);
-    cards.add(card5, COST_BASIS);
-    cards.add(card6, PERFORMANCE_OF_PORTFOLIO);
-//    cards.add(card7, APPLY_A_STRATEGY);
+  private JPanel getCostBasisCardPanel() {
+    // cost basis
+    JPanel card5 = new JPanel();
+    card5.setLayout(new BoxLayout(card5, BoxLayout.Y_AXIS));
+    JPanel card5a = new JPanel();
+    JPanel card5b = new JPanel();
 
-    pane.add(comboBoxPane, BorderLayout.PAGE_START);
-    pane.add(cards, BoxLayout.Y_AXIS);
-//    pane.add(buttonPanel, BorderLayout.SOUTH);
+    card5a.add(costBasisOfPortfolioNameLabel);
+    card5a.add(costBasisOfPortfolioNameTextField);
+    card5b.add(costBasisOfPortfolioDateLabel);
+    card5b.add(costBasisOfPortfolioDateTextField);
+
+    card5.add(card5a);
+    card5.add(card5b);
+    card5.add(costBasisOfPortfolioSubmit);
+    return card5;
+  }
+
+  private JPanel getTransactionCardPanel() {
+    // transactions - not completed
+    JPanel card4 = new JPanel();
+    card4.setLayout(new BoxLayout(card4, BoxLayout.Y_AXIS));
+
+    // Prompt for commission fee
+    JPanel card4a = new JPanel();
+    card4a.add(transactionCommissionLabel);
+    card4a.add(transactionCommissionTextField);
+
+    // Prompt for commission fee
+    JPanel card4b = new JPanel();
+    card4b.add(transactionCommissionSubmit);
+
+    // summing aa sub cards
+    card4.add(card4a);
+    card4.add(card4b);
+    return card4;
+  }
+
+  private JPanel getValueOfPortfolioCardPanel() {
+    JPanel card3 = new JPanel();
+    card3.setLayout(new BoxLayout(card3, BoxLayout.Y_AXIS));
+    JPanel card3a = new JPanel();
+    JPanel card3b = new JPanel();
+
+    card3a.add(valueOfPortfolioNameLabel);
+    card3a.add(valueOfPortfolioNameTextField);
+    card3b.add(valueOfPortfolioDateLabel);
+    card3b.add(valueOfPortfolioDateTextField);
+
+    card3.add(card3a);
+    card3.add(card3b);
+    card3.add(valueOfPortfolioSubmit);
+    return card3;
+  }
+
+  private JPanel getExamineCardPanel() {
+    // examinePortfolio card
+    JPanel card2 = new JPanel();
+    card2.setLayout(new BoxLayout(card2, BoxLayout.Y_AXIS));
+    JPanel card2a = new JPanel();
+    JPanel card2b = new JPanel();
+
+    card2a.add(examinePortfolioNameLabel);
+    card2a.add(examinePortfolioNameTextField);
+    card2b.add(examinePortfolioDateLabel);
+    card2b.add(examinePortfolioDateTextField);
+
+    card2.add(card2a);
+    card2.add(card2b);
+    card2.add(examinePortfolioSubmit);
+    return card2;
+  }
+
+  private JPanel getCreateCardPanel() {
+    JPanel card1 = new JPanel();
+    card1.add(createPortfolioNameLabel);
+    card1.add(createPortfolioNameTextField);
+    card1.add(createPortfolioSubmit);
+    return card1;
   }
 
   @Override
   public void resetFocus() {
     this.setFocusable(true);
     this.requestFocus();
-  }
-
-  @Override
-  public String getPortfolioNameInputString() {
-    System.out.println(this.getContentPane().getComponent(1));
-    return "dsd";
   }
 
   @Override
@@ -264,8 +260,9 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
   @Override
   public void addFeatures(IPortfolioFeatures features) {
+
     createPortfolioSubmit.addActionListener(evt -> {
-      JFrame f = new JFrame();
+
       try {
         if (!isNullOrWhiteSpace(createPortfolioNameTextField.getText())) {
           int optionValue = JOptionPane.showConfirmDialog(
@@ -278,209 +275,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
           );
 
           if (optionValue == 0) { // success path
-
-            Box center = Box.createVerticalBox();
-            JScrollPane jScrollPane = new JScrollPane(center);
-            JPanel strategyCards = new JPanel(new CardLayout());
-            JPanel fixedStrategyPanel = new JPanel();
-            fixedStrategyPanel.setLayout(new BoxLayout(fixedStrategyPanel, BoxLayout.Y_AXIS));
-            JPanel dollarCostStrategyPanel = new JPanel();
-            dollarCostStrategyPanel.setLayout(new BoxLayout(dollarCostStrategyPanel, BoxLayout.Y_AXIS));
-
-
-            JPanel strategyComboBoxPanel = new JPanel();
-            String[] strategyComboBoxItems = {Constants.
-                    MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1],
-                    Constants.MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]};
-            JComboBox<String> strategyComboBox = new JComboBox<>(strategyComboBoxItems);
-            strategyComboBox.setEditable(false);
-            strategyComboBoxPanel.add(strategyComboBox);
-            strategyComboBox.addItemListener(e -> {
-              CardLayout cl = (CardLayout) (strategyCards.getLayout());
-              cl.show(strategyCards, (String) e.getItem());
-            });
-
-
-            //Common components
-            JPanel commPanel = new JPanel();
-            JLabel commissionLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                    .get(Constants.PROMPT_COMMISSION_KEY) + ": ");
-            JTextField commissionTextField = new JTextField(10);
-            commPanel.add(commissionLabel);
-            commPanel.add(commissionTextField);
-
-
-            JPanel investmentPanel = new JPanel();
-            JLabel investmentLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                    .get(Constants.PROMPT_INVESTMENT) + ": ");
-            JTextField investmentTextField = new JTextField(10);
-            investmentPanel.add(investmentLabel);
-            investmentPanel.add(investmentTextField);
-
-
-            JPanel stockAndWeightPanel = new JPanel();
-            JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
-
-            List<JLabel> symbolsLabel = new ArrayList<>();
-            List<JTextField> symbolsTextField = new ArrayList<>();
-
-            List<JLabel> weightsLabel = new ArrayList<>();
-            List<JTextField> weightsTextField = new ArrayList<>();
-
-            addStockWeightsButton.addActionListener(e -> {
-              JPanel stockWeightPanel = new JPanel();
-
-              JLabel symbolLabel = new JLabel("Symbol:");
-              JTextField symbolTextField = new JTextField(10);
-              JLabel weightLabel = new JLabel("Weight:");
-              JTextField weightTextField = new JTextField(10);
-
-              stockWeightPanel.add(symbolLabel);
-              stockWeightPanel.add(symbolTextField);
-              stockWeightPanel.add(weightLabel);
-              stockWeightPanel.add(weightTextField);
-
-              symbolsLabel.add(symbolLabel);
-              symbolsTextField.add(symbolTextField);
-              weightsLabel.add(weightLabel);
-              weightsTextField.add(weightTextField);
-
-              if (strategyComboBox.getSelectedIndex() == 0) {
-                fixedStrategyPanel.add(stockWeightPanel);
-                f.validate();
-                f.repaint();
-              } else if (strategyComboBox.getSelectedIndex() == 1) {
-                dollarCostStrategyPanel.add(stockWeightPanel);
-                f.validate();
-                f.repaint();
-              }
-            });
-            stockAndWeightPanel.add(addStockWeightsButton);
-
-
-            // fixedStrategyPanel
-            JPanel fixedStrategyDatePanel = new JPanel();
-            JLabel fixedStrategyDateLabel = new JLabel("Please Enter Date: ");
-            JTextField fixedStrategyDateTextField = new JTextField(10);
-            fixedStrategyDatePanel.add(fixedStrategyDateLabel);
-            fixedStrategyDatePanel.add(fixedStrategyDateTextField);
-
-
-            fixedStrategyPanel.add(fixedStrategyDatePanel);
-
-            // dollarCostStrategyPanel
-            JPanel dollarCostStrategyStartDatePanel = new JPanel();
-            JLabel dollarCostStrategyStartDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                    .get(Constants.PROMPT_START_DATE_KEY) + ": ");
-            JTextField dollarCostStrategyStartDateTextField = new JTextField(10);
-            dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateLabel);
-            dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateTextField);
-
-
-
-            JPanel dollarCostStrategyEndDatePanel = new JPanel();
-            JLabel dollarCostStrategyEndDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                    .get(Constants.PROMPT_END_DATE_KEY) + ": ");
-            JTextField dollarCostStrategyEndDateTextField = new JTextField(10);
-            dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateLabel);
-            dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateTextField);
-
-            JPanel dollarCostStrategyPeriodPanel = new JPanel();
-            JLabel dollarCostStrategyPeriodLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                    .get(Constants.PROMPT_PERIOD) + ": ");
-            JTextField dollarCostStrategyPeriodTextField = new JTextField(10);
-            dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodLabel);
-            dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodTextField);
-
-
-
-            dollarCostStrategyPanel.add(dollarCostStrategyStartDatePanel);
-            dollarCostStrategyPanel.add(dollarCostStrategyEndDatePanel);
-            dollarCostStrategyPanel.add(dollarCostStrategyPeriodPanel);
-
-
-            strategyCards.add(fixedStrategyPanel, Constants.
-                    MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1]);
-
-            strategyCards.add(dollarCostStrategyPanel, Constants.
-                    MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]);
-
-
-            center.add(strategyComboBoxPanel);
-            center.add(commPanel);
-            center.add(investmentPanel);
-            center.add(strategyCards, BoxLayout.Y_AXIS);
-
-
-            JButton createStrategyConfirmButton = new JButton("Confirm");
-            createStrategyConfirmButton.addActionListener(cevt -> {
-              String portfolioName = createPortfolioNameTextField.getText();
-              try {
-                features.createPortfolio(createPortfolioNameTextField.getText());
-              } catch (IOException e) {
-                throw new RuntimeException(e);
-              }
-              if (strategyComboBox.getSelectedIndex() == 0) {
-                // fixed strategy
-                List<Pair<String, String>> stockWeightList = new ArrayList<>();
-
-                for (int i = 0; i < symbolsTextField.size(); i++) {
-                  Pair<String, String> stringDoublePair = new Pair<>(
-                          symbolsTextField.get(i).getText(),
-                          weightsTextField.get(i).getText());
-                  stockWeightList.add(stringDoublePair);
-                }
-                try {
-                  features.applyStrategy(
-                          commissionTextField.getText(),
-                          strategyComboBox.getSelectedIndex(),
-                          portfolioName,
-                          stockWeightList,
-                          investmentTextField.getText(),
-                          fixedStrategyDateTextField.getText(),
-                          null,
-                          0
-                  );
-                  f.dispose();
-                } catch (IOException e) {
-                  throw new RuntimeException(e);
-                }
-              } else if (strategyComboBox.getSelectedIndex() == 1) {
-                // dollar cost averaging
-                List<Pair<String, String>> stockWeightList = new ArrayList<>();
-
-                for (int i = 0; i < symbolsTextField.size(); i++) {
-                  Pair<String, String> stringDoublePair = new Pair<>(
-                          symbolsTextField.get(i).getText(),
-                          weightsTextField.get(i).getText());
-                  stockWeightList.add(stringDoublePair);
-                }
-                try {
-                  features.applyStrategy(
-                          commissionTextField.getText(),
-                          strategyComboBox.getSelectedIndex(),
-                          portfolioName,
-                          stockWeightList,
-                          investmentTextField.getText(),
-                          dollarCostStrategyStartDateTextField.getText(),
-                          dollarCostStrategyEndDateTextField.getText(),
-                          Integer.parseInt(dollarCostStrategyPeriodTextField.getText())
-                  );
-                  f.dispose();
-                } catch (IOException e) {
-                  throw new RuntimeException(e);
-                }
-              }
-
-            });
-            f.getContentPane().add(jScrollPane);
-            stockAndWeightPanel.add(createStrategyConfirmButton);
-            f.getContentPane().add(stockAndWeightPanel, BorderLayout.SOUTH);
-            f.setSize(500, 300);
-            f.setLocation(200, 200);
-            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            f.setVisible(true);
-            f.pack();
+            buildStrategyPane(features);
           } else {
             features.createPortfolio(createPortfolioNameTextField.getText());
           }
@@ -534,209 +329,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
 
       if (transactionComboBox.getSelectedIndex() == 2) {
-        JFrame f = new JFrame();
-        Box center = Box.createVerticalBox();
-        JScrollPane jScrollPane = new JScrollPane(center);
-        JPanel strategyCards = new JPanel(new CardLayout());
-        JPanel fixedStrategyPanel = new JPanel();
-        fixedStrategyPanel.setLayout(new BoxLayout(fixedStrategyPanel, BoxLayout.Y_AXIS));
-        JPanel dollarCostStrategyPanel = new JPanel();
-        dollarCostStrategyPanel.setLayout(new BoxLayout(dollarCostStrategyPanel, BoxLayout.Y_AXIS));
-
-
-        JPanel strategyComboBoxPanel = new JPanel();
-        String[] strategyComboBoxItems = {Constants.
-                MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1],
-                Constants.MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]};
-        JComboBox<String> strategyComboBox = new JComboBox<>(strategyComboBoxItems);
-        strategyComboBox.setEditable(false);
-        strategyComboBoxPanel.add(strategyComboBox);
-        strategyComboBox.addItemListener(e -> {
-          CardLayout cl = (CardLayout) (strategyCards.getLayout());
-          cl.show(strategyCards, (String) e.getItem());
-        });
-
-
-        //Common components
-        JPanel commPanel = new JPanel();
-        JLabel commissionLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                .get(Constants.PROMPT_COMMISSION_KEY) + ": ");
-        JTextField commissionTextField = new JTextField(10);
-        commPanel.add(commissionLabel);
-        commPanel.add(commissionTextField);
-
-
-        JPanel investmentPanel = new JPanel();
-        JLabel investmentLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                .get(Constants.PROMPT_INVESTMENT) + ": ");
-        JTextField investmentTextField = new JTextField(10);
-        investmentPanel.add(investmentLabel);
-        investmentPanel.add(investmentTextField);
-
-
-        JPanel stockAndWeightPanel = new JPanel();
-        JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
-
-        List<JLabel> symbolsLabel = new ArrayList<>();
-        List<JTextField> symbolsTextField = new ArrayList<>();
-
-        List<JLabel> weightsLabel = new ArrayList<>();
-        List<JTextField> weightsTextField = new ArrayList<>();
-
-        addStockWeightsButton.addActionListener(e -> {
-          JPanel stockWeightPanel = new JPanel();
-
-          JLabel symbolLabel = new JLabel("Symbol:");
-          JTextField symbolTextField = new JTextField(10);
-          JLabel weightLabel = new JLabel("Weight:");
-          JTextField weightTextField = new JTextField(10);
-
-          stockWeightPanel.add(symbolLabel);
-          stockWeightPanel.add(symbolTextField);
-          stockWeightPanel.add(weightLabel);
-          stockWeightPanel.add(weightTextField);
-
-          symbolsLabel.add(symbolLabel);
-          symbolsTextField.add(symbolTextField);
-          weightsLabel.add(weightLabel);
-          weightsTextField.add(weightTextField);
-
-          if (strategyComboBox.getSelectedIndex() == 0) {
-            fixedStrategyPanel.add(stockWeightPanel);
-            f.validate();
-            f.repaint();
-          } else if (strategyComboBox.getSelectedIndex() == 1) {
-            dollarCostStrategyPanel.add(stockWeightPanel);
-            f.validate();
-            f.repaint();
-          }
-        });
-        stockAndWeightPanel.add(addStockWeightsButton);
-
-
-        // fixedStrategyPanel
-        JPanel fixedStrategyDatePanel = new JPanel();
-        JLabel fixedStrategyDateLabel = new JLabel("Please Enter Date: ");
-        JTextField fixedStrategyDateTextField = new JTextField(10);
-        fixedStrategyDatePanel.add(fixedStrategyDateLabel);
-        fixedStrategyDatePanel.add(fixedStrategyDateTextField);
-
-
-        fixedStrategyPanel.add(fixedStrategyDatePanel);
-
-        // dollarCostStrategyPanel
-        JPanel dollarCostStrategyStartDatePanel = new JPanel();
-        JLabel dollarCostStrategyStartDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                .get(Constants.PROMPT_START_DATE_KEY) + ": ");
-        JTextField dollarCostStrategyStartDateTextField = new JTextField(10);
-        dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateLabel);
-        dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateTextField);
-
-
-
-        JPanel dollarCostStrategyEndDatePanel = new JPanel();
-        JLabel dollarCostStrategyEndDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                .get(Constants.PROMPT_END_DATE_KEY) + ": ");
-        JTextField dollarCostStrategyEndDateTextField = new JTextField(10);
-        dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateLabel);
-        dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateTextField);
-
-        JPanel dollarCostStrategyPeriodPanel = new JPanel();
-        JLabel dollarCostStrategyPeriodLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
-                .get(Constants.PROMPT_PERIOD) + ": ");
-        JTextField dollarCostStrategyPeriodTextField = new JTextField(10);
-        dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodLabel);
-        dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodTextField);
-
-
-
-        dollarCostStrategyPanel.add(dollarCostStrategyStartDatePanel);
-        dollarCostStrategyPanel.add(dollarCostStrategyEndDatePanel);
-        dollarCostStrategyPanel.add(dollarCostStrategyPeriodPanel);
-
-
-        strategyCards.add(fixedStrategyPanel, Constants.
-                MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1]);
-
-        strategyCards.add(dollarCostStrategyPanel, Constants.
-                MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]);
-
-
-        center.add(strategyComboBoxPanel);
-        center.add(commPanel);
-        center.add(investmentPanel);
-        center.add(strategyCards, BoxLayout.Y_AXIS);
-
-
-        JButton createStrategyConfirmButton = new JButton("Confirm");
-        createStrategyConfirmButton.addActionListener(cevt -> {
-          String portfolioName = createPortfolioNameTextField.getText();
-          try {
-            features.createPortfolio(createPortfolioNameTextField.getText());
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-          if (strategyComboBox.getSelectedIndex() == 0) {
-            // fixed strategy
-            List<Pair<String, String>> stockWeightList = new ArrayList<>();
-
-            for (int i = 0; i < symbolsTextField.size(); i++) {
-              Pair<String, String> stringDoublePair = new Pair<>(
-                      symbolsTextField.get(i).getText(),
-                      weightsTextField.get(i).getText());
-              stockWeightList.add(stringDoublePair);
-            }
-            try {
-              features.applyStrategy(
-                      commissionTextField.getText(),
-                      strategyComboBox.getSelectedIndex(),
-                      portfolioName,
-                      stockWeightList,
-                      investmentTextField.getText(),
-                      fixedStrategyDateTextField.getText(),
-                      null,
-                      0
-              );
-              f.dispose();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-          } else if (strategyComboBox.getSelectedIndex() == 1) {
-            // dollar cost averaging
-            List<Pair<String, String>> stockWeightList = new ArrayList<>();
-
-            for (int i = 0; i < symbolsTextField.size(); i++) {
-              Pair<String, String> stringDoublePair = new Pair<>(
-                      symbolsTextField.get(i).getText(),
-                      weightsTextField.get(i).getText());
-              stockWeightList.add(stringDoublePair);
-            }
-            try {
-              features.applyStrategy(
-                      commissionTextField.getText(),
-                      strategyComboBox.getSelectedIndex(),
-                      portfolioName,
-                      stockWeightList,
-                      investmentTextField.getText(),
-                      dollarCostStrategyStartDateTextField.getText(),
-                      dollarCostStrategyEndDateTextField.getText(),
-                      Integer.parseInt(dollarCostStrategyPeriodTextField.getText())
-              );
-              f.dispose();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-          }
-
-        });
-        f.getContentPane().add(jScrollPane);
-        stockAndWeightPanel.add(createStrategyConfirmButton);
-        f.getContentPane().add(stockAndWeightPanel, BorderLayout.SOUTH);
-        f.setSize(500, 300);
-        f.setLocation(200, 200);
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setVisible(true);
-        f.pack();
+        buildStrategyPane(features);
 
       } else {
         // portfolio name
@@ -819,35 +412,210 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
         throw new RuntimeException(e);
       }
     });
+  }
 
-    this.addKeyListener(new KeyListener() {
+  private void buildStrategyPane(IPortfolioFeatures features) {
+    JFrame f = new JFrame();
+    Box center = Box.createVerticalBox();
+    JScrollPane jScrollPane = new JScrollPane(center);
+    JPanel strategyCards = new JPanel(new CardLayout());
+    JPanel fixedStrategyPanel = new JPanel();
+    fixedStrategyPanel.setLayout(new BoxLayout(fixedStrategyPanel, BoxLayout.Y_AXIS));
+    JPanel dollarCostStrategyPanel = new JPanel();
+    dollarCostStrategyPanel.setLayout(new BoxLayout(dollarCostStrategyPanel, BoxLayout.Y_AXIS));
 
-      @Override
-      public void keyTyped(KeyEvent e) {
-//      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//        features.createPortfolio(portfolioNameTextField.getText());
-//      }
+
+    JPanel strategyComboBoxPanel = new JPanel();
+    String[] strategyComboBoxItems = {Constants.
+            MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1],
+            Constants.MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]};
+    JComboBox<String> strategyComboBox = new JComboBox<>(strategyComboBoxItems);
+    strategyComboBox.setEditable(false);
+    strategyComboBoxPanel.add(strategyComboBox);
+    strategyComboBox.addItemListener(e -> {
+      CardLayout cl = (CardLayout) (strategyCards.getLayout());
+      cl.show(strategyCards, (String) e.getItem());
+    });
+
+
+    //Common components
+    JPanel commPanel = new JPanel();
+    JLabel commissionLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+            .get(Constants.PROMPT_COMMISSION_KEY) + ": ");
+    JTextField commissionTextField = new JTextField(10);
+    commPanel.add(commissionLabel);
+    commPanel.add(commissionTextField);
+
+
+    JPanel investmentPanel = new JPanel();
+    JLabel investmentLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+            .get(Constants.PROMPT_INVESTMENT) + ": ");
+    JTextField investmentTextField = new JTextField(10);
+    investmentPanel.add(investmentLabel);
+    investmentPanel.add(investmentTextField);
+
+
+    JPanel stockAndWeightPanel = new JPanel();
+    JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
+
+    List<JLabel> symbolsLabel = new ArrayList<>();
+    List<JTextField> symbolsTextField = new ArrayList<>();
+
+    List<JLabel> weightsLabel = new ArrayList<>();
+    List<JTextField> weightsTextField = new ArrayList<>();
+
+    addStockWeightsButton.addActionListener(e -> {
+      JPanel stockWeightPanel = new JPanel();
+
+      JLabel symbolLabel = new JLabel("Symbol:");
+      JTextField symbolTextField = new JTextField(10);
+      JLabel weightLabel = new JLabel("Weight:");
+      JTextField weightTextField = new JTextField(10);
+
+      stockWeightPanel.add(symbolLabel);
+      stockWeightPanel.add(symbolTextField);
+      stockWeightPanel.add(weightLabel);
+      stockWeightPanel.add(weightTextField);
+
+      symbolsLabel.add(symbolLabel);
+      symbolsTextField.add(symbolTextField);
+      weightsLabel.add(weightLabel);
+      weightsTextField.add(weightTextField);
+
+      if (strategyComboBox.getSelectedIndex() == 0) {
+        fixedStrategyPanel.add(stockWeightPanel);
+        f.validate();
+        f.repaint();
+      } else if (strategyComboBox.getSelectedIndex() == 1) {
+        dollarCostStrategyPanel.add(stockWeightPanel);
+        f.validate();
+        f.repaint();
       }
+    });
+    stockAndWeightPanel.add(addStockWeightsButton);
 
-      @Override
-      public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//          System.out.println(e.getKeyCode());
-          try {
-            features.createPortfolio(createPortfolioNameTextField.getText());
-          } catch (IOException ex) {
-            throw new RuntimeException(ex);
-          }
+
+    // fixedStrategyPanel
+    JPanel fixedStrategyDatePanel = new JPanel();
+    JLabel fixedStrategyDateLabel = new JLabel("Please Enter Date: ");
+    JTextField fixedStrategyDateTextField = new JTextField(10);
+    fixedStrategyDatePanel.add(fixedStrategyDateLabel);
+    fixedStrategyDatePanel.add(fixedStrategyDateTextField);
+
+
+    fixedStrategyPanel.add(fixedStrategyDatePanel);
+
+    // dollarCostStrategyPanel
+    JPanel dollarCostStrategyStartDatePanel = new JPanel();
+    JLabel dollarCostStrategyStartDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+            .get(Constants.PROMPT_START_DATE_KEY) + ": ");
+    JTextField dollarCostStrategyStartDateTextField = new JTextField(10);
+    dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateLabel);
+    dollarCostStrategyStartDatePanel.add(dollarCostStrategyStartDateTextField);
+
+
+    JPanel dollarCostStrategyEndDatePanel = new JPanel();
+    JLabel dollarCostStrategyEndDateLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+            .get(Constants.PROMPT_END_DATE_KEY) + ": ");
+    JTextField dollarCostStrategyEndDateTextField = new JTextField(10);
+    dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateLabel);
+    dollarCostStrategyEndDatePanel.add(dollarCostStrategyEndDateTextField);
+
+    JPanel dollarCostStrategyPeriodPanel = new JPanel();
+    JLabel dollarCostStrategyPeriodLabel = new JLabel(Constants.TEXT_VIEW_CONSTANTS
+            .get(Constants.PROMPT_PERIOD) + ": ");
+    JTextField dollarCostStrategyPeriodTextField = new JTextField(10);
+    dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodLabel);
+    dollarCostStrategyPeriodPanel.add(dollarCostStrategyPeriodTextField);
+
+
+    dollarCostStrategyPanel.add(dollarCostStrategyStartDatePanel);
+    dollarCostStrategyPanel.add(dollarCostStrategyEndDatePanel);
+    dollarCostStrategyPanel.add(dollarCostStrategyPeriodPanel);
+
+
+    strategyCards.add(fixedStrategyPanel, Constants.
+            MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[1]);
+
+    strategyCards.add(dollarCostStrategyPanel, Constants.
+            MENU_TYPE.get(MenuItems.APPLY_STRATEGY.getValue())[2]);
+
+
+    center.add(strategyComboBoxPanel);
+    center.add(commPanel);
+    center.add(investmentPanel);
+    center.add(strategyCards, BoxLayout.Y_AXIS);
+
+
+    JButton createStrategyConfirmButton = new JButton("Confirm");
+    createStrategyConfirmButton.addActionListener(cevt -> {
+      String portfolioName = createPortfolioNameTextField.getText();
+      try {
+        features.createPortfolio(createPortfolioNameTextField.getText());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (strategyComboBox.getSelectedIndex() == 0) {
+        // fixed strategy
+        List<Pair<String, String>> stockWeightList = new ArrayList<>();
+
+        for (int i = 0; i < symbolsTextField.size(); i++) {
+          Pair<String, String> stringDoublePair = new Pair<>(
+                  symbolsTextField.get(i).getText(),
+                  weightsTextField.get(i).getText());
+          stockWeightList.add(stringDoublePair);
+        }
+        try {
+          features.applyStrategy(
+                  commissionTextField.getText(),
+                  strategyComboBox.getSelectedIndex(),
+                  portfolioName,
+                  stockWeightList,
+                  investmentTextField.getText(),
+                  fixedStrategyDateTextField.getText(),
+                  null,
+                  0
+          );
+          f.dispose();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      } else if (strategyComboBox.getSelectedIndex() == 1) {
+        // dollar cost averaging
+        List<Pair<String, String>> stockWeightList = new ArrayList<>();
+
+        for (int i = 0; i < symbolsTextField.size(); i++) {
+          Pair<String, String> stringDoublePair = new Pair<>(
+                  symbolsTextField.get(i).getText(),
+                  weightsTextField.get(i).getText());
+          stockWeightList.add(stringDoublePair);
+        }
+        try {
+          features.applyStrategy(
+                  commissionTextField.getText(),
+                  strategyComboBox.getSelectedIndex(),
+                  portfolioName,
+                  stockWeightList,
+                  investmentTextField.getText(),
+                  dollarCostStrategyStartDateTextField.getText(),
+                  dollarCostStrategyEndDateTextField.getText(),
+                  Integer.parseInt(dollarCostStrategyPeriodTextField.getText())
+          );
+          f.dispose();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
       }
 
-      @Override
-      public void keyReleased(KeyEvent e) {
-//      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//        features.createPortfolio(portfolioNameTextField.getText());
-//      }
-      }
     });
+    f.getContentPane().add(jScrollPane);
+    stockAndWeightPanel.add(createStrategyConfirmButton);
+    f.getContentPane().add(stockAndWeightPanel, BorderLayout.SOUTH);
+    f.setSize(500, 300);
+    f.setLocation(200, 200);
+    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    f.setVisible(true);
+    f.pack();
   }
 
   @Override
@@ -862,17 +630,17 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
   @Override
   public void showOptions(int selectedMenuItem) {
-
+    // No Implementation required.
   }
 
   @Override
   public void showOptionError() {
-
+    // No Implementation required.
   }
 
   @Override
   public void showPrompt(String key) {
-
+    // No Implementation required.
   }
 
   @Override
@@ -1002,21 +770,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     new BarChart("Portfolio Performance", heading, defaultCategoryDataset, maxValue);
   }
-
-  @Override
-  public String getOption() {
-    return null;
-  }
-
-//  @Override
-//  public String getOption() {
-//    return input.getText();
-//  }
-//
-//  @Override
-//  public void setActionLister(ActionListener actionLister) {
-//    enterButton.addActionListener(actionLister);
-//  }
 
   @Override
   public void itemStateChanged(ItemEvent e) {
