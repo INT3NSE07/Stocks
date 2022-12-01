@@ -1,22 +1,13 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import constants.Constants;
-import io.CSVReader;
-import io.CSVWriter;
-import io.IReader;
-import io.IWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
-import repository.CSVPortfolioRepository;
-import repository.IRepository;
-import service.AlphaVantageStockService;
-import service.IStockService;
 import utilities.Pair;
 
 /**
@@ -286,15 +277,13 @@ public class FlexiblePortfolioModelTest {
   }
 
   @Test
-  public void testFixedCostStrategy() throws IOException {
-    IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new CSVWriter();
+  public void testFixedCostStrategyCreation() throws IOException {
+    List<String> mockLog = new ArrayList<>();
 
-    IStockService stockService = AlphaVantageStockService.getInstance(reader);
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
 
-    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
-        Constants.DATA_DIR);
-    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));
     stocks.add(new Pair<>("AAPL", 20.00));
@@ -307,19 +296,18 @@ public class FlexiblePortfolioModelTest {
     model.applyFixedAmountInvestmentStrategy("fixed1",
         investmentStrategy);
 
-    assertNotNull(model);
+    assertEquals(2, mockLog.stream().filter(x ->
+        x.equals(MOCK_REPO_UPDATE_MESSAGE)).count());
   }
 
   @Test
-  public void testDollarCostAveragingStrategy() throws IOException {
-    IReader<List<List<String>>> reader = new CSVReader();
-    IWriter<List<String>> writer = new CSVWriter();
+  public void testDollarCostAveragingStrategyCreation() throws IOException {
+    List<String> mockLog = new ArrayList<>();
 
-    IStockService stockService = AlphaVantageStockService.getInstance(reader);
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
 
-    IRepository<Portfolio> repository = new CSVPortfolioRepository(reader, writer,
-        Constants.DATA_DIR);
-    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(repository, stockService);
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));
     stocks.add(new Pair<>("AAPL", 20.00));
@@ -334,6 +322,88 @@ public class FlexiblePortfolioModelTest {
     model.applyDollarCostAveragingInvestmentStrategy("fixed1",
         investmentStrategy);
 
-    assertNotNull(model);
+    assertEquals(10, mockLog.stream().filter(x ->
+        x.equals(MOCK_REPO_UPDATE_MESSAGE)).count());
+  }
+
+  @Test
+  public void testFixedCostStrategyCostBasis() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    double value = model.getCostBasis(FOUND_A_MATCH, "2022-11-10");
+    assertEquals(8399.02, value, 0.01);
+  }
+
+  @Test
+  public void testDollarCostAveragingStrategyCostBasisOnDifferentDates() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    double value = model.getCostBasis(FOUND_A_MATCH, "2022-10-01");
+    assertEquals(1627.2, value, 0.01);
+
+    value = model.getCostBasis(FOUND_A_MATCH, "2022-11-10");
+    assertEquals(8399.02, value, 0.01);
+
+    value = model.getCostBasis(FOUND_A_MATCH, "2022-11-20");
+    assertEquals(9682.05, value, 0.01);
+  }
+
+  @Test
+  public void testInvestmentStrategyCostBasisOnDifferentDates() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    double value = model.getCostBasis(FOUND_A_MATCH, "2022-11-01");
+    assertEquals(5606.87, value, 0.01);
+
+    value = model.getCostBasis(FOUND_A_MATCH, "2022-11-10");
+    assertEquals(8399.02, value, 0.01);
+
+    value = model.getCostBasis(FOUND_A_MATCH, "2022-11-18");
+    assertEquals(9682.05, value, 0.01);
+
+    value = model.getCostBasis(FOUND_A_MATCH, "2022-11-25");
+    assertEquals(9682.05, value, 0.01);
+  }
+
+  @Test
+  public void testInvestmentStrategyGetPortfolioValue() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    Pair<Portfolio, Double> value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-20");
+    assertEquals(6116.21, value.getValue(), 0.01);
+  }
+
+  @Test
+  public void testInvestmentStrategyGetPortfolioValueOnDifferentDays() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    double value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-01").getValue();
+    assertEquals(2101.03, value, 0.01);
+
+     value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-10").getValue();
+    assertEquals(4853.18, value, 0.01);
+
+    value = model.getPortfolioValueOnDate(FOUND_A_MATCH, "2022-11-18").getValue();
+    assertEquals(6116.21, value, 0.01);
   }
 }

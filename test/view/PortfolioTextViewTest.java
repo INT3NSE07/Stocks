@@ -97,6 +97,13 @@ public class PortfolioTextViewTest {
             + "Transaction menu" + System.lineSeparator()
             + "1) Buy stocks" + System.lineSeparator()
             + "2) Sell stocks" + System.lineSeparator()
+            + "3) Apply strategy" + System.lineSeparator()
+            + "4) Back" + System.lineSeparator();
+      } else if (i == 5) {
+        expected = System.lineSeparator()
+            + "Apply strategy menu" + System.lineSeparator()
+            + "1) Fixed amount" + System.lineSeparator()
+            + "2) Dollar-cost averaging" + System.lineSeparator()
             + "3) Back" + System.lineSeparator();
       }
       assertEquals(expected, outputStream.toString());

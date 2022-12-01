@@ -602,6 +602,11 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
         continue;
       }
 
+      LocalDate endDate = LocalDate.parse(lastBoughtStock.getStrategyEndDate());
+      if (LocalDate.parse(strategyStartDate).isAfter(endDate)) {
+        return;
+      }
+
       Stream<Stock> stockStream = stocks.stream();
       List<String> uniqueStockSymbols = stockStream
           .map(Stock::getSymbol)

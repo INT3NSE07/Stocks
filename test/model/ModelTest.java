@@ -6,7 +6,10 @@ import static org.junit.Assert.fail;
 
 import constants.Constants;
 import enums.Operations;
+import enums.StrategyTypes;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -418,7 +421,7 @@ public class ModelTest {
     try {
       Pair<Portfolio, Double> pair = model.getPortfolioValueOnDate(FOUND_A_MATCH,
           DateUtils.getCurrentDate(Constants.DEFAULT_DATETIME_FORMAT));
-      assertEquals(6179.52, pair.getValue(), 0);
+      assertEquals(12747.89, pair.getValue(), 0.01);
 
     } catch (IOException e) {
       fail(e.getMessage());
@@ -470,8 +473,21 @@ public class ModelTest {
 
     private final List<String> log;
 
+    private final List<String> nonTradingDays;
+
     public MockService(List<String> log) {
       this.log = log;
+      this.nonTradingDays = List.of(
+          "2022-01-17",
+          "2022-02-21",
+          "2022-04-15",
+          "2022-05-30",
+          "2022-06-20",
+          "2022-07-04",
+          "2022-09-05",
+          "2022-11-24",
+          "2022-12-26"
+      );
     }
 
     @Override
@@ -493,7 +509,9 @@ public class ModelTest {
 
     @Override
     public boolean isTradingDay(String date) throws IllegalArgumentException, IOException {
-      return false;
+      LocalDate localDate = LocalDate.parse(date);
+      int day = localDate.get(ChronoField.DAY_OF_WEEK);
+      return !nonTradingDays.contains(date) && (day != 6 && day != 7);
     }
   }
 
@@ -550,7 +568,139 @@ public class ModelTest {
                   .setOperation(Operations.SELL)
                   .setQuantity(8)
                   .setCommission(90)
-                  .setDate("2022-01-10")
+                  .setDate("2022-01-10"),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AAPL")
+                  .setQuantity(3.31)
+                  .setDate("2022-11-01")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AMZN")
+                  .setQuantity(5.16)
+                  .setDate("2022-11-01")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AAPL")
+                  .setQuantity(3.58)
+                  .setDate("2022-11-08")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AMZN")
+                  .setQuantity(5.55)
+                  .setDate("2022-11-08")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AAPL")
+                  .setQuantity(3.33)
+                  .setDate("2022-11-15")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AMZN")
+                  .setQuantity(5.05)
+                  .setDate("2022-11-15")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING)
+                  .setStrategyInvestment(1000)
+                  .setStrategyEndDate("2022-11-20")
+                  .setWeight(50)
+                  .setStrategyName("asdad")
+                  .setStrategyPeriod(5),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AAPL")
+                  .setQuantity(3.31)
+                  .setDate("2022-11-01")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.FIXED_AMOUNT)
+                  .setStrategyInvestment(1000)
+                  .setWeight(50)
+                  .setStrategyName("wewe"),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AMZN")
+                  .setQuantity(5.16)
+                  .setDate("2022-11-01")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.FIXED_AMOUNT)
+                  .setStrategyInvestment(1000)
+                  .setWeight(50)
+                  .setStrategyName("wewe"),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AAPL")
+                  .setQuantity(3.58)
+                  .setDate("2022-11-08")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.FIXED_AMOUNT)
+                  .setStrategyInvestment(1000)
+                  .setWeight(50)
+                  .setStrategyName("wewe"),
+              Stock
+                  .StockBuilder
+                  .create()
+                  .setSymbol("AMZN")
+                  .setQuantity(5.55)
+                  .setDate("2022-11-08")
+                  .setOperation(Operations.BUY)
+                  .setCommission(10.00)
+                  .setStrategyType(StrategyTypes.FIXED_AMOUNT)
+                  .setStrategyInvestment(1000)
+                  .setWeight(50)
+                  .setStrategyName("wewe")
           )
       );
       //  8 sell
