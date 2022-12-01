@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import utilities.Pair;
 
 public interface IPortfolioFeatures extends IPortfolioController {
 
@@ -17,4 +20,15 @@ public interface IPortfolioFeatures extends IPortfolioController {
 
   void performanceOfPortfolio(String portfolioName, String startDate, String endDate)
       throws IOException;
+
+  void applyStrategy(
+          String commissionFee,
+          Integer strategyOption,
+          String portfolioName,
+          List<Pair<String, String>> symbolWeightPair,
+          String investment,
+          String startDate,
+          String endDate,
+          Integer period
+  ) throws IOException;
 }
