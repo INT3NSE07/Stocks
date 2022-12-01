@@ -332,7 +332,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      createPortfolioNameTextField.setText("");
     });
 
     examinePortfolioSubmit.addActionListener(evt -> {
@@ -518,9 +517,9 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     JPanel commonComponentsInStrategyPanel = new JPanel();
     JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
     JButton createStrategyConfirmButton = new JButton("Confirm");
-    JLabel defaultStockWeightPairSymbolLabel = new JLabel("Symbol:");
+    JLabel defaultStockWeightPairSymbolLabel = new JLabel("Ticker Symbol:");
     JTextField defaultStockWeightPairSymbolTextField = new JTextField(10);
-    JLabel defaultStockWeightPairWeightLabel = new JLabel("Weight:");
+    JLabel defaultStockWeightPairWeightLabel = new JLabel("Weight(%):");
     JTextField defaultStockWeightPairWeightTextField = new JTextField(10);
 
     List<JLabel> symbolsLabel = new ArrayList<>(

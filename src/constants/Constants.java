@@ -1,8 +1,9 @@
 package constants;
 
-import enums.MenuItems;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+
+import enums.MenuItems;
 
 /**
  * An immutable constants class that holds immutable constants fields.
@@ -64,7 +65,7 @@ public final class Constants {
           "Enter end date in format YYYY-MM-DD (if no input is given, the default "
               + "is current date)"),
       Map.entry(PROMPT_INVESTMENT,
-          "Enter the total investment"),
+          "Enter the total investment($)"),
       Map.entry(PROMPT_WEIGHT,
           "Enter the stock weight"),
       Map.entry(PROMPT_PERIOD,
