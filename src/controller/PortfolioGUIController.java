@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.List;
-
 import commands.ApplyStrategy;
 import commands.CostBasis;
 import commands.CreatePortfolio;
@@ -13,6 +9,9 @@ import commands.PortfolioPerformance;
 import commands.ValueOfPortfolio;
 import constants.Constants;
 import enums.PortfolioTypes;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
 import model.IPortfolioFacadeModel;
 import utilities.Helpers;
 import utilities.Pair;

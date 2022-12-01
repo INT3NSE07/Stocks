@@ -126,13 +126,13 @@ public class PortfolioModel implements IPortfolioModel {
     return true;
   }
 
-  protected void validateInput(String input) {
+  void validateInput(String input) {
     if (StringUtils.isNullOrWhiteSpace(input)) {
       throw new IllegalArgumentException(Constants.INPUT_NULL_OR_EMPTY);
     }
   }
 
-  protected void validateDate(String date) {
+  void validateDate(String date) {
     if (!StringUtils.isNullOrWhiteSpace(date)) {
       if (!DateUtils.isDateWithinRange(date, Constants.DEFAULT_DATETIME_FORMAT)) {
         throw new IllegalArgumentException(Constants.DATE_INVALID);

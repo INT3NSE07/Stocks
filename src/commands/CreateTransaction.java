@@ -1,10 +1,9 @@
 package commands;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
 import constants.Constants;
 import enums.MenuItems;
+import java.io.BufferedReader;
+import java.io.IOException;
 import model.IPortfolioFacadeModel;
 import utilities.Helpers;
 import utilities.Pair;
@@ -69,7 +68,7 @@ public class CreateTransaction implements PortfolioCommand {
 
     if (selectedSubmenuItem == Constants.TRANSACTION_SUBMENU_EXIT_CODE) {
       this.bufferedReader = Helpers.getBufferedReader(
-              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
       return;
     }
 
@@ -88,12 +87,12 @@ public class CreateTransaction implements PortfolioCommand {
       } catch (NumberFormatException numberFormatException) {
         this.view.showString("Please enter a valid commission value in $");
         this.bufferedReader = Helpers.getBufferedReader(
-                String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+            String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
         return;
       } catch (IllegalArgumentException e) {
         this.view.showString(e.getMessage());
         this.bufferedReader = Helpers.getBufferedReader(
-                String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+            String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
         return;
       }
     }
@@ -105,7 +104,7 @@ public class CreateTransaction implements PortfolioCommand {
     if (StringUtils.isNullOrWhiteSpace(portfolioName)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       this.bufferedReader = Helpers.getBufferedReader(
-              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
       return;
     }
     this.view.showPrompt(Constants.PROMPT_STOCK_SYMBOL_KEY);
@@ -114,7 +113,7 @@ public class CreateTransaction implements PortfolioCommand {
     if (StringUtils.isNullOrWhiteSpace(symbol)) {
       this.view.showString(Constants.INPUT_NULL_OR_EMPTY);
       this.bufferedReader = Helpers.getBufferedReader(
-              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
       return;
     }
 
@@ -123,14 +122,14 @@ public class CreateTransaction implements PortfolioCommand {
         this.view.showString(
             String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
         this.bufferedReader = Helpers.getBufferedReader(
-                String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+            String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
         return;
       }
     } catch (IOException e) {
       this.view.showString(
           String.format(Constants.SYMBOL_FETCH_FAIL, symbol));
       this.bufferedReader = Helpers.getBufferedReader(
-              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
       return;
     }
 
@@ -148,7 +147,7 @@ public class CreateTransaction implements PortfolioCommand {
     } catch (NumberFormatException numberFormatException) {
       this.view.showString(Constants.QUANTITY_MUST_BE_A_WHOLE_NUMBER);
       this.bufferedReader = Helpers.getBufferedReader(
-              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+          String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
       return;
     }
 
@@ -161,7 +160,7 @@ public class CreateTransaction implements PortfolioCommand {
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
-                  String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
         }
         break;
       }
@@ -173,7 +172,7 @@ public class CreateTransaction implements PortfolioCommand {
         } catch (IllegalArgumentException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
-                  String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
+              String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE));
         }
         break;
       }
