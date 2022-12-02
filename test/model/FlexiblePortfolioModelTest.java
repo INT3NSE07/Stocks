@@ -341,6 +341,18 @@ public class FlexiblePortfolioModelTest {
   }
 
   @Test
+  public void testDollarCostAveragingStrategyCostBasis() throws IOException {
+    List<String> mockLog = new ArrayList<>();
+
+    ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
+    ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
+    IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
+
+    double value = model.getCostBasis(FOUND_A_MATCH, "2022-11-20");
+    assertEquals(9682.05, value, 0.01);
+  }
+
+  @Test
   public void testDollarCostAveragingStrategyCostBasisOnDifferentDates() throws IOException {
     List<String> mockLog = new ArrayList<>();
 
