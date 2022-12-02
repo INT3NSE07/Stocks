@@ -198,8 +198,8 @@ public class ApplyStrategy implements PortfolioCommand {
             this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
           } else {
             this.model.createInvestmentStrategy(portfolioName, investmentStrategy);
-            this.view.showString("Strategy successfully created");
           }
+          this.view.showString("Strategy successfully created");
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
@@ -346,8 +346,8 @@ public class ApplyStrategy implements PortfolioCommand {
             this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
           } else {
             this.model.createInvestmentStrategy(portfolioName, investmentStrategy);
-            this.view.showString("Strategy successfully created");
           }
+          this.view.showString("Strategy successfully created");
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
