@@ -1,5 +1,9 @@
 # Running the Jar File
-- Execute the jar by typing java -cp 'Stocks.jar;lib\*' PortfolioRunner gui
+On Windows
+    - Execute the jar by typing java -cp 'Stocks.jar;lib\*' PortfolioRunner gui
+
+On MACOS/Linux
+    - Execute the jar by typing java -cp 'Stocks.jar:lib/*' PortfolioRunner gui
 
 Note:
 1) The valid command line arguments are text (or) gui. Based on the provided input, the view is rendered
