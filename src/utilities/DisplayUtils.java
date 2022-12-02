@@ -109,7 +109,10 @@ public final class DisplayUtils {
     /**
      * Creates a new instance of a {@link BarChart}.
      *
-     * @param title the frame title.
+     * @param title   the title of the barchart
+     * @param heading the heading of the barchart
+     * @param dataset the data used to render the barchart
+     * @param maxVal  maximum value in the dataset
      */
     public BarChart(String title, String heading, CategoryDataset dataset, double maxVal) {
       JFrame f = new JFrame(title);
@@ -129,10 +132,12 @@ public final class DisplayUtils {
     }
 
     /**
-     * Creates a sample chart.
+     * Creates a barchart.
      *
-     * @param dataset the dataset.
-     * @return The chart.
+     * @param heading  the heading of the barchart
+     * @param dataset  the data used to render the barchart
+     * @param rangeMax maximum value in the dataset
+     * @return the rendered barchart
      */
     public static JFreeChart createChart(CategoryDataset dataset, String heading, double rangeMax) {
       final JFreeChart chart = ChartFactory.createBarChart(

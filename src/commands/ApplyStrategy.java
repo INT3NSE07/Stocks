@@ -36,6 +36,7 @@ public class ApplyStrategy implements PortfolioCommand {
    * @param model          the model instance which is used to perform the actual operations
    * @param view           the view which displays output to the end user
    * @param bufferedReader the input stream through which user input is taken
+   * @param menuItem       used to determine which menu it is in
    */
   public ApplyStrategy(IPortfolioFacadeModel model, IPortfolioView view,
       BufferedReader bufferedReader, MenuItems menuItem) {

@@ -1,5 +1,9 @@
 This project has been implemented in a generic way and leverages multiple design patterns.
 
+Assignment 6 design changes:
+Visitor design pattern:
+  Implemented visitor design pattern for incoporating investment startagies into the system. As investment stratgies are portfolio agnostic, segregating them would help make it easier if a new portifolio type or a new investment strategy is introduced in the future. This pattern was implmented through the IPortfolioInvestmentStrategyVisitor interface which has only one method applyStrategy(). This interface is implemented by FixedCostVisitor and DollarCostAveragingVisitor which are the two types of investment startagies currently supported. If a new investment strategy is introduced in the future, it just has to implement this interface. Similarly if a new type of portifolio is introduced, an overload can be added to this interface which takes a parameter of the new portfolio type. A method acceptInvestmentStrategy has been added to IFlexiblePortfolioModel to mark itself as visitable.
+
 Assignment 5 design:
 Facade design pattern:
    As there may be multiple types of portfolio (flexible, inflexible), a PortfolioFacade has been implemented which has all the required methods by different types of portfolios. There are checks in place which prevent an inflexible portfolio from calling methods specific to a flexible portfolio. The PortfolioFacade is responsible for mapping the methods called by the controller to the corresponding model implementation.

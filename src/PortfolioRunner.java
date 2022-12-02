@@ -33,6 +33,7 @@ public class PortfolioRunner {
    * The entry point for the portfolio project.
    *
    * @param args the commandline arguments
+   * @throws IOException when an unexpected I/O error is encountered
    */
   public static void main(String[] args) throws IOException {
     IReader<List<List<String>>> reader = new CSVReader();

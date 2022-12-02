@@ -90,6 +90,7 @@ public interface IPortfolioFeatures extends IPortfolioController {
    * @param startDate         start date of the strategy
    * @param endDate           end date of the strategy
    * @param period            the frequency of investments
+   * @param menuItem          used to determine which menu it is in
    * @throws IOException If given portfolio name is found but un able to open/read then this
    *                     exception is thrown.
    */

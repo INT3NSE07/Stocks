@@ -428,7 +428,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
               symbolNameTextField.getText(),
               quantityTextField.getText(),
               dateTextField.getText(),
-                String.valueOf(transactionComboBox.getSelectedIndex() + 1)
+              String.valueOf(transactionComboBox.getSelectedIndex() + 1)
           );
         } catch (IOException e) {
           throw new RuntimeException(e);
@@ -515,7 +515,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     // fixedStrategyPanel
     JPanel fixedStrategyDatePanel = new JPanel();
     JLabel fixedStrategyDateLabel = new JLabel(
-            "Please Enter Date in Format (YYYY-MM-DD): ");
+        "Please Enter Date in Format (YYYY-MM-DD): ");
     JTextField fixedStrategyDateTextField = new JTextField(10);
     fixedStrategyDatePanel.add(fixedStrategyDateLabel);
     fixedStrategyDatePanel.add(fixedStrategyDateTextField);
@@ -553,10 +553,10 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
     JButton createStrategyConfirmButton = new JButton("Confirm");
     JLabel defaultStockWeightPairSymbolLabel = new JLabel(
-            Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY) + ": ");
+        Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY) + ": ");
     JTextField defaultStockWeightPairSymbolTextField = new JTextField(10);
     JLabel defaultStockWeightPairWeightLabel = new JLabel(
-            Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
+        Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
     JTextField defaultStockWeightPairWeightTextField = new JTextField(10);
 
     List<JLabel> symbolsLabel = new ArrayList<>(
@@ -591,10 +591,10 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       JPanel stockWeightPanel = new JPanel();
 
       JLabel symbolLabel = new JLabel(
-              Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY)+ ": ");
+          Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY) + ": ");
       JTextField symbolTextField = new JTextField(10);
       JLabel weightLabel = new JLabel(
-              Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
+          Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
       JTextField weightTextField = new JTextField(10);
 
       stockWeightPanel.add(symbolLabel);

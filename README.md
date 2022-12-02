@@ -1,7 +1,14 @@
 # Stocks
 
 Stocks is a portfolio management system.
-The features that have been implemented and tested in the current iteration (Assignment 5) are:
+The features that have been implemented and tested in the Assignment 6 are:
+1) Added support for Fixed cost and Dollar cost averaging investment strategies
+2) Investment strategies can be applied while creating portfolios or can be applied to existing portfolios
+3) Implemented a GUI using Java swing which shows all operations that can be performed on a flexible portfolio through a user friendly GUI
+4) Portfolio performance can be visualized through a graphical barchart
+
+
+The features that have been implemented and tested in the Assignment 5 are:
 1) Allow a user to create one or more flexible portfolios. A specific number of shares of a stock can be purchased on a specific date which are then added them to the portfolio
 2) Allow a user to sell a specific number of shares of a specific stock on a specified date from their portfolio
 3) Calculate the cost basis of a portfolio on a specific date. This includes brokers commission during both purchase and sell transactions
@@ -11,7 +18,7 @@ The features that have been implemented and tested in the current iteration (Ass
 7) Portfolio performance can be visualized through a barchart across a range of dates
 
 
-The features that have been implemented and tested in the previous iteration are:
+The features that have been implemented and tested in the Assignment 4 are:
 1) Allow a user to create one or more portfolios with shares of one or more stock. Once created, shares
 cannot be added or removed from the portfolio
     - the files used to save and retrieve the portfolios is in a human-readable format (CSV)
@@ -24,8 +31,3 @@ cannot be added or removed from the portfolio
      - if date is not given then the software considers the current date 
        - if stock data for the current date is not found the latest available data is considered
        - else last available close value of the stock from the list is fetched to calculate portfolio value.
-
-# Future Improvements
-1) Currently, our system only supports stocks in S&P 500 list. In the future we would like to extend it to include all stocks.
-2) A user can enter any number of stocks (upto Integer.INT_MAX), In the future, based on the market cap of a company, a validation can be added
-3) The controller can be refactored to use the Command design pattern
