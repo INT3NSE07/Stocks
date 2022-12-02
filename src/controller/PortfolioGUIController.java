@@ -8,6 +8,7 @@ import commands.ExaminePortfolio;
 import commands.PortfolioPerformance;
 import commands.ValueOfPortfolio;
 import constants.Constants;
+import enums.MenuItems;
 import enums.PortfolioTypes;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,7 +106,8 @@ public class PortfolioGUIController implements IPortfolioFeatures {
       String investment,
       String startDate,
       String endDate,
-      Integer period
+      Integer period,
+      MenuItems menuItem
   )
       throws IOException {
 
@@ -148,7 +150,7 @@ public class PortfolioGUIController implements IPortfolioFeatures {
           String.valueOf(Constants.APPLY_STRATEGY_SUBMENU_EXIT_CODE)
       );
     }
-    new ApplyStrategy(this.model, this.view, bufferedReader).execute();
+    new ApplyStrategy(this.model, this.view, bufferedReader, menuItem).execute();
     this.view.clearInputString();
   }
 }

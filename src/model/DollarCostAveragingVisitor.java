@@ -25,6 +25,11 @@ import utilities.StringUtils;
 public class DollarCostAveragingVisitor<T> implements IPortfolioInvestmentStrategyVisitor<T> {
 
   private IStockService stockService;
+  private final boolean shouldCreateStrategy;
+
+  public DollarCostAveragingVisitor(boolean shouldCreateStrategy) {
+    this.shouldCreateStrategy = shouldCreateStrategy;
+  }
 
   @Override
   public T applyStrategy(FlexiblePortfolioModel portfolioModel,
@@ -101,6 +106,10 @@ public class DollarCostAveragingVisitor<T> implements IPortfolioInvestmentStrate
       strategyName = StringUtils.getRandomString(6);
     }
 
+    if (this.shouldCreateStrategy) {
+      portfolioModel.createPortfolio(portfolioName, new ArrayList<>());
+    }
+
     Map<String, Double> uniqueStockPairs = investmentStrategy.getStockWeightPairs().stream()
         .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));
 
@@ -143,7 +152,7 @@ public class DollarCostAveragingVisitor<T> implements IPortfolioInvestmentStrate
             .setStrategyPeriod(period);
 
         portfolio.addStocks(new ArrayList<>(Collections.singletonList(newStock)));
-          portfolioRepository.update(portfolio);
+        portfolioRepository.update(portfolio);
         portfolio.getStocks().clear();
       }
     }

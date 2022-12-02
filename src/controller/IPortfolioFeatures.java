@@ -1,5 +1,6 @@
 package controller;
 
+import enums.MenuItems;
 import java.io.IOException;
 import java.util.List;
 import utilities.Pair;
@@ -94,5 +95,5 @@ public interface IPortfolioFeatures extends IPortfolioController {
    */
   void applyStrategy(String commissionFee, Integer strategyOption, String portfolioName,
       List<Pair<String, String>> symbolWeightPairs, String investment, String startDate,
-      String endDate, Integer period) throws IOException;
+      String endDate, Integer period, MenuItems menuItem) throws IOException;
 }

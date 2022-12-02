@@ -602,7 +602,8 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
               investmentTextField.getText(),
               fixedStrategyDateTextField.getText(),
               null,
-              0
+              0,
+              cb.getSelectedIndex() == 0 ? MenuItems.CREATE_PORTFOLIO : MenuItems.CREATE_TRANSACTION
           );
           f.dispose();
         } catch (IOException e) {
@@ -627,7 +628,8 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
               investmentTextField.getText(),
               dollarCostStrategyStartDateTextField.getText(),
               dollarCostStrategyEndDateTextField.getText(),
-              Integer.parseInt(dollarCostStrategyPeriodTextField.getText())
+              Integer.parseInt(dollarCostStrategyPeriodTextField.getText()),
+              cb.getSelectedIndex() == 0 ? MenuItems.CREATE_PORTFOLIO : MenuItems.CREATE_TRANSACTION
           );
           f.dispose();
         } catch (IOException e) {

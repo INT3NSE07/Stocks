@@ -461,7 +461,7 @@ public class FlexiblePortfolioModel extends PortfolioModel implements IFlexibleP
       investmentStrategy.setStrategyEndDate(lastBoughtStock.getStrategyEndDate());
       investmentStrategy.setStrategyPeriod(lastBoughtStock.getStrategyPeriod());
 
-      IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>();
+      IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>(false);
       visitor.applyStrategy(this, portfolioName, investmentStrategy);
     }
   }

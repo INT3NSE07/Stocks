@@ -73,7 +73,8 @@ public class CreateTransaction implements PortfolioCommand {
     }
 
     if (selectedSubmenuItem == 3) {
-      new ApplyStrategy(this.model, this.view, this.bufferedReader).execute();
+      new ApplyStrategy(this.model, this.view, this.bufferedReader,
+          MenuItems.CREATE_TRANSACTION).execute();
       return;
     }
 

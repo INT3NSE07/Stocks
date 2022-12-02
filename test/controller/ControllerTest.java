@@ -251,6 +251,12 @@ public class ControllerTest {
     }
 
     @Override
+    public void createInvestmentStrategy(String portfolioName,
+        InvestmentStrategy investmentStrategy) throws IOException {
+      this.log.add(String.format(MOCK_MODEL_APPLY_STRATEGY, portfolioName));
+    }
+
+    @Override
     public void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
         throws IOException {
       this.log.add(String.format(MOCK_MODEL_APPLY_STRATEGY, portfolioName));

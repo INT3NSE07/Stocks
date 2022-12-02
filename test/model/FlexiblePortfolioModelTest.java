@@ -283,7 +283,7 @@ public class FlexiblePortfolioModelTest {
     ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
     ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
-    IPortfolioInvestmentStrategyVisitor<Void> visitor = new FixedCostVisitor<>();
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = new FixedCostVisitor<>(true);
 
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));
@@ -308,7 +308,7 @@ public class FlexiblePortfolioModelTest {
     ModelTest.MockRepository mockRepository = new ModelTest.MockRepository(mockLog);
     ModelTest.MockService mockService = new ModelTest.MockService(mockLog);
     IFlexiblePortfolioModel model = new FlexiblePortfolioModel(mockRepository, mockService);
-    IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>();
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = new DollarCostAveragingVisitor<>(true);
 
     List<Pair<String, Double>> stocks = new ArrayList<>();
     stocks.add(new Pair<>("AAPL", 10.00));

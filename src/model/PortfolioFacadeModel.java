@@ -125,6 +125,23 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
   }
 
   @Override
+  public void createInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
+      throws IOException {
+    IPortfolioInvestmentStrategyVisitor<Void> visitor = null;
+    if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
+      if (investmentStrategy.getStrategyType() == StrategyTypes.FIXED_AMOUNT) {
+        visitor = new FixedCostVisitor<>(true);
+      } else if (investmentStrategy.getStrategyType() == StrategyTypes.DOLLAR_COST_AVERAGING) {
+        visitor = new DollarCostAveragingVisitor<>(true);
+      }
+      this.flexiblePortfolioModel.acceptInvestmentStrategy(visitor, portfolioName,
+          investmentStrategy);
+    } else {
+      throw new IllegalArgumentException(Constants.INVALID_PORTFOLIO_TYPE);
+    }
+  }
+
+  @Override
   public void applyInvestmentStrategy(String portfolioName, InvestmentStrategy investmentStrategy)
       throws IOException {
     this.validatePortfolioType(portfolioName);
@@ -132,9 +149,9 @@ public class PortfolioFacadeModel implements IPortfolioFacadeModel {
     IPortfolioInvestmentStrategyVisitor<Void> visitor = null;
     if (this.portfolioType == PortfolioTypes.FLEXIBLE) {
       if (investmentStrategy.getStrategyType() == StrategyTypes.FIXED_AMOUNT) {
-        visitor = new FixedCostVisitor<>();
+        visitor = new FixedCostVisitor<>(false);
       } else if (investmentStrategy.getStrategyType() == StrategyTypes.DOLLAR_COST_AVERAGING) {
-        visitor = new DollarCostAveragingVisitor<>();
+        visitor = new DollarCostAveragingVisitor<>(false);
       }
       this.flexiblePortfolioModel.acceptInvestmentStrategy(visitor, portfolioName,
           investmentStrategy);

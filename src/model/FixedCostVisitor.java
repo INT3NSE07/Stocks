@@ -21,6 +21,11 @@ import utilities.StringUtils;
  * @param <T> the return type of the strategy
  */
 public class FixedCostVisitor<T> implements IPortfolioInvestmentStrategyVisitor<T> {
+  private final boolean shouldCreateStrategy;
+
+  public FixedCostVisitor(boolean shouldCreateStrategy) {
+    this.shouldCreateStrategy = shouldCreateStrategy;
+  }
 
   @Override
   public T applyStrategy(FlexiblePortfolioModel portfolioModel,
@@ -63,6 +68,10 @@ public class FixedCostVisitor<T> implements IPortfolioInvestmentStrategyVisitor<
 
     DecimalFormat df = new DecimalFormat("0.00");
     String strategyName = StringUtils.getRandomString(6);
+
+    if (this.shouldCreateStrategy) {
+      portfolioModel.createPortfolio(portfolioName, new ArrayList<>());
+    }
 
     Map<String, Double> uniqueStockPairs = investmentStrategy.getStockWeightPairs().stream()
         .collect(Collectors.groupingBy(Pair::getKey, Collectors.summingDouble(Pair::getValue)));

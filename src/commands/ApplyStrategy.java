@@ -25,6 +25,7 @@ public class ApplyStrategy implements PortfolioCommand {
   private final IPortfolioFacadeModel model;
 
   private final IPortfolioView view;
+  private final MenuItems menuItem;
 
   private BufferedReader bufferedReader;
 
@@ -37,10 +38,11 @@ public class ApplyStrategy implements PortfolioCommand {
    * @param bufferedReader the input stream through which user input is taken
    */
   public ApplyStrategy(IPortfolioFacadeModel model, IPortfolioView view,
-      BufferedReader bufferedReader) {
+      BufferedReader bufferedReader, MenuItems menuItem) {
     this.model = model;
     this.view = view;
     this.bufferedReader = bufferedReader;
+    this.menuItem = menuItem;
   }
 
   @Override
@@ -191,8 +193,13 @@ public class ApplyStrategy implements PortfolioCommand {
 
           investmentStrategy.setCommission(commission);
           investmentStrategy.setStrategyType(StrategyTypes.FIXED_AMOUNT);
-          this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
-          this.view.showString("Strategy successfully created");
+
+          if (this.menuItem == MenuItems.CREATE_TRANSACTION) {
+            this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
+          } else {
+            this.model.createInvestmentStrategy(portfolioName, investmentStrategy);
+            this.view.showString("Strategy successfully created");
+          }
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
@@ -334,8 +341,13 @@ public class ApplyStrategy implements PortfolioCommand {
 
           investmentStrategy.setCommission(commission);
           investmentStrategy.setStrategyType(StrategyTypes.DOLLAR_COST_AVERAGING);
-          this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
-          this.view.showString("Strategy successfully created");
+
+          if (this.menuItem == MenuItems.CREATE_TRANSACTION) {
+            this.model.applyInvestmentStrategy(portfolioName, investmentStrategy);
+          } else {
+            this.model.createInvestmentStrategy(portfolioName, investmentStrategy);
+            this.view.showString("Strategy successfully created");
+          }
         } catch (IllegalArgumentException | IOException e) {
           this.view.showString(e.getMessage());
           this.bufferedReader = Helpers.getBufferedReader(
