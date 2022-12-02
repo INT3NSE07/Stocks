@@ -329,6 +329,10 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     examinePortfolioSubmit.addActionListener(evt -> {
       try {
+        if (isNullOrWhiteSpace(examinePortfolioNameTextField.getText())) {
+          showString("Portfolio name cannot be null.");
+          return;
+        }
         features.examinePortfolio(examinePortfolioNameTextField.getText(),
             examinePortfolioDateTextField.getText());
       } catch (IOException e) {
@@ -338,6 +342,10 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     valueOfPortfolioSubmit.addActionListener(evt -> {
       try {
+        if (isNullOrWhiteSpace(valueOfPortfolioNameTextField.getText())) {
+          showString("Portfolio name cannot be null.");
+          return;
+        }
         features.valueOfPortfolio(valueOfPortfolioNameTextField.getText(),
             valueOfPortfolioDateTextField.getText());
       } catch (IOException e) {
@@ -347,6 +355,17 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     // add transaction event
     transactionCommissionSubmit.addActionListener(evt -> {
+
+      if (isNullOrWhiteSpace(transactionCommissionTextField.getText())) {
+        showString("Commission Fee cannot be Empty.");
+        return;
+      }
+
+      if (isNullOrWhiteSpace(transactionPortfolioNameTextField.getText())) {
+        showString("Portfolio name cannot be Empty.");
+        return;
+      }
+
       String commissionFee = transactionCommissionTextField.getText();
 
       JPanel transactionsPopup = new JPanel();
@@ -354,7 +373,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
       if (transactionComboBox.getSelectedIndex() == 2) {
         buildStrategyPane(features);
-
       } else {
 
         // ticker symbol
@@ -394,12 +412,21 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
         );
 
         try {
+
+          if (isNullOrWhiteSpace(quantityTextField.getText())) {
+            showString("Quantity cannot be Empty.");
+            return;
+          }
+          if (isNullOrWhiteSpace(symbolNameTextField.getText())) {
+            showString("Ticker Symbol cannot be Empty.");
+            return;
+          }
           features.createTransaction(commissionFee,
               transactionPortfolioNameTextField.getText(),
               symbolNameTextField.getText(),
               quantityTextField.getText(),
               dateTextField.getText(),
-              String.valueOf(transactionComboBox.getSelectedIndex() + 1)
+                String.valueOf(transactionComboBox.getSelectedIndex() + 1)
           );
         } catch (IOException e) {
           throw new RuntimeException(e);
@@ -409,6 +436,10 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     costBasisOfPortfolioSubmit.addActionListener(evt -> {
       try {
+        if (isNullOrWhiteSpace(costBasisOfPortfolioNameTextField.getText())) {
+          showString("Portfolio name cannot be null.");
+          return;
+        }
         features.costBasisOfPortfolio(costBasisOfPortfolioNameTextField.getText(),
             costBasisOfPortfolioDateTextField.getText());
       } catch (IOException e) {
@@ -419,6 +450,14 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     // performance
     performanceOfPortfolioSubmit.addActionListener(evt -> {
       try {
+        if (isNullOrWhiteSpace(performanceOfPortfolioNameTextField.getText())) {
+          showString("Portfolio name cannot be null.");
+          return;
+        }
+        if (isNullOrWhiteSpace(performanceOfPortfolioStartDateTextField.getText())) {
+          showString("Start date cannot be null.");
+          return;
+        }
         features.performanceOfPortfolio(performanceOfPortfolioNameTextField.getText(),
             performanceOfPortfolioStartDateTextField.getText(),
             performanceOfPortfolioEndDateTextField.getText());
@@ -473,7 +512,8 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
 
     // fixedStrategyPanel
     JPanel fixedStrategyDatePanel = new JPanel();
-    JLabel fixedStrategyDateLabel = new JLabel("Please Enter Date: ");
+    JLabel fixedStrategyDateLabel = new JLabel(
+            "Please Enter Date in Format (YYYY-MM-DD): ");
     JTextField fixedStrategyDateTextField = new JTextField(10);
     fixedStrategyDatePanel.add(fixedStrategyDateLabel);
     fixedStrategyDatePanel.add(fixedStrategyDateTextField);
@@ -575,11 +615,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       String portfolioName = null;
       if (cb.getSelectedIndex() == 0) {
         portfolioName = createPortfolioNameTextField.getText();
-        try {
-          features.createPortfolio(createPortfolioNameTextField.getText());
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+//        try {
+//          features.createPortfolio(createPortfolioNameTextField.getText());
+//        } catch (IOException e) {
+//          throw new RuntimeException(e);
+//        }
       } else {
         portfolioName = transactionPortfolioNameTextField.getText();
       }
