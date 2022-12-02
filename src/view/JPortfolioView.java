@@ -1,5 +1,7 @@
 package view;
 
+import static constants.Constants.PROMPT_STOCK_SYMBOL_KEY;
+import static constants.Constants.PROMPT_WEIGHT;
 import static utilities.StringUtils.isNullOrWhiteSpace;
 
 import constants.Constants;
@@ -378,7 +380,7 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
         // ticker symbol
         JPanel symbolPanel = new JPanel();
         JLabel symbolNameLabel = new JLabel(
-            Constants.TEXT_VIEW_CONSTANTS.get(Constants.PROMPT_STOCK_SYMBOL_KEY) + ": ");
+            Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY) + ": ");
         JTextField symbolNameTextField = new JTextField(10);
         symbolPanel.add(symbolNameLabel);
         symbolPanel.add(symbolNameTextField);
@@ -550,9 +552,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     JPanel commonComponentsInStrategyPanel = new JPanel();
     JButton addStockWeightsButton = new JButton("Add Stocks & Weights");
     JButton createStrategyConfirmButton = new JButton("Confirm");
-    JLabel defaultStockWeightPairSymbolLabel = new JLabel("Ticker Symbol:");
+    JLabel defaultStockWeightPairSymbolLabel = new JLabel(
+            Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY) + ": ");
     JTextField defaultStockWeightPairSymbolTextField = new JTextField(10);
-    JLabel defaultStockWeightPairWeightLabel = new JLabel("Weight(%):");
+    JLabel defaultStockWeightPairWeightLabel = new JLabel(
+            Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
     JTextField defaultStockWeightPairWeightTextField = new JTextField(10);
 
     List<JLabel> symbolsLabel = new ArrayList<>(
@@ -586,9 +590,11 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
     addStockWeightsButton.addActionListener(e -> {
       JPanel stockWeightPanel = new JPanel();
 
-      JLabel symbolLabel = new JLabel("Symbol:");
+      JLabel symbolLabel = new JLabel(
+              Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_STOCK_SYMBOL_KEY)+ ": ");
       JTextField symbolTextField = new JTextField(10);
-      JLabel weightLabel = new JLabel("Weight:");
+      JLabel weightLabel = new JLabel(
+              Constants.TEXT_VIEW_CONSTANTS.get(PROMPT_WEIGHT) + ": ");
       JTextField weightTextField = new JTextField(10);
 
       stockWeightPanel.add(symbolLabel);
@@ -615,11 +621,6 @@ public class JPortfolioView extends JFrame implements IGUIPortfolioView, ItemLis
       String portfolioName = null;
       if (cb.getSelectedIndex() == 0) {
         portfolioName = createPortfolioNameTextField.getText();
-//        try {
-//          features.createPortfolio(createPortfolioNameTextField.getText());
-//        } catch (IOException e) {
-//          throw new RuntimeException(e);
-//        }
       } else {
         portfolioName = transactionPortfolioNameTextField.getText();
       }
