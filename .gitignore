@@ -134,3 +134,4 @@ cython_debug/
 # Custom
 resources/
 portfolios/
+Stocks-assignment7/*.csv

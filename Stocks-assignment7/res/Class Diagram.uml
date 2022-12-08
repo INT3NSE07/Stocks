@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/arinjay/Desktop/Fall 22/CS 5010/group/Stocks/src</OriginalElement>
+  <nodes>
+    <node x="1715.0" y="1814.0">stocks.view.dialogs.CreateDialog</node>
+    <node x="1143.0" y="2286.0">stocks.controller.actionlisteners.EndDateListener</node>
+    <node x="-201.0" y="2286.0">stocks.controller.actionlisteners.CreatePortfolioFromFileListener</node>
+    <node x="-201.0" y="585.0">stocks.portfolio.PortfolioImpl</node>
+    <node x="2095.0" y="1543.0">stocks.controller.commands.AbstractCommand</node>
+    <node x="2569.0" y="2142.0">stocks.controller.actionlisteners.PerformDollarCostAveragingListener</node>
+    <node x="43.5" y="-14.0">stocks.portfolio.Portfolio</node>
+    <node x="-201.0" y="2020.0">stocks.view.dialogs.CreatePortfolioNamesDialog</node>
+    <node x="-201.0" y="1692.0">stocks.controller.commands.CheckValueOfPortfolio</node>
+    <node x="1875.0" y="-14.0">stocks.controller.Features</node>
+    <node x="802.0" y="639.0">stocks.view.PortfolioJFrameViewImpl</node>
+    <node x="4487.5" y="1814.0">stocks.controller.PortfolioController</node>
+    <node x="802.0" y="-14.0">stocks.view.PortfolioUIView</node>
+    <node x="1970.0" y="2286.0">stocks.view.dialogs.DatePanel</node>
+    <node x="1496.0000000000002" y="1692.0">stocks.controller.commands.ViewComposition</node>
+    <node x="698.0" y="2286.0">stocks.controller.actionlisteners.AddShareWhileCreatingPortfolioListener</node>
+    <node x="3353.0" y="2020.0">stocks.view.dialogs.CreateSellDialog</node>
+    <node x="1061.0000000000002" y="1692.0">stocks.controller.commands.LoadInflexibleFromFile</node>
+    <node x="1761.0" y="2286.0">Main</node>
+    <node x="-145.5" y="1371.0">stocks.portfolio.PortfolioImpl.XMLHandler</node>
+    <node x="3479.0" y="2142.0">stocks.controller.actionlisteners.GetValueListener</node>
+    <node x="4003.0" y="1692.0">stocks.controller.commands.PrintAllPortfolioNames</node>
+    <node x="251.0" y="2286.0">stocks.controller.actionlisteners.CreatePortfolioManuallyListener</node>
+    <node x="1665.0" y="2020.0">stocks.view.dialogs.GetValueDialog</node>
+    <node x="684.0000000000002" y="1692.0">stocks.controller.commands.SellStocks</node>
+    <node x="2579.0" y="2020.0">stocks.view.dialogs.SavePortfolioDialog</node>
+    <node x="3568.0" y="1692.0">stocks.controller.commands.CreateInflexibleManually</node>
+    <node x="1184.0" y="2142.0">stocks.controller.actionlisteners.GetCostBasisListener</node>
+    <node x="1918.0" y="1692.0">stocks.controller.commands.SaveToFile</node>
+    <node x="2908.0" y="2020.0">stocks.view.dialogs.DollarCostAveragingDialogForExistingPortfolios</node>
+    <node x="1355.0" y="2020.0">stocks.view.dialogs.CreateBuyDialog</node>
+    <node x="1314.0" y="421.0">stocks.model.PortfolioModelImpl</node>
+    <node x="3113.0" y="1692.0">stocks.controller.commands.ViewPerformanceOverTime</node>
+    <node x="1000.0" y="2020.0">stocks.view.dialogs.CreateInvestmentDialog</node>
+    <node x="3932.0" y="2142.0">stocks.controller.actionlisteners.SellStockListener</node>
+    <node x="288.0" y="574.0">stocks.portfolio.FlexiblePortfolio</node>
+    <node x="4442.0" y="1692.0">stocks.controller.commands.ViewCostBasis</node>
+    <node x="716.0" y="2142.0">stocks.controller.actionlisteners.ViewPerformanceListener</node>
+    <node x="2224.0" y="2020.0">stocks.view.dialogs.ViewCompositionDialog</node>
+    <node x="245.0" y="1692.0">stocks.controller.commands.CreateFlexibleManually</node>
+    <node x="3024.0" y="2142.0">stocks.controller.actionlisteners.BuyActionListener</node>
+    <node x="2734.0" y="1692.0">stocks.controller.commands.BuyStocks</node>
+    <node x="395.0" y="2020.0">stocks.view.dialogs.CreatePortfolioWithDCA</node>
+    <node x="1452.0" y="2286.0">stocks.controller.actionlisteners.GoBackListener</node>
+    <node x="1708.0" y="1917.0">stocks.view.dialogs.AbstractDialog</node>
+    <node x="4376.0" y="1917.0">stocks.controller.PortfolioControllerImpl</node>
+    <node x="135.5" y="311.0">stocks.portfolio.AbstractPortfolio</node>
+    <node x="-201.0" y="2142.0">stocks.view.dialogs.BarChart</node>
+    <node x="1314.0" y="-14.0">stocks.model.PortfolioModel</node>
+    <node x="1651.0" y="2142.0">stocks.controller.actionlisteners.SaveToFileListener</node>
+    <node x="3661.0" y="2020.0">stocks.view.dialogs.ViewPerformanceDialog</node>
+    <node x="4385.0" y="2142.0">stocks.controller.actionlisteners.AddShareWhileInvesting</node>
+    <node x="1875.0" y="375.0">stocks.controller.PortfolioUIController</node>
+    <node x="150.0" y="2020.0">stocks.view.dialogs.LoadFromFileDialog</node>
+    <node x="4040.0" y="1961.0">stocks.view.PortfolioViewImpl</node>
+    <node x="4040.0" y="1814.0">stocks.view.PortfolioView</node>
+    <node x="2204.5" y="1440.0">stocks.controller.commands.PortfolioCommand</node>
+    <node x="1968.0" y="2020.0">stocks.view.dialogs.CreatePortfolioDialog</node>
+    <node x="2110.0" y="2142.0">stocks.controller.actionlisteners.SubmitInvestmentListener</node>
+    <node x="669.0" y="2020.0">stocks.view.dialogs.GetCostBasisDialog</node>
+    <node x="247.0" y="2142.0">stocks.controller.actionlisteners.ViewCompositionListener</node>
+    <node x="2294.0" y="1692.0">stocks.controller.commands.LoadFlexibleFromFile</node>
+    <node x="-63.0" y="1176.0">stocks.portfolio.PortfolioImpl.XMLHandler.Pair</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="stocks.view.dialogs.CreateBuyDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="1500.0" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.portfolio.PortfolioImpl.XMLHandler.Pair" target="stocks.portfolio.PortfolioImpl.XMLHandler" relationship="INNER_CLASS">
+      <point x="-0.0" y="72.5" />
+      <point x="-0.0" y="-95.5" />
+    </edge>
+    <edge source="stocks.portfolio.PortfolioImpl.XMLHandler" target="stocks.portfolio.PortfolioImpl" relationship="INNER_CLASS">
+      <point x="114.0" y="-95.5" />
+      <point x="114.0" y="181.5" />
+    </edge>
+    <edge source="stocks.controller.commands.CreateFlexibleManually" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="454.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.CreateInvestmentDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="1167.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.SavePortfolioDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="2733.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.CreatePortfolioWithDCA" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="522.0" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.LoadFromFileDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="262.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.PortfolioUIController" target="stocks.controller.Features" relationship="REALIZATION">
+      <point x="0.0" y="-205.5" />
+      <point x="0.0" y="169.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.CreatePortfolioDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="-4.547473508864641E-13" y="-38.5" />
+      <point x="2085.9999999999995" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.AbstractCommand" target="stocks.controller.commands.PortfolioCommand" relationship="REALIZATION">
+      <point x="0.0" y="-49.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.ViewCompositionDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="2391.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.ViewCostBasis" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="4634.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.portfolio.FlexiblePortfolio" target="stocks.portfolio.AbstractPortfolio" relationship="GENERALIZATION">
+      <point x="0.0" y="-192.5" />
+      <point x="522.5" y="549.0" />
+      <point x="278.0" y="549.0" />
+      <point x="0.0" y="106.5" />
+    </edge>
+    <edge source="stocks.controller.commands.SellStocks" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="862.5000000000002" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.GetCostBasisDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="824.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.LoadInflexibleFromFile" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="1268.5000000000002" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.CreateSellDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="3497.0" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.PortfolioJFrameViewImpl" target="stocks.view.PortfolioUIView" relationship="REALIZATION">
+      <point x="0.0" y="-313.5" />
+      <point x="0.0" y="301.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.GetValueDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.LoadFlexibleFromFile" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="2504.0" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.controller.commands.ViewPerformanceOverTime" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="3330.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.controller.PortfolioControllerImpl" target="stocks.controller.PortfolioController" relationship="REALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.PrintAllPortfolioNames" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="4212.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.portfolio.AbstractPortfolio" target="stocks.portfolio.Portfolio" relationship="REALIZATION">
+      <point x="0.0" y="-106.5" />
+      <point x="0.0" y="137.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.ViewPerformanceDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="3828.0" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.SaveToFile" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="2096.0" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.AbstractDialog" target="stocks.view.dialogs.CreateDialog" relationship="REALIZATION">
+      <point x="0.0" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.view.PortfolioViewImpl" target="stocks.view.PortfolioView" relationship="REALIZATION">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="stocks.model.PortfolioModelImpl" target="stocks.model.PortfolioModel" relationship="REALIZATION">
+      <point x="0.0" y="-227.5" />
+      <point x="0.0" y="192.5" />
+    </edge>
+    <edge source="stocks.controller.commands.BuyStocks" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="2913.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.DollarCostAveragingDialogForExistingPortfolios" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="3120.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.ViewComposition" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="1697.0000000000002" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.view.dialogs.CreatePortfolioNamesDialog" target="stocks.view.dialogs.AbstractDialog" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="-35.5" y="1995.0" />
+      <point x="1806.5" y="1995.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="stocks.controller.commands.CreateInflexibleManually" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="3775.5" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="stocks.portfolio.PortfolioImpl" target="stocks.portfolio.AbstractPortfolio" relationship="GENERALIZATION">
+      <point x="0.0" y="-181.5" />
+      <point x="33.5" y="549.0" />
+      <point x="278.0" y="549.0" />
+      <point x="0.0" y="106.5" />
+    </edge>
+    <edge source="stocks.controller.commands.CheckValueOfPortfolio" target="stocks.controller.commands.AbstractCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="12.0" y="1667.0" />
+      <point x="2300.0" y="1667.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.3876782884310619" showDependencies="false" x="1470.7758495656622" y="943.3452427184463" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

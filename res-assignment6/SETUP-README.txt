@@ -1,3 +1,8 @@
+# Running the source code
+The name of the main class is PortfolioRunner
+In intellij go to Run/Debug Configurations and add gui or text as program arguments. This is required as based on this argument, the corresponding view is rendered
+Add the required dependencies by going to File > Project Structure > Modules > Dependencies > Add > Jar or Directories > Choose the lib folder in the root folder
+
 # Running the Jar File
 On Windows
     - Execute the jar by typing java -cp 'Stocks.jar;lib\*' PortfolioRunner gui
