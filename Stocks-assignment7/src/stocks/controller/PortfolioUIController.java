@@ -199,4 +199,9 @@ public class PortfolioUIController implements Features {
     submitButton.addActionListener(new ViewPerformanceListener(performanceDialog, view, model));
     performanceDialog.setVisible(true);
   }
+
+  @Override
+  public void reBalancePortfolio() {
+
+  }
 }

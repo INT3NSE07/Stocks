@@ -34,6 +34,7 @@ public class PortfolioViewImpl implements PortfolioView {
     options.put(10, "Sell stock for a flexible portfolio");
     options.put(11, "View cost basis of a flexible portfolio");
     options.put(12, "View performance of portfolio over time");
+    options.put(13, "Rebalance a portfolio");
   }
 
   @Override

@@ -128,6 +128,9 @@ public class PortfolioJFrameViewImpl extends JFrame implements PortfolioUIView {
         case "Create a portfolio with dollar cost averaging":
           features.createWithDollarCostAveraging();
           break;
+        case "Rebalance a portfolio":
+          features.reBalancePortfolio();
+          break;
         default:
           // should never reach here
       }
