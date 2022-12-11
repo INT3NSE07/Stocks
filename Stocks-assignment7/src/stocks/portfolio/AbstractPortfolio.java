@@ -58,8 +58,8 @@ abstract class AbstractPortfolio implements Portfolio {
     Map<String, String> stocks = viewStocks(date);
     try {
       for (Map.Entry<String, String> mapEntry : stocks.entrySet()) {
-        totalValue += Integer.parseInt(mapEntry.getValue())
-                * getCostOfStock(mapEntry.getKey(), date);
+        totalValue += Double.parseDouble(mapEntry.getValue())
+            * getCostOfStock(mapEntry.getKey(), date);
         if (totalValue == 0.0 && this.getNumberOfShares(date) > 0) {
           LocalDate today = LocalDate.parse(date);
           return getValue(today.minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -104,4 +104,8 @@ abstract class AbstractPortfolio implements Portfolio {
     return costOfStock;
   }
 
+  @Override
+  public <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName, Map<String, Double> stockWeights, String date) {
+    return null;
+  }
 }

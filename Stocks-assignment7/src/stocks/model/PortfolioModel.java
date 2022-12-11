@@ -146,4 +146,5 @@ public interface PortfolioModel {
 
   void dollarCostAveraging(String name, Integer frequency, String startDate, String endDate,
                            double totalInvestment, Map<String, Double> stocksPercent);
+  
 }

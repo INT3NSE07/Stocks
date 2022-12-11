@@ -1,10 +1,14 @@
 package stocks.controller.commands;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 import stocks.model.PortfolioModel;
 import stocks.view.PortfolioView;
 
@@ -21,9 +25,10 @@ public abstract class AbstractCommand implements PortfolioCommand {
   /**
    * Creates a PortfolioCommand type object that works with the model, view and input scanner
    * provided to the PortfolioController it is being used by.
+   *
    * @param model the model that the PortfolioController uses
-   * @param view the view that the PortfolioController uses to show messages to the user
-   * @param in the input scanner that the PortfolioController uses to get user input
+   * @param view  the view that the PortfolioController uses to show messages to the user
+   * @param in    the input scanner that the PortfolioController uses to get user input
    */
   public AbstractCommand(PortfolioModel model, PortfolioView view, Scanner in) {
     this.model = model;
@@ -38,6 +43,7 @@ public abstract class AbstractCommand implements PortfolioCommand {
 
   /**
    * Helper method to check if a date entered by a user is valid.
+   *
    * @param date date passed in by the user
    * @return true if date is valid, else false
    */
@@ -71,5 +77,24 @@ public abstract class AbstractCommand implements PortfolioCommand {
     } else {
       return dd <= 30;
     }
+  }
+
+  protected boolean isValidDate(String date, DateTimeFormatter dateTimeFormatter) {
+    if (date == null) {
+      return false;
+    }
+
+    try {
+      LocalDate givenDate = LocalDate.parse(date, dateTimeFormatter);
+      LocalDate currentDate = LocalDate.parse(ZonedDateTime.now(ZoneOffset.systemDefault())
+          .format(dateTimeFormatter));
+      if (givenDate.isAfter(currentDate)) {
+        return false;
+      }
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+
+    return true;
   }
 }

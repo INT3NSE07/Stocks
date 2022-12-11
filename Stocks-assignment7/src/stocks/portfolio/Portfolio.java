@@ -46,7 +46,7 @@ public interface Portfolio {
    *
    * @return total number of shares in this portfolio
    */
-  int getNumberOfShares(String date);
+  double getNumberOfShares(String date);
 
   /**
    * Purchase stocks and add them to the portfolio.
@@ -117,4 +117,6 @@ public interface Portfolio {
   void dollarCostAverage(Integer frequency, String startDate, String endDate,
                          double totalInvestment, Map<String, Double> stocksPercent);
 
+  <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName, Map<String, Double> stockWeights,
+               String date);
 }

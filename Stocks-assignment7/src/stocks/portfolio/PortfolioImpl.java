@@ -88,10 +88,10 @@ public class PortfolioImpl extends AbstractPortfolio {
    * @return total number of shares in this portfolio
    */
   @Override
-  public int getNumberOfShares(String date) {
-    int total = 0;
+  public double getNumberOfShares(String date) {
+    double total = 0;
     for (Map.Entry<String, String> mapEntry : stocks.entrySet()) {
-      total += Integer.parseInt(mapEntry.getValue());
+      total += Double.parseDouble(mapEntry.getValue());
     }
     return total;
   }

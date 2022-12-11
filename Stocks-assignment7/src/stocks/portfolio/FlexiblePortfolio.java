@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.text.ParseException;
 import java.util.Set;
 
 /**
@@ -25,24 +25,25 @@ import java.util.Set;
  * purchase for it or sell stocks that already exist in it after creation.
  */
 public class FlexiblePortfolio extends AbstractPortfolio {
+
   private Map<String, Map<String, String>> stocks;
   private double costBasis;
   private Map<String, Double> costBasisMap;
   private final String date;
 
   /**
-   * This constructor creates a new  Flexible Portfolio with a given name from a file which
-   * contains tickers for different companies along with the number of shares for that company.
+   * This constructor creates a new  Flexible Portfolio with a given name from a file which contains
+   * tickers for different companies along with the number of shares for that company.
    *
    * @param name     the name of the Portfolio
-   * @param filePath the path of the file which contains information about tickers and the number
-   *                 of shares per company
+   * @param filePath the path of the file which contains information about tickers and the number of
+   *                 shares per company
    * @throws IllegalArgumentException when the file path given does not have a .csv or .xml file
    * @throws RuntimeException         when a file is not found at the given path
    */
   public FlexiblePortfolio(String name, String filePath, String date, Double commission)
-          throws IllegalArgumentException,
-          RuntimeException, IOException {
+      throws IllegalArgumentException,
+      RuntimeException, IOException {
     super(name);
     String fileType = filePath.substring(filePath.length() - 3);
     this.costBasisMap = new HashMap<>();
@@ -51,7 +52,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
       case "csv":
         this.stocks = parseCSV(filePath);
         this.removeInvalidTickers();
-        this.removeFractionalShares();
+        //this.removeFractionalShares();
         calculateCostBasis(commission);
         break;
       case "xml":
@@ -62,9 +63,8 @@ public class FlexiblePortfolio extends AbstractPortfolio {
   }
 
   /**
-   * This constructor creates a new  Flexible Portfolio with a given name containing stocks
-   * stored as
-   * (Ticker, Number of Shares) key-value pairs in a Map.
+   * This constructor creates a new  Flexible Portfolio with a given name containing stocks stored
+   * as (Ticker, Number of Shares) key-value pairs in a Map.
    *
    * @param name   name of the portfolio being created
    * @param stocks the Map containing all the stocks
@@ -72,7 +72,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
   public FlexiblePortfolio(String name, Map<String, Map<String, String>> stocks) {
     super(name);
     this.stocks = stocks;
-    this.removeFractionalShares();
+    //this.removeFractionalShares();
     this.removeInvalidTickers();
     this.costBasis = 0;
     this.costBasisMap = new HashMap<String, Double>();
@@ -130,6 +130,14 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void savePortfolio() {
+    IPortfolioVisitor<Void> visitor = new RebalancePortfolioVisitor<>();
+    Map<String, Double> stockWeights = Map.of(
+        "AAPL", 50.00,
+        "MSFT", 20.00,
+        "GOOG", 30.00
+    );
+    visitor.apply(this, "test123.csv", stockWeights, "2022-12-07", this.stocks);
+
     String currentPath = Paths.get("").toAbsolutePath().toString();
     File savedFile = new File(currentPath, this.getName() + ".csv");
     BufferedWriter writer = null;
@@ -169,10 +177,10 @@ public class FlexiblePortfolio extends AbstractPortfolio {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       String row = csvReader.readLine();
       if (!row.split(",")[0].equalsIgnoreCase("ticker")
-              || !row.split(",")[1].equalsIgnoreCase("date")
-              || !row.split(",")[2].equalsIgnoreCase("Shares")) {
+          || !row.split(",")[1].equalsIgnoreCase("date")
+          || !row.split(",")[2].equalsIgnoreCase("Shares")) {
         throw new RuntimeException("Invalid file format. CSV files must have 3 headers with "
-                + "name Ticker, date and shares.");
+            + "name Ticker, date and shares.");
       }
       while (row != null) {
         String ticker = row.split(",")[0];
@@ -196,8 +204,8 @@ public class FlexiblePortfolio extends AbstractPortfolio {
   }
 
   @Override
-  public int getNumberOfShares(String date) {
-    int numShares = 0;
+  public double getNumberOfShares(String date) {
+    double numShares = 0;
     for (String val : viewStocks(date).values()) {
       numShares += Integer.parseInt(val);
     }
@@ -206,7 +214,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void buyStocks(Integer shares, String ticker, String date, Double commissionFee)
-          throws IOException {
+      throws IOException {
 
     costBasis += commissionFee;
 
@@ -229,14 +237,14 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void sellStocks(Integer shares, String ticker, String date, Double commissionFee)
-          throws ParseException, RuntimeException {
+      throws ParseException, RuntimeException {
     if (stocks.containsKey(ticker)) {
       costBasis += commissionFee;
       costBasisMap.put(date, costBasis);
       Map<String, String> existingTicker = stocks.get(ticker);
       List<LocalDate> datesSorted = sortDates(ticker);
       String sharesAvailble = existingTicker.
-              get(datesSorted.get((datesSorted.size() - 1)).toString());
+          get(datesSorted.get((datesSorted.size() - 1)).toString());
       if (shares <= Double.parseDouble(sharesAvailble)) {
         Double finalShares = Double.parseDouble(sharesAvailble) - shares;
         existingTicker.put(date, finalShares.toString());
@@ -288,8 +296,8 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public Map<LocalDate, Double> portfolioPerformance(String timeStamp,
-                                                     String startDate, String endDate)
-          throws ParseException {
+      String startDate, String endDate)
+      throws ParseException {
     LocalDate start = LocalDate.parse(startDate);
     LocalDate end = LocalDate.parse(endDate);
     Period diff = Period.between(start, end);
@@ -334,7 +342,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void investPortfolio(double totalInvestment, Map<String, Double> stocksPercent,
-                              String date) {
+      String date) {
     for (String ticker : stocksPercent.keySet()) {
       Double investValue = totalInvestment * (stocksPercent.get(ticker) / 100.0);
       Double cost = getCostOfStock(ticker, date);
@@ -361,19 +369,24 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void dollarCostAverage(Integer frequency, String startDate, String endDate,
-                                double totalInvestment, Map<String, Double> stocksPercent) {
+      double totalInvestment, Map<String, Double> stocksPercent) {
     LocalDate start = LocalDate.parse(startDate);
     LocalDate end = LocalDate.parse(endDate);
     while (start.isBefore(end) || start.isEqual(end)) {
       try {
         this.investPortfolio(totalInvestment, stocksPercent, start.toString());
         start = start.plusDays(frequency);
-      }
-      catch (RuntimeException e) {
+      } catch (RuntimeException e) {
         start = start.plusDays(1);
       }
 
     }
+  }
+
+  @Override
+  public <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName,
+      Map<String, Double> stockWeights, String date) {
+    return visitor.apply(this, portfolioName, stockWeights, date, stocks);
   }
 
   private void calculateCostBasis(Double commission) {
@@ -390,7 +403,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
             Double x = costBasisMap.get(date.toString());
             x += commission;
             x += (Double.valueOf(stocks.get(ticker).get(date.toString())) - previousShares)
-                    * getCostOfStock(ticker, date.toString());
+                * getCostOfStock(ticker, date.toString());
             costBasisMap.put(date.toString(), x);
           }
         } else {
@@ -405,8 +418,8 @@ public class FlexiblePortfolio extends AbstractPortfolio {
             }
           } else {
             costBasisMap.put(date.toString(), (Double.valueOf(stocks.get(ticker)
-                    .get(date.toString())) - previousShares)
-                    * getCostOfStock(ticker, date.toString()) + commission);
+                .get(date.toString())) - previousShares)
+                * getCostOfStock(ticker, date.toString()) + commission);
           }
         }
         previousShares = Double.valueOf(stocks.get(ticker).get(date.toString()));
