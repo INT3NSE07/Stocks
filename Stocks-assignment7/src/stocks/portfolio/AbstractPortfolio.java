@@ -103,9 +103,4 @@ abstract class AbstractPortfolio implements Portfolio {
     }
     return costOfStock;
   }
-
-  @Override
-  public <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName, Map<String, Double> stockWeights, String date) {
-    return null;
-  }
 }

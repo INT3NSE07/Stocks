@@ -1,9 +1,5 @@
 package stocks.portfolio;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,16 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This class implements the Portfolio interface as an Inflexible portfolio which does not allow
- * any changes to be made to it after creation.
+ * This class implements the Portfolio interface as an Inflexible portfolio which does not allow any
+ * changes to be made to it after creation.
  */
 public class PortfolioImpl extends AbstractPortfolio {
+
   private final Map<String, String> stocks;
 
   /**
@@ -35,13 +34,13 @@ public class PortfolioImpl extends AbstractPortfolio {
    * for different companies along with the number of shares for that company.
    *
    * @param name     the name of the Portfolio
-   * @param filePath the path of the file which contains information about tickers and the number
-   *                 of shares per company
+   * @param filePath the path of the file which contains information about tickers and the number of
+   *                 shares per company
    * @throws IllegalArgumentException when the file path given does not have a .csv or .xml file
    * @throws RuntimeException         when a file is not found at the given path
    */
   public PortfolioImpl(String name, String filePath) throws IllegalArgumentException,
-          RuntimeException {
+      RuntimeException {
     super(name);
     String fileType = filePath.substring(filePath.length() - 3);
     switch (fileType) {
@@ -61,8 +60,8 @@ public class PortfolioImpl extends AbstractPortfolio {
   }
 
   /**
-   * This constructor creates a new Portfolio with a given name containing stocks stored as
-   * (Ticker, Number of Shares) key-value pairs in a Map.
+   * This constructor creates a new Portfolio with a given name containing stocks stored as (Ticker,
+   * Number of Shares) key-value pairs in a Map.
    *
    * @param name   name of the portfolio being created
    * @param stocks the Map containing all the stocks
@@ -113,20 +112,20 @@ public class PortfolioImpl extends AbstractPortfolio {
 
   @Override
   public Map<LocalDate, Double> portfolioPerformance(String timeStamp,
-                                                     String startDate, String endDate) {
+      String startDate, String endDate) {
     throw new RuntimeException("Please use getValue for the date you want to see performance for");
   }
 
   @Override
   public void investPortfolio(double totalInvestment, Map<String, Double> stocksPercent,
-                              String date) {
+      String date) {
     throw new RuntimeException("This method is not supported for an inflexible portfolio!");
 
   }
 
   @Override
   public void dollarCostAverage(Integer frequency, String startDate, String endDate,
-                                double totalInvestment, Map<String, Double> stocksPercent) {
+      double totalInvestment, Map<String, Double> stocksPercent) {
     throw new RuntimeException("This method is not supported for an inflexible portfolio.");
   }
 
@@ -149,6 +148,12 @@ public class PortfolioImpl extends AbstractPortfolio {
     }
   }
 
+  @Override
+  public <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName,
+      Map<String, Double> stockWeights, String date) throws IllegalArgumentException {
+    throw new IllegalArgumentException("This method is not supported for an inflexible portfolio.");
+  }
+
   /**
    * Helper method to parse a CSV portfolio file used to create a PortfolioImpl object.
    *
@@ -165,9 +170,9 @@ public class PortfolioImpl extends AbstractPortfolio {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       String row = csvReader.readLine();
       if (!row.split(",")[0].equalsIgnoreCase("ticker")
-              || !row.split(",")[1].equalsIgnoreCase("Shares")) {
+          || !row.split(",")[1].equalsIgnoreCase("Shares")) {
         throw new RuntimeException("Invalid file format. CSV files must have 2 headers with "
-                + "name Ticker and Shares.");
+            + "name Ticker and Shares.");
       }
       while (row != null) {
         String ticker = row.split(",")[0];
@@ -178,7 +183,7 @@ public class PortfolioImpl extends AbstractPortfolio {
           }
         } else {
           stocks.put(ticker, String.valueOf(Double.parseDouble(stocks.get(ticker)) +
-                  Double.parseDouble(numberOfShares)));
+              Double.parseDouble(numberOfShares)));
         }
         row = csvReader.readLine();
       }
@@ -244,6 +249,7 @@ public class PortfolioImpl extends AbstractPortfolio {
   static class XMLHandler extends DefaultHandler {
 
     static class Pair {
+
       String ticker;
       String numberOfShares;
 
@@ -290,7 +296,6 @@ public class PortfolioImpl extends AbstractPortfolio {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-
 
       if (qName.equalsIgnoreCase("ticker")) {
         p.setTicker(data.toString());

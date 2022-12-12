@@ -377,7 +377,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName,
-      Map<String, Double> stockWeights, String date) {
+      Map<String, Double> stockWeights, String date) throws IllegalArgumentException {
     return visitor.apply(this, portfolioName, stockWeights, date, stocks);
   }
 

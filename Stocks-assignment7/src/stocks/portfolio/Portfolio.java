@@ -36,8 +36,8 @@ public interface Portfolio {
   String getName();
 
   /**
-   * Saves the current Portfolio into a CSV file with the portfolios name as the file name to
-   * be able to read later.
+   * Saves the current Portfolio into a CSV file with the portfolios name as the file name to be
+   * able to read later.
    */
   void savePortfolio();
 
@@ -56,7 +56,7 @@ public interface Portfolio {
    * @param date   specified date .
    */
   void buyStocks(Integer shares, String ticker, String date, Double commisonFee)
-          throws IOException;
+      throws IOException;
 
   /**
    * Sell stocks from a given portfolio.
@@ -66,11 +66,11 @@ public interface Portfolio {
    * @param date   on a specified date.
    */
   void sellStocks(Integer shares, String ticker, String date, Double commsionFee)
-          throws ParseException;
+      throws ParseException;
 
   /**
-   * Determine the total amount of money invested in a portfolio, by a specific date.
-   * This would include all the purchases made in that portfolio till that date.
+   * Determine the total amount of money invested in a portfolio, by a specific date. This would
+   * include all the purchases made in that portfolio till that date.
    *
    * @param date The Specific date the user needs the cost by.
    * @return Double value of the total cost basis.
@@ -79,22 +79,20 @@ public interface Portfolio {
 
 
   /**
-   * This method creates a bar chart based on the portfolio performance over a period of time.
-   * The title of the barchart specifies the name of the portfolio (XXX), and the
-   * time range (YYY to ZZZ).
-   * The bar chart has at least 5 lines but no more than 30 lines.
+   * This method creates a bar chart based on the portfolio performance over a period of time. The
+   * title of the barchart specifies the name of the portfolio (XXX), and the time range (YYY to
+   * ZZZ). The bar chart has at least 5 lines but no more than 30 lines.
    *
    * @param timeStamp The scale of the timestamps is decided by the timespan.
    * @param endDate   the last date they want performance for
    * @param startDate the first date they want performance for
    */
   Map<LocalDate, Double> portfolioPerformance(String timeStamp, String startDate,
-                                              String endDate) throws ParseException;
+      String endDate) throws ParseException;
 
 
   /**
-   * This method allows Invest a fixed amount into an existing portfolio containing multiple
-   * stocks.
+   * This method allows Invest a fixed amount into an existing portfolio containing multiple stocks.
    * using a specified weight for each stock in the portfolio.
    *
    * @param totalInvestment fixed amount invested by the user.
@@ -103,20 +101,20 @@ public interface Portfolio {
   void investPortfolio(double totalInvestment, Map<String, Double> stocksPercent, String date);
 
   /**
-   * An investor creates a portfolio of stocks and determines their relative proportion.
-   * Then the investor invests a fixed amount of money in this portfolio at regular frequency.
+   * An investor creates a portfolio of stocks and determines their relative proportion. Then the
+   * investor invests a fixed amount of money in this portfolio at regular frequency.
    *
    * @param totalInvestment a double value of the total investment money value.
    * @param stocksPercent   a map tha contains the tickers to invest as keys and the percentage as
    *                        values in the map.
    * @param frequency       frequency of the investment specified by the user.
    * @param startDate       Start Date of the investment specified by the user for the time range.
-   * @param endDate         End Date of the investment specified by the user, if not passed
-   *                        it's considered to be 15 years from now.
+   * @param endDate         End Date of the investment specified by the user, if not passed it's
+   *                        considered to be 15 years from now.
    */
   void dollarCostAverage(Integer frequency, String startDate, String endDate,
-                         double totalInvestment, Map<String, Double> stocksPercent);
+      double totalInvestment, Map<String, Double> stocksPercent);
 
   <T> T accept(IPortfolioVisitor<T> visitor, String portfolioName, Map<String, Double> stockWeights,
-               String date);
+      String date) throws IllegalArgumentException;
 }
