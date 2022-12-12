@@ -81,6 +81,6 @@ public interface Features {
    */
   void viewPerformance();
 
-  void reBalancePortfolio();
+  void rebalancePortfolio();
 
 }

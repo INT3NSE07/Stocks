@@ -321,6 +321,12 @@ public class PortfolioUIControllerTest {
       log.append("Performing dollar cost averaging");
 
     }
+
+    @Override
+    public void rebalancePortfolio(String name, Map<String, Double> stockWeights, String date)
+        throws IllegalArgumentException {
+      log.append("Rebalancing a portfolio");
+    }
   }
 
   @Before

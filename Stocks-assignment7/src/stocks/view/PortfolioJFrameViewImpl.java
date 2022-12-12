@@ -130,7 +130,7 @@ public class PortfolioJFrameViewImpl extends JFrame implements PortfolioUIView {
           features.createWithDollarCostAveraging();
           break;
         case "Rebalance a portfolio":
-          features.reBalancePortfolio();
+          features.rebalancePortfolio();
           break;
         default:
           // should never reach here

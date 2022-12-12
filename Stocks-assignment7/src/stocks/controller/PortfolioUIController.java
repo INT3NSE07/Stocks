@@ -202,7 +202,7 @@ public class PortfolioUIController implements Features {
   }
 
   @Override
-  public void reBalancePortfolio() {
+  public void rebalancePortfolio() {
     JDialog reBalancePortfolioDialog = view.rebalancePortfolioDialog(model.getPortfolioNames());
     JButton submitButton = view.getSubmitButton(reBalancePortfolioDialog);
     submitButton.addActionListener(new RebalanceAPortfolio(reBalancePortfolioDialog, view, model));
