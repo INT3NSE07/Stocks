@@ -130,14 +130,6 @@ public class FlexiblePortfolio extends AbstractPortfolio {
 
   @Override
   public void savePortfolio() {
-    IPortfolioVisitor<Void> visitor = new RebalancePortfolioVisitor<>();
-    Map<String, Double> stockWeights = Map.of(
-        "AAPL", 50.00,
-        "MSFT", 20.00,
-        "GOOG", 30.00
-    );
-    visitor.apply(this, "test123.csv", stockWeights, "2022-12-07", this.stocks);
-
     String currentPath = Paths.get("").toAbsolutePath().toString();
     File savedFile = new File(currentPath, this.getName() + ".csv");
     BufferedWriter writer = null;
@@ -207,7 +199,7 @@ public class FlexiblePortfolio extends AbstractPortfolio {
   public double getNumberOfShares(String date) {
     double numShares = 0;
     for (String val : viewStocks(date).values()) {
-      numShares += Integer.parseInt(val);
+      numShares += Double.parseDouble(val);
     }
     return numShares;
   }

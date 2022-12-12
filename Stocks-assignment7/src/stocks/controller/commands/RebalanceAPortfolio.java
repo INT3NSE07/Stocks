@@ -32,16 +32,16 @@ public class RebalanceAPortfolio extends AbstractCommand {
     }
 
     view.printMessage(
-        "\nDo you want to assign equal weights to each stock in the portfolio? "
-            + "Press any key if yes, else press q: ");
+        "\nPress press any key to assign equal investment weights to each stock in the portfolio. "
+            + "To manually assign the weight press M");
     String investEqually = in.nextLine();
 
     Set<String> tickers = model.getComposition(portfolioName, date).keySet();
     Map<String, Double> stockWeights = new HashMap<>();
     for (String ticker : tickers) {
-      double weight = 0.0;
+      double weight = 100.00 / tickers.size();
 
-      if (!investEqually.equalsIgnoreCase("q")) {
+      if (investEqually.equalsIgnoreCase("q")) {
         view.printMessage(String.format("Enter investment weight for %s", ticker));
 
         while (true) {
@@ -58,8 +58,8 @@ public class RebalanceAPortfolio extends AbstractCommand {
       }
 
       stockWeights.put(ticker, weight);
-
-      //model.(name, "Yearly", startDate, endDate);
     }
+
+    model.rebalancePortfolio(portfolioName, stockWeights, date);
   }
 }
