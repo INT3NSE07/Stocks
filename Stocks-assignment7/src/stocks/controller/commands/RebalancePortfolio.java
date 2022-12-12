@@ -9,9 +9,20 @@ import java.util.Set;
 import stocks.model.PortfolioModel;
 import stocks.view.PortfolioView;
 
-public class RebalanceAPortfolio extends AbstractCommand {
+/**
+ * This portfolio represents the command to rebalance a portfolio.
+ */
+public class RebalancePortfolio extends AbstractCommand {
 
-  public RebalanceAPortfolio(PortfolioModel model, PortfolioView view, Scanner in) {
+  /**
+   * This is a constructor for a {@link RebalancePortfolio} object which works with the model, view
+   * and input stream.
+   *
+   * @param model the model that the PortfolioController uses
+   * @param view  the view that the PortfolioController uses to show messages to the user
+   * @param in    the input scanner that the PortfolioController uses to get user input
+   */
+  public RebalancePortfolio(PortfolioModel model, PortfolioView view, Scanner in) {
     super(model, view, in);
   }
 

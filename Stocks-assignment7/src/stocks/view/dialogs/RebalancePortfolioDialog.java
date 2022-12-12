@@ -1,13 +1,29 @@
 package stocks.view.dialogs;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import javax.swing.*;
-
-public class RebalancePortfolioDialog extends AbstractDialog{
+/**
+ * This class represents the dialog created when a user tries to rebalance an existing portfolio.
+ */
+public class RebalancePortfolioDialog extends AbstractDialog {
 
   private List<String> names;
+
+  /**
+   * This constructor creates a Load from file dialog that the user can interact with.
+
+   * @param parent the JFrame parent of the application interface
+   * @param names the portfolio names to be loaded into the dropdown
+   */
   public RebalancePortfolioDialog(JFrame parent, List<String> names) {
     super(parent);
     this.names = names;
@@ -24,7 +40,6 @@ public class RebalancePortfolioDialog extends AbstractDialog{
 
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.fill = GridBagConstraints.HORIZONTAL;
-
 
     gbc.gridx = 0;
     gbc.gridy = 0;
@@ -50,10 +65,10 @@ public class RebalancePortfolioDialog extends AbstractDialog{
 
     gbc.gridx = 0;
     gbc.gridy = 3;
-    JCheckBox equalWeights= new JCheckBox("Please check here to distribute " +
-            "weights equally among shares.");
+    JCheckBox equalWeights = new JCheckBox("Please check here to distribute " +
+        "weights equally among shares.");
     equalWeights.setName("checkbox");
-    dialog.add(equalWeights,gbc);
+    dialog.add(equalWeights, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 5;

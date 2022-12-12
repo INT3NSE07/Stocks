@@ -14,7 +14,7 @@ import stocks.controller.commands.LoadFlexibleFromFile;
 import stocks.controller.commands.PortfolioCommand;
 import stocks.controller.commands.LoadInflexibleFromFile;
 import stocks.controller.commands.PrintAllPortfolioNames;
-import stocks.controller.commands.RebalanceAPortfolio;
+import stocks.controller.commands.RebalancePortfolio;
 import stocks.controller.commands.SaveToFile;
 import stocks.controller.commands.SellStocks;
 import stocks.controller.commands.ViewComposition;
@@ -57,7 +57,7 @@ public class PortfolioControllerImpl implements PortfolioController {
     knownCommands.put("10", new SellStocks(model, view, this.in));
     knownCommands.put("11", new ViewCostBasis(model, view, this.in));
     knownCommands.put("12", new ViewPerformanceOverTime(model, view, this.in));
-    knownCommands.put("13", new RebalanceAPortfolio(model, view, this.in));
+    knownCommands.put("13", new RebalancePortfolio(model, view, this.in));
   }
 
   /**

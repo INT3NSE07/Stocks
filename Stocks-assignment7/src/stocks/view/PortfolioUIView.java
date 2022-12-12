@@ -3,9 +3,12 @@ package stocks.view;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import stocks.controller.Features;
 
 /**
@@ -15,6 +18,7 @@ import stocks.controller.Features;
  * dialogs for easier use by the controller.
  */
 public interface PortfolioUIView {
+
   /**
    * Adds features that the UI supports to the view by getting them from the Features interface that
    * acts as the controller for this view.
@@ -41,8 +45,8 @@ public interface PortfolioUIView {
   void createErrorDialog(String errorMessage, JDialog parent);
 
   /**
-   * Creates an information dialog to inform the user if their action was successful or if
-   * further input is required to complete the action.
+   * Creates an information dialog to inform the user if their action was successful or if further
+   * input is required to complete the action.
    *
    * @param informationMessage the message to inform the user of action status
    * @param parent             the dialog from which the message is being generated
@@ -68,8 +72,8 @@ public interface PortfolioUIView {
   JTextField getTicker(JDialog dialog);
 
   /**
-   * Finds the text field where the user enters the number of shares while performing input for
-   * an action that they can do.
+   * Finds the text field where the user enters the number of shares while performing input for an
+   * action that they can do.
    *
    * @param dialog the dialog in which we want to access the text field
    * @return the JTextField instance of the "Number of shares" text field
@@ -84,8 +88,8 @@ public interface PortfolioUIView {
   JDialog createPortfolioDialog();
 
   /**
-   * Finds the text field where the user enters the name of the portfolio while performing input
-   * for an action that they can do.
+   * Finds the text field where the user enters the name of the portfolio while performing input for
+   * an action that they can do.
    *
    * @param dialog the dialog in which we want to access the text field
    * @return the JTextField instance of "Portfolio Names" text field
@@ -140,8 +144,8 @@ public interface PortfolioUIView {
   JButton getFileChosen(JDialog dialog);
 
   /**
-   * Finds the text field where the user enters the commission amount while they are performing
-   * an action.
+   * Finds the text field where the user enters the commission amount while they are performing an
+   * action.
    *
    * @param dialog in which we are trying to access the text field
    * @return the JTextField instance of the "Commission amount" text field
@@ -190,12 +194,14 @@ public interface PortfolioUIView {
 
   /**
    * Creates a dialog that lets the user sell a certain amount of stocks from a portfolio.
+   *
    * @return the dialog that the user can interact with
    */
   JDialog sellStockDialog(List<String> names);
 
   /**
    * Creates a dialog that lets the user view the cost basis of their portfolio.
+   *
    * @param names names of the current portfolios created
    * @return the dialog the user can interact with
    */
@@ -204,12 +210,14 @@ public interface PortfolioUIView {
   /**
    * Creates a dialog that lets the user view the performance of their portfolio over a period of
    * time as a bar graph.
+   *
    * @return the dialog that the user can interact with
    */
   JDialog performanceDialog(List<String> names, Map<LocalDate, Double> performance);
 
   /**
    * Creates a dialog that lets the user perform dollar cost averaging on an existing portfolio.
+   *
    * @param names names of the current portfolios created
    * @return the dialog that the user can interact with
    */
@@ -217,6 +225,7 @@ public interface PortfolioUIView {
 
   /**
    * Creates a dialog that lets users create a new portfolio with dollar cost averaging strategy.
+   *
    * @return the dialog that the user interacts with
    */
   JDialog createPortfolioWithDCADialog();

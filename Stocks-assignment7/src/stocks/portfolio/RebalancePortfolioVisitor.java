@@ -4,14 +4,14 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Map;
 
-public class RebalancePortfolioVisitor<T> implements IPortfolioVisitor<T> {
-
-  public RebalancePortfolioVisitor() {
-
-  }
+/**
+ * Rebalances an existing flexible portfolio, given a specific date and the intended weights (by
+ * value) of the stocks in that portfolio.
+ */
+public class RebalancePortfolioVisitor implements IPortfolioVisitor<Void> {
 
   @Override
-  public T apply(FlexiblePortfolio portfolio, String portfolioName,
+  public Void apply(FlexiblePortfolio portfolio, String portfolioName,
       Map<String, Double> stockWeights, String date, Map<String, Map<String, String>> stocks)
       throws IllegalArgumentException {
     double weight = stockWeights

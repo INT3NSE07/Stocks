@@ -1,11 +1,12 @@
 package stocks.portfolio;
 
 import java.util.Map;
+import stocks.portfolio.FlexiblePortfolio;
 
 /**
- * This interface represents a portfolio visitor.
+ * This interface represents a portfolio visitor. It applies an operation to a specific portfolio.
  *
- * @param <T> the type of the portfolio
+ * @param <T> the return type of the result
  */
 public interface IPortfolioVisitor<T> {
 

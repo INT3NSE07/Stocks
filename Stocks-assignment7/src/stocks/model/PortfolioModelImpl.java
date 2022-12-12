@@ -162,7 +162,7 @@ public class PortfolioModelImpl implements PortfolioModel {
   @Override
   public void rebalancePortfolio(String name, Map<String, Double> stockWeights, String date)
       throws IllegalArgumentException {
-    IPortfolioVisitor<Void> visitor = new RebalancePortfolioVisitor<>();
+    IPortfolioVisitor<Void> visitor = new RebalancePortfolioVisitor();
     getPortfolio(name).accept(visitor, name, stockWeights, date);
   }
 }
