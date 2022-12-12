@@ -4,12 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import stocks.controller.Features;
 
@@ -225,4 +220,6 @@ public interface PortfolioUIView {
    * @return the dialog that the user interacts with
    */
   JDialog createPortfolioWithDCADialog();
+
+  JDialog rebalancePortfolioDialog(List<String> names);
 }

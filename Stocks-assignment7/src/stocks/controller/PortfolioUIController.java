@@ -25,6 +25,7 @@ import stocks.controller.actionlisteners.SellStockListener;
 import stocks.controller.actionlisteners.SubmitInvestmentListener;
 import stocks.controller.actionlisteners.ViewCompositionListener;
 import stocks.controller.actionlisteners.ViewPerformanceListener;
+import stocks.controller.actionlisteners.RebalanceAPortfolio;
 import stocks.model.PortfolioModel;
 import stocks.view.PortfolioUIView;
 
@@ -202,6 +203,9 @@ public class PortfolioUIController implements Features {
 
   @Override
   public void reBalancePortfolio() {
-
+    JDialog reBalancePortfolioDialog = view.rebalancePortfolioDialog(model.getPortfolioNames());
+    JButton submitButton = view.getSubmitButton(reBalancePortfolioDialog);
+    submitButton.addActionListener(new RebalanceAPortfolio(reBalancePortfolioDialog, view, model));
+    reBalancePortfolioDialog.setVisible(true);
   }
 }

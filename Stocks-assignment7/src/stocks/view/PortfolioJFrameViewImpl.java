@@ -30,6 +30,7 @@ import stocks.view.dialogs.DollarCostAveragingDialogForExistingPortfolios;
 import stocks.view.dialogs.GetCostBasisDialog;
 import stocks.view.dialogs.GetValueDialog;
 import stocks.view.dialogs.LoadFromFileDialog;
+import stocks.view.dialogs.RebalancePortfolioDialog;
 import stocks.view.dialogs.SavePortfolioDialog;
 import stocks.view.dialogs.ViewCompositionDialog;
 import stocks.view.dialogs.ViewPerformanceDialog;
@@ -64,7 +65,7 @@ public class PortfolioJFrameViewImpl extends JFrame implements PortfolioUIView {
         + "Portfolio", "Sell stocks", "Dollar Cost Averaging on an existing portfolio",
         "Get value of a portfolio", "Get cost basis", "View composition of a portfolio", "View "
         + "performance of a portfolio over time", "View Current Portfolios",
-        "Save a portfolio to file"};
+        "Save a portfolio to file", "Rebalance a portfolio"};
     options.setActionCommand("Feature options");
     for (String validOption : validOptions) {
       options.addItem(validOption);
@@ -376,5 +377,9 @@ public class PortfolioJFrameViewImpl extends JFrame implements PortfolioUIView {
     return new CreatePortfolioWithDCA(this).createDialog();
   }
 
+  @Override
+  public JDialog rebalancePortfolioDialog(List<String> names) {
+    return new RebalancePortfolioDialog(this, names).createDialog();
+  }
 
 }
