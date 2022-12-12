@@ -60,6 +60,10 @@ public class RebalanceAPortfolio extends AbstractCommand {
       stockWeights.put(ticker, weight);
     }
 
-    model.rebalancePortfolio(portfolioName, stockWeights, date);
+    try {
+      model.rebalancePortfolio(portfolioName, stockWeights, date);
+    } catch (IllegalArgumentException e) {
+      view.printMessage(e.getMessage());
+    }
   }
 }

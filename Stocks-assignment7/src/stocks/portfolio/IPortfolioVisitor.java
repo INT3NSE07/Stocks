@@ -10,5 +10,5 @@ import java.util.Map;
 public interface IPortfolioVisitor<T> {
 
   T apply(FlexiblePortfolio portfolio, String portfolioName, Map<String, Double> stockWeights,
-      String date, Map<String, Map<String, String>> stocks);
+      String date, Map<String, Map<String, String>> stocks) throws IllegalArgumentException;
 }

@@ -12,7 +12,8 @@ public class RebalancePortfolioVisitor<T> implements IPortfolioVisitor<T> {
 
   @Override
   public T apply(FlexiblePortfolio portfolio, String portfolioName,
-      Map<String, Double> stockWeights, String date, Map<String, Map<String, String>> stocks) {
+      Map<String, Double> stockWeights, String date, Map<String, Map<String, String>> stocks)
+      throws IllegalArgumentException {
     double weight = stockWeights
         .values()
         .stream()
