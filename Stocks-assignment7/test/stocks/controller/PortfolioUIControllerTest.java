@@ -207,6 +207,12 @@ public class PortfolioUIControllerTest {
       logger.append("Creating DCA for new portfolio dialog ");
       return new JDialog();
     }
+
+    @Override
+    public JDialog rebalancePortfolioDialog(List<String> names) {
+      logger.append("Rebalance portfolio dialog");
+      return new JDialog();
+    }
   }
 
   static class MockModel implements PortfolioModel {

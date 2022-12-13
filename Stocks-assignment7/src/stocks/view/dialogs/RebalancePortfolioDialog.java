@@ -20,9 +20,9 @@ public class RebalancePortfolioDialog extends AbstractDialog {
 
   /**
    * This constructor creates a Load from file dialog that the user can interact with.
-
+   *
    * @param parent the JFrame parent of the application interface
-   * @param names the portfolio names to be loaded into the dropdown
+   * @param names  the portfolio names to be loaded into the dropdown
    */
   public RebalancePortfolioDialog(JFrame parent, List<String> names) {
     super(parent);
@@ -65,7 +65,7 @@ public class RebalancePortfolioDialog extends AbstractDialog {
 
     gbc.gridx = 0;
     gbc.gridy = 3;
-    JCheckBox equalWeights = new JCheckBox("Please check here to distribute " +
+    JCheckBox equalWeights = new JCheckBox("Check here to distribute " +
         "weights equally among shares.");
     equalWeights.setName("checkbox");
     dialog.add(equalWeights, gbc);

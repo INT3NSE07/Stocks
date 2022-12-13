@@ -2,6 +2,8 @@ package stocks.portfolio;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -28,21 +30,32 @@ public class RebalancePortfolioVisitor implements IPortfolioVisitor<Void> {
       for (String ticker : stockWeights.keySet()) {
         double stockWeight = stockWeights.get(ticker);
         double stockPrice = portfolio.getCostOfStock(ticker, date);
+        if (stockPrice == 0.0) {
+          throw new IllegalArgumentException(
+              String.format("Stock price for ticker %s not found on %s", ticker, date));
+        }
+
         double numOfStocks = (investment * (stockWeight / 100)) / stockPrice;
 
         Map<String, String> existingTicker = stocks.get(ticker);
 
-        String closestDate;
+        String closestDate = null;
         if (existingTicker.containsKey(date)) {
           closestDate = date;
         } else {
           LocalDate localDate = LocalDate.parse(date);
-          closestDate = existingTicker.keySet().stream()
-              .filter(x -> LocalDate.parse(x).isBefore(localDate))
-              .findFirst().orElse(null);
+          LocalDate lastDate = existingTicker.keySet().stream()
+              .map(LocalDate::parse)
+              .sorted(Comparator.reverseOrder())
+              .filter(x -> x.isBefore(localDate))
+              .findFirst()
+              .orElse(null);
+          if (lastDate != null) {
+            closestDate = lastDate.format(DateTimeFormatter.ISO_DATE);
+          }
         }
         if (closestDate == null) {
-          throw new IllegalArgumentException(String.format("Stocks not found on date %s", date));
+          throw new IllegalArgumentException(String.format("Stock not found on date %s", date));
         }
 
         existingTicker.put(closestDate, Double.toString(numOfStocks));

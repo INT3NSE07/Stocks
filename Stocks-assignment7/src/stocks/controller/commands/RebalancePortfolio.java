@@ -44,15 +44,20 @@ public class RebalancePortfolio extends AbstractCommand {
 
     view.printMessage(
         "\nPress press any key to assign equal investment weights to each stock in the portfolio. "
-            + "To manually assign the weight press M");
+            + "To manually assign each weight, press M");
     String investEqually = in.nextLine();
 
     Set<String> tickers = model.getComposition(portfolioName, date).keySet();
+    if (tickers.size() == 0) {
+      view.printMessage("\nNo stocks found in portfolio");
+      return;
+    }
+
     Map<String, Double> stockWeights = new HashMap<>();
     for (String ticker : tickers) {
       double weight = 100.00 / tickers.size();
 
-      if (investEqually.equalsIgnoreCase("q")) {
+      if (investEqually.equalsIgnoreCase("M")) {
         view.printMessage(String.format("Enter investment weight for %s", ticker));
 
         while (true) {
@@ -73,6 +78,8 @@ public class RebalancePortfolio extends AbstractCommand {
 
     try {
       model.rebalancePortfolio(portfolioName, stockWeights, date);
+
+      view.printMessage("\nPortfolio rebalanced successfully");
     } catch (IllegalArgumentException e) {
       view.printMessage(e.getMessage());
     }

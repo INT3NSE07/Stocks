@@ -1,7 +1,7 @@
 package stocks;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,14 +12,10 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-
+import org.junit.Before;
+import org.junit.Test;
 import stocks.model.PortfolioModel;
 import stocks.model.PortfolioModelImpl;
-//import stocks.portfolio.FlexiblePortfolio;
-//import stocks.portfolio.Portfolio;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the model for the program.
@@ -109,7 +105,7 @@ public class PortfolioModelImplTest {
       e.toString();
     }
     assertEquals("$" + (model.getPortfolio(name).getValue(date)),
-            model.getValueOfPortfolio(name, date));
+        model.getValueOfPortfolio(name, date));
   }
 
   @Test(expected = RuntimeException.class)
@@ -216,9 +212,9 @@ public class PortfolioModelImplTest {
     model.investStocks(name, 10000.0, breakdown, "2022-11-28");
 
     assertEquals(String.valueOf(300.0 + appleShares), model.getPortfolio(name).
-            viewStocks("2022-11-28").get("AAPL"));
+        viewStocks("2022-11-28").get("AAPL"));
     assertEquals(String.valueOf(200.0 + msftShares), model.getPortfolio(name).
-            viewStocks("2022-11-28").get("MSFT"));
+        viewStocks("2022-11-28").get("MSFT"));
 
   }
 
@@ -248,7 +244,7 @@ public class PortfolioModelImplTest {
     Double totalMsft = 0.0;
 
     model.dollarCostAveraging(name, 10, "2022-11-12", "2022-11-30",
-            10000.0, breakdown);
+        10000.0, breakdown);
     Double appleShares = ((50. / 100.0) * 10000.0) / appleCost;
     Double msftShares = ((49.5 / 100.0) * 10000.0) / msftCost;
     totalAapl += appleShares;
@@ -261,11 +257,75 @@ public class PortfolioModelImplTest {
     totalMsft += msftShares;
 
     assertEquals(String.valueOf(368.1534688937459), model.getPortfolio(name).
-            viewStocks("2022-11-28").get("AAPL"));
+        viewStocks("2022-11-28").get("AAPL"));
     assertEquals(String.valueOf(240.4934597383815), model.getPortfolio(name).
-            viewStocks("2022-11-28").get("MSFT"));
+        viewStocks("2022-11-28").get("MSFT"));
   }
 
+  @Test
+  public void testRebalancePortfolioDifferentWeights() throws IOException, ParseException {
+    String date = "2021-12-10";
+
+    model.createFlexiblePortfolioFromFile(name, flexiblePath, date, 10.0);
+    double initialValue = Double.parseDouble(model.getValueOfPortfolio(name, date)
+        .substring(1));
+
+    Map<String, Double> stockWeights = new HashMap<>();
+    stockWeights.put("AAPL", 50.00);
+    stockWeights.put("GOOGL", 25.00);
+    stockWeights.put("MSFT", 25.00);
+
+    model.rebalancePortfolio(name, stockWeights, date);
+    double finalValue = Double.parseDouble(model.getValueOfPortfolio(name, date)
+        .substring(1));
+
+    Map<String, String> stocks = model.getPortfolio(name).viewStocks(date);
+
+    assertEquals("1857.8845082195598", stocks.get("AAPL"));
+    assertEquals("56.31655337952655", stocks.get("GOOGL"));
+    assertEquals("486.65466076954516", stocks.get("MSFT"));
+    assertEquals(initialValue, finalValue, 0.01);
+  }
+
+  @Test
+  public void testRebalancePortfolioEqualWeights() throws IOException, ParseException {
+    String date = "2021-12-10";
+
+    model.createFlexiblePortfolioFromFile(name, flexiblePath, date, 10.0);
+    double initialValue = Double.parseDouble(model.getValueOfPortfolio(name, date)
+        .substring(1));
+
+    Map<String, Double> stockWeights = new HashMap<>();
+    double weight = 100.00 / 3;
+    stockWeights.put("AAPL", weight);
+    stockWeights.put("GOOGL", weight);
+    stockWeights.put("MSFT", weight);
+
+    model.rebalancePortfolio(name, stockWeights, date);
+    double finalValue = Double.parseDouble(model.getValueOfPortfolio(name, date)
+        .substring(1));
+
+    Map<String, String> stocks = model.getPortfolio(name).viewStocks(date);
+
+    assertEquals("1238.5896721463735", stocks.get("AAPL"));
+    assertEquals("75.08873783936875", stocks.get("GOOGL"));
+    assertEquals("648.8728810260602", stocks.get("MSFT"));
+    assertEquals(initialValue, finalValue, 0.01);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testRebalancePortfolioInvalidWeights() throws IOException {
+    String date = "2021-12-12";
+
+    model.createFlexiblePortfolioFromFile(name, flexiblePath, date, 10.0);
+
+    Map<String, Double> stockWeights = new HashMap<>();
+    stockWeights.put("AAPL", 10.00);
+    stockWeights.put("GOOGL", 12.00);
+    stockWeights.put("MSFT", 19.00);
+
+    model.rebalancePortfolio(name, stockWeights, date);
+  }
 
   private Double getCostOfStock(String ticker, String date) {
     Double costOfStock = 0.0;
@@ -274,9 +334,9 @@ public class PortfolioModelImplTest {
     InputStream in = null;
     try {
       url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY"
-              + "&outputsize=full"
-              + "&symbol"
-              + "=" + ticker + "&apikey=" + apiKey + "&datatype=csv");
+          + "&outputsize=full"
+          + "&symbol"
+          + "=" + ticker + "&apikey=" + apiKey + "&datatype=csv");
       in = url.openStream();
       BufferedReader reader = new BufferedReader(new InputStreamReader(in));
       String inputLine;

@@ -1,7 +1,6 @@
 package stocks.portfolio;
 
 import java.util.Map;
-import stocks.portfolio.FlexiblePortfolio;
 
 /**
  * This interface represents a portfolio visitor. It applies an operation to a specific portfolio.
